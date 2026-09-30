@@ -24,6 +24,7 @@ O build reconstrói `dist/` e gera uma cópia publicável na raiz. CSS/JS recebe
 | `src/app.js` | Controller e jogos originais |
 | `src/enhancements.js` | Integração, idioma, foco e galeria |
 | `src/display.js`, `src/display.css` | TV vintage em CSS 3D, câmera de entrada, seleção de idioma e estilos de imagem |
+| `src/tv-game.js`, `src/tv-game.css` | Quebra-blocos da TV, física, controles e interface ao sentar no puff |
 | `src/boot.js`, `src/boot-flow.js`, `src/skill-tree.js` | Boot, recuperação fictícia e árvore assimétrica |
 | `src/character.js`, `src/room-props.js`, `src/scene.js` | Movimento, quedas, quarto e transições |
 | `src/dice.js`, `src/shooter.js`, `src/achievements.js` | D20, jogo de tiro e conquistas |
@@ -163,6 +164,17 @@ Os minijogos são implementações locais, sem ROMs ou emuladores. O fliperama P
 - **Pausar/continuar:** `P`. **Jogar/reiniciar:** Enter; se pausado, Enter continua. **Sair:** `Esc`.
 - Na tela de toque, use os botões exibidos. A missão termina em 2.400 pontos; a cada 600, recupera-se uma vida, até o limite de cinco.
 
+### Rebote CRT: jogo da TV
+
+No quarto, interaja com o **puff**, escolha **Sentar no puff** e depois **Jogar na TV**. Hikaru permanece sentado durante a partida; **Voltar ao puff** fecha o jogo e permite jogar novamente ou levantar.
+
+- Quebre todos os blocos das três fases. Você começa com três vidas e recupera uma ao concluir cada fase, até três. A velocidade aumenta gradualmente.
+- **Raquete:** mouse, arrastar o dedo sobre a tela, `A`/`D` ou `←`/`→`. As pontas da raquete mudam o ângulo do rebote.
+- **Lançar:** clique na tela, Espaço, Enter ou o botão. **Pausar/continuar:** `P`. **Reiniciar:** `R`. **Voltar ao puff:** `Esc`.
+- O jogo pausa ao perder foco ou trocar de aba. Os controles do jogo não movimentam Hikaru.
+- O recorde usa o save local existente (`mini.tv-breakout`) e é apagado ao começar um Novo jogo do portfólio. Reiniciar só a partida mantém o recorde. Se o navegador impedir o armazenamento, ele vale apenas na sessão atual.
+- Título, instruções, botões e estados estão disponíveis em PT/EN/JA. Não exige downloads, ROMs ou rede.
+
 ### Desktop do quarto
 
 O desktop inspirado no Arch reúne terminal, perfil, jogo, habilidades, currículo, Lab, idioma e relógio. A prévia do currículo fica na janela; se o navegador não exibir PDF embutido, há um link para abri-lo. O Lab usa a mesma interface e lógica da página Lab.
@@ -179,7 +191,7 @@ O terminal interno aceita `help`, `neofetch`, `whoami`, `htop`, `date` e `clear`
 
 ## Verificação
 
-**Resultado desta revisão: 98 testes passaram.** `npm test` verifica controller, idioma, boot, árvore, caminhos, privacidade e comportamentos adicionados. Inclui os pares de portais, preservação das portas/furigana, primeira visita em pânico, probabilidade de 10% nas seguintes, remoção dos atalhos de pular, limpeza da tela após o pânico e recuperação por Enter antes do botão atrasado. Também cobre a TV física antes da entrada, geometria do zoom, seletores por clique/arraste/teclado, sequência das transições, som sem reprodução atrasada, movimento reduzido, cancelamento dos timers, os três estilos de imagem e a persistência independente da preferência. `node scripts/audit-translations.mjs` gera candidatos a texto sem catálogo em `.cache/untranslated.json`; é uma ferramenta de revisão, não um tradutor nem uma prova automática de cobertura. Ela usa o parser interno do Node e não faz parte do build de produção.
+**Resultado desta revisão: 110 testes passaram.** `npm test` verifica controller, idioma, boot, árvore, caminhos, privacidade e comportamentos adicionados. Inclui os pares de portais, preservação das portas/furigana, primeira visita em pânico, probabilidade de 10% nas seguintes, remoção dos atalhos de pular, limpeza da tela após o pânico e recuperação por Enter antes do botão atrasado. Também cobre a TV física antes da entrada, geometria do zoom, seletores por clique/arraste/teclado, sequência das transições, som sem reprodução atrasada, movimento reduzido, cancelamento dos timers, os três estilos de imagem e a persistência independente da preferência. `node scripts/audit-translations.mjs` gera candidatos a texto sem catálogo em `.cache/untranslated.json`; é uma ferramenta de revisão, não um tradutor nem uma prova automática de cobertura. Ela usa o parser interno do Node e não faz parte do build de produção.
 
 Os testes de lógica não substituem inspeção visual. Foram usados também renders nativos de canvas e PDF. A tentativa de validação interativa no navegador foi bloqueada pela ferramenta, portanto esta revisão não certifica o layout em todos os navegadores ou tamanhos. O runtime legado permanece preservado localmente; sua substituição seria uma migração própria dos minijogos.
 

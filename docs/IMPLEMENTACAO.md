@@ -49,6 +49,14 @@
 - [x] Seleção com pergunta principal no idioma ativo e duas perguntas secundárias nos demais idiomas; nomes nativos nas opções da entrada e do computador, preservados pela tradução.
 - [x] Continuar exige save válido carregado ou gravado; preferências, boot e progresso não salvo não habilitam a ação. Primeiro Novo jogo usa um clique; substituição de save mantém confirmação.
 
+## Minijogo no puff — 30/09/2026
+
+- [x] Sentar no puff oferece Rebote CRT; fechar a partida mantém Hikaru sentado e permite levantar pelo diálogo.
+- [x] Quebra-blocos com três fases, três vidas, recuperação de vida e recorde no save existente.
+- [x] Mouse, toque, teclado e botões para lançar, pausar e reiniciar; pausa ao perder foco ou esconder a aba.
+- [x] Textos PT/EN/JA, foco no jogo, contenção de teclado no diálogo e efeitos reduzidos.
+- [x] Testes de física, integração, persistência, ciclo de vida e traduções; render nativo da arte inspecionado.
+
 ## Verificação visual ainda pendente
 
 - [ ] Conferir o DOM em navegador desktop e celular nas três línguas. A recusa anterior da ferramenta impede certificar essa etapa nesta sessão.

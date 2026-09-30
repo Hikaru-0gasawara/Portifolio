@@ -36,9 +36,9 @@
         events.push('brick');break;
       }
       if(s.bricks.every(brick=>!brick.alive)){
-        s.score+=100;s.trail=[];
+        s.score+=100;s.trail=[];s.lives=Math.min(3,s.lives+1);
         if(s.level===rounds){s.mode='win';s.keys={};events.push('win');}
-        else{s.level++;s.bricks=bricks();s.lives=Math.min(3,s.lives+1);serve(s);events.push('round');}
+        else{s.level++;s.bricks=bricks();serve(s);events.push('round');}
         break;
       }
       if(b.y-radius>height){
@@ -97,9 +97,10 @@
     p.tvGameRestart=function(){if(this.st().tvGameOpen){this._tvGame=fresh();this.tvGameSync();this.sfx('select');}};
     p.tvGameSuspend=function(){if(this._tvGame){this._tvGame.keys={};this._tvGame.target=null;if(['play','serve'].includes(this._tvGame.mode))pause(this._tvGame);this.tvGameSync();}};
     p.tvGameKey=function(e,down){
-      if(e.ctrlKey||e.metaKey||e.altKey)return;
       const key=(e.key||'').toLowerCase(),s=this._tvGame;if(!s)return;
       const direction={arrowleft:'left',a:'left',arrowright:'right',d:'right'}[key];
+      if(!down&&direction){s.keys[direction]=false;return;}
+      if(e.ctrlKey||e.metaKey||e.altKey)return;
       if(direction){e.preventDefault();s.keys[direction]=down;s.target=null;return;}
       if(!down||e.repeat)return;
       if([' ','enter'].includes(key)&&e.target?.closest?.('button,a,input'))return;
