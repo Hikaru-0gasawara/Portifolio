@@ -1,0 +1,556 @@
+{
+  "room": {
+    "janela": {
+      "name": [
+        "Window",
+        "窓"
+      ],
+      "day": [
+        "São Paulo outside, gray-blue as always. A good day to leave the sensor collecting data.",
+        "窓の外はいつもの灰青色のサンパウロ。センサーでデータを集めるには良い日です。"
+      ],
+      "night": [
+        "São Paulo at night. The city never switches off, and neither does the network.",
+        "夜のサンパウロ。街もネットワークも眠りません。"
+      ]
+    },
+    "poster-sf": {
+      "name": [
+        "Street Fighter poster",
+        "ストリートファイターのポスター"
+      ],
+      "text": [
+        "A Street Fighter poster with VS in the middle. Facing the rug, it reminds me there's always time for one more round.",
+        "真ん中にVSと書かれたストリートファイターのポスター。ラグの前で、もう1ラウンド遊ぼうと誘っています。"
+      ]
+    },
+    "espelho": {
+      "name": [
+        "Mirror",
+        "鏡"
+      ],
+      "text": [
+        "That's me: Computer Engineering at Ibmec, hardware, security and plenty of coffee. Want to see the full character sheet?",
+        "これが私。Ibmecのコンピュータ工学、ハードウェア、セキュリティ、そしてたくさんのコーヒー。詳しいプロフィールを見ますか？"
+      ]
+    },
+    "poster-retro": {
+      "name": [
+        "Retro poster",
+        "レトロなポスター"
+      ],
+      "text": [
+        "A 16-bit sunset over green hills. Every classic level seemed to begin like this.",
+        "緑の丘に沈む16ビットの夕日。昔のゲームのステージは、こんな景色から始まったものです。"
+      ]
+    },
+    "poster": {
+      "name": [
+        "Festival poster",
+        "日本祭りのポスター"
+      ],
+      "text": [
+        "A Festival do Japão poster. I coordinate volunteer shifts for Kochi Kenjinkai there.",
+        "日本祭りのポスター。高知県人会でボランティアのシフトを調整しています。"
+      ]
+    },
+    "livros": {
+      "name": [
+        "Books",
+        "本"
+      ],
+      "text": [
+        "Networks, digital systems and security. Plus Japanese, at upper-intermediate level.",
+        "ネットワーク、デジタル回路、セキュリティの本。そして、中上級レベルの日本語。"
+      ]
+    },
+    "luva": {
+      "name": [
+        "Baseball glove",
+        "野球のグローブ"
+      ],
+      "text": [
+        "A baseball glove. I played for six years at Cooper Cotia.",
+        "野球のグローブ。Cooper Cotiaで6年間プレイしました。"
+      ]
+    },
+    "pedra": {
+      "name": [
+        "Stone",
+        "石"
+      ],
+      "text": [
+        "An ordinary stone. Touch it and you could swear it can feel the ground.",
+        "普通の石。手を置くと、地面を感じているような気がします。"
+      ]
+    },
+    "kit": {
+      "name": [
+        "Model kit",
+        "模型キット"
+      ],
+      "text": [
+        "An Evangelion model kit, still sealed. I know: I mustn't run away. But I can put it off.",
+        "まだ開けていないエヴァンゲリオンの模型。逃げちゃだめだ。でも、先延ばしはできます。"
+      ]
+    },
+    "arvore": {
+      "text": [
+        "The framed skill tree: every branch began with a project. The unlit nodes are next.",
+        "壁に飾られたスキルツリー。どの枝もプロジェクトから生まれました。暗いノードは次の目標です。"
+      ]
+    },
+    "quadro": {
+      "name": [
+        "Mission board",
+        "ミッションボード"
+      ],
+      "text": [
+        "The mission board: AquaSense IoT, the infrastructure lab, the electronic safe and the CPTM asset system.",
+        "ミッションボード。AquaSense IoT、インフララボ、電子金庫、CPTM鉄道資産管理システム。"
+      ]
+    },
+    "resistores": {
+      "name": [
+        "Resistor chart",
+        "抵抗のカラーコード表"
+      ],
+      "text": [
+        "Resistor colors: black, brown, red, orange, yellow, green, blue, violet, gray and white. Even when I know them, I check with a multimeter.",
+        "抵抗のカラーコードは黒、茶、赤、橙、黄、緑、青、紫、灰、白。覚えていても、テスターで確認します。"
+      ]
+    },
+    "blueprint": {
+      "name": [
+        "Robot blueprint",
+        "ロボットの設計図"
+      ],
+      "text": [
+        "The blueprint for the robot on the workbench. First the drawing, then the vise, solder and a lot of patience.",
+        "作業台のロボットの設計図。まずは図面、それから万力、はんだ、そして根気。"
+      ]
+    },
+    "calendario": {
+      "name": [
+        "Calendar",
+        "カレンダー"
+      ],
+      "text": [
+        "A calendar with the full moon marked. A Persona 3 habit: every day matters, and the full moon always brings trouble.",
+        "満月に印をつけたカレンダー。ペルソナ3の影響です。毎日が大切で、満月には何かが起きます。"
+      ]
+    },
+    "caderno": {
+      "name": [
+        "Omori's sketchbook",
+        "OMORIのスケッチブック"
+      ],
+      "text": [
+        "Omori's black-and-white sketchbook. Turn a page to discover a little drawing.",
+        "OMORIの白黒のスケッチブック。ページをめくると、小さな絵が見つかります。"
+      ]
+    },
+    "estrela": {
+      "name": [
+        "Save star",
+        "セーブの星"
+      ],
+      "text": [
+        "A little star shining on the floor. Looking at it fills me with DETERMINATION.",
+        "床で輝く小さな星。見ていると、ケツイがみなぎります。"
+      ]
+    },
+    "celular": {
+      "name": [
+        "Phone",
+        "スマートフォン"
+      ],
+      "text": [
+        "My phone is on silent, but I check everything. Email, LinkedIn and résumés are in Contact.",
+        "スマートフォンはマナーモードですが、ちゃんと確認しています。メール、LinkedIn、履歴書は連絡先のページへ。"
+      ]
+    },
+    "cofre": {
+      "name": [
+        "Safe",
+        "金庫"
+      ],
+      "text": [
+        "The electronic safe I ported from Arduino to ESP32. Still using the factory password... or is it?",
+        "ArduinoからESP32へ移植した電子金庫。まだ初期パスワードのまま……でしょうか？"
+      ]
+    },
+    "pc": {
+      "name": [
+        "Computer",
+        "パソコン"
+      ],
+      "text": [
+        "WezTerm, JetBrains Mono and the system24 theme. A terminal is always waiting. When the internet goes down, there's a little game.",
+        "WezTerm、JetBrains Mono、system24テーマ。いつでもターミナルが待っています。ネットが切れたら、小さなゲームも。"
+      ]
+    },
+    "mousepad": {
+      "name": [
+        "Mousepad",
+        "マウスパッド"
+      ],
+      "text": [
+        "A mousepad worn out by CS flick shots. Green crosshair, low sensitivity and no excuses.",
+        "CSのフリックショットで使い込んだマウスパッド。緑の照準、低感度、言い訳なし。"
+      ]
+    },
+    "cadeira": {
+      "name": [
+        "Chair",
+        "椅子"
+      ],
+      "text": [
+        "A gaming chair where I spend more time than I should. Have a seat: the PC has a hidden offline game.",
+        "座りすぎてしまうゲーミングチェア。どうぞ座ってください。パソコンにはオフラインの隠しゲームがあります。"
+      ]
+    },
+    "rack": {
+      "name": [
+        "Server rack",
+        "サーバーラック"
+      ],
+      "text": [
+        "My home lab rack: Proxmox, AD, IPFire and SIEM, all sharing the same fan noise.",
+        "自宅ラボのラック。Proxmox、AD、IPFire、SIEMが、同じファンの音に包まれています。"
+      ]
+    },
+    "fliperama": {
+      "name": [
+        "Packet Invaders cabinet",
+        "Packet Invadersの筐体"
+      ],
+      "text": [
+        "In fighting games I'm a zoner: Falke in Street Fighter V, Robo-Fortune in Skullgirls. This cabinet runs something else: Packet Invaders.",
+        "格闘ゲームでは遠距離戦が得意。ストVではファルケ、スカルガールズではロボフォーチュン。でも、この筐体で遊べるのはPacket Invadersです。"
+      ]
+    },
+    "fliperama-luta": {
+      "name": [
+        "Fighting cabinet",
+        "格闘ゲームの筐体"
+      ],
+      "text": [
+        "The King of Fighters 2002, a neighborhood arcade classic. A coin in the slot, a queue behind you and nobody lets go of the controls.",
+        "街のゲームセンターの定番、The King of Fighters 2002。コインを入れると後ろには順番待ち。誰もレバーを離しません。"
+      ]
+    },
+    "fliperama-nave": {
+      "name": [
+        "Space shooter cabinet",
+        "宇宙シューティングの筐体"
+      ],
+      "text": [
+        "Galaga. Letting your ship get captured so you can rescue it and play with two is a strategy, not a mistake.",
+        "ギャラガ。わざと捕まってから救出し、2機で戦うのも作戦です。"
+      ]
+    },
+    "fliperama-slug": {
+      "name": [
+        "Shooting cabinet",
+        "アクションシューティングの筐体"
+      ],
+      "text": [
+        "Metal Slug for two: tanks, grenades and explosions everywhere. The coins run out before the enthusiasm does.",
+        "2人で遊ぶメタルスラッグ。戦車、手榴弾、あちこちで爆発。遊ぶ気力より先にコインが尽きます。"
+      ]
+    },
+    "fliperama-blocos": {
+      "name": [
+        "Block puzzle cabinet",
+        "ブロックパズルの筐体"
+      ],
+      "text": [
+        "Tetris: blocks fall faster and faster, and the music stays in your head. An honest game: the mistakes are yours.",
+        "テトリス。ブロックはどんどん速くなり、音楽が頭から離れません。ミスをごまかせない、正直なゲーム。"
+      ]
+    },
+    "fliperama-corrida": {
+      "name": [
+        "Racing cabinet",
+        "レースゲームの筐体"
+      ],
+      "text": [
+        "Daytona USA, a steering wheel and a two-speed shifter. Brake before the corner. I always remember that afterwards.",
+        "デイトナUSA。ハンドルと2段階のシフト。コーナーの前でブレーキを。いつも曲がった後で思い出します。"
+      ]
+    },
+    "pachinko": {
+      "text": [
+        "Hundreds of steel balls falling between pins. Hugely popular in Japan; here in the room, it's hypnotic.",
+        "ピンの間を落ちていく無数の鉄球。日本で人気のパチンコ。この部屋では、眺めているだけで引き込まれます。"
+      ]
+    },
+    "pinball": {
+      "text": [
+        "Bumpers, ramps and a steel ball that always slips through the middle. A little nudge is fine; tilting isn't.",
+        "バンパー、ランプ、そして真ん中へ落ちる鉄球。軽く揺らすのはよくても、ティルトはだめ。"
+      ]
+    },
+    "cartuchos": {
+      "name": [
+        "Pokémon cartridges",
+        "ポケモンのカートリッジ"
+      ],
+      "text": [
+        "All the DS and 3DS Pokémon games: Diamond, Pearl, Platinum, HeartGold, SoulSilver, Black, White, Black 2, White 2, X, Y, Omega Ruby, Alpha Sapphire, Sun, Moon, Ultra Sun and Ultra Moon.",
+        "DSと3DSのポケモン。ダイヤモンド、パール、プラチナ、ハートゴールド、ソウルシルバー、ブラック、ホワイト、ブラック2、ホワイト2、X、Y、オメガルビー、アルファサファイア、サン、ムーン、ウルトラサン、ウルトラムーン。"
+      ]
+    },
+    "fichario": {
+      "name": [
+        "Card binder",
+        "カードファイル"
+      ],
+      "text": [
+        "A Pokémon TCG binder. The holographic cards go on the first page, obviously.",
+        "ポケモンカードのファイル。もちろん、最初のページはキラカード。"
+      ]
+    },
+    "portatil": {
+      "name": [
+        "Handheld consoles",
+        "携帯ゲーム機"
+      ],
+      "text": [
+        "New 3DS XL, 3DS, DS Lite, GBA SP and a Game Boy-style Anbernic, emulating Game Boy through GBA Pokémon games. Nuzlocke rules: if it faints, let it go.",
+        "New 3DS LL、3DS、DS Lite、GBA SP、そしてゲームボーイ風のAnbernic。GBからGBAまでのポケモンを遊びます。ナズロックでは、倒れた仲間とはお別れです。"
+      ]
+    },
+    "bonecos": {
+      "name": [
+        "Figures",
+        "フィギュア"
+      ],
+      "text": [
+        "Street Fighter, Mario and Sonic share a shelf. Nintendo and Sega are at peace, at least in here.",
+        "ストリートファイター、マリオ、ソニックが同じ棚に。少なくともここでは、任天堂とセガは仲良しです。"
+      ]
+    },
+    "tv": {
+      "name": [
+        "CRT television",
+        "ブラウン管テレビ"
+      ],
+      "text": [
+        "A 4:3 CRT with real scanlines. The consoles take turns using its inputs. Whoever grabs a controller goes first.",
+        "4:3のブラウン管と本物の走査線。ゲーム機を交代でつなぎ、先にコントローラーを手にした人が遊びます。"
+      ]
+    },
+    "xboxone": {
+      "text": [
+        "The white Xbox One S, the youngest console from my childhood. Quiet and discreet, with an update always waiting.",
+        "子どもの頃のゲーム機の中で一番新しい、白いXbox One S。静かで控えめ、でも更新はいつも待っています。"
+      ]
+    },
+    "wii": {
+      "text": [
+        "My childhood Wii. Bowling, tennis and the most important lesson: always wear the wrist strap.",
+        "子どもの頃のWii。ボウリング、テニス、そして大切な教訓。ストラップは必ずつけましょう。"
+      ]
+    },
+    "jogos-snes": {
+      "name": [
+        "SNES cartridges",
+        "スーパーファミコンのカートリッジ"
+      ],
+      "text": [
+        "SNES classics: Super Mario World, Donkey Kong Country, A Link to the Past, Super Metroid, Chrono Trigger, Street Fighter II, Mega Man X and Super Mario Kart.",
+        "スーパーファミコンの名作。スーパーマリオワールド、スーパードンキーコング、神々のトライフォース、スーパーメトロイド、クロノ・トリガー、ストII、ロックマンX、スーパーマリオカート。"
+      ]
+    },
+    "snes": {
+      "text": [
+        "The SNES sits on the rug with a cartridge always inserted. Two controllers: one for me and one for anyone up for a versus match.",
+        "ラグの上のスーパーファミコンには、いつもソフトが差してあります。コントローラーは2つ。1つは私、もう1つは対戦してくれる人のため。"
+      ]
+    },
+    "puff": {
+      "name": [
+        "Beanbag",
+        "ビーズクッション"
+      ],
+      "text": [
+        "The beanbag in front of the TV, just far enough away to avoid being told to sit back. Reserved for whoever holds the controller.",
+        "テレビからほどよく離れたビーズクッション。コントローラーを持つ人の特等席です。"
+      ]
+    },
+    "cartola": {
+      "name": [
+        "Hatty's hat · BattleBlock Theater",
+        "ハッティの帽子 · BattleBlock Theater"
+      ],
+      "text": [
+        "Hatty Hattington's top hat, with a red ribbon and an unsettling glow. The show must go on!",
+        "赤いリボンと不思議な光を放つ、ハッティ・ハッティントンのシルクハット。ショーは続きます！"
+      ]
+    },
+    "espada": {
+      "name": [
+        "Sword and shield · Castle Crashers",
+        "剣と盾 · Castle Crashers"
+      ],
+      "text": [
+        "A sword, a cross-marked shield and the blue knight. Ready for a cooperative Castle Crashers adventure.",
+        "剣、十字の盾、青い騎士。Castle Crashersの協力プレイに出発する準備は万全です。"
+      ]
+    },
+    "tamancobol": {
+      "name": [
+        "Table football",
+        "テーブルサッカー"
+      ],
+      "text": [
+        "Turn the wooden clogs on the rods and try to score at the other end. A party classic that deserves its own championship.",
+        "棒についた木靴を回し、相手のゴールを狙う遊び。パーティーの定番ですが、大会があってもよさそうです。"
+      ]
+    },
+    "decks": {
+      "name": [
+        "Magic decks",
+        "マジックのデッキ"
+      ],
+      "text": [
+        "Four Commander decks: Toph, the First Metalbender; The Emperor of Palamecia; Sokka, Tenacious Tactician; and Imskir Iron-Eater. Plus mono-red aggro for Standard. Up for a game?",
+        "統率者デッキは4つ。Toph, the First Metalbender、The Emperor of Palamecia、Sokka, Tenacious Tactician、Imskir Iron-Eater。スタンダードは赤単アグロです。一戦どうですか？"
+      ]
+    },
+    "playmat": {
+      "text": [
+        "A Commander game frozen on turn seven. Nobody touch anything.",
+        "7ターン目で止まった統率者戦。誰も触らないで。"
+      ]
+    },
+    "d20": {
+      "text": [
+        "A d20 that rolled a 1 on my most important persuasion check in Baldur's Gate 3. I still finished Honour Mode. Want to try a skill check?",
+        "バルダーズ・ゲート3の大事な説得判定で1を出したD20。それでもオナーモードをクリアしました。スキル判定を試しますか？"
+      ]
+    },
+    "caixote": {
+      "name": [
+        "Crate and crowbar",
+        "木箱とバール"
+      ],
+      "text": [
+        "Lessons from Black Mesa: every crate should be opened, and never push the sample into the analysis beam.",
+        "ブラックメサの教訓。木箱は開けること。そして、試料を分析ビームに押し込まないこと。"
+      ]
+    },
+    "bancada-trabalho": {
+      "name": [
+        "Workbench",
+        "作業台"
+      ],
+      "text": [
+        "A vise, wrenches and a jar of hardware. This is where the mechanical work happens and the blueprint robot became real.",
+        "万力、工具、金具の入った容器。ここで機械工作をして、設計図のロボットを実物にしました。"
+      ]
+    },
+    "robo": {
+      "name": [
+        "Mini robot",
+        "小さなロボット"
+      ],
+      "text": [
+        "The robot from the blueprint, freshly assembled. It only walks around and blinks its antenna LED, but it's already the room's favorite.",
+        "設計図から組み立てたばかりのロボット。まだ歩き回ってアンテナのLEDを点滅させるだけですが、部屋の人気者です。"
+      ]
+    },
+    "mesa-solda": {
+      "name": [
+        "Soldering bench",
+        "はんだ付け台"
+      ],
+      "text": [
+        "Helping hands with a magnifier, a fume extractor and solder wire. A good joint is shiny and volcano-shaped; a dull ball is a cold joint.",
+        "拡大鏡付きの補助アーム、吸煙器、はんだ線。良い接合は光沢のある富士山型。くすんだ球状は、はんだ不良です。"
+      ]
+    },
+    "ferramentas": {
+      "name": [
+        "Tool trolley",
+        "工具カート"
+      ],
+      "text": [
+        "Wrenches, pliers, sockets and the Phillips screwdriver that disappears exactly when I need it.",
+        "レンチ、ペンチ、ソケット、そして必要なときに限って消えるプラスドライバー。"
+      ]
+    },
+    "ferragens": {
+      "name": [
+        "Parts drawers",
+        "部品の引き出し"
+      ],
+      "text": [
+        "Screws, nuts, spacers, resistors, LEDs and servos, all labeled. Almost all.",
+        "ねじ、ナット、スペーサー、抵抗、LED、サーボ。全部ラベル付き。だいたい全部。"
+      ]
+    },
+    "multimetro": {
+      "name": [
+        "Multimeter",
+        "テスター"
+      ],
+      "text": [
+        "Before printf, the multimeter. It tells me where the signal went wrong.",
+        "printfの前にテスター。信号がどこでおかしくなったかを教えてくれます。"
+      ]
+    },
+    "bancada": {
+      "name": [
+        "Electronics bench",
+        "電子工作台"
+      ],
+      "text": [
+        "An ESP32 on a breadboard and a soldering iron that's still warm. AquaSense started here.",
+        "ブレッドボードのESP32と、まだ温かいはんだごて。AquaSenseはここから生まれました。"
+      ]
+    },
+    "drone": {
+      "name": [
+        "Toy drone",
+        "おもちゃのドローン"
+      ],
+      "text": [
+        "A toy drone. A Rainbow Six habit: before entering a room, send in the drone.",
+        "おもちゃのドローン。レインボーシックスの習慣で、部屋に入る前にはドローンを送ります。"
+      ]
+    },
+    "caixa": {
+      "name": [
+        "Ycare donation box",
+        "Ycareの寄付箱"
+      ],
+      "text": [
+        "Ycare donations: food and hygiene supplies. We deliver them to a community every second Saturday of the month.",
+        "Ycareの寄付品。食料と衛生用品を、毎月第2土曜日に地域へ届けています。"
+      ]
+    },
+    "planta": {
+      "name": [
+        "Plant",
+        "植物"
+      ],
+      "text": [
+        "A plant surviving on monitor light. In Terraria, it would already be a potion.",
+        "モニターの光で生き延びる植物。テラリアなら、もうポーションになっているでしょう。"
+      ]
+    },
+    "porta": {
+      "name": [
+        "Door",
+        "ドア"
+      ],
+      "text": [
+        "The bedroom door. Outside is the standard portfolio: Home, Projects, About and Contact, connected by doors. Use the little door beside my name to return.",
+        "部屋のドア。外には通常のポートフォリオがあり、ホーム、プロジェクト、プロフィール、連絡先がドアでつながっています。名前の横の小さなドアから戻れます。"
+      ]
+    }
+  }
+}

@@ -1,0 +1,100 @@
+OKARU / interactive portfolio	OKARU / interactive portfolio	OKARU / 対話型ポートフォリオ	OKARU / portfólio interativo
+Boot sequence — simulated console	Boot sequence — simulated console	起動シーケンス — 仮想コンソール	Sequência de boot — console simulado
+Loading local application bundle	Loading local application bundle	ローカルアプリを読み込み中	Carregando aplicação local
+Mounting read-only portfolio volume	Mounting read-only portfolio volume	読み取り専用ボリュームをマウント中	Montando volume de leitura do portfólio
+Checking UTF-8 character map	Checking UTF-8 character map	UTF-8文字を確認中	Verificando mapa de caracteres UTF-8
+Loading Latin font subsets	Loading Latin font subsets	ラテン文字フォントを読み込み中	Carregando fontes latinas
+Loading Japanese glyph ranges	Loading Japanese glyph ranges	日本語フォントを読み込み中	Carregando caracteres japoneses
+Opening language catalog	Opening language catalog	言語カタログを開いています	Abrindo catálogo de idiomas
+Initializing canvas renderer	Initializing canvas renderer	Canvas描画を初期化中	Inicializando renderizador canvas
+Allocating pixel-art atlas	Allocating pixel-art atlas	ピクセルアートを配置中	Alocando atlas de pixel art
+Preparing room tiles	Preparing room tiles	部屋のタイルを準備中	Preparando os tiles do quarto
+Registering keyboard input	Registering keyboard input	キーボード入力を登録中	Registrando entrada do teclado
+Registering pointer input	Registering pointer input	ポインター入力を登録中	Registrando entrada do ponteiro
+Checking reduced-motion preference	Checking reduced-motion preference	動きを減らす設定を確認中	Verificando preferência de movimento reduzido
+Checking audio preference	Checking audio preference	音声設定を確認中	Verificando preferência de áudio
+Audio waits for user input	Audio waits for user input	音声は操作後に開始します	Áudio aguardando interação
+Starting Okaru controller	Starting Okaru controller	Okaruコントローラーを起動中	Iniciando controle de Okaru
+Calibrating walking pace	Calibrating walking pace	歩行速度を調整中	Calibrando ritmo de caminhada
+Mapping interactive targets	Mapping interactive targets	操作対象を確認中	Mapeando alvos interativos
+Preparing alternate routes	Preparing alternate routes	別ルートを準備中	Preparando caminhos alternativos
+Inspecting tiny rocks	Inspecting tiny rocks	小石を点検中	Inspecionando pedrinhas
+Loading stumble animations	Loading stumble animations	転倒アニメーションを読み込み中	Carregando animações de tropeço
+Checking emergency somersault	Checking emergency somersault	緊急前転を確認中	Verificando cambalhota de emergência
+Okaru is ready	Okaru is ready	Okaru、準備完了	Okaru está pronto
+Mounting projects/AquaSense	Mounting projects/AquaSense	AquaSenseプロジェクトをマウント中	Montando projetos/AquaSense
+Mapping ESP32 → MQTT/TLS	Mapping ESP32 → MQTT/TLS	ESP32 → MQTT/TLSを接続中	Mapeando ESP32 → MQTT/TLS
+Mapping cloud → dashboard	Mapping cloud → dashboard	クラウド → ダッシュボードを接続中	Mapeando nuvem → dashboard
+Mounting projects/Infrastructure	Mounting projects/Infrastructure	インフラプロジェクトをマウント中	Montando projetos/Infraestrutura
+Mapping identity → firewall → SIEM	Mapping identity → firewall → SIEM	認証 → ファイアウォール → SIEMを接続中	Mapeando identidade → firewall → SIEM
+Mounting projects/ElectronicSafe	Mounting projects/ElectronicSafe	電子金庫プロジェクトをマウント中	Montando projetos/CofreEletronico
+Mapping keypad → NVS → servo	Mapping keypad → NVS → servo	キーパッド → NVS → サーボを接続中	Mapeando teclado → NVS → servo
+Mounting projects/CPTM	Mounting projects/CPTM	CPTMプロジェクトをマウント中	Montando projetos/CPTM
+Mapping REST controllers	Mapping REST controllers	RESTコントローラーを確認中	Mapeando controladores REST
+Registering repository links	Registering repository links	リポジトリリンクを登録中	Registrando links dos repositórios
+Loading project galleries	Loading project galleries	ギャラリーを読み込み中	Carregando galerias dos projetos
+Preparing schematic viewer	Preparing schematic viewer	構成図ビューアーを準備中	Preparando visualizador de esquemas
+Building skill tree	Building skill tree	スキルツリーを構築中	Construindo árvore de habilidades
+Extending hardware branch	Extending hardware branch	ハードウェアの枝を拡張中	Estendendo ramo de hardware
+Branching infrastructure paths	Branching infrastructure paths	インフラの枝を展開中	Ramificando caminhos de infraestrutura
+Linking software tools	Linking software tools	ソフトウェアツールを接続中	Conectando ferramentas de software
+Opening arcade cabinet	Opening arcade cabinet	アーケード筐体を起動中	Abrindo máquina de fliperama
+Loading combo input buffer	Loading combo input buffer	コンボ入力を準備中	Carregando buffer de combos
+Calibrating directional controls	Calibrating directional controls	方向キーを調整中	Calibrando controles direcionais
+Registering SELECT reset	Registering SELECT reset	SELECTリセットを登録中	Registrando reset no SELECT
+Loading room collectibles	Loading room collectibles	部屋のコレクションを読み込み中	Carregando colecionáveis do quarto
+Charging the OneShot lightbulb	Charging the OneShot lightbulb	OneShotの電球を充電中	Carregando a lâmpada de OneShot
+Checking Castle Crashers equipment	Checking Castle Crashers equipment	Castle Crashersの装備を点検中	Verificando equipamento de Castle Crashers
+Opening the sketchbook	Opening the sketchbook	スケッチブックを開いています	Abrindo caderno de desenhos
+Gengar occupies the corner	Gengar occupies the corner	ゲンガーが隅を陣取っています	Gengar ocupa o canto
+Mimikyu is behaving normally	Mimikyu is behaving normally	ミミッキュはいつも通りです	Mimikyu se comporta normalmente
+Totodile has too much energy	Totodile has too much energy	ワニノコは元気いっぱい	Totodile está cheio de energia
+Toph checks the ground	Toph checks the ground	トフが地面を確認中	Toph confere o chão
+Loading local achievement save	Loading local achievement save	保存した実績を読み込み中	Carregando conquistas salvas
+Preparing résumé files	Preparing résumé files	履歴書を準備中	Preparando arquivos de currículo
+Registering contact shortcuts	Registering contact shortcuts	連絡先へのショートカットを登録中	Registrando atalhos de contato
+Preparing recruiter view	Preparing recruiter view	採用担当者向け表示を準備中	Preparando visão do recrutador
+Checking relative asset paths	Checking relative asset paths	相対パスを確認中	Verificando caminhos relativos dos arquivos
+No remote runtime required	No remote runtime required	外部ランタイムは不要です	Runtime remoto não é necessário
+Preparing focus navigation	Preparing focus navigation	フォーカス移動を準備中	Preparando navegação por foco
+Registering dialog controls	Registering dialog controls	会話の操作を登録中	Registrando controles dos diálogos
+Enabling volume controls	Enabling volume controls	音量調整を有効化中	Habilitando controle de volume
+Starting portfolio scene	Starting portfolio scene	シーンを開始中	Iniciando cena do portfólio
+All systems ready	All systems ready	全システム準備完了	Todos os sistemas prontos
+Preparing final checks	Preparing final checks	最終確認を準備中	Preparando verificações finais
+Starting system services	Starting system services	システムサービスを起動中	Iniciando serviços do sistema
+Mounting local font cache	Mounting local font cache	ローカルフォントをマウント中	Montando cache local de fontes
+Reading project index	Reading project index	プロジェクト一覧を読み込み中	Lendo índice de projetos
+Scanning collectible inventory	Scanning collectible inventory	コレクションを確認中	Verificando inventário de colecionáveis
+Checking door destinations	Checking door destinations	ドアの行き先を確認中	Verificando destinos das portas
+Preparing entry animations	Preparing entry animations	入場アニメーションを準備中	Preparando animações de entrada
+Preparing exit animations	Preparing exit animations	退場アニメーションを準備中	Preparando animações de saída
+Door controller ready	Door controller ready	ドア制御準備完了	Controle das portas pronto
+Loading gold dice mesh	Loading gold dice mesh	金色のダイスを読み込み中	Carregando malha do dado dourado
+Projecting twenty faces	Projecting twenty faces	20面を投影中	Projetando vinte faces
+Applying golden material	Applying golden material	金色の材質を適用中	Aplicando material dourado
+Loading skill challenges	Loading skill challenges	スキル判定を読み込み中	Carregando desafios de habilidade
+Checking advantage rules	Checking advantage rules	有利のルールを確認中	Verificando regras de vantagem
+Checking disadvantage rules	Checking disadvantage rules	不利のルールを確認中	Verificando regras de desvantagem
+Preparing critical success	Preparing critical success	クリティカル成功を準備中	Preparando sucesso crítico
+Honour Mode recorded	Honour Mode recorded	名誉モードクリアを記録済み	Honour Mode registrado
+Warming hardware model	Warming hardware model	ハードウェアモデルを準備中	Preparando modelo de hardware
+Warming software model	Warming software model	ソフトウェアモデルを準備中	Preparando modelo de software
+Starting inventory carousel	Starting inventory carousel	インベントリをスクロール開始	Iniciando carrossel do inventário
+Preparing character reveal	Preparing character reveal	文字の表示を準備中	Preparando revelação dos caracteres
+Reading commit history	Reading commit history	コミット履歴を読み込み中	Lendo histórico de commits
+Preparing typing cursor	Preparing typing cursor	入力カーソルを準備中	Preparando cursor de digitação
+Restoring scene scale	Restoring scene scale	シーンの縮尺を復元中	Restaurando escala da cena
+Display ready	Display ready	画面準備完了	Tela pronta
+Collecting service status	Collecting service status	サービス状態を収集中	Coletando status dos serviços
+Synchronizing game clock	Synchronizing game clock	ゲーム時計を同期中	Sincronizando relógio do jogo
+Checking sound mixer	Checking sound mixer	音声ミキサーを確認中	Verificando mixer de som
+Sealing read-only assets	Sealing read-only assets	読み取り専用アセットを確定中	Finalizando arquivos de leitura
+Returning control to Okaru	Returning control to Okaru	Okaruへ制御を返しています	Devolvendo controle a Okaru
+Welcome to the portfolio	Welcome to the portfolio	ポートフォリオへようこそ	Bem-vindo ao portfólio
+Boot sequence complete	Boot sequence complete	起動完了	Sequência de boot concluída
+PRESS START	PRESS START	スタート	APERTE START
+Checking the collection cabinet	Checking the collection cabinet	コレクションの棚を確認中	Conferindo a estante da coleção
+Teddy bear occupies the corner	Teddy bear occupies the corner	クマが隅を陣取っています	Urso de pelúcia ocupa o canto
+Mimikyu guards the bed	Mimikyu guards the bed	ミミッキュがベッドを守っています	Mimikyu guarda a cama
+Checking the green plush	Checking the green plush	緑のぬいぐるみを確認中	Conferindo a pelúcia verde

@@ -1,0 +1,103 @@
+Firmware C++ no ESP32	C++ firmware on ESP32	ESP32のC++ファームウェア
+MQTT sobre TLS no HiveMQ	MQTT over TLS on HiveMQ	HiveMQ上のMQTT/TLS
+I²C · UART · PWM, até bit-banging	I²C · UART · PWM, including bit-banging	I²C・UART・PWM、ビットバンギングまで
+Gabinete 3D paramétrico	Parametric 3D enclosure	パラメトリック3Dケース
+Do sensor ao dashboard	From sensor to dashboard	センサーからダッシュボードまで
+Super: do sensor ao dashboard	Super: from sensor to dashboard	超必殺技：センサーからダッシュボードまで
+API REST em Spring Boot	REST API with Spring Boot	Spring BootのREST API
+Dashboard React + TS	React + TS dashboard	React＋TSダッシュボード
+Dashboard em React + TypeScript	Dashboard with React + TypeScript	React＋TypeScriptによるダッシュボード
+Automação em Python	Python automation	Pythonによる自動化
+Automação em Python com planilhas	Python spreadsheet automation	Pythonによる表計算の自動化
+Testes: JUnit, Vitest e Playwright	Testing: JUnit, Vitest and Playwright	テスト：JUnit、Vitest、Playwright
+Do push ao build	From push to build	プッシュからビルドまで
+Super: CI do push ao build	Super: CI from push to build	超必殺技：プッシュからビルドまでのCI
+AD + Domain Controller do zero	AD + Domain Controller from scratch	ADとドメインコントローラーの新規構築
+Rede segmentada no IPFire	Segmented network with IPFire	IPFireによるネットワーク分割
+SIEM com correlação	SIEM with correlation	相関分析を備えたSIEM
+SIEM com correlação de eventos	SIEM with event correlation	イベント相関分析を備えたSIEM
+Nós no Proxmox	Proxmox nodes	Proxmoxのノード
+Nós virtualizados no Proxmox	Nodes virtualized in Proxmox	Proxmoxで仮想化したノード
+Validar tudo com Kali	Validate everything with Kali	Kaliですべてを検証
+Super: validar tudo com Kali	Super: validate everything with Kali	超必殺技：Kaliですべてを検証
+Código Konami	Konami code	コナミコマンド
+30 vidas extras	30 extra lives	残機＋30
+Pisada sísmica	Seismic stomp	地震の足踏み
+sentiu o chão?	did you feel the ground?	地面を感じましたか？
+Hadouken de pacote	Packet Hadouken	パケット波動拳
+SYN enviado	SYN sent	SYN送信済み
+Segmentação de rede	Network segmentation	ネットワーク分割
+AquaSense e cofre eletrônico	AquaSense and electronic safe	AquaSenseと電子金庫
+cofre (1ª versão) e estudos de sistemas embarcados	safe (first version) and embedded systems studies	金庫の初期版と組み込みシステムの学習
+cofre (versão MicroPython)	safe (MicroPython version)	金庫のMicroPython版
+firmware do AquaSense (887 linhas) e do cofre	AquaSense firmware (887 lines) and safe firmware	AquaSense（887行）と金庫のファームウェア
+cofre (versão Pico)	safe (Pico version)	金庫のPico版
+telemetria do AquaSense no HiveMQ Cloud	AquaSense telemetry on HiveMQ Cloud	HiveMQ Cloud上のAquaSenseテレメトリー
+Circuitos digitais	Digital circuits	デジタル回路
+MUX/DEMUX, decodificadores e circuitos sequenciais	MUX/DEMUX, decoders and sequential circuits	MUX/DEMUX、デコーダー、順序回路
+nós virtualizados do lab de infraestrutura	virtualized infrastructure lab nodes	インフララボの仮想ノード
+domínio, contas e políticas de acesso no lab	domain, accounts and access policies in the lab	ラボのドメイン、アカウント、アクセス方針
+firewall de perímetro e regras entre zonas	perimeter firewall and inter-zone rules	境界ファイアウォールとゾーン間の規則
+firewall no próprio host Linux: fecha tudo e libera só o necessário	Linux host firewall: deny by default, allow only what's needed	Linuxホストのファイアウォール。原則拒否し、必要な通信だけを許可
+coleta e correlação de eventos no lab	lab event collection and correlation	ラボのイベント収集と相関分析
+validação das configurações do lab	validation of lab configurations	ラボ設定の検証
+serviços de rede no Ubuntu Server	network services on Ubuntu Server	Ubuntu Server上のネットワークサービス
+Ubuntu Server e Pop!_OS, com apt e systemd	Ubuntu Server and Pop!_OS with apt and systemd	aptとsystemdを使うUbuntu ServerとPop!_OS
+automação de e-mails (pywin32, openpyxl) e gabinete 3D (trimesh)	email automation (pywin32, openpyxl) and 3D enclosure (trimesh)	メール自動化（pywin32、openpyxl）と3Dケース（trimesh）
+API da CPTM, com Jackson	CPTM API with Jackson	Jacksonを使ったCPTMのAPI
+dashboard do AquaSense, com Zod	AquaSense dashboard with Zod	Zodを使ったAquaSenseダッシュボード
+site do ciclo de palestras do Ibmec	Ibmec lecture series website	Ibmec講演会シリーズのサイト
+Dados e IA	Data and AI	データとAI
+fundamentos de ML e a auditoria que achou vazamento de dados	ML fundamentals and the audit that found data leakage	機械学習の基礎とデータリークを発見した監査
+Banco de dados	Database	データベース
+consultas e modelagem em bancos relacionais	relational database queries and modeling	リレーショナルデータベースのクエリとモデリング
+Excel avançado e dashboards no Power BI	advanced Excel and Power BI dashboards	Excelの応用とPower BIダッシュボード
+skill da Alexa do AquaSense	AquaSense Alexa skill	AquaSenseのAlexaスキル
+CI do AquaSense: lint, tipos, testes e build	AquaSense CI: lint, types, tests and build	AquaSenseのCI：lint、型検査、テスト、ビルド
+dashboard do AquaSense e as 10 classes de teste da API da CPTM	AquaSense dashboard and the CPTM API's 10 test classes	AquaSenseダッシュボードとCPTM APIの10テストクラス
+digite "help" pra ver os comandos.	type "help" to see the commands.	「help」と入力するとコマンドを表示します。
+Firmware C++ publicando telemetria por MQTT/TLS no HiveMQ.	C++ firmware publishing telemetry over MQTT/TLS on HiveMQ.	HiveMQへMQTT/TLSでテレメトリーを送るC++ファームウェア。
+Dashboard + Alexa	Dashboard + Alexa	ダッシュボード＋Alexa
+React e TypeScript via WebSocket, com uma skill da Alexa na Lambda.	React and TypeScript over WebSocket, with an Alexa skill on Lambda.	WebSocketを使うReactとTypeScript、Lambda上のAlexaスキル。
+LCD I²C, teclado 3×4 e servo, com a senha guardada na NVS.	I²C LCD, 3×4 keypad and servo, with the password stored in NVS.	I²C LCD、3×4キーパッド、サーボ、NVSに保存するパスワード。
+Porte de firmware	Firmware port	ファームウェアの移植
+O mesmo cofre em C++ e em MicroPython: UNO, Pico e ESP32.	The same safe in C++ and MicroPython: UNO, Pico and ESP32.	C++とMicroPythonで同じ金庫を実装。UNO、Pico、ESP32。
+Firewall de perímetro e zonas segmentadas em nós virtualizados.	Perimeter firewall and segmented zones on virtualized nodes.	仮想ノード上の境界ファイアウォールとゾーン分割。
+Windows Server com AD, domínio, contas e políticas, tudo virtualizado.	Windows Server with AD, domain, accounts and policies, all virtualized.	AD、ドメイン、アカウント、方針を備えた仮想Windows Server。
+Red × blue	Red × blue	レッド対ブルー	Ataque × defesa
+O Kali ataca, o SIEM correlaciona e as regras seguram.	Kali attacks, SIEM correlates, and the rules hold.	Kaliが攻撃、SIEMが相関分析、規則が防御。
+API da CPTM	CPTM API	CPTMのAPI
+14 endpoints em Spring Boot e 10 classes de teste no JUnit.	14 Spring Boot endpoints and 10 JUnit test classes.	Spring Bootの14エンドポイントとJUnitの10テストクラス。
+CI do AquaSense	AquaSense CI	AquaSenseのCI
+Lint, checagem de tipos, testes e build a cada push.	Lint, type checking, tests and build on every push.	プッシュごとにlint、型検査、テスト、ビルド。
+Auditoria de ML	ML audit	機械学習の監査
+Acurácia de 0,98 parecia boa demais. Era vazamento temporal.	An accuracy of 0.98 looked too good. It was temporal leakage.	正解率0.98は良すぎました。原因は時間方向のデータリーク。
+Automação de e-mails	Email automation	メールの自動化
+Rascunhos no Outlook gerados a partir de planilha, anexos casados por nome.	Outlook drafts generated from a spreadsheet, with attachments matched by name.	表計算からOutlookの下書きを生成し、名前で添付ファイルを照合。
+Servidor Linux	Linux server	Linuxサーバー
+DNS e DHCP no Ubuntu Server, com o systemd cuidando dos serviços.	DNS and DHCP on Ubuntu Server, managed by systemd.	Ubuntu ServerのDNSとDHCPをsystemdで管理。
+Firewall no host	Host firewall	ホストのファイアウォール
+Regras no ufw, que por baixo é iptables: nega tudo e libera só o que o servidor usa.	ufw rules over iptables: deny everything and allow only the server's needs.	iptablesを使うufwの規則。すべて拒否し、サーバーに必要なものだけを許可。
+Eng. Comp.	Computer Eng.	コンピュータ工学
+Ibmec, 2023 a 2027. O tronco de onde os quatro ramos saem.	Ibmec, 2023–2027. The trunk from which all four branches grow.	Ibmec、2023～2027年。4つの枝が伸びる幹です。
+Firmware em C++ pro ESP32 e pro Arduino: o AquaSense e o cofre eletrônico saíram daqui.	C++ firmware for ESP32 and Arduino: the foundation of AquaSense and the electronic safe.	ESP32とArduinoのC++ファームウェア。AquaSenseと電子金庫はここから生まれました。
+Barramentos e sinais: LCD por I²C (com biblioteca, direto e por bit-banging), UART e PWM.	Buses and signals: I²C LCD (library, direct and bit-banging), UART and PWM.	バスと信号。I²CのLCD（ライブラリ、直接制御、ビットバンギング）、UART、PWM。
+Sensores · LCD	Sensors · LCD	センサー・LCD
+pH, cloro, ORP, temperatura e umidade lidos e mostrados num LCD 16×2.	pH, chlorine, ORP, temperature and humidity readings on a 16×2 LCD.	pH、塩素、ORP、温度、湿度を読み取り、16×2 LCDに表示。
+IoT · MQTT sobre TLS	IoT · MQTT over TLS	IoT・MQTT/TLS
+Publicação por MQTT sobre TLS num broker na nuvem, com comandos de volta.	Publishing over MQTT/TLS to a cloud broker, with commands in return.	クラウドブローカーへMQTT/TLSで送信し、コマンドを受信。
+Ubuntu Server e Pop!_OS no dia a dia: apt, systemd e terminal.	Daily Ubuntu Server and Pop!_OS use: apt, systemd and terminal.	日常的にUbuntu ServerとPop!_OSを使用。apt、systemd、ターミナル。
+Serviços de rede num servidor Linux, com o systemd cuidando deles.	Linux network services managed by systemd.	systemdで管理するLinuxのネットワークサービス。
+Os nós do laboratório virtualizados no Proxmox.	Lab nodes virtualized in Proxmox.	Proxmoxで仮想化したラボのノード。
+Windows Server do zero: Active Directory, domínio, contas e políticas.	Windows Server from scratch: Active Directory, domain, accounts and policies.	Windows Serverをゼロから構築。AD、ドメイン、アカウント、方針。
+O Kali valida as configurações: ataca o próprio lab pra ver o que segura.	Kali validates configurations by attacking my own lab to check its defenses.	Kaliで自分のラボを攻撃し、防御設定を検証。
+IPFire · segmentação	IPFire · segmentation	IPFire・ネットワーク分割
+Firewall de perímetro e rede dividida em zonas, com regras entre elas.	Perimeter firewall and network zones with inter-zone rules.	境界ファイアウォールと、ゾーン間の規則を備えたネットワーク分割。
+Firewall no host: nega tudo e libera só o que o servidor usa.	Host firewall: deny everything, allow only what the server uses.	ホストのファイアウォール。すべて拒否し、サーバーに必要な通信だけを許可。
+SIEM montado do zero, correlacionando eventos das camadas de defesa.	SIEM built from scratch, correlating events across defense layers.	SIEMを新規構築し、各防御層のイベントを相関分析。
+API REST em Spring Boot pra CPTM, com JUnit e Postman.	CPTM REST API in Spring Boot, with JUnit and Postman.	JUnitとPostmanを使ったCPTM向けSpring Boot REST API。
+Dashboard em React e TypeScript com WebSocket e validação com Zod.	React and TypeScript dashboard with WebSocket and Zod validation.	WebSocketとZod検証を使うReact・TypeScriptダッシュボード。
+CI · testes	CI · testing	CI・テスト
+GitHub Actions com lint, tipos, Vitest, Playwright e build a cada push.	GitHub Actions with lint, types, Vitest, Playwright and build on each push.	プッシュごとにGitHub Actionsでlint、型検査、Vitest、Playwright、ビルド。
+Próximo nó	Next node	次のノード
+Ainda apagado: é o próximo da fila desse ramo.	Still unlit: next in line on this branch.	まだ暗いノード。この枝の次の目標です。

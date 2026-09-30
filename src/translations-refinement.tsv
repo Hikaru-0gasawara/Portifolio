@@ -1,0 +1,54 @@
+Portal: voltar ao início	Portal: return home	ポータル：ホームに戻る
+Interaja para voltar ao início	Interact to return home	操作してホームに戻る
+Portal escondido: voltar ao início	Hidden portal: return home	隠しポータル：ホームに戻る
+Um caminho de volta	A way back	帰り道
+Toph · Avatar	Toph · Avatar	トフ · アバター
+Uma pequena Toph de coque, faixa verde e olhos claros. Sentada no tapete, parece escutar cada passo do quarto.	A tiny Toph with a bun, green headband and pale eyes. Sitting on the rug, she seems to hear every footstep in the room.	お団子ヘアと緑のヘアバンド、淡い瞳の小さなトフ。敷物に座り、部屋の足音をすべて聞いているようだ。
+Toph dá uma batidinha no tapete. «Eu ouvi você chegando.» A pequena dobradora de terra sorri, confiante.	Toph taps the rug. “I heard you coming.” The little earthbender smiles confidently.	トフが敷物を軽くたたく。「来るのが聞こえたよ。」小さな土の技の使い手は自信たっぷりにほほえむ。
+Inicialização simulada interrompida	Simulated startup interrupted	起動シミュレーションが中断されました
+Falha em:	Failed:	失敗：
+Serviço indisponível	Service unavailable	サービスが利用できません
+Falha no barramento	Bus failure	バスエラー
+Inicialização interrompida	Startup interrupted	起動が中断されました
+Memória de faz de conta esgotada	Pretend memory exhausted	架空のメモリが不足しています
+A recuperação está sendo preparada	Preparing recovery	復旧の準備中
+Simulação do portfólio · nenhum arquivo foi afetado.	Portfolio simulation · no files were affected.	ポートフォリオの演出です。ファイルへの影響はありません。
+Pressione Enter para reiniciar	Press Enter to reboot	Enterキーで再起動
+Clique aqui para reiniciar	Press here to reboot	ここを押して再起動
+Novo jogo, com som	New game, with sound	サウンドありでニューゲーム
+NOVO JOGO	NEW GAME	ニューゲーム
+Explore o portfólio para criar um save	Explore the portfolio to create a save	探索するとセーブデータが作成されます
+novo jogo sem som	new game without sound	サウンドなしでニューゲーム
+Enter: jogar ou reiniciar	Enter: play or restart	Enter：開始・やり直し
+Pausar / continuar	Pause / resume	一時停止・再開
+Mova com A/D ou ←/→. Aponte o mouse para mirar em qualquer direção e segure o clique, Espaço ou J para atirar.	Move with A/D or ←/→. Point the mouse to aim in any direction and hold the mouse button, Space or J to fire.	A/Dまたは←/→で移動。マウスで自由に狙い、クリック、スペース、またはJを押し続けると射撃します。
+Pule com W ou K. Sem mouse, use ↑/↓ para mirar para cima ou para baixo; combine com ←/→ para diagonais.	Jump with W or K. Without a mouse, use ↑/↓ to aim up or down; combine with ←/→ for diagonal shots.	WまたはKでジャンプ。マウスがない場合は↑/↓で上下を狙い、←/→と組み合わせると斜めに撃てます。
+T chama um tanque por 8 segundos, uma vez por partida. P pausa ou continua. Enter inicia ou reinicia; durante a pausa, Enter continua. Esc fecha.	T calls a tank for 8 seconds, once per game. P pauses or resumes. Enter starts or restarts; while paused, Enter resumes. Esc closes.	Tで戦車を8秒間呼び出せます（1プレイにつき1回）。Pで一時停止・再開。Enterで開始・やり直し（一時停止中は再開）。Escで閉じます。
+No celular, use os botões abaixo. Objetivo: 2.400 pontos. A cada 600 pontos você recupera uma vida.	On mobile, use the buttons below. Goal: 2,400 points. Recover one life every 600 points.	スマートフォンでは下のボタンを使います。目標は2,400点。600点ごとにライフが1つ回復します。
+↑↑↓↓←→←→BA	↑↑↓↓←→←→BA	↑↑↓↓←→←→BA
+Terminal	Terminal	ターミナル
+Host: Okaru Workstation	Host: Okaru Workstation	ホスト：Okaru Workstation
+Kernel: portfolio 1.0	Kernel: portfolio 1.0	カーネル：portfolio 1.0
+DE: Okaru Desktop	DE: Okaru Desktop	デスクトップ：Okaru Desktop
+START joga ou pausa · SELECT troca cartucho	START plays or pauses · SELECT switches cartridges	START：開始・一時停止 · SELECT：カートリッジ切替
+Escute e repita com C · A começa ou pausa · B repete	Listen and repeat with C · A starts or pauses · B replays	聞いてCボタンで再現 · A：開始・一時停止 · B：もう一度聞く
+Hitbox: treino de golpes	Hitbox: move practice	ヒットボックス：技の練習
+Lutador	Fighter	キャラクター
+Direções	Directions	方向
+Ataques e assistências	Attacks and assists	攻撃とアシスト
+Limpar sequência	Clear sequence	入力をリセット
+Comandos adaptados para cliques, sem precisão de frames. As técnicas de Toph são homenagens originais.	Commands adapted for clicks, without frame timing. Toph’s techniques are original tributes.	クリック向けにアレンジしたコマンドです。フレーム単位の入力は不要です。トフの技は本サイト独自のオマージュです。
+Foque a hitbox: WASD ou setas movem; J K L dão socos; U I O dão chutes; 1 e 2 chamam assistências. Esc limpa.	Focus the hitbox: WASD or arrows move; J K L punch; U I O kick; 1 and 2 assist. Esc clears.	ヒットボックスを選択：WASD・矢印キーで方向入力、J K Lでパンチ、U I Oでキック、1・2でアシスト。Escでリセット。
+Analógico	Analog stick	アナログスティック
+Analógico esquerdo: mudar de pista	Left stick: change lane	左スティック：車線変更
+Analógico direito: mudar de pista	Right stick: change lane	右スティック：車線変更
+Habilidades	Skills	スキル
+Idioma	Language	言語
+Lab	Lab	ラボ
+Okaru Desktop	Okaru Desktop	Okaruデスクトップ
+, aqui no Lab	, here in the Lab	（このラボで）
+, estourada	, popped	（割れた）
+, desbloqueada	, unlocked	（解除済み）
+, bloqueada	, locked	（ロック中）
+|[]_| REST API | 14 rotas |	|[]_| REST API | 14 routes |	|[]_| REST API | 14ルート |
+Este portfólio interativo precisa de JavaScript.	This interactive portfolio requires JavaScript.	このインタラクティブなポートフォリオにはJavaScriptが必要です。

@@ -1,0 +1,27 @@
+INITRAMFS · imagem de inicialização não encontrada	INITRAMFS · boot image not found	INITRAMFS · 起動イメージが見つかりません
+ENOENT · arquivo ou diretório inexistente	ENOENT · no such file or directory	ENOENT · ファイルまたはディレクトリが存在しません
+VFS · não foi possível montar o volume raiz	VFS · unable to mount root volume	VFS · ルートボリュームをマウントできません
+EIO · erro de entrada e saída no volume simulado	EIO · input/output error on simulated volume	EIO · 仮想ボリュームで入出力エラー
+OUT OF BOUNDS · índice fora dos limites do buffer	OUT OF BOUNDS · buffer index exceeds bounds	OUT OF BOUNDS · バッファの範囲外アクセス
+SEGFAULT · acesso inválido à memória simulada	SEGFAULT · invalid access to simulated memory	SEGFAULT · 仮想メモリへの不正アクセス
+OOM · memória virtual de faz de conta esgotada	OOM · fictional virtual memory exhausted	OOM · 架空の仮想メモリが不足しています
+WATCHDOG · serviço parou de responder	WATCHDOG · service stopped responding	WATCHDOG · サービスが応答しません
+SYSTEMD · dependência obrigatória indisponível	SYSTEMD · required dependency unavailable	SYSTEMD · 必須の依存サービスを利用できません
+TIMEOUT · tempo limite ao iniciar o serviço	TIMEOUT · service startup timed out	TIMEOUT · サービスの起動がタイムアウトしました
+MODPROBE · módulo de cenário não encontrado	MODPROBE · scene module not found	MODPROBE · シーンのモジュールが見つかりません
+EBUSY · recurso virtual ocupado	EBUSY · virtual resource busy	EBUSY · 仮想リソースは使用中です
+IRQ · interrupção inesperada no barramento simulado	IRQ · unexpected interrupt on simulated bus	IRQ · 仮想バスで予期しない割り込み
+ENODEV · dispositivo virtual não encontrado	ENODEV · virtual device not found	ENODEV · 仮想デバイスが見つかりません
+EROFS · tentativa de escrita em volume de leitura	EROFS · attempted write to read-only volume	EROFS · 読み取り専用ボリュームへの書き込み
+STACK OVERFLOW · pilha de chamadas excedida	STACK OVERFLOW · call stack exceeded	STACK OVERFLOW · コールスタックの上限を超えました
+CHECKSUM · integridade da imagem fictícia inválida	CHECKSUM · fictional image integrity check failed	CHECKSUM · 架空のイメージの整合性チェックに失敗
+DEADLOCK · dependências aguardando umas pelas outras	DEADLOCK · dependencies waiting on each other	DEADLOCK · 依存サービスが相互に待機しています
+SCHEDULER · fila de processos virtuais bloqueada	SCHEDULER · virtual process queue blocked	SCHEDULER · 仮想プロセスのキューが停止しています
+INVALID OPCODE · instrução simulada desconhecida	INVALID OPCODE · unknown simulated instruction	INVALID OPCODE · 未知の仮想命令
+BUS ERROR · endereço desalinhado no barramento	BUS ERROR · misaligned bus address	BUS ERROR · バスアドレスのアラインメント違反
+RECOVERY · tentativa de restauração interrompida	RECOVERY · restoration attempt interrupted	RECOVERY · 復元処理が中断されました
+KERNEL PANIC · falha ao iniciar o processo principal	KERNEL PANIC · failed to start the main process	KERNEL PANIC · メインプロセスの起動に失敗
+CPU HALTED · execução do sistema simulado interrompida	CPU HALTED · simulated system execution halted	CPU HALTED · 仮想システムの実行を停止
+Sistema interrompido. Aguardando recuperação.	System halted. Awaiting recovery.	システム停止。復旧を待機しています。
+Problema corrigido.	Problem resolved.	問題が解決しました。
+Ambiente restaurado. Pronto para reiniciar.	Environment restored. Ready to reboot.	環境を復元しました。再起動できます。

@@ -1,0 +1,211 @@
+Direção e roteiro	Direction and writing	監督・脚本
+C/C++ e MicroPython	C/C++ and MicroPython	C/C++とMicroPython
+Infraestrutura e segurança	Infrastructure and security	インフラとセキュリティ
+Lab de infraestrutura · acadêmico	Infrastructure lab · academic	インフララボ・学内プロジェクト
+Cofre eletrônico · projeto pessoal	Electronic safe · personal project	電子金庫・個人プロジェクト
+Orientação no AquaSense	AquaSense supervision	AquaSenseの指導
+Ycare · vice-presidência	Ycare · vice president	Ycare・副代表
+Kochi Kenjinkai · voluntariado	Kochi Kenjinkai · volunteering	高知県人会・ボランティア
+Biblioteca de jogos	Game library	ゲームライブラリ
+Trilha sonora	Soundtrack	BGM
+Três faixas geradas ao vivo com Web Audio	Three tracks synthesized live with Web Audio	Web Audioでリアルタイム生成する3曲
+Efeitos sonoros	Sound effects	効果音
+Osciladores quadrados e um pouco de ruído branco	Square-wave oscillators and a little white noise	矩形波と少しのホワイトノイズ
+Feito com	Made with	制作に使ったもの
+Solda, café e ctrl+z	Solder, coffee and Ctrl+Z	はんだ、コーヒー、Ctrl+Z
+Logos no inventário	Inventory logos	インベントリのロゴ
+Logo do Git por Jason Long (CC BY 3.0)	Git logo by Jason Long (CC BY 3.0)	Gitロゴ：Jason Long（CC BY 3.0）
+Agradecimento especial	Special thanks	スペシャルサンクス
+Você, por jogar até aqui	You, for playing this far	ここまで遊んでくれたあなた
+Mão principal	Main hand	利き手
+Chega no registrador sem pedir licença.	Goes straight to the register.	レジスターに直接アクセス。
+Mão secundária	Off hand	反対の手
+Resolve em dez linhas o que ia levar uma tarde.	Ten lines solve an afternoon's work.	半日かかる仕事を10行で解決。
+Sistemas embarcados / Infra	Embedded systems / infrastructure	組み込みシステム・インフラ
+Hardware e infra	Hardware and infrastructure	ハードウェアとインフラ
+Do pino ao servidor.	From pin to server.	ピンからサーバーまで。
+Só dispara com escopo por escrito.	Only fires with written authorization and scope.	書面で許可された範囲でのみ発射。
+Enxerga o ataque pelo rastro.	Sees an attack by its traces.	痕跡から攻撃を見抜く。
+Ctrl+Z com histórico.	Ctrl+Z with history.	履歴つきのCtrl+Z。
+Slot vazio	Empty slot	空きスロット
+Procurando estágio em infraestrutura, segurança ou sistemas embarcados pra equipar aqui.	Looking for an internship in infrastructure, security or embedded systems to equip here.	ここに装備するインフラ、セキュリティ、組み込み分野のインターンを探しています。
+Conquista desbloqueada	Achievement unlocked	実績解除
+aqui mesmo	right here	ここで
+no terminal do Lab	in the Lab terminal	ラボのターミナルで
+aqui no Lab	here in the Lab	このラボで
+no Lab	in the Lab	ラボで
+daqui do Lab	from this Lab	このラボから
+do Lab	of the Lab	ラボの
+aqui no terminal	here in the terminal	このターミナルで
+Ir pra	Go to	移動先
+Copiar e-mail	Copy email	メールアドレスをコピー
+você tem	you have	所持数
+sem fichas	no coins	コインなし
+Currículo em português	Portuguese résumé	ポルトガル語の履歴書
+Currículo em inglês	English résumé	英語の履歴書
+Currículo em japonês	Japanese résumé	日本語の履歴書
+Desligar o som	Turn sound off	音をオフにする
+Ligar o som	Turn sound on	音をオンにする
+tecla m	M key	Mキー
+Ver conquistas	View achievements	実績を見る
+terminal do lab	lab terminal	ラボのターミナル
+Modo recrutador	Recruiter mode	採用担当者モード
+resumo em 1 tela	one-screen summary	1画面の要約
+Jogar Packet Invaders	Play Packet Invaders	Packet Invadersで遊ぶ
+música	music	音楽
+Desligar a trilha	Turn music off	BGMをオフにする
+Qualidade de vídeo	Video quality	画質
+Fechar o modo debug	Close debug mode	デバッグモードを閉じる
+Modo debug	Debug mode	デバッグモード
+Créditos	Credits	クレジット
+fim de jogo	game over	ゲーム終了
+Sentir o chão	Feel the ground	地面を感じる
+sentir o chao	feel the ground	地面を感じる
+ONDA 1	WAVE 1	ウェーブ1
+FALSO POSITIVO −150	FALSE POSITIVE −150	誤検知 −150
+PATCH APLICADO +1 ESCUDO	PATCH APPLIED +1 SHIELD	パッチ適用 シールド＋1
++1 FICHA	+1 COIN	コイン＋1
+defenda a LAN: derrube o malicioso, deixe passar o legítimo	defend the LAN: stop malicious traffic, let legitimate traffic through	LANを守れ：不正な通信を撃ち、正しい通信は通す
+P volta ao jogo	P resumes the game	Pで再開
+NOVO RECORDE!	NEW HIGH SCORE!	新記録！
+A LAN CAIU	THE LAN WENT DOWN	LANがダウン
+· onda	· wave	・ウェーブ
+suas iniciais	your initials	イニシャル
+↑ ↓ ou os botões de seta trocam a letra	↑ ↓ or arrow buttons change the letter	↑ ↓または矢印ボタンで文字を変更
+ENTER ou ATIRAR confirma	ENTER or FIRE confirms	ENTERまたは発射で決定
+Joystick clássico	Classic joystick	クラシックジョイスティック
+stick anda · botão começa	stick moves · button starts	レバーで移動・ボタンで開始
+Pad 8-bit	8-bit pad	8ビットパッド
+direcional empurra · 1 reinicia · 2 avança	directions push · 1 restarts · 2 advances	方向キーで押す・1で再開・2で次へ
+Analógico (estilo N64)	Analog stick (N64 style)	アナログスティック（N64風）
+C que acende, C que aperta · A começa	press the C button that lights up · A starts	光ったCを押す・Aで開始
+Pad moderno	Modern pad	現代のゲームパッド
+Sequência	Sequence	順番
+repita a sequência · start começa	repeat the sequence · Start begins	順番を覚えて繰り返す・Startで開始
+NÍVEL	LEVEL	レベル
+REFLEXO LENTO	TOO SLOW	反応が遅い
+ERROU NA	MISSED AT	失敗した位置
+· VIDAS	· LIVES	・残機
+MELHOR NÍVEL	BEST LEVEL	最高レベル
+· ERROS	· MISTAKES	・ミス
+· SUA VEZ	· YOUR TURN	・あなたの番
+· OLHA	· WATCH	・よく見て
+FIM DE JOGO	GAME OVER	ゲーム終了
+todos os níveis · 2 recomeça	all levels · 2 restarts	全レベル完了・2でやり直し
+2 vai pro próximo	2 goes to the next level	2で次のレベルへ
+botão	button	ボタン
+de novo	again	もう一度
+espaço ou clique	Space or click	スペースまたはクリック
+Sem internet. Sem problema.	No internet. No problem.	ネットがなくても、大丈夫。
+Tente: checar os cabos, reiniciar o roteador	Try: checking cables, restarting the router	ケーブルを確認し、ルーターを再起動するか
+ou... pular os resistores.	or… jump over the resistors.	……抵抗器を飛び越えてみよう。
+pra começar	to start	開始
+novo recorde:	new high score:	新記録：
+· recorde	· best	・記録
+pra tentar de novo	to try again	再挑戦
+Vídeo ajustado	Video adjusted	画質を調整しました
+média	medium	中
+· fps baixo	· low fps	・低fps
+memória JS:	JS memory:	JSメモリー：
+· vídeo:	· video:	・画質：
+· alvo:	· target:	・目標：
+troféus	trophies	トロフィー
+· receitas	· recipes	・レシピ
+· quarto	· room	・部屋
+· trilha:	· music:	・BGM：
+· save:	· save:	・保存：
+sessão	session	セッション
+· SÍSMICO	· SEISMIC	・地震感知
+Prefiro trabalhar descalço: bare metal, sem nada entre mim e a máquina.	I prefer working barefoot: bare metal, nothing between me and the machine.	裸足で働くのが好き。ベアメタル、自分とマシンの間には何もない。
+· mochila	· backpack	・バックパック
+Bolso cheio	Pockets full	ポケットがいっぱい
+9 de 9 fichas	9 of 9 coins	コイン9/9
+Tinha uma ficha na bolha	There was a coin in the bubble	気泡の中にコインがあった
+Ficha desenterrada	Coin unearthed	コインを掘り出した
+Bônus do fliperama	Arcade bonus	アーケードボーナス
+A cobrinha achou uma ficha	The snake found a coin	ヘビがコインを見つけた
+Achou a .ficha	Found .ficha	.fichaを発見
+Continue? Crédito extra	Continue? Extra credit	コンティニュー？追加クレジット
+Bônus do modo offline	Offline mode bonus	オフラインモードのボーナス
+Bônus do controle novo	New controller bonus	新しいコントローラーのボーナス
+Quebrou o bloco	Broke the block	ブロックを壊した
+Troco no registrador	Change in the register	レジスターのお釣り
+Achou uma ficha	Found a coin	コインを発見
++1 ficha ·	+1 coin ·	コイン＋1・
+Sem fichas	No coins	コインなし
+Tem fichas escondidas pelo portfólio	There are coins hidden around the portfolio	ポートフォリオにコインが隠れています
+E-mail copiado · −1 ficha	Email copied · −1 coin	メールアドレスをコピー・コイン−1
+E-mail copiado	Email copied	メールアドレスをコピーしました
+Não deu pra copiar	Couldn't copy	コピーできませんでした
+Recomeçar	Restart	やり直す
+Resetar combo	Reset combo	コンボをリセット
+Sair do jogo	Exit game	ゲームを終了
+Jogar de novo	Play again	もう一度遊ぶ
+combo zerado	combo reset	コンボをリセットしました
+MAÇÃS	APPLES	リンゴ
+bateu na parede ·	hit the wall ·	壁にぶつかった・
+maçã	apple	リンゴ
+maçãs	apples	リンゴ
+START continua	START resumes	STARTで再開
+ficha no chão, aqui	coin on the floor, here	ここにコインがあります
+↑ mais acima	↑ further up	↑もっと上
+↓ mais abaixo	↓ further down	↓もっと下
+← à esquerda	← to the left	←左へ
+→ à direita	→ to the right	→右へ
+ficha ↑ mais acima	coin ↑ further up	コイン↑もっと上
+ficha ↓ mais abaixo	coin ↓ further down	コイン↓もっと下
+tem uma ficha aqui	there's a coin here	ここにコインがあります
+bolso cheio · 9/9	pockets full · 9/9	ポケット満杯・9/9
+no Início	on Home	ホームで
+em Projetos	in Projects	プロジェクトで
+no Sobre	on About	プロフィールで
+no Contato	on Contact	連絡先で
+no quarto	in the room	部屋で
+por aí	somewhere	どこかに
+senha de fábrica: a mesma revisão do BIOS. (ninguém troca, né?)	factory password: the BIOS revision. (Nobody changes it, right?)	初期パスワードはBIOSのリビジョン。（誰も変えていないのかな？）
+digite "open" pra abrir a missão	type "open" to open the mission	「open」と入力してミッションを開く
+tab completa comandos e nomes. atalhos: ctrl+k abre a paleta · esc pausa · m liga o som · F3 debug	Tab completes commands and names. Ctrl+K palette · Esc pause · M sound · F3 debug	Tabで補完。Ctrl+Kでパレット・Escでポーズ・Mで音声・F3でデバッグ
+nem todo comando aparece aqui.	not every command is listed here.	すべてのコマンドがここに載っているわけではありません。
+hikaru ogasawara, "okaru". engenharia da computação @ ibmec sp.	Hikaru Ogasawara, “Okaru”. Computer Engineering @ Ibmec SP.	小笠原光、「Okaru」。Ibmec SPのコンピュータ工学。
+: não encontrado	: not found	：見つかりません
+hardware me ensinou a ouvir sinais. segurança me ensinou a desconfiar deles.	hardware taught me to listen to signals. Security taught me to question them.	ハードウェアから信号を聞くことを学び、セキュリティから疑うことを学びました。
+é binário. tem em PT, EN e JP lá no contato.	it's a binary file. PT, EN and JP versions are on Contact.	バイナリファイルです。連絡先にポルトガル語、英語、日本語版があります。
+uma ficha dourada, meio amassada. foi pro bolso: +1 ficha.	a slightly dented gold coin. Into your pocket: +1 coin.	少しへこんだ金色のコイン。ポケットへ。コイン＋1。
+bolso cheio (9/9). deixa ela aí por enquanto.	pockets full (9/9). Leave it there for now.	ポケットが満杯（9/9）。今は置いておきましょう。
+// cofre.ino · teclado 3×4, servo e LCD I²C. 1 arquivo, 3 portes.	// cofre.ino · 3×4 keypad, servo and I²C LCD. 1 file, 3 ports.	// cofre.ino・3×4キーパッド、サーボ、I²C LCD。1ファイル、3つの移植版。
+// o resto tá na missão 03. digite "open".	// the rest is in mission 03. Type "open".	// 続きはミッション03。「open」と入力してください。
+abrindo a missão	opening mission	ミッションを開いています
+você já achou tudo. platina!	you found everything. Platinum!	すべて見つけました。プラチナ！
+dica ·	hint ·	ヒント・
+receitas descobertas.	recipes discovered.	発見したレシピ。
+: arquivo não encontrado	: file not found	：ファイルが見つかりません
+tema .... system24 (monocromático)	theme ... system24 (monochrome)	テーマ ... system24（単色）
+uptime .. desde 2023	uptime .. since 2023	稼働開始 .. 2023年
+você já está na raiz. (~)	you're already at the root. (~)	すでにルートにいます。（~）
+· digite ls, cat README.md ou open	· type ls, cat README.md or open	・ls、cat README.md、openを入力
+: aqui dentro é só cenário. tente "open".	: this directory is scenery. Try "open".	：ここは仮想の背景です。「open」を試してください。
+abrindo /dev/okaru	opening /dev/okaru	/dev/okaruを開いています
+: diretório não encontrado. tente "ls".	: directory not found. Try "ls".	：ディレクトリが見つかりません。「ls」を試してください。
+okaru is not in the sudoers file. This incident will be reported.	okaru is not in the sudoers file. This incident will be reported.	okaruはsudoersに登録されていません。この操作は報告されます。	okaru não está no arquivo sudoers. Este incidente será reportado.
+sem autorização por escrito, sem scan. regra número um.	no written authorization, no scan. Rule number one.	書面の許可なしにスキャンしない。それが第一のルール。
+boa tentativa.	nice try.	惜しかったね。
+abrindo o modo recrutador...	opening recruiter mode…	採用担当者モードを開いています…
+ligando o fliperama...	starting the arcade…	アーケードを起動中…
+alternando o modo debug (F3).	toggling debug mode (F3).	デバッグモードを切り替えます（F3）。
+rolando os créditos...	rolling the credits…	クレジットを表示中…
+trilha desligada.	music off.	BGMをオフにしました。
+toph? não conheço ninguém com esse nome.	Toph? I don't know anyone by that name.	トフ？そんな名前の人は知らないな。
+desligando... até o próximo press start.	shutting down… see you at the next Start.	終了中……次のスタートで会いましょう。
+64 bytes de /dev/okaru: tempo=0,1 ms. estou aqui.	64 bytes from /dev/okaru: time=0.1 ms. I'm here.	/dev/okaruから64バイト：時間=0.1ms。ここにいます。
+flag aceita. +500 pontos. todo metal tem um pouco de terra.	flag accepted. +500 points. Every metal has a little earth.	フラグを受理。＋500点。どんな金属にも少しの土がある。
+flag incorreta. confere o dump do firmware.	incorrect flag. Check the firmware dump.	フラグが違います。ファームウェアのダンプを確認してください。
+você quis dizer ls? tudo bem, o trem passa.	did you mean ls? It's okay, here comes the train.	lsのつもりでしたか？大丈夫、列車が通ります。
+hardware me ensinou a ouvir sinais.	hardware taught me to listen to signals.	ハードウェアから信号を聞くことを学びました。
+acurácia de 0,98? desconfie antes de comemorar.	0.98 accuracy? Question it before celebrating.	正解率0.98？喜ぶ前に疑ってみよう。
+todo metal tem um pouco de terra.	every metal has a little earth.	どんな金属にも少しの土がある。
+sem escopo por escrito, sem scan.	no written scope, no scan.	書面で範囲を定めずにスキャンしない。
+acessando o mainframe...	accessing the mainframe…	メインフレームにアクセス中…
+contornando o firewall...	bypassing the firewall…	ファイアウォールを回避中…
+baixando a internet inteira...	downloading the entire internet…	インターネット全体をダウンロード中…
+brincadeira. segurança de verdade é ler log e documentação.	just kidding. Real security means reading logs and documentation.	冗談です。本当のセキュリティはログと文書を読むこと。
+comando não encontrado:	command not found:	コマンドが見つかりません：

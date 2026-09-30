@@ -1,0 +1,262 @@
+Portfólio — Hikaru Ogasawara	Portfolio — Hikaru Ogasawara	ポートフォリオ — 小笠原 光
+Início	Home	ホーム
+Projetos	Projects	プロジェクト
+Sobre	About	プロフィール
+Contato	Contact	連絡先
+Quarto	Room	部屋
+quarto	room	部屋
+Voltar pro	Back to	戻る：
+Voltar pros	Back to	戻る：
+Alterar idioma	Change language	言語を変更
+Tela inicial	Start screen	スタート画面
+Iniciando o sistema	Starting the system	システム起動中
+REDE	NETWORK	ネットワーク
+SOLO	GROUND	地面
+LCD 16×2 em 0x27	16×2 LCD at 0x27	16×2 LCD：0x27
+MQTT sobre TLS	MQTT over TLS	MQTT over TLS
+regras carregadas	rules loaded	ルール読込完了
+sensor sísmico calibrado	seismic sensor calibrated	地震センサー校正完了
+Em caso de pressa	In a hurry?	お急ぎの方へ
+MODO	RECRUITER	採用担当者
+RECRUTADOR	MODE	モード
+MODO RECRUTADOR	RECRUITER MODE	採用担当者モード
+CONTINUAR	CONTINUE	つづきから
+Continuar	Continue	続ける
+continuar sem som	continue without sound	音なしで続ける
+ou entre sem som	or enter without sound	音なしではじめる
+Portfólio de Hikaru Ogasawara · engenharia da computação	Hikaru Ogasawara's portfolio · computer engineering	小笠原 光のポートフォリオ · コンピュータ工学
+novo jogo	new game	はじめから
+apagar o save? clique de novo	delete save? click again	セーブを削除しますか？もう一度クリック
+segure pra quebrar o vidro	hold to break the glass	長押しでガラスを割る
+segure mais um pouco	hold a little longer	もう少し長押し
+vidro quebrado · clique pra abrir	glass broken · click to open	ガラスが割れた · クリックで開く
+segure pra desligar	hold to power off	長押しで電源オフ
+Jogador 1 · Engenharia da Computação	Player 1 · Computer Engineering	プレイヤー1 · コンピュータ工学
+光 = luz	光 = light	光 = ひかり
+Hardware me ensinou a	Hardware taught me to	ハードウェアから学んだのは
+ouvir sinais	listen to signals	信号を聴くこと
+. Segurança me ensinou a	. Security taught me to	。セキュリティから学んだのは
+desconfiar deles	question them	信号を疑うこと
+Estudo Engenharia da Computação no Ibmec e já entreguei projetos para a Invivio Tecnologia, a CPTM e o próprio Ibmec, do firmware ao dashboard.	I study Computer Engineering at Ibmec and have delivered projects for Invivio Tecnologia, CPTM and Ibmec, from firmware to dashboards.	Ibmecでコンピュータ工学を学んでいます。ファームウェアからダッシュボードまで、Invivio Tecnologia、CPTM、Ibmec向けのプロジェクトを制作してきました。
+Buscando estágio	Seeking an internship	インターンシップを希望
+Ver projetos	View projects	プロジェクトを見る
+Ver sobre	About me	プロフィールを見る
+SELECIONE SEU MAIN	SELECT YOUR MAIN	メインを選択
+clique pra trocar	click to switch	クリックで切り替え
+· arraste pra girar	· drag to rotate	· ドラッグで回転
+arraste	drag	ドラッグ
+Embarcados · IoT · firmware	Embedded · IoT · firmware	組込み · IoT · ファームウェア
+segurança no meio: é ela que fecha o combo	security in the middle: it completes the combo	セキュリティがコンボを完成させる
+APIs · web · automação	APIs · web · automation	API · Web · 自動化
+Lista de golpes	Move list	技リスト
+Segurança	Security	セキュリティ
+Hardware e software só fecham o combo com segurança no meio.	Hardware and software complete the combo with security in between.	ハードウェアとソフトウェアのコンボを完成させるのはセキュリティ。
+Inventário	Inventory	インベントリ
+Quest log · 4 missões principais	Quest log · 4 main missions	クエストログ · メインミッション4件
+Cada um me obrigou a descer uma camada: do broker MQTT ao registrador, da regra de firewall ao log.	Each project took me a layer deeper: from the MQTT broker to registers, from firewall rules to logs.	どのプロジェクトでも一層深く学びました。MQTTブローカーからレジスタへ、ファイアウォールのルールからログへ。
+Objetivos	Objectives	目標
+Equipamento	Equipment	使用技術
+Teste o cofre	Try the safe	金庫を試す
+* apaga · # confirma · três erros travam o teclado por 5 s	* clears · # confirms · three mistakes lock the keypad for 5 s	*で消去 · #で確定 · 3回間違えると5秒間ロック
+Próxima missão	Next mission	次のミッション
+Esquemático	Schematic	構成図
+Galeria do projeto	Project gallery	プロジェクトギャラリー
+Galeria ampliada	Expanded gallery	拡大ギャラリー
+Ampliar	Enlarge	拡大
+Ampliar imagem	Enlarge image	画像を拡大
+Imagem anterior	Previous image	前の画像
+Próxima imagem	Next image	次の画像
+Fechar imagem ampliada	Close enlarged image	拡大画像を閉じる
+Fechar ×	Close ×	閉じる ×
+Fechar missão	Close mission	ミッションを閉じる
+COLETOR SOLAR	SOLAR COLLECTOR	太陽熱コレクター
+PISCINA	POOL	プール
+7 PARÂMETROS	7 PARAMETERS	7つのパラメータ
+BOMBA	PUMP	ポンプ
+RELÉ	RELAY	リレー
+ΔT ≥ 5 °C → liga	ΔT ≥ 5 °C → on	ΔT ≥ 5 °C → オン
+ΔT ≤ 1 °C → desliga	ΔT ≤ 1 °C → off	ΔT ≤ 1 °C → オフ
+anti-ciclagem 60 s	60 s anti-cycling	60秒の短サイクル防止
+SEGMENTAÇÃO	SEGMENTATION	セグメンテーション
+REGRAS ENTRE ZONAS	INTER-ZONE RULES	ゾーン間ルール
+BRIDGE VIRTUAL	VIRTUAL BRIDGE	仮想ブリッジ
+VALIDAÇÃO	VALIDATION	検証
+KALI VALIDA AS REGRAS DO LAB	KALI VALIDATES LAB RULES	KALIでラボのルールを検証
+TECLADO 3×4	3×4 KEYPAD	3×4キーパッド
+SENHA:	PASSWORD:	パスワード：
+SERVO · TRAVA	SERVO · LOCK	サーボ · ロック
+NVS · senha persistida	NVS · persisted password	NVS · パスワードを保存
+10 CLASSES	10 CLASSES	10クラス
+cada dormente, uma rota da API	each sleeper, an API route	枕木ごとにAPIルート
+TREM · ESTAÇÃO · LINHA	TRAIN · STATION · LINE	列車 · 駅 · 路線
+clique pra abrir a missão	click to open the mission	クリックでミッションを開く
+Missões secundárias	Side quests	サブクエスト
+Site do ciclo de palestras · Ibmec	Lecture series website · Ibmec	講演会シリーズのWebサイト · Ibmec
+ago–dez 2023	Aug–Dec 2023	2023年8月〜12月
+HTML e CSS. O site completo do evento anual que reúne CEOs convidados, da estrutura à publicação.	HTML and CSS. A complete website for the annual event featuring guest CEOs, from structure to publication.	HTMLとCSSで、CEOを招く年次イベントのWebサイトを構成から公開まで制作。
+Fundamentos de machine learning	Machine learning fundamentals	機械学習の基礎
+acadêmico	academic	大学プロジェクト
+Jupyter, NumPy e pandas. Uma acurácia de 0,98 parecia boa demais: a auditoria achou um vazamento temporal de dados e o campo culpado.	Jupyter, NumPy and pandas. An accuracy of 0.98 seemed too good: an audit found temporal data leakage and the responsible field.	Jupyter、NumPy、pandasを使用。精度0.98に疑問を持ち、監査で時系列データのリークと原因のフィールドを特定。
+Automação de documentos	Document automation	文書の自動化
+pessoal	personal	個人プロジェクト
+Python com pywin32 e openpyxl: rascunhos no Outlook gerados a partir de planilha, com anexos casados por nome.	Python with pywin32 and openpyxl: Outlook drafts generated from a spreadsheet, matching attachments by name.	Python、pywin32、openpyxlで、表からOutlookの下書きを生成し、名前で添付ファイルを照合。
+Bancada + rack	Workbench + rack	作業台 + ラック
+Onde eu	Where I	ここで
+quebro	break	壊して
+as coisas	things	学ぶ
+antes que alguém quebre	before someone else does	誰かに壊される前に
+Um laboratório de infraestrutura corporativa montado do zero, com servidor, firewall e SIEM, e uma bancada de microcontroladores pra tudo que precisa de fio. O terminal ao lado funciona: digite	A corporate infrastructure lab built from scratch, with a server, firewall and SIEM, plus a microcontroller workbench. The terminal works: type	サーバー、ファイアウォール、SIEMをゼロから構築したインフララボと、マイコンの作業台。隣のターミナルも使えます。入力：
+Comando do terminal	Terminal command	ターミナルコマンド
+Usado em:	Used in:	使用先：
+Bancada · crafting	Workbench · crafting	作業台 · クラフト
+limpar bancada	clear workbench	作業台をクリア
+engenheiro · 0.98	engineer · 0.98	エンジニア · 0.98
+óculos · 0.97	glasses · 0.97	眼鏡 · 0.97
+moletom · 0.91	hoodie · 0.91	パーカー · 0.91
+AMEAÇA 0.00	THREAT 0.00	脅威 0.00
+“Okaru” nos servidores	“Okaru” on the servers	サーバーでは「Okaru」
+Equipado	Equipped	装備中
+uso diário	daily use	毎日使うもの
+Mochila	Backpack	バックパック
+Ficha do personagem	Character sheet	キャラクターシート
+Classe	Class	クラス
+Engenharia da Computação	Computer Engineering	コンピュータ工学
+Formação	Education	学歴
+· bacharelado, 2023–2027 (previsto)	· bachelor's degree, 2023–2027 (expected)	· 学士課程、2023〜2027年（卒業予定）
+· ensino médio, 2010–2022	· school education, 2010–2022	· 学校教育、2010〜2022年
+Idiomas	Languages	言語
+Português	Portuguese	ポルトガル語
+nativo	native	母語
+· Inglês	· English	· 英語
+fluente na leitura, semifluente na fala	fluent reading, conversational speaking	読解は流暢、会話は日常会話レベル
+· Japonês	· Japanese	· 日本語
+intermediário-avançado	upper intermediate	中上級
+· Espanhol	· Spanish	· スペイン語
+intermediário	intermediate	中級
+Passivas	Passive skills	パッシブスキル
+Calma sob pressão · proatividade · automotivação · trabalho em equipe · responsabilidade com prazos	Calm under pressure · initiative · self-motivation · teamwork · respect for deadlines	プレッシャーに強い · 積極性 · 自発性 · チームワーク · 納期への責任感
+Procurando	Seeking	希望
+Estágio em infraestrutura, segurança ou sistemas embarcados	An internship in infrastructure, security or embedded systems	インフラ、セキュリティ、組込みシステム分野のインターンシップ
+Desde criança eu gosto de construir coisas, consertar o que quebra e descobrir como tudo funciona por dentro. Essa curiosidade não passou, só trocou de ferramenta: a chave de fenda virou multímetro, terminal e firmware.	Since childhood I've enjoyed building things, fixing what breaks and discovering how things work inside. That curiosity remains; only the tools have changed: the screwdriver became a multimeter, terminal and firmware.	子どもの頃から、ものを作り、壊れたものを直し、仕組みを知るのが好きでした。その好奇心は今も変わりません。ドライバーがテスター、ターミナル、ファームウェアに変わっただけです。
+Pra mim, essa é a essência de um engenheiro: entender a fundo como uma coisa funciona antes de mexer nela e, só então, buscar a solução. Não a primeira que funciona, mas a mais eficiente que eu conseguir encontrar. Entender o porquê antes de aceitar o como.	To me, engineering means understanding how something works before changing it, then finding the most efficient solution I can. Understand why before accepting how.	私にとってエンジニアリングとは、手を加える前に仕組みを深く理解し、できる限り効率の良い解決策を探すこと。「どうやるか」を受け入れる前に「なぜか」を理解したいと思っています。
+Sou de aprender fazendo, com a mão na massa: montar, testar, medir, quebrar e montar de novo até ficar do jeito certo. Mantenho a calma quando algo dá errado, porque é aí que mais se aprende. O que eu quero agora é um time onde dê pra pôr a mão em sistema de verdade e aprender com quem já sabe.	I learn by doing: assemble, test, measure, break and rebuild until it works properly. I stay calm when things go wrong because that's when I learn most. I'm looking for a team where I can work on real systems and learn from experienced people.	組み立て、試し、測り、壊し、納得できるまで作り直すことで学びます。失敗したときこそ学びが多いので、冷静さを大切にしています。実際のシステムに触れ、経験豊かな人から学べるチームを探しています。
+Comecei pelo hardware: ligar um sensor, ler um	I started with hardware: connect a sensor, read a	出発点はハードウェア。センサーをつなぎ、読み取るのは
+registrador	register	レジスタ
+, entender por que o sinal chegou torto. Daí fui pra infraestrutura e, de lá, pra segurança. Gosto de ficar na fronteira, onde o físico vira lógico e onde o lógico pode ser atacado.	, understand why a signal was distorted. Then came infrastructure and security. I like the boundary where physical becomes logical and where logic can be attacked.	。信号が乱れる原因を探るうちに、インフラ、そしてセキュリティへと進みました。物理が論理に変わり、その論理が攻撃され得る境界に興味があります。
+Vice-presidente · desde a fundação, 2024	Vice president · since its founding in 2024	副代表 · 2024年の設立時から
+Todo segundo sábado do mês, a equipe leva cestas de alimentos e itens de higiene a uma comunidade. Cuido da arrecadação, da montagem das cestas e da mobilização dos voluntários.	Every second Saturday of the month, our team delivers food and hygiene supplies to a community. I coordinate donations, packing and volunteer mobilization.	毎月第2土曜日、チームで地域に食品と衛生用品を届けています。寄付の募集、物資の梱包、ボランティアの調整を担当しています。
+Voluntariado	Volunteering	ボランティア
+Coordenação da escala de voluntários do Festival do Japão.	Coordinating volunteer shifts for the Festival do Japão.	日本祭りのボランティアシフトを調整。
+Árvore de habilidades	Skill tree	スキルツリー
+ÁRVORE DE HABILIDADES	SKILL TREE	スキルツリー
+Jogando agora	Currently playing	プレイ中
+Em jogo de luta eu sou	In fighting games I'm a	格闘ゲームでは
+: controlo o espaço, leio o oponente e puno o erro. No fundo, é defesa em profundidade.	: I control space, read my opponent and punish mistakes. In a way, it's defense in depth.	。間合いを制御し、相手を読み、ミスを狙う。ある意味、多層防御です。
+Controle	Controller	コントローラー
+objetos	objects	オブジェクト
+Estou procurando estágio em infraestrutura, segurança ou sistemas embarcados. Se você tem uma vaga, um projeto ou só uma dúvida sobre ESP32, insere a ficha.	I'm seeking an internship in infrastructure, security or embedded systems. If you have an opening, a project or just an ESP32 question, insert a coin.	インフラ、セキュリティ、組込みシステムのインターンシップを探しています。募集、プロジェクト、ESP32の質問でも、気軽にコインを入れてください。
+Currículo	Résumé	履歴書
+Baixar PDF	Download PDF	PDFをダウンロード
+Respondo em PT · EN · JP · ES	I reply in PT · EN · JP · ES	PT · EN · JP · ESで対応
+Feito com solda, café e ctrl+z	Made with solder, coffee and ctrl+z	はんだ、コーヒー、ctrl+zで制作
+Fichas	Coins	コイン
+Insira uma ficha	Insert a coin	コインを入れる
+1 ficha = 1 e-mail	1 coin = 1 email	1コイン = 1メール
+Game over? Nunca.	Game over? Never.	ゲームオーバー？まだまだ。
+Tem fichas escondidas pelo portfólio.	There are coins hidden throughout the portfolio.	ポートフォリオのあちこちにコインが隠れています。
+ou escreva direto	or write directly	直接メールする
+Plástico-bolha	Bubble wrap	プチプチ
+Nova folha	New sheet	新しいシート
+pra passar o tempo enquanto a resposta não chega	to pass the time while waiting for a reply	返信を待つ間の暇つぶしに
+WASD pra andar · E pra usar	WASD to walk · E to interact	WASDで移動 · Eで調べる
+Recentes	Recent	最近
+Nenhuma ainda.	None yet.	まだありません。
+Próximas	Next	次の目標
+Só faltam as secretas. Boa caçada.	Only secrets remain. Happy hunting.	残るは秘密だけ。探索を楽しんで。
+Ver todas as conquistas	View all achievements	すべての実績を見る
+100% · Platina. Obrigado por jogar.	100% · Platinum. Thanks for playing.	100% · プラチナ。遊んでくれてありがとう。
+Ver os créditos	View credits	クレジットを見る
+Visão sísmica	Seismic vision	地震感知
+clique em qualquer lugar	click anywhere	どこかをクリック
+Acender a luz	Turn on the light	明かりをつける
+Conquistas	Achievements	実績
+Pedir uma dica	Ask for a hint	ヒントを見る
+Dica	Hint	ヒント
+PAUSADO	PAUSED	ポーズ中
+Com pressa?	In a hurry?	お急ぎですか？
+Paleta de comandos	Command palette	コマンドパレット
+Som 8-bit	8-bit sound	8ビットサウンド
+Trilha	Music	音楽
+Vídeo	Video	映像
+Cartão de memória	Memory card	メモリーカード
+Voltar ao Press Start	Back to Press Start	スタート画面に戻る
+Tempo de jogo	Play time	プレイ時間
+Telas visitadas	Screens visited	訪問した画面
+Receitas	Recipes	レシピ
+Objetos do quarto	Room objects	部屋のオブジェクト
+Recorde no fliperama	Arcade high score	アーケードのハイスコア
+Golpes	Moves	技
+Atalhos: esc pausa · ctrl+k ou / abre a paleta · m liga e desliga o som · F3 modo debug	Shortcuts: esc pauses · ctrl+k or / opens commands · m toggles sound · F3 debug mode	ショートカット：Escでポーズ · Ctrl+Kまたは/でコマンド · Mで音切替 · F3でデバッグ
+Buscar comando	Search commands	コマンドを検索
+Nenhum comando com esse nome. Tente “quarto”, “som” ou “cv”.	No matching command. Try “room”, “sound” or “cv”.	該当するコマンドがありません。「部屋」「音」「cv」を試してください。
+↑↓ navega · enter executa · esc fecha	↑↓ navigate · enter runs · esc closes	↑↓で選択 · Enterで実行 · Escで閉じる
+Site comum	Standard site	通常のサイト
+Início, Projetos, Sobre e Contato. Direto ao ponto.	Home, Projects, About and Contact. Straight to the point.	ホーム、プロジェクト、プロフィール、連絡先。必要な情報へすぐに。
+O portfólio como jogo: anda pelo quarto e mexe nas coisas.	A portfolio as a game: walk around the room and interact with objects.	ゲームとしてのポートフォリオ。部屋を歩き回り、物を調べられます。
+Perfil	Profile	プロフィール
+Busca	Seeking	希望
+Local	Location	所在地
+Entregas	Deliveries	制作実績
+Guildas	Guilds	所属団体
+Como eu trabalho	How I work	仕事への姿勢
+Postura	Approach	姿勢
+Em equipe	Teamwork	チームワーク
+Método	Method	方法
+O que eu sei	What I know	スキル
+Código	Code	コード
+Web e APIs	Web and APIs	WebとAPI
+Dados	Data	データ
+Missões principais	Main missions	メインミッション
+abrir	open	開く
+ou aperte enter	or press enter	またはEnter
+ATIRAR	FIRE	発射
+COMO JOGAR	HOW TO PLAY	遊び方
+Você é o firewall. Os pacotes caem rumo à LAN (a linha tracejada).	You are the firewall. Packets fall toward the LAN (the dashed line).	あなたはファイアウォール。パケットがLAN（点線）へ落ちてきます。
+Dourado é ataque.	Gold means attack.	金色は攻撃。
+Verde é legítimo.	Green means legitimate.	緑色は正常。
+Deixe passar: +25. Se acertar, −150.	Let through: +25. Hit it: −150.	通せば+25。撃つと−150。
+Branco é patch.	White means patch.	白色はパッチ。
+Controles	Controls	操作方法
+mover (ou A e D)	move (or A and D)	移動（AとDでも可）
+espaço	space	スペース
+atirar (ou ↑)	fire (or ↑)	発射（↑でも可）
+começar	start	開始
+pausar	pause	一時停止
+sair	exit	終了
+mover	move	移動
+atirar (e começar)	fire (and start)	発射・開始
+SEM CONEXÃO	OFFLINE	オフライン
+pula (segure pra ir mais alto)	jump (hold to jump higher)	ジャンプ（長押しで高く）
+abaixa	duck	しゃがむ
+pausa	pause	一時停止
+levanta	stand up	立つ
+ABAIXAR	DUCK	しゃがむ
+PULAR	JUMP	ジャンプ
+aprendido	learned	習得済み
+TESTE DE HABILIDADE	SKILL CHECK	スキルチェック
+Missão	Mission	ミッション
+dificuldade	difficulty	難易度
+Fechar	Close	閉じる
+Salvando	Saving	保存中
+Pular · esc	Skip · esc	スキップ · Esc
+Portfólio	Portfolio	ポートフォリオ
+de Hikaru	by Hikaru	制作：光
+um jogo de exploração em 6 telas	an exploration game across 6 screens	6つの画面を巡る探索ゲーム
+Fim	The end	おしまい
+Obrigado por jogar.	Thanks for playing.	遊んでくれてありがとう。
+Continuar explorando	Keep exploring	探索を続ける
+Pressione qualquer tecla ou clique pra reiniciar.	Press any key or click to restart.	キー入力またはクリックで再開。
+ligado	on	オン
+desligado	off	オフ
+passe o mouse pelos nós	hover or focus a node	ノードにカーソルまたはフォーカスを合わせる
+toque num nó	tap a node	ノードをタップ

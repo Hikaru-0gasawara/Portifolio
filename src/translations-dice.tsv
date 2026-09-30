@@ -1,0 +1,82 @@
+O chefe aparece na sua mesa:	Your boss appears at your desk:	上司がデスクにやってきた：
+Mensagem do PO às 8h01:	Message from the PO at 8:01:	8時01分、POからのメッセージ：
+A dona do produto puxa uma cadeira:	The product owner pulls up a chair:	プロダクトオーナーが椅子を引き寄せた：
+Ticket novo, prioridade alta:	New ticket, high priority:	新しいチケット、優先度は高：
+Na daily, o líder solta:	During stand-up, the lead says:	朝会でリーダーが言った：
+O cliente liga direto pra você:	The client calls you directly:	クライアントから直接電話：
+Sobe um servidor DNS e DHCP no Ubuntu Server pro laboratório até o fim do dia.	Set up DNS and DHCP on Ubuntu Server for the lab before the end of the day.	今日中にラボのUbuntu ServerでDNSとDHCPを構築して。
+O firewall tá deixando passar tudo. Fecha o ufw: nega tudo e libera só o que a gente usa.	The firewall lets everything through. Lock down ufw: deny all and allow only what we use.	ファイアウォールが全部通している。ufwを原則拒否にして、必要な通信だけ許可して。
+O ESP32 parou de publicar no broker. Descobre por quê. Com o multímetro, se precisar.	The ESP32 stopped publishing to the broker. Find out why. Use the multimeter if needed.	ESP32がブローカーへ送信しなくなった。必要ならテスターも使って原因を調べて。
+a placa é sua velha conhecida	you know this board well	使い慣れた基板です
+Monta um dashboard em React que leia os sensores por WebSocket e mostre o histórico.	Build a React dashboard that reads sensors over WebSocket and shows their history.	WebSocketでセンサーを読み取り、履歴を表示するReactダッシュボードを作って。
+Migra o cofre do Arduino pro ESP32 sem perder a senha salva.	Migrate the safe from Arduino to ESP32 without losing the saved password.	保存したパスワードを消さずに、金庫をArduinoからESP32へ移植して。
+Configura o Active Directory do zero: domínio, contas e políticas de acesso.	Set up Active Directory from scratch: domain, accounts and access policies.	Active Directoryを新規構築して。ドメイン、アカウント、アクセス方針も。
+é sexta, 17h58	it's Friday, 5:58 p.m.	金曜の17時58分です
+O SIEM tá cheio de alerta falso. Ajusta as regras de correlação sem perder o que importa.	The SIEM is full of false alerts. Tune correlation rules without missing real incidents.	SIEMが誤検知だらけ。重要なものを逃さずに相関ルールを調整して。
+Escreve 10 classes de teste no JUnit pra API antes do deploy.	Write 10 JUnit test classes for the API before deployment.	デプロイ前にAPI用のJUnitテストクラスを10個書いて。
+a documentação da API é boa	the API documentation is good	APIのドキュメントは充実しています
+Faz um relatório no Power BI dos dados de operação pra diretoria.	Create a Power BI report of operational data for management.	経営陣向けに運用データのPower BIレポートを作って。
+Apresenta o projeto em inglês pra um cliente de fora.	Present the project in English to an overseas client.	海外のクライアントに英語でプロジェクトを説明して。
+Traduz o manual do produto pro japonês.	Translate the product manual into Japanese.	製品マニュアルを日本語に翻訳して。
+tem termo técnico que nem em japonês existe	some technical terms have no Japanese equivalent	日本語の訳語がない専門用語があります
+Escreve o texto da campanha de marketing do produto novo.	Write the marketing campaign copy for the new product.	新製品の広告文を書いて。
+Redesenha o logo da empresa. Pra amanhã.	Redesign the company logo. For tomorrow.	会社のロゴを作り直して。明日までに。
+o cliente ainda não decidiu a cor	the client hasn't chosen a color yet	クライアントはまだ色を決めていません
+Faz a ata da reunião de três horas sobre o nome do projeto.	Write the minutes of the three-hour meeting about the project name.	プロジェクト名について3時間話した会議の議事録を書いて。
+Preenche o formulário da certificação, em seis vias, com carimbo.	Fill out the certification form in six stamped copies.	認証の申請書を6部、押印つきで記入して。
+Segmenta a rede em zonas e sobe o IPFire entre elas.	Split the network into zones and put IPFire between them.	ネットワークをゾーンに分け、間にIPFireを配置して。
+você já montou isso no lab	you've already built this in the lab	ラボで構築した経験があります
+Virtualiza os nós do ambiente no Proxmox e deixa tudo subindo sozinho.	Virtualize the environment's nodes in Proxmox and configure automatic startup.	環境のノードをProxmoxで仮想化して、自動起動を設定して。
+Automatiza os rascunhos de e-mail a partir da planilha, com os anexos certos.	Automate email drafts from the spreadsheet with the right attachments.	表計算から、正しい添付ファイルつきのメール下書きを自動生成して。
+tem um script pronto pra adaptar	there's a script ready to adapt	流用できるスクリプトがあります
+Liga o LCD I2C na protoboard e faz o pH aparecer na tela.	Wire the I2C LCD on the breadboard and display the pH.	ブレッドボードにI2C LCDをつないで、pHを表示して。
+Corrige o vazamento temporal do modelo antes que alguém acredite nos 98%.	Fix the model's temporal leakage before anyone believes that 98%.	誰かが98％を信じる前に、モデルの時間方向のデータリークを直して。
+Configura o CI: lint, tipos, testes e build a cada push.	Set up CI: lint, type checks, tests and build on every push.	プッシュごとにlint、型検査、テスト、ビルドを行うCIを設定して。
+Passa o Kali no ambiente novo e vê o que fica de pé.	Run Kali against the new environment and see what holds up.	新しい環境をKaliで検証して、何が耐えられるか確認して。
+o ambiente é seu	you own this environment	自分の検証環境です
+Solda de novo o conector do sensor que soltou. Sem solda fria.	Resolder the loose sensor connector. No cold joints.	外れたセンサーのコネクターをはんだ付けし直して。はんだ不良はなしで。
+Negocia o prazo do projeto com o cliente, em espanhol.	Negotiate the project deadline with the client in Spanish.	スペイン語でクライアントと納期を交渉して。
+o cliente também quer negociar	the client also wants to negotiate	クライアントも交渉する気です
+Organiza a confraternização de fim de ano do time.	Organize the team's end-of-year party.	チームの忘年会を企画して。
+Faz o pitch de vendas pra investidores.	Give the sales pitch to investors.	投資家に営業プレゼンをして。
+o slide 1 já tem erro de digitação	slide 1 already has a typo	1枚目から誤字があります
+Documenta a API inteira antes do fim da sprint.	Document the whole API before the sprint ends.	スプリント終了までにAPI全体を文書化して。
+é o último dia da sprint	it's the last day of the sprint	スプリントの最終日です
+Calibra o sensor de temperatura do coletor solar.	Calibrate the solar collector's temperature sensor.	太陽熱集熱器の温度センサーを校正して。
+Pinta o mural da recepção com o tema da empresa.	Paint the reception mural with the company's theme.	会社をテーマに受付の壁画を描いて。
+Consegue a assinatura dos três diretores no mesmo dia.	Get all three directors' signatures on the same day.	同じ日に取締役3人の署名を集めて。
+um deles está de férias	one of them is on vacation	1人は休暇中です
+«Isso vai pro README como exemplo.»	“This is going in the README as an example.”	「これはREADMEの見本にしよう。」
+«Não sei o que você fez, mas não mexe mais.»	“I don't know what you did, but don't touch it now.”	「何をしたか分からないが、もう触らないで。」
+«Ok, agora ensina o resto do time.»	“Great, now teach the rest of the team.”	「よし、今度はチームのみんなに教えて。」
+«Mandou bem. Agora documenta.»	“Good job. Now document it.”	「よくやった。次は文書化して。」
+«Fechou. Próximo ticket.»	“Done. Next ticket.”	「完了。次のチケットへ。」
+«Era isso. Pode dar merge.»	“That's it. You can merge.”	「それでいい。マージして。」
+«Tudo bem, a gente refaz na segunda.»	“It's fine, we'll redo it on Monday.”	「大丈夫、月曜にやり直そう。」
+«Anota como lição aprendida.»	“Write it down as a lesson learned.”	「学んだこととして記録しておこう。」
+«Não foi dessa vez. O café tá na copa.»	“Not this time. There's coffee in the kitchen.”	「今回はだめだったね。休憩室にコーヒーがあるよ。」
+«...vamos fingir que isso não aconteceu.»	“…let's pretend that didn't happen.”	「……今のはなかったことにしよう。」
+«O backup existe, né? Né?»	“We have a backup, right? Right?”	「バックアップはあるよね？ ね？」
+«Chama o time. Chama todo mundo.»	“Call the team. Call everyone.”	「チームを呼んで。全員呼んで。」
+Monte um dashboard em React com filtros, gráficos e estados de carregamento.	Build a React dashboard with filters, charts and loading states.	フィルター、グラフ、読み込み状態を備えたReactダッシュボードを作る。
+Você já construiu o dashboard do AquaSense.	You've already built the AquaSense dashboard.	AquaSenseのダッシュボードを作った経験があります。
+Conecte o dashboard ao WebSocket e valide os dados recebidos com Zod.	Connect the dashboard to WebSocket and validate incoming data with Zod.	ダッシュボードをWebSocketにつなぎ、受信データをZodで検証する。
+Encontre um vazamento temporal escondido no conjunto de treino.	Find hidden temporal leakage in the training dataset.	訓練データに潜む時間方向のデータリークを見つける。
+Você já investigou uma acurácia boa demais.	You've investigated suspiciously high accuracy before.	良すぎる正解率を調べた経験があります。
+Configure um alerta do SIEM sem transformar cada login em incidente.	Configure a SIEM alert without turning every login into an incident.	ログインのたびに事故扱いしないSIEMアラートを設定する。
+Meça o barramento I²C e descubra por que o LCD não responde.	Measure the I²C bus and find out why the LCD isn't responding.	I²Cバスを測定し、LCDが応答しない原因を調べる。
+Multímetro e documentação estão na bancada.	The multimeter and documentation are on the workbench.	作業台にテスターと資料があります。
+Restaure uma máquina virtual a partir de um backup validado.	Restore a virtual machine from a verified backup.	検証済みのバックアップから仮想マシンを復元する。
+Escreva testes de contrato para os endpoints da API.	Write contract tests for the API endpoints.	APIエンドポイントの契約テストを書く。
+Explique o projeto para um visitante japonês sem recorrer ao inglês.	Explain the project to a Japanese visitor without switching to English.	英語に頼らず、日本人の訪問者にプロジェクトを説明する。
+Negocie o escopo de uma entrega que já começou atrasada.	Negotiate the scope of a delivery that was already late when it started.	開始時点ですでに遅れている案件の範囲を交渉する。
+Crie uma campanha publicitária viral para um resistor de 10 kΩ.	Create a viral advertising campaign for a 10 kΩ resistor.	10kΩ抵抗器の話題になる広告を作る。
+O briefing só diz: faça viralizar.	The brief just says: make it go viral.	指示は「バズらせて」だけです。
+Desenhe um mascote em perspectiva usando apenas o touchpad.	Draw a mascot in perspective using only the touchpad.	タッチパッドだけで遠近感のあるマスコットを描く。
+A mesa digitalizadora ficou em casa.	The drawing tablet is at home.	ペンタブレットは家に置いてきました。
+Preencha um formulário com vinte anexos antes que a sessão expire.	Complete a form with twenty attachments before the session expires.	セッションが切れる前に、添付20件つきのフォームを記入する。
+Apresente o orçamento para uma plateia que só quer saber do prazo.	Present a budget to an audience that only cares about the deadline.	納期しか気にしない相手に予算を説明する。
+Recupere um firmware que travou sem apagar a configuração do usuário.	Recover frozen firmware without erasing the user's settings.	ユーザー設定を消さずに、停止したファームウェアを復旧する。
+Escolha tipografia e hierarquia visual para um relatório de dados.	Choose typography and visual hierarchy for a data report.	データレポートの書体と視覚的な優先順位を決める。
+Documente o ambiente para que outra pessoa consiga reproduzir o lab.	Document the environment so someone else can reproduce the lab.	他の人がラボを再現できるよう環境を文書化する。
+Você anotou os passos durante a montagem.	You took notes while setting it up.	構築中に手順を記録していました。

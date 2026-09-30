@@ -1,0 +1,196 @@
+[
+  {
+    "num": "01",
+    "title": "AquaSense IoT",
+    "tags": "IoT · firmware · web",
+    "status": "Concluída",
+    "period": "fev–jun 2026",
+    "line": "Firmware ESP32 para 7 parâmetros da água, MQTT/TLS e dashboard.",
+    "sub": "Monitoramento IoT de piscina · Invivio Tecnologia / Ibmec",
+    "summary": "Um ESP32 mede a água, decide quando ligar a bomba do coletor solar e publica tudo na nuvem; do outro lado, um dashboard e uma skill da Alexa. Entregue para a Invivio Tecnologia, em equipe de três.",
+    "points": [
+      "Firmware em C++ (887 linhas) para ESP32: 7 parâmetros (pH, cloro, alcalinidade, ORP, umidade, temperatura da água e do coletor) e LCD I²C.",
+      "Bomba do coletor solar por diferença de temperatura: liga com ΔT ≥ 5 °C, desliga com ΔT ≤ 1 °C, com 60 s de anti-ciclagem.",
+      "MQTT sobre TLS no HiveMQ Cloud, com tópicos consolidados e granulares, sinal de saúde e recebimento de comandos.",
+      "Dashboard React + TypeScript via WebSocket: valida payloads com Zod, mostra o histórico em gráficos e entra em simulação local se o broker cai.",
+      "Skill da Alexa em português via AWS Lambda; CI no GitHub Actions com lint, checagem de tipos, testes (Vitest e Playwright) e build."
+    ],
+    "stack": [
+      "ESP32",
+      "C++",
+      "MQTT/TLS",
+      "HiveMQ Cloud",
+      "React",
+      "TypeScript",
+      "Zod",
+      "WebSocket",
+      "AWS Lambda",
+      "Alexa",
+      "GitHub Actions",
+      "Vitest",
+      "Playwright"
+    ],
+    "credit": "Equipe de três · orientação do Prof. Marcel Stefan Wagner, PhD.",
+    "repositoryUrl": "https://github.com/Hikaru-0gasawara/IoT-PoolHardWareTest",
+    "gallery": [
+      {
+        "src": "./assets/projects/aquasense-flow.svg",
+        "localized": {
+          "en": "./assets/projects/aquasense-flow.en.svg",
+          "ja": "./assets/projects/aquasense-flow.ja.svg"
+        },
+        "alt": "Fluxo de dados — esquema ilustrativo",
+        "caption": "Fluxo de dados — esquema ilustrativo"
+      },
+      {
+        "src": "./assets/projects/aquasense-control.svg",
+        "localized": {
+          "en": "./assets/projects/aquasense-control.en.svg",
+          "ja": "./assets/projects/aquasense-control.ja.svg"
+        },
+        "alt": "Controle da bomba — esquema ilustrativo",
+        "caption": "Controle da bomba — esquema ilustrativo"
+      }
+    ]
+  },
+  {
+    "num": "02",
+    "title": "Lab de infraestrutura",
+    "tags": "infra · segurança",
+    "status": "Concluída",
+    "period": "acadêmico",
+    "line": "AD/DC, firewall IPFire e SIEM do zero, virtualizados no Proxmox.",
+    "sub": "Infraestrutura corporativa e monitoramento · projeto acadêmico",
+    "summary": "Uma empresa em miniatura, montada do zero: identidade, rede segmentada, firewall de perímetro e um SIEM correlacionando eventos. No fim, Kali Linux pra conferir se as regras seguram.",
+    "points": [
+      "Windows Server provisionado do zero, com Active Directory e Domain Controller: domínio, contas e políticas de acesso.",
+      "Rede segmentada e firewall de perímetro com IPFire, com regras de filtragem entre zonas.",
+      "SIEM implantado do zero, integrando camadas de defesa e coleta de eventos para correlação.",
+      "Nós do ambiente virtualizados no Proxmox; Kali Linux para validar as configurações aplicadas."
+    ],
+    "stack": [
+      "Proxmox",
+      "Windows Server",
+      "Active Directory",
+      "IPFire",
+      "SIEM",
+      "Kali Linux",
+      "Segmentação de rede"
+    ],
+    "credit": "Projeto acadêmico.",
+    "repositoryUrl": null,
+    "gallery": [
+      {
+        "src": "./assets/projects/infra-network.svg",
+        "localized": {
+          "en": "./assets/projects/infra-network.en.svg",
+          "ja": "./assets/projects/infra-network.ja.svg"
+        },
+        "alt": "Rede do laboratório — esquema ilustrativo",
+        "caption": "Rede do laboratório — esquema ilustrativo"
+      },
+      {
+        "src": "./assets/projects/infra-validation.svg",
+        "localized": {
+          "en": "./assets/projects/infra-validation.en.svg",
+          "ja": "./assets/projects/infra-validation.ja.svg"
+        },
+        "alt": "Validação do ambiente — esquema ilustrativo",
+        "caption": "Validação do ambiente — esquema ilustrativo"
+      }
+    ]
+  },
+  {
+    "num": "03",
+    "title": "Cofre eletrônico",
+    "tags": "embarcados · C++",
+    "status": "Concluída",
+    "period": "pessoal",
+    "line": "O mesmo cofre portado para Arduino UNO, Pi Pico e ESP32.",
+    "sub": "Um projeto, três plataformas: Arduino UNO → Raspberry Pi Pico → ESP32",
+    "summary": "Parti de um projeto aberto de cofre para Arduino e fui reescrevendo: primeiro em MicroPython no Pico, depois de volta ao C++ no ESP32, trocando periféricos e armazenamento a cada porte.",
+    "points": [
+      "Versão ESP32 com LCD I²C (PCF8574 · SDA 21 / SCL 22), teclado matricial 3×4 e servo (ESP32Servo).",
+      "Senha persistida na NVS (Preferences) no lugar da EEPROM do Arduino.",
+      "Controle do LCD por biblioteca, por I²C e por bit-banging, comparando as camadas de abstração.",
+      "Tudo consolidado em um único .ino."
+    ],
+    "stack": [
+      "ESP32",
+      "Arduino UNO",
+      "Raspberry Pi Pico",
+      "MicroPython",
+      "C++",
+      "I²C",
+      "NVS"
+    ],
+    "credit": "Projeto pessoal · baseado no cofre eletrônico open source de Uri Shaked.",
+    "repositoryUrl": "https://github.com/Hikaru-0gasawara/IoT-SafeSistem",
+    "gallery": [
+      {
+        "src": "./assets/projects/safe-hardware.svg",
+        "localized": {
+          "en": "./assets/projects/safe-hardware.en.svg",
+          "ja": "./assets/projects/safe-hardware.ja.svg"
+        },
+        "alt": "Periféricos do cofre — esquema ilustrativo",
+        "caption": "Periféricos do cofre — esquema ilustrativo"
+      },
+      {
+        "src": "./assets/projects/safe-ports.svg",
+        "localized": {
+          "en": "./assets/projects/safe-ports.en.svg",
+          "ja": "./assets/projects/safe-ports.ja.svg"
+        },
+        "alt": "Portes entre plataformas — esquema ilustrativo",
+        "caption": "Portes entre plataformas — esquema ilustrativo"
+      }
+    ]
+  },
+  {
+    "num": "04",
+    "title": "Ativos da CPTM",
+    "tags": "backend · Java",
+    "status": "Concluída",
+    "period": "fev–jul 2024",
+    "line": "API REST com 14 endpoints para trens, estações e linhas.",
+    "sub": "Sistema de gestão de ativos ferroviários · CPTM",
+    "summary": "Uma API para cadastrar e acompanhar trens, estações e linhas, com estatísticas sobre os dados da operação e testes cobrindo cada operação.",
+    "points": [
+      "API REST em Java com Spring Boot: 14 endpoints em 9 controllers para trens, estações e linhas (cadastro, consulta, alteração de status e remoção).",
+      "Entidades da operação (capacidade, número de carros, atrasos, posição) persistidas via serialização JSON com Jackson.",
+      "Média, mediana e moda calculadas sobre os dados operacionais.",
+      "10 classes de teste em JUnit e endpoints validados no Postman."
+    ],
+    "stack": [
+      "Java",
+      "Spring Boot",
+      "REST",
+      "Jackson",
+      "JUnit",
+      "Postman"
+    ],
+    "credit": "Projeto entregue para a CPTM.",
+    "repositoryUrl": "https://github.com/0tavio-Pires/Projeto_Back-End",
+    "gallery": [
+      {
+        "src": "./assets/projects/cptm-api.svg",
+        "localized": {
+          "en": "./assets/projects/cptm-api.en.svg",
+          "ja": "./assets/projects/cptm-api.ja.svg"
+        },
+        "alt": "Estrutura da API — esquema ilustrativo",
+        "caption": "Estrutura da API — esquema ilustrativo"
+      },
+      {
+        "src": "./assets/projects/cptm-validation.svg",
+        "localized": {
+          "en": "./assets/projects/cptm-validation.en.svg",
+          "ja": "./assets/projects/cptm-validation.ja.svg"
+        },
+        "alt": "Operações e validação — esquema ilustrativo",
+        "caption": "Operações e validação — esquema ilustrativo"
+      }
+    ]
+  }
+]

@@ -1,0 +1,159 @@
+da bancada	from the workbench	作業台の
+Espaço vazio da bancada	Empty workbench slot	作業台の空き枠
+Algo está tomando forma…	Something is taking shape…	何かが形になっています…
+Clique no resultado pra craftar.	Click the result to craft it.	完成品をクリックして作成。
+(receita já conhecida)	(recipe already known)	（発見済みのレシピ）
+Não dá pra combinar um item com ele mesmo.	You can't combine an item with itself.	同じアイテム同士は組み合わせられません。
+Nada acontece.	Nothing happens.	何も起きません。
+Essa combinação não gera nada. Ainda. O comando "receitas" no terminal dá um palpite.	This combination produces nothing. Yet. The terminal command "receitas" offers a hint.	この組み合わせではまだ何もできません。ターミナルの「receitas」でヒントを表示します。
+Sem receita	No recipe	レシピなし
+Falta um item	One item missing	アイテムが1つ足りません
+Bancada vazia	Empty workbench	作業台は空です
+Escolha mais um item do inventário.	Choose another inventory item.	インベントリからもう1つ選んでください。
+Clique em dois itens do inventário pra combinar.	Click two inventory items to combine them.	2つのアイテムをクリックして組み合わせます。
+Resultado da bancada	Workbench result	作業台の結果
+agora há pouco	just now	たった今
+Copie à mão: hogasawara2311@outlook.com	Copy manually: hogasawara2311@outlook.com	手動でコピー：hogasawara2311@outlook.com
+Vantagem: dois dados, vale o maior.	Advantage: two dice, keep the higher.	有利：2個振り、高い目を採用。
+Desvantagem: dois dados, vale o menor.	Disadvantage: two dice, keep the lower.	不利：2個振り、低い目を採用。
+Passa se dado + modificador chegar na dificuldade. 20 natural acerta e 1 natural erra, sem olhar modificador.	Pass if die + modifier meets the difficulty. Natural 20 succeeds and natural 1 fails regardless of modifiers.	出目＋修正値が難易度以上なら成功。20は必ず成功、1は必ず失敗。
+20 natural: modificador nem entra	Natural 20: no modifier needed	ナチュラル20：修正値は不要
+1 natural: modificador nem salva	Natural 1: no modifier can save it	ナチュラル1：修正値でも救えない
+vs DC	vs DC	対 難易度	contra CD
+· modificador	· modifier	・修正値
+CRÍTICO!	CRITICAL!	クリティカル！
+FALHA CRÍTICA	CRITICAL FAILURE	致命的失敗
+O chefe:	The boss:	上司：
+Nova missão	New mission	新しいミッション
+Rolar 2d20	Roll 2D20	2D20を振る
+Enter ou R rola · esc fecha	Enter or R rolls · Esc closes	EnterかRで振る・Escで閉じる
+ou qualquer tecla	or any key	または任意のキー
+JOGAR DE NOVO	PLAY AGAIN	もう一度遊ぶ
+tempo de jogo	play time	プレイ時間
+vídeo	video	画質
+auto (	auto (	自動（
+modo recrutador	recruiter mode	採用担当者モード
+segure · modo recrutador	hold · recruiter mode	長押し・採用担当者モード
+sem acesso ao navegador	browser storage unavailable	ブラウザーに保存できません
+desligado · clique pra ligar	off · click to enable	オフ・クリックでオン
+apagar? clique de novo	erase? click again	削除しますか？もう一度クリック
+slot 1 ·	slot 1 ·	スロット1・
+neste navegador	in this browser	このブラウザーに保存
+só nesta sessão	this session only	今回のセッションのみ
+[ OK ]	[ OK ]	[ 正常 ]	[ OK ]
+[ WARN ]	[ WARN ]	[ 注意 ]	[ AVISO ]
+[ FAIL ]	[ FAIL ]	[ 失敗 ]	[ FALHA ]
+1 comando	1 command	1コマンド
+Save concluído.	Save complete.	セーブ完了。
+Salvando o jogo…	Saving the game…	セーブ中…
+estourada	popped	つぶした
+folha zerada	sheet reset	シートをリセット
+Conquista secreta	Secret achievement	隠し実績
+desbloqueada	unlocked	解除済み
+bloqueada	locked	未解除
+Secreta · bloqueada	Secret · locked	秘密・未解除
+SENHA INCORRETA	WRONG PASSWORD	パスワードが違います
+trava liberada	lock released	ロック解除
+Impureza em 0x005a. Todo metal tem um pouco de terra.	Impurity at 0x005a. Every metal has a little earth.	0x005aに不純物。どんな金属にも少しの土がある。
+checksum ok · pureza do metal: 99%	checksum OK · metal purity: 99%	チェックサム正常・金属純度99％
+: levar à bancada	: take to workbench	：作業台へ
+· novo!	· new!	・新発見！
+termine com A ou B	finish with A or B	AかBで締める
+faça um golpe da lista	perform a listed move	リストの技を出す
+secreto ???	secret ???	秘密？？？
+↑ ↓ escolhe · A ok · B volta	↑ ↓ select · A confirm · B back	↑ ↓で選択・Aで決定・Bで戻る
+start pausa · select menu	Start pauses · Select menu	Startでポーズ・Selectでメニュー
+start continua · select menu	Start resumes · Select menu	Startで再開・Selectでメニュー
+start de novo · select menu	Start retries · Select menu	Startでやり直し・Selectでメニュー
+↑ ↓ rola · B volta	↑ ↓ scroll · B back	↑ ↓でスクロール・Bで戻る
+start cobrinha · select menu	Start snake · Select menu	Startでヘビゲーム・Selectでメニュー
+atravesse as oito pistas. Uma pulada por clique.	cross eight lanes. One hop per click.	8本の道を渡ろう。1クリックで1歩。
+empurre as caixas até as marcas. 1 reinicia.	push boxes onto the marks. 1 restarts.	箱を印まで押そう。1でやり直し。
+um C acende: clique nele antes de apagar.	a C button lights up: press it before it goes out.	Cボタンが光ったら、消える前に押そう。
+olhe a sequência dos botões e repita.	watch the button sequence and repeat it.	ボタンの順番を見て、同じように押そう。
+Fim de jogo na cobrinha:	Snake game over:	ヘビゲーム終了：
+clique num jogo	click a game	ゲームをクリック
+Copie à mão	Copy manually	手動でコピー
+Ficha inserida	Coin inserted	コイン投入済み
+Insira a ficha	Insert coin	コインを入れる
+de 9	of 9	/9
+Uma ficha enterrada no chão do quarto: passe por cima pra pegar	A coin buried in the room floor: walk over it to collect	部屋の床に埋まったコイン。上を歩いて拾う
+Uma ficha enterrada: pegar	A buried coin: collect	埋まったコインを拾う
+Alterar idioma	Change language	言語を変更
+Currículos em atualização	Résumés being updated	履歴書を更新中
+Dado dourado · Honour Mode concluído	Gold die · Honour Mode completed	金色のダイス・名誉モードクリア
+OPERAÇÃO CIRCUITO	OPERATION CIRCUIT	オペレーション・サーキット
+Operação Circuito	Operation Circuit	オペレーション・サーキット
+Jogar / reiniciar	Play / restart	プレイ・再開
+Pontos	Score	スコア
+Onda	Wave	ウェーブ
+MISSÃO CUMPRIDA	MISSION COMPLETE	ミッション完了
+Pressione P para continuar	Press P to resume	Pで再開
+Pressione Enter para começar	Press Enter to start	Enterで開始
+Pular	Jump	ジャンプ
+Tanque	Tank	戦車
+Choose your language	Choose your language	言語を選択	Escolha seu idioma
+Modo recrutador: segure para quebrar o vidro, ou aperte Enter	Recruiter mode: hold to break the glass, or press Enter	採用担当者モード：長押しでガラスを割る、またはEnter
+Continuar, com som	Continue with sound	音ありで続ける
+Press start, com som	Press Start, with sound	音ありでスタート
+Seções	Sections	セクション
+Paleta de comandos (Ctrl+K)	Command palette (Ctrl+K)	コマンドパレット（Ctrl+K）
+Comandos · ctrl+k	Commands · Ctrl+K	コマンド・Ctrl+K
+Pausar (Esc)	Pause (Esc)	ポーズ（Esc）
+Pausa · esc	Pause · Esc	ポーズ・Esc
+Energia: segure para desligar e voltar ao Press Start	Power: hold to shut down and return to Start	電源：長押しで終了し、スタートへ戻る
+Segure pra desligar	Hold to power off	長押しで電源オフ
+Como se lê meu nome	How to read my name	名前の読み方
+Segurança: o que junta hardware e software	Security: connecting hardware and software	セキュリティ：ハードウェアとソフトウェアをつなぐもの
+Inventário de tecnologias	Technology inventory	技術のインベントリ
+Ver no Sobre	View in About	プロフィールで見る
+Teclado do cofre	Safe keypad	金庫のキーパッド
+Árvore de habilidades: hardware, infraestrutura, segurança e software	Skill tree: hardware, infrastructure, security and software	スキルツリー：ハードウェア、インフラ、セキュリティ、ソフトウェア
+Controle anterior	Previous controller	前のコントローラー
+Próximo controle	Next controller	次のコントローラー
+Menu do controle	Controller menu	コントローラーメニュー
+Botão de fogo: começar	Fire button: start	発射ボタン：開始
+Botão 1: reiniciar o nível	Button 1: restart level	ボタン1：レベルをやり直す
+Botão 2: começar ou avançar	Button 2: start or advance	ボタン2：開始・次へ
+Analógico (decorativo)	Analog stick (decorative)	アナログスティック（飾り）
+Start: começar	Start: begin	Start：開始
+Botão A: começar	A button: start	Aボタン：開始
+Botão B	B button	Bボタン
+Botões C	C buttons	Cボタン
+C cima	C up	C上
+C esquerda	C left	C左
+C direita	C right	C右
+C baixo	C down	C下
+Direcional (decorativo)	D-pad (decorative)	十字キー（飾り）
+Botões	Buttons	ボタン
+Botão Y	Y button	Yボタン
+Botão X	X button	Xボタン
+Botão A	A button	Aボタン
+Quarto do Okaru em pixel art. Ande com as setas ou WASD e interaja com E, ou clique nos objetos.	Hikaru's pixel-art room. Walk with arrows or WASD; interact with E or click objects.	ヒカルのピクセルアートの部屋。矢印かWASDで歩き、Eかクリックで調べます。	Quarto do Hikaru em pixel art. Ande com as setas ou WASD e interaja com E, ou clique nos objetos.
+Inserir ficha: copia o e-mail	Insert coin: copy email	コイン投入：メールアドレスをコピー
+Abrir currículo PDF	Open résumé PDF	履歴書PDFを開く
+Sismógrafo da estação SP-01	SP-01 station seismograph	観測所SP-01の地震計
+sinta o chão	feel the ground	地面を感じて
+Fechar conquistas	Close achievements	実績を閉じる
+Jogo pausado	Game paused	ゲームを一時停止中
+Com pressa? Modo recrutador: segure para quebrar o vidro, ou aperte Enter	In a hurry? Recruiter mode: hold to break the glass, or press Enter	お急ぎですか？採用担当者モード：長押しでガラスを割る、またはEnter
+ir pra, missão, som, currículo...	go to, mission, sound, résumé…	移動、ミッション、音声、履歴書…
+Fechar modo recrutador	Close recruiter mode	採用担当者モードを閉じる
+Como você quer seguir?	How would you like to continue?	どう続けますか？
+Fliperama: Packet Invaders	Arcade: Packet Invaders	アーケード：Packet Invaders
+Sair do fliperama	Exit arcade	アーケードを終了
+Tela do jogo	Game screen	ゲーム画面
+Como jogar	How to play	遊び方
+Computador: jogo offline Sem Conexão	Computer: offline game No Connection	パソコン：オフラインゲーム「接続なし」
+Levantar da cadeira	Get up from the chair	椅子から立つ
+Tela do jogo: o robozinho corre pela placa de circuito	Game screen: a little robot runs across a circuit board	ゲーム画面：小さなロボットが基板を走ります
+Teste de habilidade com o d20	D20 skill check	D20のスキル判定
+Jogo de tiro lateral com robôs e um tanque	Side-scrolling shooter with robots and a tank	ロボットと戦車の横スクロールシューティング
+Fluxo de dados — esquema ilustrativo	Data flow — illustrative diagram	データの流れ・説明用構成図
+Controle da bomba — esquema ilustrativo	Pump control — illustrative diagram	ポンプ制御・説明用構成図
+Rede do laboratório — esquema ilustrativo	Lab network — illustrative diagram	ラボのネットワーク・説明用構成図
+Validação do ambiente — esquema ilustrativo	Environment validation — illustrative diagram	環境の検証・説明用構成図
+Periféricos do cofre — esquema ilustrativo	Safe peripherals — illustrative diagram	金庫の周辺機器・説明用構成図
+Portes entre plataformas — esquema ilustrativo	Platform ports — illustrative diagram	プラットフォーム間の移植・説明用構成図
+Estrutura da API — esquema ilustrativo	API structure — illustrative diagram	API構成・説明用構成図
+Operações e validação — esquema ilustrativo	Operations and validation — illustrative diagram	操作と検証・説明用構成図

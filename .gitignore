@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.cache/
+coverage/
+*.log
+/assets/
+/vendor/
+/resume/
+__pycache__/
+*.py[cod]

@@ -1,0 +1,22 @@
+{
+  "pt": [
+    ["AquaSense / fluxo de dados", ["Sensores da água", "ESP32 / C++", "MQTT sobre TLS", "HiveMQ Cloud", "Dashboard React", "Alexa / Lambda"]],
+    ["AquaSense / controle da bomba", ["Água + coletor", "Diferença de temperatura", "Liga: diferença >= 5 °C", "Desliga: diferença <= 1 °C", "Anticiclagem: 60 s", "Relé / bomba solar"]],
+    ["Infraestrutura / rede", ["Internet", "Firewall IPFire", "Zonas de rede", "Host Proxmox", "Windows / AD / DC", "SIEM / eventos"]],
+    ["Infraestrutura / validação", ["Políticas de acesso", "Regras de firewall", "Eventos dos hosts", "Correlação no SIEM", "Validação com Kali", "Revisão da configuração"]],
+    ["Cofre eletrônico / hardware", ["Teclado 3 × 4", "ESP32", "Senha na NVS", "I²C / PCF8574", "LCD 16 × 2", "PWM / trava com servo"]],
+    ["Cofre eletrônico / plataformas", ["Arduino UNO", "C++ / EEPROM", "Raspberry Pi Pico", "MicroPython", "ESP32", "C++ / Preferences"]],
+    ["CPTM / estrutura da API", ["Requisições REST", "Controladores Spring", "Trens / estações", "Linhas ferroviárias", "Jackson / JSON", "Estatísticas operacionais"]],
+    ["CPTM / validação da API", ["Cadastrar", "Consultar", "Alterar status", "Remover", "JUnit / 10 classes", "Postman / endpoints"]]
+  ],
+  "ja": [
+    ["AquaSense / データの流れ", ["水質センサー", "ESP32 / C++", "MQTT/TLS", "HiveMQ Cloud", "Reactダッシュボード", "Alexa / Lambda"]],
+    ["AquaSense / ポンプ制御", ["水温＋集熱器温度", "温度差", "起動：温度差 >= 5 °C", "停止：温度差 <= 1 °C", "切替待機：60秒", "リレー／太陽熱ポンプ"]],
+    ["インフラ / ネットワーク", ["インターネット", "IPFireファイアウォール", "ネットワークゾーン", "Proxmoxホスト", "Windows / AD / DC", "SIEM／イベント"]],
+    ["インフラ / 検証", ["アクセス方針", "ファイアウォール規則", "ホストのイベント", "SIEMの相関分析", "Kaliでの検証", "設定の見直し"]],
+    ["電子金庫 / ハードウェア", ["3 × 4キーパッド", "ESP32", "NVSのパスワード", "I²C / PCF8574", "16 × 2 LCD", "PWM／サーボロック"]],
+    ["電子金庫 / 移植", ["Arduino UNO", "C++ / EEPROM", "Raspberry Pi Pico", "MicroPython", "ESP32", "C++ / Preferences"]],
+    ["CPTM / API構成", ["RESTリクエスト", "Springコントローラー", "列車／駅", "鉄道路線", "Jackson / JSON", "運用統計"]],
+    ["CPTM / API検証", ["登録", "検索", "状態更新", "削除", "JUnit／10クラス", "Postman／エンドポイント"]]
+  ]
+}

@@ -1,0 +1,94 @@
+Treino de golpes	Move practice	技の練習
+direções + ataques · SELECT limpa	directions + attacks · SELECT clears	方向＋攻撃 · SELECTでリセット
+Okaru · Tecnologia	Okaru · Technology	Okaru · テクノロジー
+Muralha de terra	Earth wall	土の壁
+Pisada da dobradora	Earthbender stomp	土使いの踏み込み
+Pedra em movimento	Moving stone	動く岩
+Soco leve	Light punch	弱パンチ
+Soco médio	Medium punch	中パンチ
+Soco forte	Heavy punch	強パンチ
+Chute leve	Light kick	弱キック
+Chute médio	Medium kick	中キック
+Chute forte	Heavy kick	強キック
+Assistência 1	Assist 1	アシスト1
+Assistência 2	Assist 2	アシスト2
+Golpe executado	Move performed	技が出た！
+Escolha um lutador e experimente a lista	Choose a fighter and try the move list	キャラクターを選んで技を試そう
+20 s de espera · SELECT limpa · A2 A1 = B A	20 s idle window · SELECT clears · A2 A1 = B A	入力の猶予は20秒 · SELECTでリセット · A2 A1＝B A
+Seis ataques · duas assistências · quatro direções	Six attacks · two assists · four directions	攻撃6種 · アシスト2種 · 4方向
+Lutador	Fighter	キャラクター
+Lista de golpes	Move list	技リスト
+Direções	Directions	方向
+Ataques	Attacks	攻撃
+Limpar combo	Clear combo	コマンドをリセット
+BLOCOS	BLOCKS	ブロック
+Pontos	Score	得点
+Linhas	Lines	ライン
+Girar	Rotate	回転
+Soltar	Drop	落下
+Descer	Down	下げる
+Vidas	Lives	ライフ
+MELODIA 64	MELODY 64	メロディー64
+Escute a sequência	Listen to the sequence	音の順番を聞こう
+Sua vez	Your turn	あなたの番
+START para jogar	START to play	STARTで開始
+Pausado · START continua	Paused · START resumes	一時停止 · STARTで再開
+Fim de jogo · START reinicia	Game over · START restarts	ゲームオーバー · STARTでやり直し
+Blocos de bolso · cartucho principal	Pocket blocks · main cartridge	ポケットブロック · メインカセット
+Melodia 64 · memória musical	Melody 64 · musical memory	メロディー64 · 音の記憶ゲーム
+Estrada · corrida de três pistas	Road · three-lane racing	ロード · 3車線レース
+Cobrinha · cartucho extra	Snake · bonus cartridge	スネーク · おまけカセット
+← → move · A gira · B solta · START pausa	← → move · A rotates · B drops · START pauses	← →で移動 · Aで回転 · Bで落下 · STARTで一時停止
+Escute e repita com C · A começa ou pausa	Listen and repeat with C · A starts or pauses	聞いた順にCボタンで入力 · Aで開始・一時停止
+←/X · →/Y · A acelera · B freia · START pausa	←/X · →/Y · A accelerates · B brakes · START pauses	←/X · →/Y · Aで加速 · Bで減速 · STARTで一時停止
+jogar / pausa	play / pause	プレイ・一時停止
+cartucho	cartridge	カセット
+Limpar sequência	Clear sequence	入力をリセット
+Hitbox: treino de golpes	Hitbox: move practice	ヒットボックス：技の練習
+Ataques e assistências	Attacks and assists	攻撃とアシスト
+Analógico	Analog stick	アナログスティック
+Analógico esquerdo: mudar de pista	Left stick: change lane	左スティック：車線変更
+Analógico direito: mudar de pista	Right stick: change lane	右スティック：車線変更
+Comandos adaptados para cliques, sem precisão de frames. As técnicas de Toph são homenagens originais.	Commands are adapted for clicks, without frame-accurate timing. Toph's techniques are original tributes.	クリック操作用に調整したコマンドで、フレーム単位の再現ではありません。トフの技は独自のオマージュです。
+B repete a melodia	B repeats the melody	Bでメロディーをもう一度聞く
+START joga ou pausa · SELECT troca cartucho	START plays or pauses · SELECT changes cartridge	STARTで開始・一時停止 · SELECTでカセット変更
+Ryu · Street Fighter	Ryu · Street Fighter	リュウ · ストリートファイター
+Ken · Street Fighter	Ken · Street Fighter	ケン · ストリートファイター
+Chun-Li · Street Fighter	Chun-Li · Street Fighter	春麗 · ストリートファイター
+Guile · Street Fighter	Guile · Street Fighter	ガイル · ストリートファイター
+Cammy · Street Fighter	Cammy · Street Fighter	キャミィ · ストリートファイター
+Scorpion · Mortal Kombat	Scorpion · Mortal Kombat	スコーピオン · モータルコンバット
+Sub-Zero · Mortal Kombat	Sub-Zero · Mortal Kombat	サブゼロ · モータルコンバット
+Raiden · Mortal Kombat	Raiden · Mortal Kombat	ライデン · モータルコンバット
+Liu Kang · Mortal Kombat	Liu Kang · Mortal Kombat	リュウ・カン · モータルコンバット
+Filia · Skullgirls	Filia · Skullgirls	フィリア · スカルガールズ
+Robo-Fortune · Skullgirls	Robo-Fortune · Skullgirls	ロボフォーチュン · スカルガールズ
+Peacock · Skullgirls	Peacock · Skullgirls	ピーコック · スカルガールズ
+Cerebella · Skullgirls	Cerebella · Skullgirls	セレベラ · スカルガールズ
+Venom · Guilty Gear	Venom · Guilty Gear	ヴェノム · ギルティギア
+Dizzy · Guilty Gear	Dizzy · Guilty Gear	ディズィー · ギルティギア
+Hadouken	Hadouken	波動拳
+Shoryuken	Shoryuken	昇龍拳
+Tatsumaki Senpukyaku	Tatsumaki Senpukyaku	竜巻旋風脚
+Shinryuken	Shinryuken	神龍拳
+Kikoken	Kikoken	気功拳
+Spinning Bird Kick	Spinning Bird Kick	スピニングバードキック
+Hyakuretsukyaku	Hyakuretsukyaku	百裂脚
+Sonic Boom	Sonic Boom	ソニックブーム
+Flash Kick	Flash Kick	サマーソルトキック
+Spiral Arrow	Spiral Arrow	スパイラルアロー
+Spear	Spear	スピア
+Teleport Punch	Teleport Punch	テレポートパンチ
+Ice Ball	Ice Ball	アイスボール
+Slide	Slide	スライディング
+Flying Thunder God	Flying Thunder God	フライングサンダーゴッド
+Bicycle Kick	Bicycle Kick	バイシクルキック
+Updo	Updo	アップドゥ
+Hairball	Hairball	ヘアボール
+Theonite Beam	Theonite Beam	セオナイトビーム
+Bang!	Bang!	バン！
+Diamond Drop	Diamond Drop	ダイヤモンドドロップ
+Stinger Aim	Stinger Aim	スティンガーエイム
+Carcass Raid	Carcass Raid	カーカスライド
+I used this to catch fish	I used this to catch fish	魚をとる時に使ってたんです
+Ice Field	Ice Field	アイスフィールド

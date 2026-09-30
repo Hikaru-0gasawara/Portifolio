@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Portfólio de Hikaru Ogasawara, estudante de Engenharia da Computação no Ibmec. Projetos em IoT, firmware embarcado, software, infraestrutura e segurança.">
+<meta name="theme-color" content="#0A0F0B">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Portfólio — Hikaru Ogasawara">
+<meta property="og:description" content="Projetos em IoT, firmware embarcado, software, infraestrutura e segurança.">
+<meta name="twitter:card" content="summary">
+<title>Portfólio — Hikaru Ogasawara</title>
+<link rel="stylesheet" href="./assets/fonts.css">
+<link rel="stylesheet" href="./assets/styles.css">
+<link rel="stylesheet" href="./assets/enhancements.css">
+<link rel="stylesheet" href="./assets/display.css">
+<link rel="stylesheet" href="./assets/tv-game.css">
+<script defer src="./vendor/react.production.min.js"></script>
+<script defer src="./vendor/react-dom.production.min.js"></script>
+<script defer src="./assets/content.js"></script>
+<script defer src="./assets/i18n.js"></script>
+<script defer src="./assets/boot.js"></script>
+<script defer src="./assets/boot-flow.js"></script>
+<script defer src="./assets/skill-tree.js"></script>
+<script defer src="./assets/character.js"></script>
+<script defer src="./assets/room-props.js"></script>
+<script defer src="./assets/dice.js"></script>
+<script defer src="./assets/shooter.js"></script>
+<script defer src="./assets/scene.js"></script>
+<script defer src="./assets/desktop.js"></script>
+<script defer src="./assets/pocket-games.js"></script>
+<script defer src="./assets/hitbox.js"></script>
+<script defer src="./assets/achievements.js"></script>
+<script defer src="./assets/display.js"></script>
+<script defer src="./assets/tv-game.js"></script>
+<script defer src="./assets/enhancements.js"></script>
+<script defer src="./vendor/dc-runtime.js"></script>
+</head>
+<body>
+<div id="initial-loader" role="status"><span class="sr">Carregando · Loading · 読み込み中</span></div>
+<noscript><style>#initial-loader{display:none}</style><main><h1>Hikaru Ogasawara</h1><p>Engenharia da Computação · IoT · software · infraestrutura · segurança</p><p>Este portfólio interativo precisa de JavaScript.</p><a href="mailto:hogasawara2311@outlook.com">E-mail</a> · <a href="https://github.com/Hikaru-0gasawara">GitHub</a></main></noscript>
+<x-dc>
+
+<div class="okr {{rootCls}}" style="width: 100%; height: 100vh; min-height: 620px" tabindex="-1" ref="{{setRoot}}" sc-camel-on-animation-end="{{displayOpeningEnd}}" sc-camel-on-transition-end="{{displayCameraEnd}}" sc-camel-on-click="{{pulse}}" sc-camel-on-mouse-over="{{hoverSfx}}" sc-camel-on-mouse-move="{{rootMove}}" sc-camel-on-key-down="{{rootKey}}" sc-camel-on-key-up="{{rootKeyUp}}">
+<sc-if value="{{displayPowerGate}}">
+<section class="tv-power-gate {{displayTvClass}}" role="dialog" aria-modal="true" aria-label="Ligar a televisão" data-nopoke="true">
+<div class="tv-camera" style="{{displayCameraStyle}}">
+<div class="vintage-tv">
+<div class="vintage-shadow" aria-hidden="true"></div>
+<div class="tv-cabinet">
+<div class="vintage-side" aria-hidden="true"></div><div class="vintage-top" aria-hidden="true"></div>
+<div class="vintage-aerial" aria-hidden="true"><i></i><i></i></div>
+<div class="vintage-foot vintage-foot-left" aria-hidden="true"></div><div class="vintage-foot vintage-foot-right" aria-hidden="true"></div>
+<div class="vintage-front">
+<div class="vintage-bezel"><div class="vintage-screen" ref="{{setDisplayTvScreen}}" aria-hidden="true"><span class="vintage-reflection"></span></div></div>
+<div class="vintage-controls">
+<button class="vintage-power" disabled="{{displayTvBusy}}" sc-camel-on-click="{{displayPowerOn}}" aria-label="{{displayPowerLabel}}" title="{{displayPowerLabel}}"><svg sc-camel-view-box="0 0 32 32" aria-hidden="true"><path d="M16 4v12M9 8a11 11 0 1 0 14 0"></path></svg><span class="vintage-power-led" aria-hidden="true"></span></button>
+<div class="vintage-channel"><button class="vintage-knob" disabled="{{displayTvBusy}}" sc-camel-on-click="{{displayChannelClick}}" aria-label="Girar o seletor de canal" title="Girar o seletor de canal"><span class="vintage-knob-face" style="{{displayChannelStyle}}" aria-hidden="true"><i></i></span></button><span class="vintage-control-label">Canal <b>{{displayChannel}}</b></span></div>
+<div class="vintage-volume"><button class="vintage-knob" role="slider" aria-valuemin="0" aria-valuemax="10" aria-valuenow="{{displayVolume}}" disabled="{{displayTvBusy}}" aria-label="Volume cenográfico" title="Clique ou arraste para girar" sc-camel-on-click="{{displayVolumeClick}}" sc-camel-on-pointer-down="{{displayVolumeDown}}" sc-camel-on-pointer-move="{{displayVolumeMove}}" sc-camel-on-pointer-up="{{displayVolumeUp}}" sc-camel-on-pointer-cancel="{{displayVolumeUp}}" sc-camel-on-key-down="{{displayVolumeKey}}"><span class="vintage-knob-face" style="{{displayVolumeStyle}}" aria-hidden="true"><i></i></span></button><span class="vintage-control-label">Volume <b>{{displayVolume}}</b></span></div>
+<div class="vintage-speaker" aria-hidden="true"></div>
+</div>
+<span class="vintage-brand" aria-hidden="true">OKARU <i>光</i></span>
+</div></div></div></div>
+</section></sc-if>
+<sc-if value="{{displayAnimating}}"><div class="tv-power-on" role="status"><span class="tv-power-beam" aria-hidden="true"></span><span class="tv-power-bloom" aria-hidden="true"></span><span class="sr">Ligando a tela · Turning on the display · 画面を起動しています</span></div></sc-if>
+<sc-if value="{{displayStandby}}"><div class="tv-standby" aria-hidden="true"><span class="tv-standby-mark">OKARU</span><p>小笠原 光</p></div></sc-if>
+<div class="display-surface" aria-hidden="true"><div class="display-lines"></div><div class="display-vignette"></div></div>
+<sc-if value="{{galleryLarge}}"><section class="gallery-zoom" role="dialog" aria-modal="true" aria-label="Galeria ampliada" data-nopoke="true"><header><p>{{galleryCaption}}</p><button sc-camel-on-click="{{galleryClose}}" aria-label="Fechar imagem ampliada">Fechar ×</button></header><img src="{{galleryImage}}" alt="{{galleryAlt}}"><div class="gallery-bar"><button sc-camel-on-click="{{galleryPrev}}" aria-label="Imagem anterior">←</button><span aria-live="polite">{{galleryCount}}</span><button sc-camel-on-click="{{galleryNext}}" aria-label="Próxima imagem">→</button></div></section></sc-if><div class="bgdots" aria-hidden="true"></div>
+<svg class="grain" aria-hidden="true" focusable="false"><filter id="okr-grain"><feTurbulence type="fractalNoise" sc-camel-base-frequency="0.85" sc-camel-num-octaves="2" sc-camel-stitch-tiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter><rect width="100%" height="100%" filter="url(#okr-grain)"></rect></svg>
+<svg class="fx" aria-hidden="true" focusable="false"><filter id="okr-seis" x="0" y="0" width="1" height="1" style="color-interpolation-filters: sRGB"><feColorMatrix type="saturate" values="0" result="g"></feColorMatrix><feConvolveMatrix in="g" order="3" sc-camel-kernel-matrix="-1 -1 -1 -1 8 -1 -1 -1 -1" sc-camel-preserve-alpha="true" result="e"></feConvolveMatrix><feComponentTransfer in="e"><feFuncR type="linear" slope="3.4"></feFuncR><feFuncG type="linear" slope="3.3"></feFuncG><feFuncB type="linear" slope="3.1"></feFuncB></feComponentTransfer></filter></svg>
+
+<sc-if value="{{languageOpen}}">
+<section class="language-screen" role="dialog" aria-modal="true" aria-label="Choose your language">
+<div class="language-card">
+<header class="language-top"><div class="language-brand"><span class="language-emblem pix" aria-hidden="true">光</span><span class="lab-t">OKARU / PORTFOLIO</span></div><span class="language-signal" aria-hidden="true"><i></i><i></i><i></i><i></i></span></header>
+<h1 lang="{{languageQuestionLang}}">{{languageQuestion}}</h1><p class="language-question">{{languageOtherQuestions}}</p>
+<div class="language-options" data-nopoke="true">
+<sc-for list="{{languageChoices}}" as="language"><button lang="{{language.lang}}" disabled="{{displayStarting}}" sc-camel-on-click="{{language.choose}}"><span class="language-choice"><span class="language-code" aria-hidden="true">{{language.code}}</span>{{language.name}}</span><small>{{language.action}}</small></button></sc-for>
+</div><footer class="language-foot"><span>Idioma / Language / 言語</span><span class="language-calibration" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span></footer></div></section></sc-if>
+<sc-if value="{{isBoot}}" hint-placeholder-val="{{true}}">
+<section class="boot" aria-label="Tela inicial">
+<sc-if value="{{bootMenuOn}}" hint-placeholder-val="{{true}}">
+<div class="boot-top"><span>Créditos {{credits}}</span><span class="pix">P1</span></div>
+<div class="boot-hd pix">OKARU BIOS · REV. 2027<span>© 小笠原 光 · São Paulo, BR</span></div>
+<div class="bl" style="animation-delay: 350ms"><span class="k">CPU</span><span class="v">ESP32-D0WD · 240 MHz</span><span class="ok"><i>0,4 ms</i>OK</span></div>
+<div class="bl" style="animation-delay: 620ms"><span class="k">SRAM</span><span class="v">520 KB</span><span class="ok"><i>2,1 ms</i>OK</span></div>
+<div class="bl" style="animation-delay: 890ms"><span class="k">I²C</span><span class="v">LCD 16×2 em 0x27</span><span class="ok"><i>19,6 ms</i>OK</span></div>
+<div class="bl" style="animation-delay: 1160ms"><span class="k">REDE</span><span class="v">MQTT sobre TLS</span><span class="ok"><i>1,11 s</i>OK</span></div>
+<div class="bl" style="animation-delay: 1430ms"><span class="k">FIREWALL</span><span class="v">regras carregadas</span><span class="ok"><i>38 ms</i>OK</span></div>
+<div class="bl" style="animation-delay: 1700ms"><span class="k">SOLO</span><span class="v">sensor sísmico calibrado</span><span class="ok"><i>212 ms</i>OK</span></div>
+<sc-if value="{{hasSave}}" hint-placeholder-val="{{false}}"><div class="bl" style="animation-delay: 1970ms"><span class="k">SAVE</span><span class="v">{{saveTxt}}</span><span class="ok"><i>4 ms</i>OK</span></div></sc-if>
+<div class="glass-w">
+<span class="glass-t">Em caso de pressa</span>
+<button class="glass {{glassCls}}" sc-camel-on-pointer-down="{{glassDown}}" sc-camel-on-pointer-up="{{holdEnd}}" sc-camel-on-pointer-leave="{{holdEnd}}" sc-camel-on-pointer-cancel="{{holdEnd}}" sc-camel-on-key-down="{{glassKey}}" sc-camel-on-click="{{glassClick}}" aria-label="Modo recrutador: segure para quebrar o vidro, ou aperte Enter"><span class="glass-in pix">MODO<br>RECRUTADOR</span><span class="glass-pane"></span><svg class="glass-cr" sc-camel-view-box="0 0 188 88" sc-camel-preserve-aspect-ratio="none" aria-hidden="true"><path d="M96 44l-22-9-18-15-14-14M96 44l30-12 22-20 20-6M96 44l-26 14-24 22M96 44l24 18 30 20M96 44l8-30 4-12M96 44l-6 28-2 14M74 35l-10 16M126 32l8 20M70 58l18-2M120 62l-4-16"></path></svg><svg class="glass-rim" sc-camel-view-box="0 0 170 72" sc-camel-preserve-aspect-ratio="none" aria-hidden="true"><path d="M85 1.5H168.5V70.5H1.5V1.5Z" sc-camel-path-length="100"></path></svg></button>
+<span class="glass-s">{{glassHint}}</span>
+</div>
+<sc-if value="{{canContinue}}" hint-placeholder-val="{{false}}">
+<button class="press pix" sc-camel-on-click="{{continueGame}}" aria-label="Continuar, com som">CONTINUAR</button>
+<div class="press-r"><button class="press-m {{newCls}}" sc-camel-on-click="{{newGame}}">{{newLabel}}</button><span class="press-d" aria-hidden="true">·</span><button class="press-m" sc-camel-on-click="{{continueMute}}">continuar sem som</button></div>
+</sc-if>
+<sc-if value="{{noContinue}}" hint-placeholder-val="{{true}}">
+<button class="press pix" sc-camel-on-click="{{newGame}}" aria-label="Novo jogo, com som">NOVO JOGO</button>
+<div class="press-r"><button class="press-m" disabled title="Explore o portfólio para criar um save">CONTINUAR</button><span class="press-d" aria-hidden="true">·</span><button class="press-m" sc-camel-on-click="{{newGameMute}}">novo jogo sem som</button></div>
+</sc-if>
+<p class="press-s">Portfólio de Hikaru Ogasawara · engenharia da computação</p>
+</sc-if>
+<sc-if value="{{bootLogOn}}" hint-placeholder-val="{{false}}">
+<div class="blog {{bootLogCls}}" aria-label="Iniciando o sistema">
+<div class="blog-in">
+<sc-for list="{{bootLines}}" as="bo" hint-placeholder-count="6"><div class="bll {{bo.cls}}" aria-hidden="{{bo.ariaHidden}}"><span class="bll-ts">{{bo.ts}}</span><span class="bll-t">{{bo.t}}</span><sc-if value="{{bo.dots}}" hint-placeholder-val="{{true}}"><span class="bll-d" aria-hidden="true"></span></sc-if><span class="bll-g {{bo.tagCls}}">{{bo.tag}}</span><span class="bll-n">{{bo.note}}</span></div></sc-for>
+<sc-if value="{{bootRunning}}"><div class="bll bll-cur" aria-hidden="true"><span class="bll-ts">{{bootCurTs}}</span><span class="bll-c">▮</span></div></sc-if>
+<sc-if value="{{bootRecovery}}"><div class="bll bll-recovery" role="status"><span class="bll-ts" aria-hidden="true">{{bootCurTs}}</span><span class="bll-t">Pressione Enter para reiniciar</span><span class="bll-c" aria-hidden="true">▮</span></div></sc-if>
+<sc-if value="{{bootRebootPrompt}}"><div class="boot-recover-action"><button class="btn" sc-camel-on-click="{{bootRecover}}">Clique aqui para reiniciar</button></div></sc-if>
+</div>
+<div class="boot-errors" aria-live="off"><sc-for list="{{bootFailures}}" as="bf"><div class="boot-error" style="{{bf.style}}"><strong>× {{bf.label}}</strong><p>Simulação do portfólio · nenhum arquivo foi afetado.</p></div></sc-for></div>
+</div>
+</sc-if>
+<div class="crt" aria-hidden="true"></div>
+</section>
+</sc-if>
+
+<sc-if value="{{notBoot}}" hint-placeholder-val="{{false}}">
+<div class="scene">
+<header class="hud">
+<button class="brand" sc-camel-on-click="{{brandHome}}" aria-label="okaru: ir pro Início" title="Início">
+<span class="chip" aria-hidden="true"><svg sc-camel-view-box="0 0 40 40"><rect x="8" y="8" width="24" height="24" rx="2"></rect><path d="M13 8V4M18 8V4M22 8V4M27 8V4M13 32v4M18 32v4M22 32v4M27 32v4M8 13H4M8 18H4M8 22H4M8 27H4M32 13h4M32 18h4M32 22h4M32 27h4"></path><circle class="dotf" cx="11.5" cy="11.5" r="1.1"></circle></svg><span class="chip-k pix">光</span></span>
+<span class="brand-t"><span class="brand-n">okaru</span><span class="brand-p">/dev/okaru<b>{{pathTail}}</b></span></span>
+</button>
+<sc-if value="{{navGame}}" hint-placeholder-val="{{false}}"><div class="nav nav-game"><sc-if value="{{isLab}}" hint-placeholder-val="{{false}}"><button class="nav-back" sc-camel-on-click="{{labBack}}" aria-label="{{labBackAria}}"><span aria-hidden="true">←</span> <span class="nb-l">{{labBackPre}}</span> {{labBackName}}</button></sc-if><sc-if value="{{navRoom}}" hint-placeholder-val="{{false}}"><button class="nav-back" sc-camel-on-click="{{backToRoom}}" aria-label="Voltar pro quarto"><span aria-hidden="true">←</span> <span class="nb-l">Voltar pro</span> quarto</button></sc-if></div></sc-if>
+<sc-if value="{{navOn}}" hint-placeholder-val="{{true}}">
+<nav class="nav" aria-label="Seções">
+
+<sc-for list="{{nav}}" as="n" hint-placeholder-count="4">
+<button class="nav-b {{n.cls}}" sc-camel-on-click="{{n.go}}" sc-camel-on-mouse-enter="{{n.enter}}" aria-current="{{n.cur}}"><span class="nav-l">{{n.label}}</span></button>
+</sc-for>
+</nav>
+</sc-if>
+<div class="hud-r">
+<button class="tro-b {{troBtnCls}}" sc-camel-on-click="{{toggleTro}}" aria-label="Conquistas: {{gotCount}} de {{trophyTotal}}" aria-expanded="{{troExpanded}}"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0z"></path><path d="M8 6H5.5v1.2A3 3 0 0 0 8 10.2M16 6h2.5v1.2A3 3 0 0 1 16 10.2M12 13v4M9 20h6M10 17h4"></path></svg><span class="tro-c pix">{{gotCount}}/{{trophyTotal}}</span></button>
+<button class="hb hb-pal {{palBtnCls}}" sc-camel-on-click="{{openPal}}" aria-label="Paleta de comandos (Ctrl+K)" title="Comandos · ctrl+k"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path d="M5 7.5l4.5 4.5L5 16.5M12 16.5h7"></path></svg></button>
+<button class="hb {{pauseBtnCls}}" sc-camel-on-click="{{openPause}}" aria-label="Pausar (Esc)" title="Pausa · esc"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path d="M9 6v12M15 6v12"></path></svg></button>
+<button class="hb pwr" sc-camel-on-pointer-down="{{pwrDown}}" sc-camel-on-pointer-up="{{holdEnd}}" sc-camel-on-pointer-leave="{{holdEnd}}" sc-camel-on-pointer-cancel="{{holdEnd}}" sc-camel-on-key-down="{{pwrKey}}" sc-camel-on-key-up="{{holdEnd}}" sc-camel-on-click="{{pwrClick}}" aria-label="Energia: segure para desligar e voltar ao Press Start" title="Segure pra desligar"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path d="M12 3.5v8"></path><path d="M6.7 7.1a7.5 7.5 0 1 0 10.6 0"></path></svg><sc-if value="{{pwrHint}}" hint-placeholder-val="{{false}}"><span class="pwr-h" role="status">segure pra desligar</span></sc-if></button>
+</div>
+</header>
+
+<main class="stage">
+
+<sc-if value="{{isInicio}}" hint-placeholder-val="{{false}}">
+<section class="screen" aria-label="Início">
+<div class="home">
+<div class="home-m">
+<div class="home-l">
+<p class="kick rise" style="animation-delay: 80ms">Jogador 1 · Engenharia da Computação</p>
+<div class="name-row">
+<h1 class="name" aria-label="Hikaru Ogasawara">
+<span class="ln" aria-hidden="true"><span class="ln-in" style="animation-delay: 120ms"><span class="ch" style="animation-delay: 0ms">H</span><span class="ch" style="animation-delay: 45ms">I</span><span class="ch" style="animation-delay: 90ms">K</span><span class="ch" style="animation-delay: 135ms">A</span><span class="ch" style="animation-delay: 180ms">R</span><span class="ch" style="animation-delay: 225ms">U</span></span></span>
+<span class="ln" aria-hidden="true"><span class="ln-in" style="animation-delay: 220ms"><span class="ch" style="animation-delay: 30ms">O</span><span class="ch" style="animation-delay: 75ms">G</span><span class="ch" style="animation-delay: 120ms">A</span><span class="ch" style="animation-delay: 165ms">S</span><span class="ch" style="animation-delay: 210ms">A</span><span class="ch" style="animation-delay: 255ms">W</span><span class="ch" style="animation-delay: 300ms">A</span><span class="ch" style="animation-delay: 345ms">R</span><span class="ch" style="animation-delay: 390ms">A</span></span></span>
+</h1>
+<span class="kanji-w">
+<button class="portal-anchor portal-hatch" data-portal-id="home-room" data-poke="twirl" sc-camel-on-click="{{portalRoom}}" aria-label="Alçapão: passagem secreta para o quarto" title="Uma passagem entre as letras"><span class="hatch-slot" aria-hidden="true"><span class="hatch-lid"></span></span></button>
+<button class="kanji-b {{furiCls}}" sc-camel-on-click="{{readName}}" aria-label="Como se lê meu nome" aria-expanded="{{furiExp}}"><span class="kanji pix">小笠原 光</span></button>
+<sc-if value="{{furi}}" hint-placeholder-val="{{false}}"><span class="furi pix" aria-hidden="true">おがさわら ひかる</span><span class="furi-m" role="status">光 = luz</span></sc-if>
+</span>
+</div>
+<p class="stmt rise" style="animation-delay: 420ms">Hardware me ensinou a <span class="g">ouvir sinais</span>. Segurança me ensinou a <span class="j">desconfiar deles</span>.</p>
+<p class="lede rise" style="animation-delay: 520ms">Estudo Engenharia da Computação no Ibmec e já entreguei projetos para a Invivio Tecnologia, a CPTM e o próprio Ibmec, do firmware ao dashboard.</p>
+<div class="meta rise" style="animation-delay: 600ms"><span>Ibmec · 2023—2027</span><span>São Paulo, BR</span><span>PT · EN · JP · ES</span><span class="gold">Buscando estágio</span></div>
+<div class="ctas rise" style="animation-delay: 680ms">
+<button class="btn btn-p" data-portal-to="projetos" sc-camel-on-click="{{goProjetos}}">Ver projetos <span class="arr" aria-hidden="true">→</span></button>
+<button class="btn btn-g" data-portal-to="sobre" sc-camel-on-click="{{goSobre}}">Ver sobre</button>
+</div>
+</div>
+<div class="home-r">
+<div class="home-portal-row"><button class="portal-anchor" data-portal-id="home-contact" data-poke="twirl" sc-camel-on-click="{{portalContact}}" aria-label="Portal: ir para contato" title="Um atalho para contato"><span class="portal-stone" aria-hidden="true">⌂</span></button></div>
+<div class="sel rise" style="animation-delay: 380ms">
+<div class="sel-h"><span class="sel-t pix">SELECIONE SEU MAIN</span><span class="lab-t">clique pra trocar<span class="sel-dr"> · arraste pra girar</span></span></div>
+<div class="sel-cards">
+<button class="card c-hw {{hwCls}}" sc-camel-on-click="{{pickHw}}" aria-pressed="{{hwPressed}}">
+<span class="p1 pix" aria-hidden="true">P1</span>
+<span class="m3d" aria-hidden="true" sc-camel-on-pointer-down="{{hwDown}}" sc-camel-on-pointer-move="{{mMove}}" sc-camel-on-pointer-up="{{mUp}}" sc-camel-on-pointer-cancel="{{mUp}}">
+<span class="m3d-sh"></span>
+<span class="m3d-m" ref="{{setHwModel}}" style="transform: rotateX(-24deg) rotateY(-32deg)">
+<sc-for list="{{hwFaces}}" as="f" hint-placeholder-count="40"><span class="fc {{f.cls}}" style="width: {{f.w}}; height: {{f.h}}; transform: {{f.tf}}"></span></sc-for>
+</span>
+<span class="m3d-g">arraste</span>
+</span>
+<span class="card-n">Hardware</span>
+<span class="card-s">Embarcados · IoT · firmware</span>
+</button>
+<button class="sel-sec {{secCls}}" sc-camel-on-click="{{pickSec}}" aria-pressed="{{secPressed}}" aria-label="Segurança: o que junta hardware e software"><span class="p1 pix" aria-hidden="true">P1</span><svg class="sel-sh" sc-camel-view-box="0 0 60 70" aria-hidden="true"><path class="sh-b" d="M30 3l24 8v22c0 17-10 28-24 35C16 61 6 50 6 33V11z"></path><path class="sh-c" d="M20 35l7 7 13-14"></path></svg><span class="vs-tip" aria-hidden="true">segurança no meio: é ela que fecha o combo</span></button>
+<button class="card c-sw {{swCls}}" sc-camel-on-click="{{pickSw}}" aria-pressed="{{swPressed}}">
+<span class="p1 pix" aria-hidden="true">P1</span>
+<span class="m3d" aria-hidden="true" sc-camel-on-pointer-down="{{swDown}}" sc-camel-on-pointer-move="{{mMove}}" sc-camel-on-pointer-up="{{mUp}}" sc-camel-on-pointer-cancel="{{mUp}}">
+<span class="m3d-sh"></span>
+<span class="m3d-m" ref="{{setSwModel}}" style="transform: rotateX(-20deg) rotateY(28deg)">
+<sc-for list="{{swFaces}}" as="f" hint-placeholder-count="12"><span class="fc {{f.cls}}" style="width: {{f.w}}; height: {{f.h}}; transform: {{f.tf}}"></span></sc-for>
+<span class="holo h-sw" style="transform: translate(-50%,-50%) translate3d(0, -40cqw, 0)"><svg sc-camel-view-box="0 0 60 70"><path d="M21 22L9 35l12 13"></path><path d="M39 22l12 13-12 13"></path><path d="M34 15l-8 40"></path></svg></span>
+</span>
+<span class="m3d-g">arraste</span>
+</span>
+<span class="card-n">Software</span>
+<span class="card-s">APIs · web · automação</span>
+</button>
+</div>
+<sc-if value="{{isHw}}" hint-placeholder-val="{{true}}">
+<div class="moves m-hw">
+<div class="moves-h"><span class="lab-t">Lista de golpes</span><span class="lab-t gold">Hardware</span></div>
+<sc-for list="{{movesHw}}" as="m" hint-placeholder-count="5">
+<div class="mv {{m.cls}}" style="animation-delay: {{m.delay}}ms"><span class="mv-n">{{m.name}}</span><span class="mv-in"><sc-for list="{{m.keys}}" as="k" hint-placeholder-count="4"><span class="key {{k.cls}}" style="animation-delay: {{k.d}}ms">{{k.t}}</span></sc-for></span></div>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{isSw}}" hint-placeholder-val="{{false}}">
+<div class="moves m-sw">
+<div class="moves-h"><span class="lab-t">Lista de golpes</span><span class="lab-t" style="color: #7FB2DA">Software</span></div>
+<sc-for list="{{movesSw}}" as="m" hint-placeholder-count="5">
+<div class="mv {{m.cls}}" style="animation-delay: {{m.delay}}ms"><span class="mv-n">{{m.name}}</span><span class="mv-in"><sc-for list="{{m.keys}}" as="k" hint-placeholder-count="4"><span class="key {{k.cls}}" style="animation-delay: {{k.d}}ms">{{k.t}}</span></sc-for></span></div>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{isSec}}" hint-placeholder-val="{{false}}">
+<div class="moves m-sec">
+<div class="moves-h"><span class="lab-t">Lista de golpes</span><span class="lab-t" style="color: #62B37F">Segurança</span></div>
+<sc-for list="{{movesSec}}" as="m" hint-placeholder-count="5">
+<div class="mv {{m.cls}}" style="animation-delay: {{m.delay}}ms"><span class="mv-n">{{m.name}}</span><span class="mv-in"><sc-for list="{{m.keys}}" as="k" hint-placeholder-count="4"><span class="key {{k.cls}}" style="animation-delay: {{k.d}}ms">{{k.t}}</span></sc-for></span></div>
+</sc-for>
+</div>
+</sc-if>
+<p class="sel-f">Hardware e software só fecham o combo com segurança no meio.</p>
+</div>
+</div>
+</div>
+<div class="ticker rise" style="animation-delay: 760ms" aria-label="Inventário de tecnologias" sc-camel-on-mouse-enter="{{tkEnter}}" sc-camel-on-mouse-leave="{{tkLeave}}">
+<div class="tk" ref="{{setTk}}">
+<div class="tk-g"><span class="hl">Inventário</span><span class="dia">✦</span><sc-for list="{{tickerInv}}" as="ti" hint-placeholder-count="12"><button class="tk-i {{ti.cls}}" sc-camel-on-click="{{ti.open}}" title="Ver no Sobre"><span class="tk-k" aria-hidden="true"><svg class="tk-ic" sc-camel-view-box="0 0 24 24"><path d="{{ti.d}}" fill="{{ti.fill}}" stroke="{{ti.stroke}}" stroke-width="{{ti.sw}}" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="tk-n">{{ti.name}}</span><span class="dia">✦</span></button></sc-for></div>
+<div class="tk-g" aria-hidden="true"><span class="hl">Inventário</span><span class="dia">✦</span><sc-for list="{{tickerInv}}" as="tj" hint-placeholder-count="12"><button class="tk-i {{tj.cls}}" sc-camel-on-click="{{tj.open}}" tabindex="-1" title="Ver no Sobre"><span class="tk-k" aria-hidden="true"><svg class="tk-ic" sc-camel-view-box="0 0 24 24"><path d="{{tj.d}}" fill="{{tj.fill}}" stroke="{{tj.stroke}}" stroke-width="{{tj.sw}}" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="tk-n">{{tj.name}}</span><span class="dia">✦</span></button></sc-for></div>
+</div>
+</div>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{isProjetos}}" hint-placeholder-val="{{false}}">
+<section class="screen" aria-label="Projetos">
+<div class="proj">
+<div class="proj-l">
+<p class="kick rise" style="animation-delay: 80ms">Quest log · 4 missões principais</p>
+<div class="page-heading">
+<h1 class="h1"><span class="ln"><span class="ln-in" style="animation-delay: 120ms" ref="{{decH1}}">Projetos</span></span></h1>
+<button class="portal-anchor" data-poke="twirl" sc-camel-on-click="{{portalHome}}" aria-label="Portal: voltar ao início" title="Interaja para voltar ao início"><span class="portal-stone" aria-hidden="true">⌂</span></button>
+</div>
+<p class="lede rise" style="animation-delay: 240ms; margin-top: 16px">Cada um me obrigou a descer uma camada: do broker MQTT ao registrador, da regra de firewall ao log.</p>
+<ol class="qlist">
+<sc-for list="{{projects}}" as="p" hint-placeholder-count="4">
+<li class="q rise" style="animation-delay: {{p.delay}}ms">
+<button class="q-b {{p.cls}}" sc-camel-on-click="{{p.open}}" sc-camel-on-mouse-enter="{{p.hover}}" sc-camel-on-focus="{{p.hover}}">
+<span class="q-n pix">{{p.num}}</span>
+<span><span class="q-t">{{p.title}}</span><span class="q-d">{{p.line}}</span></span>
+<span class="q-m"><span>{{p.tags}}</span><span class="q-st">{{p.period}}</span></span>
+<span class="q-a arr" aria-hidden="true">→</span>
+</button>
+</li>
+</sc-for>
+</ol>
+<sc-if value="{{hasOpen}}" hint-placeholder-val="{{false}}">
+<article class="drawer" aria-label="{{op.title}}">
+<div class="dr-h"><span class="lab-t">Missão {{op.num}} · <span class="gold">{{op.status}}</span> · {{op.period}}</span><button class="x-b" sc-camel-on-click="{{closeProj}}" aria-label="Fechar missão"><svg sc-camel-view-box="0 0 16 16" class="ico" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9"></path></svg></button></div>
+<h2 class="dr-t" ref="{{decDr}}">{{op.title}}</h2>
+<p class="dr-s">{{op.sub}}</p>
+<p class="dr-p">{{op.summary}}</p>
+<sc-if value="{{galleryOn}}"><section class="project-gallery" aria-label="Galeria do projeto" data-nopoke="true">
+<button class="gallery-image" sc-camel-on-click="{{galleryZoom}}" aria-label="Ampliar imagem"><img src="{{galleryImage}}" alt="{{galleryAlt}}" loading="lazy"></button>
+<div class="gallery-bar"><p>{{galleryCaption}}</p><span aria-live="polite">{{galleryCount}}</span><sc-if value="{{galleryMany}}"><button sc-camel-on-click="{{galleryPrev}}" aria-label="Imagem anterior">←</button><button sc-camel-on-click="{{galleryNext}}" aria-label="Próxima imagem">→</button></sc-if><button sc-camel-on-click="{{galleryZoom}}">Ampliar</button></div>
+</section></sc-if><div class="dr-sec lab-t">Objetivos</div>
+<ul class="dr-ul">
+<sc-for list="{{op.points}}" as="pt" hint-placeholder-count="3"><li>{{pt.t}}</li></sc-for>
+</ul>
+<div class="dr-sec lab-t">Equipamento</div>
+<div class="chips">
+<sc-for list="{{op.stack}}" as="sk" hint-placeholder-count="6"><span class="chip-t">{{sk.t}}</span></sc-for>
+</div>
+<sc-if value="{{isSafe}}" hint-placeholder-val="{{false}}">
+<div class="safe {{safeCls}}">
+<div class="pnl-h"><span class="lab-t">Teste o cofre</span><span class="lab-t">trava {{safeState}}</span></div>
+<div class="safe-b">
+<div class="safe-lcd pix" aria-live="polite"><span>{{safeL1}}</span><span>{{safeL2}}</span></div>
+<div class="safe-kp" role="group" aria-label="Teclado do cofre">
+<sc-for list="{{safeKeys}}" as="kp" hint-placeholder-count="12"><button class="sk pix" sc-camel-on-click="{{kp.press}}" aria-label="{{kp.aria}}">{{kp.t}}</button></sc-for>
+</div>
+<div class="safe-lock" aria-hidden="true"><svg sc-camel-view-box="0 0 60 60"><circle cx="30" cy="30" r="22"></circle><g class="sl-h"><path d="M30 30H48"></path><circle cx="48" cy="30" r="3"></circle></g><circle class="sl-p" cx="30" cy="30" r="4"></circle></svg><span class="lab-t">servo</span></div>
+</div>
+<p class="safe-tip">* apaga · # confirma · três erros travam o teclado por 5 s</p>
+</div>
+</sc-if>
+<div class="dr-f">
+<span class="dr-cr">{{op.credit}}</span>
+<span class="ctas"><sc-if value="{{op.hasRepository}}"><a class="lnk" href="{{op.repositoryUrl}}" target="_blank" rel="noopener noreferrer">GitHub ↗</a></sc-if><button class="btn btn-g" sc-camel-on-click="{{nextProj}}">Próxima missão <span class="arr" aria-hidden="true">→</span></button></span>
+</div>
+</article>
+</sc-if>
+</div>
+<aside class="proj-r rise" style="animation-delay: 300ms">
+<div class="prev">
+<div class="prev-h"><span class="lab-t">Esquemático</span><span class="lab-t">{{hvNum}} / 04</span></div>
+<div class="prev-a">
+<sc-if value="{{hv0}}" hint-placeholder-val="{{true}}">
+<svg class="sch" sc-camel-view-box="0 0 480 360" aria-hidden="true">
+<text x="28" y="58">COLETOR SOLAR</text>
+<path class="l" d="M28 70H150L170 118H48Z"></path>
+<path class="l" d="M58 70L78 118M88 70L108 118M118 70L138 118" style="opacity: .5"></path>
+<circle class="fa" cx="150" cy="78" r="3"></circle><text class="tg" x="160" y="72">NTC</text>
+<path class="j d" d="M252 284V100H162"></path>
+<path class="j d" d="M38 94H16V286H28"></path>
+<path class="l" d="M28 236V332H208V236"></path>
+<path class="l wave" d="M36 254q10-6 20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0"></path>
+<path class="l wave" d="M36 270q10-6 20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0" style="opacity: .45; animation-delay: -1.5s"></path>
+<text x="28" y="350">PISCINA</text>
+<circle class="fa" cx="196" cy="300" r="3"></circle><text class="tg end" x="192" y="320">NTC</text>
+<path class="a" d="M50 212H316"></path>
+<path class="a" d="M70 212V290M110 212V290M150 212V290"></path>
+<circle class="l" cx="70" cy="293" r="3.5"></circle><circle class="l" cx="110" cy="293" r="3.5"></circle><circle class="l" cx="150" cy="293" r="3.5"></circle>
+<text class="tb mid" x="70" y="202">pH</text><text class="tb mid" x="110" y="202">CL</text><text class="tb mid" x="150" y="202">ORP</text>
+<text class="tg" x="160" y="228">7 PARÂMETROS</text>
+<path class="l" d="M208 300H236"></path>
+<circle class="l" cx="252" cy="300" r="16"></circle>
+<path class="l spin" d="M252 290V310M242 300H262M245 293L259 307M259 293L245 307"></path>
+<text class="mid" x="252" y="334">BOMBA</text>
+<rect class="a" x="316" y="176" width="76" height="56" rx="2"></rect>
+<text class="tb mid" x="354" y="208">ESP32</text>
+<path class="a" d="M330 176V158"></path>
+<rect class="l" x="300" y="126" width="60" height="32" rx="1.5"></rect>
+<text class="mid" x="330" y="146">LCD 16×2</text>
+<path class="a" d="M354 232V262"></path>
+<rect class="l" x="322" y="262" width="64" height="26" rx="1.5"></rect>
+<text class="mid" x="354" y="279">RELÉ</text>
+<path class="l" d="M322 275H284V300H268"></path>
+<path class="a d" d="M380 176V56H394"></path>
+<text class="tg" x="374" y="150" transform="rotate(-90 374 150)">MQTT/TLS</text>
+<path class="l" d="M396 76h58a11 11 0 0 0-2-22a16 16 0 0 0-30-8a12 12 0 0 0-22 6a12 12 0 0 0-4 24z"></path>
+<text class="mid" x="426" y="68">HIVEMQ</text>
+<path class="j d" d="M436 78V112"></path>
+<rect class="l" x="404" y="112" width="64" height="46" rx="1.5"></rect>
+<text x="410" y="126">REACT</text>
+<path class="a" d="M410 148l7-6 7 4 7-10 7 6 7-8 7 3 7-2"></path>
+<path class="j d" d="M436 158V176"></path>
+<rect class="l" x="404" y="176" width="64" height="26" rx="13"></rect>
+<text class="mid" x="436" y="193">ALEXA</text>
+<text x="300" y="316">ΔT ≥ 5 °C → liga</text>
+<text x="300" y="330">ΔT ≤ 1 °C → desliga</text>
+<text x="300" y="344">anti-ciclagem 60 s</text>
+</svg>
+</sc-if>
+<sc-if value="{{hv1}}" hint-placeholder-val="{{false}}">
+<svg class="sch" sc-camel-view-box="0 0 480 360" aria-hidden="true">
+<path class="l" d="M214 54h52a11 11 0 0 0-2-22a16 16 0 0 0-30-8a12 12 0 0 0-22 6a12 12 0 0 0 2 24z"></path>
+<text class="mid" x="240" y="46">INTERNET</text>
+<path class="a d" d="M240 54V88"></path>
+<rect class="a" x="176" y="88" width="128" height="40" rx="2"></rect>
+<text class="tb mid" x="240" y="106">IPFIRE</text>
+<text class="tg mid" x="240" y="120">FIREWALL</text>
+<text class="tg" x="324" y="100">SEGMENTAÇÃO</text>
+<text x="324" y="114">REGRAS ENTRE ZONAS</text>
+<path class="a" d="M240 128V166"></path>
+<path class="j d" d="M304 108H316V226"></path>
+<rect class="l" x="24" y="166" width="432" height="170" rx="3"></rect>
+<text x="36" y="186">PROXMOX VE · HOST</text>
+<text class="end" x="444" y="186">BRIDGE VIRTUAL</text>
+<path class="l" d="M60 206H420" style="opacity: .5"></path>
+<path class="l" d="M84 206V226M188 206V226M292 206V226M396 206V226"></path>
+<rect class="l" x="40" y="226" width="88" height="78" rx="2"></rect>
+<text class="tb mid" x="84" y="256">WINDOWS</text><text class="mid" x="84" y="272">SERVER</text><text class="tg mid" x="84" y="290">AD · DC</text>
+<rect class="l" x="144" y="226" width="88" height="78" rx="2"></rect>
+<text class="tb mid" x="188" y="256">UBUNTU</text><text class="mid" x="188" y="272">SERVER</text>
+<rect class="j" x="248" y="226" width="88" height="78" rx="2"></rect>
+<text class="tb mid" x="292" y="256">SIEM</text><text class="tj mid" x="292" y="272">LOGS</text>
+<rect class="l" x="352" y="226" width="88" height="78" rx="2"></rect>
+<text class="tb mid" x="396" y="256">KALI</text><text class="mid" x="396" y="272">LINUX</text><text class="tg mid" x="396" y="290">VALIDAÇÃO</text>
+<path class="j d" d="M84 304V318H292V304M188 304V318"></path>
+<text class="tj" x="200" y="314">logs</text>
+<path class="a d" d="M396 304V328H100V304"></path>
+<text class="tg mid" x="248" y="352">KALI VALIDA AS REGRAS DO LAB</text>
+</svg>
+</sc-if>
+<sc-if value="{{hv2}}" hint-placeholder-val="{{false}}">
+<svg class="sch" sc-camel-view-box="0 0 480 360" aria-hidden="true">
+<rect class="l" x="40" y="30" width="96" height="40" rx="2"></rect><text class="tb mid" x="88" y="48">ARDUINO</text><text class="mid" x="88" y="62">UNO · C++</text>
+<path class="a" d="M136 50H176"></path><path class="fa" d="M176 46l8 4-8 4z"></path>
+<rect class="l" x="186" y="30" width="108" height="40" rx="2"></rect><text class="tb mid" x="240" y="48">PI PICO</text><text class="mid" x="240" y="62">MICROPYTHON</text>
+<path class="a" d="M294 50H334"></path><path class="fa" d="M334 46l8 4-8 4z"></path>
+<rect class="a" x="344" y="30" width="96" height="40" rx="2"></rect><text class="tb mid" x="392" y="48">ESP32</text><text class="tg mid" x="392" y="62">C++ · .INO</text>
+<text x="40" y="112">TECLADO 3×4</text>
+<rect class="l" x="40" y="120" width="30" height="24" rx="2"></rect><text class="tb mid" x="55" y="136">1</text>
+<rect class="l" x="76" y="120" width="30" height="24" rx="2"></rect><text class="tb mid" x="91" y="136">2</text>
+<rect class="l" x="112" y="120" width="30" height="24" rx="2"></rect><text class="tb mid" x="127" y="136">3</text>
+<rect class="l" x="40" y="150" width="30" height="24" rx="2"></rect><text class="tb mid" x="55" y="166">4</text>
+<rect class="l" x="76" y="150" width="30" height="24" rx="2"></rect><text class="tb mid" x="91" y="166">5</text>
+<rect class="l" x="112" y="150" width="30" height="24" rx="2"></rect><text class="tb mid" x="127" y="166">6</text>
+<rect class="l" x="40" y="180" width="30" height="24" rx="2"></rect><text class="tb mid" x="55" y="196">7</text>
+<rect class="l" x="76" y="180" width="30" height="24" rx="2"></rect><text class="tb mid" x="91" y="196">8</text>
+<rect class="l" x="112" y="180" width="30" height="24" rx="2"></rect><text class="tb mid" x="127" y="196">9</text>
+<rect class="l" x="40" y="210" width="30" height="24" rx="2"></rect><text class="tb mid" x="55" y="226">*</text>
+<rect class="l" x="76" y="210" width="30" height="24" rx="2"></rect><text class="tb mid" x="91" y="226">0</text>
+<rect class="l" x="112" y="210" width="30" height="24" rx="2"></rect><text class="tb mid" x="127" y="226">#</text>
+<text x="176" y="118">LCD I²C · SDA 21 · SCL 22</text>
+<rect class="a" x="176" y="128" width="176" height="52" rx="2"></rect>
+<rect class="l" x="184" y="136" width="160" height="36" rx="1" style="opacity: .45"></rect>
+<text class="tb" x="194" y="151">SENHA:</text>
+<text class="tg" x="194" y="166">* * * *</text>
+<rect class="fa led" x="244" y="158" width="7" height="10"></rect>
+<rect class="l" x="372" y="150" width="72" height="40" rx="2"></rect>
+<g class="horn"><path class="a" d="M392 170H426"></path><circle class="a" cx="426" cy="170" r="3.5"></circle></g>
+<circle class="l" cx="392" cy="170" r="6"></circle>
+<text class="mid" x="408" y="208">SERVO · TRAVA</text>
+<path class="a" d="M256 180V252M272 180V252"></path>
+<text class="tg" x="280" y="222">I²C</text>
+<path class="l" d="M70 234V274H176M91 234V282H176M112 234V290H176"></path>
+<text x="40" y="310">GPIO × 7</text>
+<path class="a" d="M408 214V282H352"></path>
+<text class="tg" x="366" y="276">PWM</text>
+<rect class="a" x="176" y="252" width="176" height="60" rx="2"></rect>
+<text class="tb mid" x="264" y="278">ESP32</text>
+<text class="mid" x="264" y="296">NVS · senha persistida</text>
+</svg>
+</sc-if>
+<sc-if value="{{hv3}}" hint-placeholder-val="{{false}}">
+<svg class="sch" sc-camel-view-box="0 0 480 360" aria-hidden="true">
+<rect class="a" x="160" y="36" width="160" height="56" rx="2"></rect>
+<text class="tb mid" x="240" y="60">SPRING BOOT</text>
+<text class="tg mid" x="240" y="78">API REST · JAVA</text>
+<path class="j d" d="M320 64H360"></path>
+<path class="j d" d="M120 64H160"></path>
+<rect class="j" x="36" y="44" width="84" height="40" rx="2"></rect>
+<text class="tb mid" x="78" y="62">JSON</text>
+<text class="tj mid" x="78" y="76">JACKSON</text>
+<rect class="j" x="360" y="44" width="84" height="40" rx="2"></rect>
+<text class="tb mid" x="402" y="62">JUNIT</text>
+<text class="tj mid" x="402" y="76">10 CLASSES</text>
+<path class="l" d="M176.0 92C176.0 160 40.0 156 40.0 222M185.8 92C185.8 160 70.8 156 70.8 222M195.7 92C195.7 160 101.5 156 101.5 222M205.5 92C205.5 160 132.3 156 132.3 222M215.4 92C215.4 160 163.1 156 163.1 222M225.2 92C225.2 160 193.8 156 193.8 222M235.1 92C235.1 160 224.6 156 224.6 222M244.9 92C244.9 160 255.4 156 255.4 222M254.8 92C254.8 160 286.2 156 286.2 222M264.6 92C264.6 160 316.9 156 316.9 222M274.5 92C274.5 160 347.7 156 347.7 222M284.3 92C284.3 160 378.5 156 378.5 222M294.2 92C294.2 160 409.2 156 409.2 222M304.0 92C304.0 160 440.0 156 440.0 222" style="opacity: .7"></path>
+<circle class="fa" cx="40.0" cy="222" r="2"></circle><circle class="fa" cx="70.8" cy="222" r="2"></circle><circle class="fa" cx="101.5" cy="222" r="2"></circle><circle class="fa" cx="132.3" cy="222" r="2"></circle><circle class="fa" cx="163.1" cy="222" r="2"></circle><circle class="fa" cx="193.8" cy="222" r="2"></circle><circle class="fa" cx="224.6" cy="222" r="2"></circle><circle class="fa" cx="255.4" cy="222" r="2"></circle><circle class="fa" cx="286.2" cy="222" r="2"></circle><circle class="fa" cx="316.9" cy="222" r="2"></circle><circle class="fa" cx="347.7" cy="222" r="2"></circle><circle class="fa" cx="378.5" cy="222" r="2"></circle><circle class="fa" cx="409.2" cy="222" r="2"></circle><circle class="fa" cx="440.0" cy="222" r="2"></circle>
+<path class="l" d="M37.0 224h6v36h-6zM67.8 224h6v36h-6zM98.5 224h6v36h-6zM129.3 224h6v36h-6zM160.1 224h6v36h-6zM190.8 224h6v36h-6zM221.6 224h6v36h-6zM252.4 224h6v36h-6zM283.2 224h6v36h-6zM313.9 224h6v36h-6zM344.7 224h6v36h-6zM375.5 224h6v36h-6zM406.2 224h6v36h-6zM437.0 224h6v36h-6z"></path>
+<path class="l" d="M24 232H456M24 252H456"></path>
+<g class="train"><rect class="a bgf" x="36" y="228" width="74" height="28" rx="3"></rect><rect class="fa" x="44" y="238" width="10" height="8" style="opacity: .7"></rect><rect class="fa" x="60" y="238" width="10" height="8" style="opacity: .7"></rect><rect class="fa" x="76" y="238" width="10" height="8" style="opacity: .7"></rect><rect class="fa" x="92" y="238" width="10" height="8" style="opacity: .7"></rect><rect class="a bgf" x="114" y="228" width="74" height="28" rx="3"></rect><rect class="fa" x="122" y="238" width="10" height="8" style="opacity: .7"></rect><rect class="fa" x="138" y="238" width="10" height="8" style="opacity: .7"></rect><rect class="fa" x="154" y="238" width="10" height="8" style="opacity: .7"></rect><rect class="fa" x="170" y="238" width="10" height="8" style="opacity: .7"></rect><path class="a" d="M110 242H114"></path></g>
+<text class="tb" x="24" y="296">14 ENDPOINTS · 9 CONTROLLERS</text>
+<text x="24" y="312">cada dormente, uma rota da API</text>
+<text class="tg" x="24" y="328">TREM · ESTAÇÃO · LINHA</text>
+<text class="tg end" x="456" y="296">CPTM · 2024</text>
+</svg>
+</sc-if>
+</div>
+<div class="prev-f"><span class="prev-tt">{{hvTitle}}</span><span class="lab-t">clique pra abrir a missão</span></div>
+</div>
+<div class="pnl">
+<div class="pnl-h"><span class="lab-t">Missões secundárias</span><span class="lab-t">03</span></div>
+<ul class="sq">
+<li><span class="sq-t">Site do ciclo de palestras · Ibmec</span><span class="sq-m">ago–dez 2023</span><span class="sq-d">HTML e CSS. O site completo do evento anual que reúne CEOs convidados, da estrutura à publicação.</span></li>
+<li><span class="sq-t">Fundamentos de machine learning</span><span class="sq-m">acadêmico</span><span class="sq-d">Jupyter, NumPy e pandas. Uma acurácia de 0,98 parecia boa demais: a auditoria achou um vazamento temporal de dados e o campo culpado.</span></li>
+<li><span class="sq-t">Automação de documentos</span><span class="sq-m">pessoal</span><span class="sq-d">Python com pywin32 e openpyxl: rascunhos no Outlook gerados a partir de planilha, com anexos casados por nome.</span></li>
+</ul>
+</div>
+</aside>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{isLab}}" hint-placeholder-val="{{false}}">
+<section class="screen" aria-label="Lab">
+<div class="lab">
+<div class="lab-i">
+<p class="kick rise" style="animation-delay: 80ms">Bancada + rack</p>
+<h1 class="h1"><span class="ln"><span class="ln-in" style="animation-delay: 120ms" ref="{{decH1}}">Lab</span></span></h1>
+<p class="stmt rise" style="animation-delay: 300ms">Onde eu <span sc-camel-on-click="{{wordQuebro}}">quebro</span> as coisas <span class="g">antes que alguém quebre</span>.</p>
+<p class="lede rise" style="animation-delay: 380ms">Um laboratório de infraestrutura corporativa montado do zero, com servidor, firewall e SIEM, e uma bancada de microcontroladores pra tudo que precisa de fio. O terminal ao lado funciona: digite <span class="gold">help</span>.</p>
+</div>
+<div class="pnl term rise" style="animation-delay: 260ms">
+<div class="pnl-h"><span class="dots3" aria-hidden="true"><i></i><i></i><i></i></span><span class="lab-t">okaru@lab: ~</span><span class="lab-t">bash</span></div>
+<div class="term-b" sc-camel-on-click="{{focusTerm}}" ref="{{setTermBody}}">
+<sc-for list="{{termLines}}" as="l" hint-placeholder-count="2"><div class="tl {{l.cls}}">{{l.t}}</div></sc-for>
+<label class="t-in"><span class="t-p" aria-hidden="true">{{termPrompt}}</span><span class="sr">Comando do terminal</span><input class="t-x" type="text" value="{{termInput}}" sc-camel-on-change="{{onTermChange}}" sc-camel-on-key-down="{{onTermKey}}" ref="{{setTermInput}}" autocomplete="off" spellcheck="false"></label>
+</div>
+</div>
+<div class="pnl dump {{dumpCls}} rise" style="animation-delay: 380ms">
+<div class="pnl-h"><span class="lab-t">firmware.bin</span><span class="lab-t">xxd · 96 bytes</span></div>
+<div class="hex">
+<sc-for list="{{hexRows}}" as="r" hint-placeholder-count="6">
+<div class="hx-r {{r.cls}}" style="animation-delay: {{r.delay}}ms">
+<span class="hx-o">{{r.off}}</span>
+<span class="hx-bs"><sc-for list="{{r.bytes}}" as="b" hint-placeholder-count="16"><sc-if value="{{b.imp}}" hint-placeholder-val="{{false}}"><button class="hx-b hx-imp" sc-camel-on-click="{{b.bend}}" aria-label="Byte {{b.h}} no offset {{b.o}}">{{b.h}}</button></sc-if><sc-if value="{{b.pure}}" hint-placeholder-val="{{true}}"><span class="hx-b {{b.cls}}">{{b.h}}</span></sc-if></sc-for></span>
+<span class="hx-a">{{r.asc}}</span>
+</div>
+</sc-for>
+</div>
+<div class="dump-f">{{dumpMsg}}</div>
+</div>
+<div class="pnl inv rise" style="animation-delay: 460ms">
+<div class="pnl-h"><span class="lab-t">Inventário</span><span class="lab-t">{{invCount}} itens · clique pra levar à bancada</span></div>
+<div class="inv-g">
+<sc-for list="{{inv}}" as="it" hint-placeholder-count="20">
+<button class="slot {{it.cls}}" sc-camel-on-mouse-enter="{{it.pick}}" sc-camel-on-focus="{{it.pick}}" sc-camel-on-click="{{it.use}}" aria-label="{{it.aria}}"><span class="slot-k pix">{{it.k}}</span></button>
+</sc-for>
+</div>
+<div class="inv-d">
+<span class="inv-n">{{invSel.name}}</span>
+<span class="lab-t">{{invSel.cat}}</span>
+<span class="inv-u">Usado em: <b>{{invSel.used}}</b></span>
+</div>
+<div class="bench">
+<div class="bench-h"><span class="lab-t">Bancada · crafting</span><span class="lab-t gold">receitas {{recipesGot}}/{{recipesTotal}}</span></div>
+<div class="bench-r">
+<button class="bs {{benchA.cls}}" sc-camel-on-click="{{benchA.take}}" aria-label="{{benchA.aria}}"><span class="slot-k pix">{{benchA.k}}</span></button>
+<span class="bs-op pix" aria-hidden="true">+</span>
+<button class="bs {{benchB.cls}}" sc-camel-on-click="{{benchB.take}}" aria-label="{{benchB.aria}}"><span class="slot-k pix">{{benchB.k}}</span></button>
+<span class="bs-op pix" aria-hidden="true">=</span>
+<button class="bs bs-res {{benchR.cls}}" sc-camel-on-click="{{craft}}" aria-label="{{benchR.aria}}"><span class="slot-k pix">{{benchR.k}}</span></button>
+</div>
+<div class="bench-o" aria-live="polite">
+<span class="bench-n {{benchR.nCls}}">{{benchR.name}}</span>
+<span class="bench-d">{{benchR.desc}}</span>
+<sc-if value="{{benchHasItems}}" hint-placeholder-val="{{false}}"><button class="bench-x" sc-camel-on-click="{{benchClear}}">limpar bancada</button></sc-if>
+</div>
+</div>
+</div>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{isSobre}}" hint-placeholder-val="{{false}}">
+<section class="screen" aria-label="Sobre">
+<div class="about">
+<div class="ab-p rise" style="animation-delay: 160ms">
+<div class="portrait"><img class="por-img" src="./assets/images/portrait.jpg" alt="Hikaru Ogasawara"><span class="p1b pix">P1</span>
+<div class="det" aria-hidden="true">
+<span class="det-b" style="left: 27%; top: 36%; width: 32%; height: 30%"><span class="det-l">engenheiro · 0.98</span></span>
+<span class="det-b g" style="left: 19%; top: 42%; width: 22%; height: 13%"><span class="det-l">óculos · 0.97</span></span>
+<span class="det-b" style="left: 8%; top: 72%; width: 86%; height: 17%"><span class="det-l">moletom · 0.91</span></span>
+<span class="det-top"><span class="det-rec">CAM-01 · REC</span></span>
+<span class="det-bot"><span>ID: 00023</span><span>AMEAÇA 0.00</span></span>
+</div>
+</div>
+<div class="plate"><span class="plate-n">Hikaru Ogasawara</span><span class="plate-k pix">小笠原 光</span></div>
+<div class="plate-h">“Okaru” nos servidores</div>
+<div class="pnl eq">
+<div class="pnl-h"><span class="lab-t">Equipado</span><span class="lab-t gold">uso diário</span></div>
+<div class="eq-g">
+<sc-for list="{{equip}}" as="e" hint-placeholder-count="8"><button class="eq-s {{e.cls}}" sc-camel-on-mouse-enter="{{e.pick}}" sc-camel-on-focus="{{e.pick}}" sc-camel-on-click="{{e.pick}}" aria-label="{{e.aria}}"><svg class="eq-ic" sc-camel-view-box="0 0 24 24" aria-hidden="true"><path d="{{e.d}}" fill="{{e.fill}}" stroke="{{e.stroke}}" stroke-width="{{e.sw}}" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="eq-n">{{e.short}}</span></button></sc-for>
+</div>
+<div class="pnl-h eq-h2"><span class="lab-t">Mochila</span><span class="lab-t">{{bagCount}}</span></div>
+<div class="bag">
+<sc-for list="{{bag}}" as="bg" hint-placeholder-count="18"><button class="bag-i {{bg.cls}}" style="grid-column: {{bg.gc}}; grid-row: {{bg.gr}}" sc-camel-on-mouse-enter="{{bg.pick}}" sc-camel-on-focus="{{bg.pick}}" sc-camel-on-click="{{bg.pick}}" aria-label="{{bg.aria}}"><svg class="bag-ic" sc-camel-view-box="0 0 24 24" aria-hidden="true"><path d="{{bg.d}}" fill="{{bg.fill}}" stroke="{{bg.stroke}}" stroke-width="{{bg.sw}}" stroke-linecap="round" stroke-linejoin="round"></path></svg></button></sc-for>
+</div>
+<div class="eq-d">
+<sc-for list="{{eqAll}}" as="eqx" hint-placeholder-count="1"><div class="eq-dx {{eqx.cls}}">
+<div class="eq-dh"><span class="eq-dn">{{eqx.name}}</span><span class="lab-t">{{eqx.type}}</span></div>
+<p class="eq-du">{{eqx.use}}</p>
+<sc-if value="{{eqx.hasFlav}}" hint-placeholder-val="{{true}}"><p class="eq-df">{{eqx.flav}}</p></sc-if>
+</div></sc-for>
+</div>
+<p class="sr" aria-live="polite">{{eqName}}</p>
+</div>
+</div>
+<div class="ab-s">
+<p class="kick rise" style="animation-delay: 80ms">Ficha do personagem</p>
+<div class="page-heading">
+<h1 class="h1"><span class="ln"><span class="ln-in" style="animation-delay: 120ms" ref="{{decH1}}">Sobre</span></span></h1>
+<button class="portal-anchor" data-poke="twirl" sc-camel-on-click="{{portalHome}}" aria-label="Portal: voltar ao início" title="Interaja para voltar ao início"><span class="portal-stone" aria-hidden="true">⌂</span></button>
+</div>
+<dl class="attrs rise" style="animation-delay: 300ms">
+<dt class="lab-t">Classe</dt><dd>Engenharia da Computação <span>· São Paulo, BR</span></dd>
+<dt class="lab-t">Formação</dt><dd>Ibmec <span>· bacharelado, 2023–2027 (previsto)</span><br>Instituto Sidarta <span>· ensino médio, 2010–2022</span></dd>
+<dt class="lab-t">Idiomas</dt><dd>Português <span>nativo</span> · Inglês <span>fluente na leitura, semifluente na fala</span> · Japonês <span>intermediário-avançado</span> · Espanhol <span>intermediário</span></dd>
+<dt class="lab-t">Passivas</dt><dd>Calma sob pressão · proatividade · automotivação · trabalho em equipe · responsabilidade com prazos</dd>
+<dt class="lab-t">Procurando</dt><dd>Estágio em infraestrutura, segurança ou sistemas embarcados</dd>
+</dl>
+<div class="bio rise" style="animation-delay: 380ms">
+<p class="bio-hi">Muito prazer! Meu nome é Hikaru Ogasawara. Tenho 21 anos, moro em São Paulo e estudo Engenharia da Computação no Ibmec, com formatura prevista para 2027. Gosto de hardware, infraestrutura e segurança, e passo boa parte do tempo montando laboratórios e projetos por conta própria. Fora da faculdade, sou vice-presidente da Ycare, uma organização voluntária que todo segundo sábado do mês leva cestas com alimentos e itens de higiene a uma comunidade: cuido da arrecadação, da montagem das cestas e da mobilização dos voluntários. Nas horas vagas, jogo de tudo um pouco.</p>
+<p>Desde criança eu gosto de construir coisas, consertar o que quebra e descobrir como tudo funciona por dentro. Essa curiosidade não passou, só trocou de ferramenta: a chave de fenda virou multímetro, terminal e firmware.</p>
+<p>Pra mim, essa é a essência de um engenheiro: entender a fundo como uma coisa funciona antes de mexer nela e, só então, buscar a solução. Não a primeira que funciona, mas a mais eficiente que eu conseguir encontrar. Entender o porquê antes de aceitar o como.</p>
+<p>Sou de aprender fazendo, com a mão na massa: montar, testar, medir, quebrar e montar de novo até ficar do jeito certo. Mantenho a calma quando algo dá errado, porque é aí que mais se aprende. O que eu quero agora é um time onde dê pra pôr a mão em sistema de verdade e aprender com quem já sabe.</p>
+<p>Comecei pelo hardware: ligar um sensor, ler um <span class="poke" sc-camel-on-click="{{wordReg}}">registrador</span>, entender por que o sinal chegou torto. Daí fui pra infraestrutura e, de lá, pra segurança. Gosto de ficar na fronteira, onde o físico vira lógico e onde o lógico pode ser atacado.</p>
+<div class="diff" ref="{{setDiffEl}}">
+<div class="diff-h"><span class="pix">commit d15ca1c</span><span>fix(bio): tirar os sapatos</span></div>
+<p class="diff-l del {{diffDelCls}}" aria-hidden="true"><span class="diff-s">−</span><span><span class="diff-x">Prefiro trabalhar de sapato: camada sobre camada entre mim e a máquina.</span></span></p>
+<p class="diff-l add {{diffAddCls}}" aria-hidden="true"><span class="diff-s">+</span><span><span ref="{{setDiffAdd}}"></span><span class="{{diffCurCls}}"></span></span></p>
+<p class="sr">Prefiro trabalhar descalço: bare metal, sem nada entre mim e a máquina.</p>
+<sc-if value="{{diffMerged}}" hint-placeholder-val="{{false}}"><div class="diff-ok"><span>merged em main</span><span>1 arquivo · +1 −1</span></div></sc-if>
+</div>
+</div>
+<div class="guild rise" style="animation-delay: 460ms">
+<div class="gl"><span class="gl-n">Ycare</span><span class="gl-r">Vice-presidente · desde a fundação, 2024</span><span class="gl-d">Todo segundo sábado do mês, a equipe leva cestas de alimentos e itens de higiene a uma comunidade. Cuido da arrecadação, da montagem das cestas e da mobilização dos voluntários.</span></div>
+<div class="gl"><span class="gl-n">Kochi Kenjinkai</span><span class="gl-r">Voluntariado</span><span class="gl-d">Coordenação da escala de voluntários do Festival do Japão.</span></div>
+</div>
+<div class="skt rise" style="animation-delay: 520ms">
+<div class="pnl-h"><span class="lab-t">Árvore de habilidades</span><span class="lab-t gold">{{skHint}}</span></div>
+<svg class="skt-svg" sc-camel-view-box="0 0 640 376" role="group" aria-label="Árvore de habilidades: hardware, infraestrutura, segurança e software">
+<sc-for list="{{skLinks}}" as="sl" hint-placeholder-count="8"><path class="skt-p {{sl.cls}}" d="{{sl.d}}"></path></sc-for>
+<sc-for list="{{skNodes}}" as="sn" hint-placeholder-count="10"><g class="skt-n {{sn.cls}}" transform="{{sn.tf}}" sc-camel-on-click="{{sn.pick}}" sc-camel-on-mouse-enter="{{sn.pick}}" sc-camel-on-focus="{{sn.pick}}" sc-camel-on-key-down="{{sn.key}}" role="button" tabindex="0" aria-label="{{sn.aria}}"><rect class="skt-r" x="-10" y="-10" width="20" height="20"></rect><rect class="skt-c" x="-4" y="-4" width="8" height="8"></rect><text class="skt-t" x="{{sn.tx}}" y="4" text-anchor="{{sn.ta}}">{{sn.label}}</text></g></sc-for>
+<sc-for list="{{skHeads}}" as="sh" hint-placeholder-count="4"><text class="skt-h" x="{{sh.x}}" y="{{sh.y}}" text-anchor="middle">{{sh.t}}</text></sc-for>
+</svg>
+<p class="skt-d"><b>{{skName}}</b>{{skDesc}}</p>
+</div>
+</div>
+<div class="ab-x">
+<div class="pnl rise" style="animation-delay: 300ms">
+<div class="pnl-h"><span class="lab-t">Jogando agora</span><span class="lab-t gold">{{gamesHint}}</span></div>
+<ul class="now-l">
+<sc-for list="{{games}}" as="g" hint-placeholder-count="6">
+<li class="{{g.cls}}"><button class="gm-b" sc-camel-on-click="{{g.toggle}}" aria-expanded="{{g.exp}}"><span class="gm">{{g.name}}</span><span class="gn">{{g.tag}}</span><span class="gm-i" aria-hidden="true">{{g.icon}}</span></button><sc-if value="{{g.open}}" hint-placeholder-val="{{false}}"><p class="gm-note">{{g.note}}</p></sc-if></li>
+</sc-for>
+</ul>
+<p class="now-z">Em jogo de luta eu sou <b>zoner</b>: controlo o espaço, leio o oponente e puno o erro. No fundo, é defesa em profundidade.</p>
+</div>
+<div class="pnl rise" style="animation-delay: 380ms">
+<div class="pnl-h"><span class="lab-t">Controle</span><span class="ctl-sw"><button class="ctl-a" sc-camel-on-click="{{ctlPrev}}" aria-label="Controle anterior">‹</button><span class="lab-t gold ctl-n">{{ctlName}}</span><button class="ctl-a" sc-camel-on-click="{{ctlNext}}" aria-label="Próximo controle">›</button></span></div>
+<p class="ctl-sub lab-t">{{ctlSub}}</p>
+<div class="lcd {{lcdCls}}">
+<canvas class="lcd-cv" ref="{{setLcdCv}}" width="320" height="192" aria-hidden="true"></canvas>
+<sc-if value="{{miniIdle}}" hint-placeholder-val="{{false}}">
+<div class="lcd-o" aria-live="polite"><p class="lcd-t pix">{{miniTitle}}</p><p class="lcd-s lcd-ms">{{miniSub}}</p></div>
+</sc-if>
+<sc-if value="{{lcdIdle}}" hint-placeholder-val="{{true}}">
+<div class="lcd-o" aria-live="polite"><p class="lcd-t pix {{padCls}}">{{padDisplay}}</p><p class="lcd-s">{{padSub}}</p></div>
+</sc-if>
+<sc-if value="{{lcdList}}" hint-placeholder-val="{{false}}">
+<ul class="lcd-l" ref="{{setLcdList}}" aria-label="Lista de golpes">
+<sc-for list="{{moveList}}" as="mv" hint-placeholder-count="13"><li class="{{mv.cls}}"><span>{{mv.name}}</span><span class="pix">{{mv.inp}}</span></li></sc-for>
+</ul>
+</sc-if>
+<sc-if value="{{lcdCardOn}}" hint-placeholder-val="{{false}}"><div class="lcd-card" aria-hidden="true"><span class="pix">OKARU</span><span>golpes {{movesTxt}}</span><span>cobrinha {{snakeHiTxt}}</span><span>fichas {{fichasPause}}</span></div></sc-if>
+<sc-if value="{{lcdMenuOn}}" hint-placeholder-val="{{false}}">
+<div class="lcd-m" role="menu" aria-label="Menu do controle">
+<sc-for list="{{menuItems}}" as="mi" hint-placeholder-count="4"><button class="lcd-mi pix {{mi.cls}}" role="menuitem" sc-camel-on-click="{{mi.run}}" sc-camel-on-mouse-enter="{{mi.hover}}">{{mi.label}}</button></sc-for>
+</div>
+</sc-if>
+<sc-if value="{{snakeLive}}" hint-placeholder-val="{{false}}"><span class="sr" role="status">{{snakeSr}}</span></sc-if>
+<span class="lcd-h" aria-hidden="true">{{lcdHint}}</span>
+</div>
+<sc-if value="{{isHitbox}}">
+<section class="hitbox" ref="{{setPadEl}}" tabindex="0" sc-camel-on-key-down="{{hitKey}}" aria-label="Hitbox: treino de golpes">
+<label class="hit-select">Lutador <select value="{{hitFighter}}" sc-camel-on-change="{{hitChoose}}"><sc-for list="{{hitFighters}}" as="f"><option value="{{f.id}}">{{f.label}}</option></sc-for></select></label>
+<div class="hit-controls"><div class="hit-directions" role="group" aria-label="Direções"><sc-for list="{{hitDirections}}" as="b"><button class="hit-key hit-{{b.key}}" sc-camel-on-click="{{b.run}}" aria-label="{{b.name}}">{{b.label}}</button></sc-for></div><div class="hit-attacks" role="group" aria-label="Ataques e assistências"><sc-for list="{{hitAttacks}}" as="b"><button class="hit-key hit-{{b.key}}" sc-camel-on-click="{{b.run}}" aria-label="{{b.name}}">{{b.label}}</button></sc-for></div></div>
+<button class="sys-b" sc-camel-on-click="{{hitReset}}"><span class="sys-p pix">SELECT</span><span class="sys-t">Limpar sequência</span></button>
+<p class="hit-note">Comandos adaptados para cliques, sem precisão de frames. As técnicas de Toph são homenagens originais.</p>
+<p class="hit-note">Foque a hitbox: WASD ou setas movem; J K L dão socos; U I O dão chutes; 1 e 2 chamam assistências. Esc limpa.</p>
+<ul class="hit-moves"><sc-for list="{{hitMoveList}}" as="m"><li><span>{{m.name}}</span><code>{{m.seq}}</code></li></sc-for></ul>
+</section>
+</sc-if>
+<sc-if value="{{isAtari}}" hint-placeholder-val="{{false}}">
+<div class="jpad" ref="{{setPadEl}}">
+<div class="stick" role="group" aria-label="Manche">
+<button class="dp sk-u" sc-camel-on-click="{{mU}}" aria-label="Cima"><svg sc-camel-view-box="0 0 12 12" aria-hidden="true"><path d="M6 2l4 7H2z"></path></svg></button>
+<button class="dp sk-l" sc-camel-on-click="{{mL}}" aria-label="Esquerda"><svg sc-camel-view-box="0 0 12 12" aria-hidden="true"><path d="M2 6l7-4v8z"></path></svg></button>
+<span class="knob" aria-hidden="true"></span>
+<button class="dp sk-r" sc-camel-on-click="{{mR}}" aria-label="Direita"><svg sc-camel-view-box="0 0 12 12" aria-hidden="true"><path d="M10 6L3 2v8z"></path></svg></button>
+<button class="dp sk-d" sc-camel-on-click="{{mD}}" aria-label="Baixo"><svg sc-camel-view-box="0 0 12 12" aria-hidden="true"><path d="M6 10L2 3h8z"></path></svg></button>
+</div>
+<button class="fire1" sc-camel-on-click="{{mA}}" aria-label="Botão de fogo: começar"><span class="pix">FIRE</span></button>
+</div>
+</sc-if>
+<sc-if value="{{isSms}}" hint-placeholder-val="{{false}}">
+<div class="pad" ref="{{setPadEl}}">
+<div class="dpad" role="group" aria-label="Direcional">
+<button class="dp u" sc-camel-on-click="{{mU}}" aria-label="Cima"><svg sc-camel-view-box="0 0 12 12" aria-hidden="true"><path d="M6 2l4 7H2z"></path></svg></button>
+<button class="dp l" sc-camel-on-click="{{mL}}" aria-label="Esquerda"><svg sc-camel-view-box="0 0 12 12" aria-hidden="true"><path d="M2 6l7-4v8z"></path></svg></button>
+<span class="dpc" aria-hidden="true"></span>
+<button class="dp r" sc-camel-on-click="{{mR}}" aria-label="Direita"><svg sc-camel-view-box="0 0 12 12" aria-hidden="true"><path d="M10 6L3 2v8z"></path></svg></button>
+<button class="dp d" sc-camel-on-click="{{mD}}" aria-label="Baixo"><svg sc-camel-view-box="0 0 12 12" aria-hidden="true"><path d="M6 10L2 3h8z"></path></svg></button>
+</div>
+<div class="twob"><button class="sb pix" sc-camel-on-click="{{mA}}" aria-label="Botão 1: reiniciar o nível">1</button><button class="sb pix" sc-camel-on-click="{{mB}}" aria-label="Botão 2: começar ou avançar">2</button></div>
+</div>
+</sc-if>
+<sc-if value="{{isN64}}" hint-placeholder-val="{{false}}">
+<div class="n64" ref="{{setPadEl}}">
+<div class="stick is-sm" role="group" aria-label="Analógico"><button class="dp sk-u" sc-camel-on-click="{{mU}}" aria-label="Cima">↑</button><button class="dp sk-l" sc-camel-on-click="{{mL}}" aria-label="Esquerda">←</button><span class="knob is-sm" aria-hidden="true"></span><button class="dp sk-r" sc-camel-on-click="{{mR}}" aria-label="Direita">→</button><button class="dp sk-d" sc-camel-on-click="{{mD}}" aria-label="Baixo">↓</button></div>
+<div class="n64-mid"><button class="sys-b" sc-camel-on-click="{{mA}}" aria-label="Start: começar"><span class="sys-p pix">START</span></button></div>
+<div class="n64-r">
+<div class="n64-ab"><button class="ab n-a pix" sc-camel-on-click="{{mA}}" aria-label="Botão A: começar">A</button><button class="ab n-b pix" sc-camel-on-click="{{mB}}" aria-label="Botão B">B</button></div>
+<div class="cbtn" role="group" aria-label="Botões C">
+<button class="cb c-u" sc-camel-on-click="{{mU}}" aria-label="C cima"><svg sc-camel-view-box="0 0 12 12" aria-hidden="true"><path d="M6 2l4 7H2z"></path></svg></button>
+<button class="cb c-l" sc-camel-on-click="{{mL}}" aria-label="C esquerda"><svg sc-camel-view-box="0 0 12 12" aria-hidden="true"><path d="M2 6l7-4v8z"></path></svg></button>
+<button class="cb c-r" sc-camel-on-click="{{mR}}" aria-label="C direita"><svg sc-camel-view-box="0 0 12 12" aria-hidden="true"><path d="M10 6L3 2v8z"></path></svg></button>
+<button class="cb c-d" sc-camel-on-click="{{mD}}" aria-label="C baixo"><svg sc-camel-view-box="0 0 12 12" aria-hidden="true"><path d="M6 10L2 3h8z"></path></svg></button>
+</div>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{isPad}}" hint-placeholder-val="{{false}}">
+<div class="mpad" ref="{{setPadEl}}">
+<div class="mp-top"><button class="bump" sc-camel-on-click="{{mL}}" aria-label="Esquerda">L</button><button class="sys-b" sc-camel-on-click="{{mS}}" aria-label="Start: começar"><span class="sys-p pix">START</span></button><button class="bump" sc-camel-on-click="{{mR}}" aria-label="Direita">R</button></div>
+<div class="mp-row">
+<div class="dpad is-sm" role="group" aria-label="Direcional"><button class="dp u" sc-camel-on-click="{{mU}}" aria-label="Cima">↑</button><button class="dp l" sc-camel-on-click="{{mL}}" aria-label="Esquerda">←</button><span class="dpc"></span><button class="dp r" sc-camel-on-click="{{mR}}" aria-label="Direita">→</button><button class="dp d" sc-camel-on-click="{{mD}}" aria-label="Baixo">↓</button></div>
+<div class="mp-sticks"><button class="knob is-sm" sc-camel-on-click="{{mL}}" aria-label="Analógico esquerdo: mudar de pista">←</button><button class="knob is-sm" sc-camel-on-click="{{mR}}" aria-label="Analógico direito: mudar de pista">→</button></div>
+<div class="face" role="group" aria-label="Botões">
+<button class="fb f-y pix" sc-camel-on-click="{{mY}}" aria-label="Botão Y">Y</button>
+<button class="fb f-x pix" sc-camel-on-click="{{mX}}" aria-label="Botão X">X</button>
+<button class="fb f-b pix" sc-camel-on-click="{{mB}}" aria-label="Botão B">B</button>
+<button class="fb f-a pix" sc-camel-on-click="{{mA}}" aria-label="Botão A">A</button>
+</div>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{isGb}}" hint-placeholder-val="{{true}}">
+<div class="pad" ref="{{setPadEl}}">
+<div class="dpad" role="group" aria-label="Direcional">
+<button class="dp u" sc-camel-on-click="{{padU}}" aria-label="Cima"><svg sc-camel-view-box="0 0 12 12" aria-hidden="true"><path d="M6 2l4 7H2z"></path></svg></button>
+<button class="dp l" sc-camel-on-click="{{padL}}" aria-label="Esquerda"><svg sc-camel-view-box="0 0 12 12" aria-hidden="true"><path d="M2 6l7-4v8z"></path></svg></button>
+<span class="dpc" aria-hidden="true"></span>
+<button class="dp r" sc-camel-on-click="{{padR}}" aria-label="Direita"><svg sc-camel-view-box="0 0 12 12" aria-hidden="true"><path d="M10 6L3 2v8z"></path></svg></button>
+<button class="dp d" sc-camel-on-click="{{padD}}" aria-label="Baixo"><svg sc-camel-view-box="0 0 12 12" aria-hidden="true"><path d="M6 10L2 3h8z"></path></svg></button>
+</div>
+<div class="abtn"><button class="ab b pix" sc-camel-on-click="{{padB}}" aria-label="Botão B">B</button><button class="ab a pix" sc-camel-on-click="{{padA}}" aria-label="Botão A">A</button></div>
+</div>
+<div class="sys-row">
+<button class="sys-b" sc-camel-on-click="{{padSelect}}" aria-label="Select: {{selLabel}}"><span class="sys-p pix">SELECT</span><span class="sys-t">{{selLabel}}</span></button>
+<button class="sys-b" sc-camel-on-click="{{padStart}}" aria-label="Start: {{startLabel}}"><span class="sys-p pix">START</span><span class="sys-t">{{startLabel}}</span></button>
+</div>
+</sc-if>
+</div>
+</div>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{isQuarto}}" hint-placeholder-val="{{false}}">
+<section class="screen scr-room" aria-label="Quarto">
+<div class="rm">
+<div class="rm-box" ref="{{setRmBox}}">
+<div class="rm-v" ref="{{setRmWrap}}">
+<img class="rm-atlas" src="./assets/images/portfolio-art.png" alt="" aria-hidden="true" ref="{{setRmAtlas}}">
+<canvas class="rm-cv" ref="{{setRmCv}}" sc-camel-on-pointer-down="{{rmPointer}}" sc-camel-on-pointer-move="{{rmHover}}" sc-camel-on-pointer-leave="{{rmLeave}}" role="img" aria-label="Quarto do Okaru em pixel art. Ande com as setas ou WASD e interaja com E, ou clique nos objetos."></canvas>
+<sc-if value="{{rmDlgOn}}" hint-placeholder-val="{{false}}">
+<div class="rdlg rm-dlg {{rmDlgCls}}" sc-camel-on-click="{{dlgSkip}}">
+<div class="rdlg-w"><span class="rdlg-n pix">{{dlgWho}}</span><span class="rdlg-o">{{dlgObj}}</span></div>
+<sc-if value="{{propOn}}"><img class="prop-preview" key="{{propFrame}}" src="{{propImage}}" alt="{{propName}}"></sc-if>
+<p class="rdlg-t" ref="{{setDlgEl}}" aria-hidden="true"></p>
+<p class="rdlg-size" aria-hidden="true">{{dlgText}}</p>
+<p class="sr" aria-live="polite">{{dlgText}}</p>
+<div class="rdlg-a">
+<sc-for list="{{dlgActs}}" as="ra" hint-placeholder-count="2"><button class="ra {{ra.cls}}" sc-camel-on-click="{{ra.run}}">{{ra.label}}</button></sc-for>
+</div>
+</div>
+</sc-if>
+</div>
+</div>
+<p class="rm-help"><span class="rm-n pix">{{roomSeen}}/{{roomTotal}}</span><span class="rm-k">objetos</span><span class="rm-sep" aria-hidden="true">·</span><sc-if value="{{rmHovOn}}" hint-placeholder-val="{{false}}"><span class="rm-hv">{{rmHovName}}</span></sc-if><sc-if value="{{rmHovOff}}" hint-placeholder-val="{{true}}"><span>{{rmHelp}}</span></sc-if></p>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{isContato}}" hint-placeholder-val="{{false}}">
+<section class="screen" aria-label="Contato">
+<div class="contact">
+<div class="ct-l">
+<p class="kick rise" style="animation-delay: 80ms">Save point</p>
+<h1 class="cont"><span class="ln"><span class="ln-in" style="animation-delay: 120ms" ref="{{decH1}}">Continue<span class="q">?</span></span></span></h1>
+<p class="ct-t rise" style="animation-delay: 320ms">Estou procurando estágio em infraestrutura, segurança ou sistemas embarcados. Se você tem uma vaga, um projeto ou só uma dúvida sobre ESP32, insere a ficha.</p>
+<div class="ct-acts rise" style="animation-delay: 420ms">
+<div class="ctas ct-primary">
+<button class="coin {{coinCls}}" sc-camel-on-click="{{insertCoin}}" title="Inserir ficha: copia o e-mail" data-poke="jump"><span class="pix" aria-live="polite">{{coinLabel}}</span><span class="coin-m" ref="{{setMailRef}}">hogasawara2311@outlook.com</span><sc-if value="{{copiedOk}}" hint-placeholder-val="{{false}}"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></sc-if><sc-if value="{{notCopied}}" hint-placeholder-val="{{true}}"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><rect x="8.5" y="8.5" width="11" height="11" rx="1.5"></rect><path d="M15.5 8.5V6A1.5 1.5 0 0 0 14 4.5H6A1.5 1.5 0 0 0 4.5 6v8A1.5 1.5 0 0 0 6 15.5h2.5"></path></svg></sc-if></button>
+<span class="cv-g" data-nopoke="true"><span class="lab-t">Currículo</span><sc-for list="{{resumeLinks}}" as="cv"><span class="cv-language"><a href="{{cv.href}}" target="_blank" rel="noopener" aria-label="Abrir currículo PDF">{{cv.label}} ↗</a></span></sc-for><sc-if value="{{cvMissing}}"><span>Currículos em atualização</span></sc-if></span>
+</div>
+<div class="ctas ct-social">
+<a class="lnk" href="https://www.linkedin.com/in/hikaru-ogasawara" target="_blank" rel="noopener">LinkedIn <span class="ph-t">/in/hikaru-ogasawara</span> <span class="arr" aria-hidden="true">↗</span></a>
+<a class="lnk" href="https://github.com/Hikaru-0gasawara" target="_blank" rel="noopener">GitHub <span class="ph-t">/Hikaru-0gasawara</span> <span class="arr" aria-hidden="true">↗</span></a>
+</div>
+<div class="ct-foot lab-t"><span>Hikaru Ogasawara · São Paulo, 2026</span><span>Respondo em PT · EN · JP · ES</span><span>Feito com solda, café e ctrl+z</span></div>
+</div>
+<button class="portal-anchor portal-secret" data-portal-id="contact-home" data-poke="twirl" sc-camel-on-click="{{portalHome}}" aria-label="Portal escondido: voltar ao início" title="Um caminho de volta"><span class="portal-stone" aria-hidden="true">⌂</span></button>
+</div>
+<div class="ct-r rise" style="animation-delay: 260ms">
+<span class="count-k lab-t" aria-hidden="true">Fichas</span>
+<div class="count pix {{countCls}}" aria-hidden="true"><div class="count-s" style="transform: {{countTf}}"><span>9</span><span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span><span>0</span></div></div>
+<p class="sr">{{fichasSr}}</p>
+<sc-if value="{{fichaHas}}" hint-placeholder-val="{{true}}"><div class="go pix" aria-hidden="true"><span class="go-a">Insira uma ficha</span><span class="go-b">1 ficha = 1 e-mail</span></div></sc-if>
+<sc-if value="{{fichaZero}}" hint-placeholder-val="{{false}}"><div class="go0"><span class="go0-t pix">Game over? Nunca.</span><span class="go0-h">Tem fichas escondidas pelo portfólio.</span><a class="go0-m" href="mailto:hogasawara2311@outlook.com">ou escreva direto</a></div></sc-if>
+<div class="bub">
+<div class="bub-h"><span class="lab-t">Plástico-bolha</span><span class="lab-t gold">{{bubLeft}}</span></div>
+<div class="bub-g" role="group" aria-label="Plástico-bolha">
+<sc-for list="{{bubbles}}" as="bb" hint-placeholder-count="24"><button class="bb {{bb.cls}}" sc-camel-on-click="{{bb.pop}}" aria-label="{{bb.aria}}"></button></sc-for>
+</div>
+<sc-if value="{{bubDone}}" hint-placeholder-val="{{false}}"><button class="bub-r" sc-camel-on-click="{{bubRefill}}">Nova folha</button></sc-if>
+<p class="bub-f">pra passar o tempo enquanto a resposta não chega</p>
+</div>
+</div>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{worldOn}}" hint-placeholder-val="{{false}}">
+<div class="world {{worldCls}}" ref="{{setWorld}}">
+<img class="sdoor-img" src="./assets/images/portfolio-art.png" alt="" aria-hidden="true" ref="{{setDoorImg}}">
+<canvas class="world-cv" aria-hidden="true" ref="{{setWorldCv}}"></canvas>
+<button class="wdoor wd-l" ref="{{setWdL}}" sc-camel-on-click="{{wdL}}" sc-camel-on-mouse-enter="{{wdLHov}}" sc-camel-on-mouse-leave="{{wdOff}}" aria-label="{{wdLTip}}"><span class="sdoor-tip" aria-hidden="true">{{wdLTip}}</span></button>
+<sc-if value="{{wkHintOn}}" hint-placeholder-val="{{false}}"><span class="sdoor-tip wk-hint" ref="{{setWkHint}}">WASD pra andar · E pra usar</span></sc-if>
+<sc-if value="{{wdROn}}" hint-placeholder-val="{{true}}"><button class="wdoor wd-r" ref="{{setWdR}}" sc-camel-on-click="{{wdR}}" sc-camel-on-mouse-enter="{{wdRHov}}" sc-camel-on-mouse-leave="{{wdOff}}" aria-label="{{wdRTip}}"><span class="sdoor-tip" aria-hidden="true">{{wdRTip}}</span></button></sc-if>
+</div>
+</sc-if>
+
+</main>
+
+<footer class="ground">
+<button class="ground-b {{groundCls}}" sc-camel-on-click="{{stomp}}" sc-camel-on-mouse-enter="{{groundEnter}}" sc-camel-on-mouse-leave="{{groundLeave}}" aria-label="Sismógrafo da estação SP-01" title="sinta o chão">
+<span class="g-l">Sismógrafo · SP-01</span>
+<span class="g-trace" aria-hidden="true"><span class="g-base"></span><span class="g-wrap"><svg class="trace" sc-camel-view-box="0 0 2880 60" sc-camel-preserve-aspect-ratio="none"><path d="M0 30.3 L5 30.5 L10 29.8 L15 30.7 L20 29.9 L25 30.2 L30 30.7 L35 30.0 L40 30.8 L45 30.1 L50 30.8 L55 30.8 L60 30.1 L65 29.3 L70 30.8 L75 30.6 L80 29.7 L85 29.0 L90 29.8 L95 30.2 L100 28.9 L105 31.1 L110 29.1 L115 30.5 L120 30.9 L125 31.0 L130 30.5 L135 29.2 L140 30.8 L145 29.8 L150 29.6 L155 16.3 L160 46.1 L165 30.9 L170 20.8 L175 42.7 L180 29.2 L185 21.2 L190 38.3 L195 29.2 L200 20.7 L205 40.2 L210 26.9 L215 28.4 L220 35.0 L225 33.2 L230 20.5 L235 37.6 L240 27.9 L245 26.6 L250 34.1 L255 28.8 L260 28.2 L265 31.2 L270 31.1 L275 25.7 L280 34.6 L285 29.3 L290 26.9 L295 32.3 L300 28.2 L305 29.3 L310 31.5 L315 29.7 L320 28.6 L325 31.6 L330 29.1 L335 27.9 L340 31.4 L345 29.4 L350 30.2 L355 30.8 L360 29.7 L365 28.9 L370 29.3 L375 30.5 L380 30.3 L385 29.6 L390 31.2 L395 30.1 L400 30.8 L405 31.0 L410 31.1 L415 29.3 L420 31.0 L425 30.7 L430 30.3 L435 29.0 L440 31.1 L445 30.1 L450 29.9 L455 29.0 L460 29.2 L465 29.1 L470 30.5 L475 30.2 L480 30.3 L485 29.2 L490 29.0 L495 30.7 L500 30.7 L505 30.5 L510 30.5 L515 30.0 L520 29.8 L525 21.6 L530 36.4 L535 34.8 L540 21.7 L545 30.6 L550 35.2 L555 26.0 L560 26.9 L565 34.7 L570 29.1 L575 27.2 L580 31.8 L585 31.0 L590 26.0 L595 30.2 L600 33.2 L605 28.2 L610 29.8 L615 22.6 L620 46.3 L625 13.8 L630 31.4 L635 42.6 L640 10.8 L645 45.1 L650 32.9 L655 15.4 L660 47.5 L665 21.9 L670 29.9 L675 36.1 L680 17.6 L685 36.7 L690 31.3 L695 23.4 L700 40.1 L705 24.2 L710 31.8 L715 32.9 L720 27.9 L725 30.8 L730 34.6 L735 23.4 L740 37.7 L745 26.2 L750 30.4 L755 32.5 L760 28.4 L765 30.3 L770 31.8 L775 26.4 L780 33.6 L785 28.4 L790 29.4 L795 30.9 L800 26.1 L805 31.2 L810 30.9 L815 28.2 L820 32.7 L825 28.4 L830 29.3 L835 31.4 L840 28.5 L845 31.4 L850 30.0 L855 27.8 L860 30.6 L865 29.5 L870 29.5 L875 29.6 L880 30.5 L885 30.0 L890 30.3 L895 30.9 L900 30.9 L905 30.4 L910 30.5 L915 29.6 L920 29.0 L925 30.1 L930 29.0 L935 28.9 L940 28.9 L945 30.3 L950 30.7 L955 30.7 L960 30.8 L965 30.7 L970 29.7 L975 29.0 L980 29.1 L985 22.7 L990 38.0 L995 31.9 L1000 18.1 L1005 35.5 L1010 34.5 L1015 19.7 L1020 32.0 L1025 35.9 L1030 25.7 L1035 29.4 L1040 36.9 L1045 24.8 L1050 27.4 L1055 35.7 L1060 28.1 L1065 26.5 L1070 33.2 L1075 29.7 L1080 28.3 L1085 34.1 L1090 29.2 L1095 26.5 L1100 33.2 L1105 30.1 L1110 27.0 L1115 31.0 L1120 31.4 L1125 27.8 L1130 31.1 L1135 32.1 L1140 28.2 L1145 29.8 L1150 31.0 L1155 28.2 L1160 29.8 L1165 30.5 L1170 29.0 L1175 30.1 L1180 31.2 L1185 30.1 L1190 30.5 L1195 29.8 L1200 30.5 L1205 30.2 L1210 30.8 L1215 29.1 L1220 30.3 L1225 30.1 L1230 29.8 L1235 29.0 L1240 30.2 L1245 29.0 L1250 30.0 L1255 29.9 L1260 20.3 L1265 46.6 L1270 13.3 L1275 39.9 L1280 32.3 L1285 21.3 L1290 47.4 L1295 19.7 L1300 37.0 L1305 31.8 L1310 24.6 L1315 40.0 L1320 19.9 L1325 34.3 L1330 29.2 L1335 28.0 L1340 33.7 L1345 25.1 L1350 30.5 L1355 33.2 L1360 25.3 L1365 35.0 L1370 26.5 L1375 30.9 L1380 31.7 L1385 25.9 L1390 33.7 L1395 25.9 L1400 31.4 L1405 31.5 L1410 27.5 L1415 32.1 L1420 27.1 L1425 29.9 L1430 30.3 L1435 28.4 L1440 30.3 L1445 30.5 L1450 29.8 L1455 30.7 L1460 29.9 L1465 30.2 L1470 30.7 L1475 30.0 L1480 30.8 L1485 30.1 L1490 30.8 L1495 30.8 L1500 30.1 L1505 29.3 L1510 30.8 L1515 30.6 L1520 29.7 L1525 29.0 L1530 29.8 L1535 30.2 L1540 28.9 L1545 31.1 L1550 29.1 L1555 30.5 L1560 30.9 L1565 31.0 L1570 30.5 L1575 29.2 L1580 30.8 L1585 29.8 L1590 29.6 L1595 16.3 L1600 46.1 L1605 30.9 L1610 20.8 L1615 42.7 L1620 29.2 L1625 21.2 L1630 38.3 L1635 29.2 L1640 20.7 L1645 40.2 L1650 26.9 L1655 28.4 L1660 35.0 L1665 33.2 L1670 20.5 L1675 37.6 L1680 27.9 L1685 26.6 L1690 34.1 L1695 28.8 L1700 28.2 L1705 31.2 L1710 31.1 L1715 25.7 L1720 34.6 L1725 29.3 L1730 26.9 L1735 32.3 L1740 28.2 L1745 29.3 L1750 31.5 L1755 29.7 L1760 28.6 L1765 31.6 L1770 29.1 L1775 27.9 L1780 31.4 L1785 29.4 L1790 30.2 L1795 30.8 L1800 29.7 L1805 28.9 L1810 29.3 L1815 30.5 L1820 30.3 L1825 29.6 L1830 31.2 L1835 30.1 L1840 30.8 L1845 31.0 L1850 31.1 L1855 29.3 L1860 31.0 L1865 30.7 L1870 30.3 L1875 29.0 L1880 31.1 L1885 30.1 L1890 29.9 L1895 29.0 L1900 29.2 L1905 29.1 L1910 30.5 L1915 30.2 L1920 30.3 L1925 29.2 L1930 29.0 L1935 30.7 L1940 30.7 L1945 30.5 L1950 30.5 L1955 30.0 L1960 29.8 L1965 21.6 L1970 36.4 L1975 34.8 L1980 21.7 L1985 30.6 L1990 35.2 L1995 26.0 L2000 26.9 L2005 34.7 L2010 29.1 L2015 27.2 L2020 31.8 L2025 31.0 L2030 26.0 L2035 30.2 L2040 33.2 L2045 28.2 L2050 29.8 L2055 22.6 L2060 46.3 L2065 13.8 L2070 31.4 L2075 42.6 L2080 10.8 L2085 45.1 L2090 32.9 L2095 15.4 L2100 47.5 L2105 21.9 L2110 29.9 L2115 36.1 L2120 17.6 L2125 36.7 L2130 31.3 L2135 23.4 L2140 40.1 L2145 24.2 L2150 31.8 L2155 32.9 L2160 27.9 L2165 30.8 L2170 34.6 L2175 23.4 L2180 37.7 L2185 26.2 L2190 30.4 L2195 32.5 L2200 28.4 L2205 30.3 L2210 31.8 L2215 26.4 L2220 33.6 L2225 28.4 L2230 29.4 L2235 30.9 L2240 26.1 L2245 31.2 L2250 30.9 L2255 28.2 L2260 32.7 L2265 28.4 L2270 29.3 L2275 31.4 L2280 28.5 L2285 31.4 L2290 30.0 L2295 27.8 L2300 30.6 L2305 29.5 L2310 29.5 L2315 29.6 L2320 30.5 L2325 30.0 L2330 30.3 L2335 30.9 L2340 30.9 L2345 30.4 L2350 30.5 L2355 29.6 L2360 29.0 L2365 30.1 L2370 29.0 L2375 28.9 L2380 28.9 L2385 30.3 L2390 30.7 L2395 30.7 L2400 30.8 L2405 30.7 L2410 29.7 L2415 29.0 L2420 29.1 L2425 22.7 L2430 38.0 L2435 31.9 L2440 18.1 L2445 35.5 L2450 34.5 L2455 19.7 L2460 32.0 L2465 35.9 L2470 25.7 L2475 29.4 L2480 36.9 L2485 24.8 L2490 27.4 L2495 35.7 L2500 28.1 L2505 26.5 L2510 33.2 L2515 29.7 L2520 28.3 L2525 34.1 L2530 29.2 L2535 26.5 L2540 33.2 L2545 30.1 L2550 27.0 L2555 31.0 L2560 31.4 L2565 27.8 L2570 31.1 L2575 32.1 L2580 28.2 L2585 29.8 L2590 31.0 L2595 28.2 L2600 29.8 L2605 30.5 L2610 29.0 L2615 30.1 L2620 31.2 L2625 30.1 L2630 30.5 L2635 29.8 L2640 30.5 L2645 30.2 L2650 30.8 L2655 29.1 L2660 30.3 L2665 30.1 L2670 29.8 L2675 29.0 L2680 30.2 L2685 29.0 L2690 30.0 L2695 29.9 L2700 20.3 L2705 46.6 L2710 13.3 L2715 39.9 L2720 32.3 L2725 21.3 L2730 47.4 L2735 19.7 L2740 37.0 L2745 31.8 L2750 24.6 L2755 40.0 L2760 19.9 L2765 34.3 L2770 29.2 L2775 28.0 L2780 33.7 L2785 25.1 L2790 30.5 L2795 33.2 L2800 25.3 L2805 35.0 L2810 26.5 L2815 30.9 L2820 31.7 L2825 25.9 L2830 33.7 L2835 25.9 L2840 31.4 L2845 31.5 L2850 27.5 L2855 32.1 L2860 27.1 L2865 29.9 L2870 30.3 L2875 28.4 L2880 30.3"></path></svg></span></span>
+<span class="g-r g-tel"><span class="tel-on {{onCls}}"><i></i>{{onTxt}}</span><span class="tel-c">SP {{clock}}</span><span class="tel-u">uptime {{uptime}}</span><span class="tel-fps" ref="{{setFpsEl}}"></span><span class="tel-q">{{qualShort}}</span><span class="tel-b">{{ttfbTxt}}</span></span>
+</button>
+<sc-if value="{{ringA}}" hint-placeholder-val="{{false}}"><span class="gring" style="left: {{ringX}}px"></span></sc-if>
+<sc-if value="{{ringB}}" hint-placeholder-val="{{false}}"><span class="gring" style="left: {{ringX}}px"></span></sc-if>
+</footer>
+
+<sc-if value="{{trophiesOpen}}" hint-placeholder-val="{{false}}">
+<aside class="tro" aria-label="Conquistas">
+<div class="tro-h"><span class="tro-t pix">Conquistas {{gotCount}}/{{trophyTotal}}</span><button class="x-b" sc-camel-on-click="{{toggleTro}}" aria-label="Fechar conquistas"><svg sc-camel-view-box="0 0 16 16" class="ico" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9"></path></svg></button></div>
+<div class="tro-bar"><i style="width: {{trophyPct}}%"></i></div>
+<div class="tro-sc">
+<p class="tro-k lab-t">Recentes</p>
+<sc-if value="{{troNone}}" hint-placeholder-val="{{false}}"><p class="tro-e">Nenhuma ainda.</p></sc-if>
+<ul class="tro-l">
+<sc-for list="{{troRecent}}" as="tr" hint-placeholder-count="5">
+<li class="tro-i is-got"><span class="tro-ic"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path d="{{tr.ic}}"></path></svg></span><span><span class="tro-n pix">{{tr.name}}</span><span class="tro-d">{{tr.desc}}</span></span></li>
+</sc-for>
+</ul>
+<sc-if value="{{troHasNext}}" hint-placeholder-val="{{true}}"><p class="tro-k lab-t">Próximas</p></sc-if>
+<ul class="tro-l">
+<sc-for list="{{troNext}}" as="tn" hint-placeholder-count="3">
+<li class="tro-i"><span class="tro-ic"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path d="{{tn.ic}}"></path></svg></span><span><span class="tro-n pix">{{tn.name}}</span><span class="tro-d">{{tn.desc}}</span></span></li>
+</sc-for>
+</ul>
+<sc-if value="{{troNoteOn}}" hint-placeholder-val="{{false}}"><p class="tro-e">Só faltam as secretas. Boa caçada.</p></sc-if>
+</div>
+<button class="tro-all" sc-camel-on-click="{{openAchAll}}">Ver todas as conquistas <span aria-hidden="true">→</span></button>
+<sc-if value="{{allGot}}" hint-placeholder-val="{{false}}"><div class="tro-pl pix" style="display: flex; flex-direction: column; align-items: center; gap: 10px">100% · Platina. Obrigado por jogar.<button class="btn btn-g" sc-camel-on-click="{{openCredits}}">Ver os créditos</button></div></sc-if>
+</aside>
+</sc-if>
+
+<sc-if value="{{tripOn}}" hint-placeholder-val="{{false}}">
+<button class="trip-b {{tripCls}}" sc-camel-on-click="{{tripPush}}" data-nopoke="1"><span class="trip-a pix" aria-hidden="true">{{tripArr}}</span><span class="pix">{{tripLabel}}</span><span class="trip-k">{{tripKey}}</span></button>
+</sc-if>
+
+<sc-if value="{{toastA}}" hint-placeholder-val="{{false}}">
+<div class="toast" role="status"><span class="toast-ic"><sc-if value="{{toastTro}}" hint-placeholder-val="{{true}}"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path d="{{toastIc}}"></path></svg></sc-if><sc-if value="{{toastInf}}" hint-placeholder-val="{{false}}"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></sc-if></span><span><span class="toast-k {{toastKCls}}">{{toastKick}}</span><span class="toast-n pix">{{toastName}}</span></span></div>
+</sc-if>
+<sc-if value="{{toastB}}" hint-placeholder-val="{{false}}">
+<div class="toast" role="status"><span class="toast-ic"><sc-if value="{{toastTro}}" hint-placeholder-val="{{true}}"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path d="{{toastIc}}"></path></svg></sc-if><sc-if value="{{toastInf}}" hint-placeholder-val="{{false}}"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></sc-if></span><span><span class="toast-k {{toastKCls}}">{{toastKick}}</span><span class="toast-n pix">{{toastName}}</span></span></div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{hdkA}}" hint-placeholder-val="{{false}}"><span class="hdk pix" style="left: {{hdkX}}px; top: {{hdkY}}px" aria-hidden="true">SYN</span></sc-if>
+<sc-if value="{{hdkB}}" hint-placeholder-val="{{false}}"><span class="hdk pix" style="left: {{hdkX}}px; top: {{hdkY}}px" aria-hidden="true">SYN</span></sc-if>
+
+<sc-if value="{{seis}}" hint-placeholder-val="{{false}}">
+<div class="seis-l">
+<sc-if value="{{sonarA}}" hint-placeholder-val="{{false}}"><div class="sw" aria-hidden="true"><div class="sonar" style="left: {{sonarX}}px; top: {{sonarY}}px"></div><div class="ringl" style="left: {{sonarX}}px; top: {{sonarY}}px"></div></div></sc-if>
+<sc-if value="{{sonarB}}" hint-placeholder-val="{{false}}"><div class="sw" aria-hidden="true"><div class="sonar" style="left: {{sonarX}}px; top: {{sonarY}}px"></div><div class="ringl" style="left: {{sonarX}}px; top: {{sonarY}}px"></div></div></sc-if>
+<div class="seis-cz" ref="{{setSeisCz}}"><sc-if value="{{seisCoinOn}}" hint-placeholder-val="{{false}}"><span class="seis-cw {{seisCoinCls}}" ref="{{setSeisCw}}"><button class="seis-coin" sc-camel-on-click="{{seisCoinTake}}" aria-label="{{seisCoinAria}}"><span aria-hidden="true"></span></button></span></sc-if></div>
+<div class="seis-hud"><span class="pix">Visão sísmica</span><span class="seis-tip">clique em qualquer lugar</span><span class="seis-find" ref="{{setSeisFind}}"></span><button class="seis-off" sc-camel-on-click="{{lightsOn}}">Acender a luz <span class="pix">光</span></button></div>
+</div>
+</sc-if>
+
+<sc-if value="{{achOpen}}" hint-placeholder-val="{{false}}">
+<div class="ach-l" sc-camel-on-click="{{achBackdrop}}">
+<section class="ach" role="dialog" aria-modal="true" aria-label="Conquistas">
+<header class="ach-h">
+<div class="ach-ht"><h2 class="ach-t pix">Conquistas</h2><span class="ach-n pix">{{gotCount}}/{{trophyTotal}}</span></div>
+<button class="x-b" sc-camel-on-click="{{closeAch}}" aria-label="Fechar conquistas"><svg sc-camel-view-box="0 0 16 16" class="ico" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9"></path></svg></button>
+</header>
+<div class="ach-p"><div class="tro-bar ach-bar"><i style="width: {{trophyPct}}%"></i></div><span class="lab-t">{{achStats}}</span></div>
+<div class="ach-b">
+<div class="ach-g" ref="{{setAchGrid}}" sc-camel-on-key-down="{{achKey}}">
+<sc-for list="{{achList}}" as="ac" hint-placeholder-count="31"><button class="ach-s {{ac.cls}}" sc-camel-on-click="{{ac.pick}}" sc-camel-on-focus="{{ac.pick}}" aria-label="{{ac.aria}}" aria-pressed="{{ac.on}}" title="{{ac.tip}}"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path d="{{ac.ic}}"></path></svg></button></sc-for>
+</div>
+<div class="ach-d" aria-live="polite">
+<div class="ach-dt"><span class="ach-di {{achDCls}}"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path d="{{achDIc}}"></path></svg></span><span class="ach-dw"><span class="ach-dn pix">{{achDName}}</span><span class="ach-st lab-t {{achDCls}}">{{achDSt}}</span></span></div>
+<p class="ach-dd">{{achDDesc}}</p>
+<sc-if value="{{achDHintBtn}}" hint-placeholder-val="{{false}}"><button class="ach-hb" sc-camel-on-click="{{achShowHint}}">Pedir uma dica</button></sc-if>
+<sc-if value="{{achDHintOn}}" hint-placeholder-val="{{false}}"><p class="ach-hint"><span class="lab-t">Dica</span>{{achDHint}}</p></sc-if>
+</div>
+</div>
+<sc-if value="{{allGot}}" hint-placeholder-val="{{false}}"><footer class="ach-f"><span class="pix gold">100% · Platina. Obrigado por jogar.</span><button class="btn btn-g" sc-camel-on-click="{{openCredits}}">Ver os créditos</button></footer></sc-if>
+</section>
+</div>
+</sc-if>
+
+<sc-if value="{{paused}}" hint-placeholder-val="{{false}}">
+<div class="pause" role="dialog" aria-modal="true" aria-label="Jogo pausado" sc-camel-on-click="{{pauseBackdrop}}">
+<div class="pause-p">
+<p class="pause-t pix">PAUSADO</p>
+<div class="pause-m">
+<button class="pm" sc-camel-on-click="{{resume}}" ref="{{setPauseFirst}}"><span class="pm-l">Continuar</span><span class="pm-v">esc</span></button>
+<button class="pm" sc-camel-on-click="{{pauseRoom}}"><span class="pm-l">{{pauseRoomLabel}}</span><span class="pm-v">{{pauseRoomHint}}</span></button>
+<button class="pm" sc-camel-on-click="{{languageChange}}"><span class="pm-l">Idioma</span><span class="pm-v">{{languageLabel}}</span></button>
+<button class="pm" sc-camel-on-click="{{toggleMotion}}"><span class="pm-l">Movimento</span><span class="pm-v">{{motionLabel}}</span></button>
+<button class="pm pm-glass {{glassCls}}" sc-camel-on-pointer-down="{{glassDown}}" sc-camel-on-pointer-up="{{holdEnd}}" sc-camel-on-pointer-leave="{{holdEnd}}" sc-camel-on-pointer-cancel="{{holdEnd}}" sc-camel-on-key-down="{{glassKey}}" sc-camel-on-click="{{glassClick}}" aria-label="Com pressa? Modo recrutador: segure para quebrar o vidro, ou aperte Enter"><span class="pm-l">Com pressa?</span><span class="pm-v">{{pmGlassHint}}</span><span class="glass-pane" aria-hidden="true"></span><svg class="glass-cr" sc-camel-view-box="0 0 400 46" sc-camel-preserve-aspect-ratio="none" aria-hidden="true"><path d="M200 23l-40-8-44-9-40-6M200 23l52-9 60-8 46-6M200 23l-48 9-56 10M200 23l50 8 70 13M200 23l6-23M200 23l-8 23"></path></svg><svg class="glass-rim" sc-camel-view-box="0 0 404 42" sc-camel-preserve-aspect-ratio="none" aria-hidden="true"><path d="M202 1H403V41H1V1Z" sc-camel-path-length="100"></path></svg></button>
+<button class="pm" sc-camel-on-click="{{pauseTro}}"><span class="pm-l">Conquistas</span><span class="pm-v">{{gotCount}}/{{trophyTotal}}</span></button>
+<button class="pm" sc-camel-on-click="{{pausePal}}"><span class="pm-l">Paleta de comandos</span><span class="pm-v">ctrl+k</span></button>
+<button class="pm" sc-camel-on-click="{{toggleSnd}}" aria-pressed="{{sndPressed}}"><span class="pm-l">Som 8-bit</span><span class="pm-v">{{sndState}}</span></button>
+<button class="pm" sc-camel-on-click="{{cycleTrack}}"><span class="pm-l">Trilha</span><span class="pm-v">{{trackTxt}}</span></button>
+<button class="pm" sc-camel-on-click="{{cycleQual}}"><span class="pm-l">Vídeo</span><span class="pm-v">{{qualTxt}}</span></button>
+<button class="pm" sc-camel-on-click="{{eraseSave}}"><span class="pm-l">Cartão de memória</span><span class="pm-v">{{memTxt}}</span></button>
+<button class="pm" sc-camel-on-click="{{pauseReboot}}"><span class="pm-l">Voltar ao Press Start</span><span class="pm-v">reboot</span></button>
+</div>
+<dl class="pause-s">
+<div><dt>Tempo de jogo</dt><dd>{{uptime}}</dd></div>
+<div><dt>Telas visitadas</dt><dd>{{visitedTxt}}</dd></div>
+<div><dt>Receitas</dt><dd>{{recipesGot}}/{{recipesTotal}}</dd></div>
+<div><dt>Objetos do quarto</dt><dd>{{roomSeen}}/{{roomTotal}}</dd></div>
+<div><dt>Recorde no fliperama</dt><dd>{{arcBest}}</dd></div>
+<div><dt>Fichas</dt><dd>{{fichasPause}}</dd></div>
+<div><dt>Golpes</dt><dd>{{movesTxt}}</dd></div>
+<div><dt>Save</dt><dd>{{saveWhere}}</dd></div>
+</dl>
+<p class="pause-k">Atalhos: esc pausa · ctrl+k ou / abre a paleta · m liga e desliga o som · F3 modo debug</p>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{palOpen}}" hint-placeholder-val="{{false}}">
+<div class="pal-l" sc-camel-on-click="{{palBackdrop}}">
+<div class="pal" role="dialog" aria-modal="true" aria-label="Paleta de comandos">
+<label class="pal-in"><span class="pal-p pix" aria-hidden="true">&gt;</span><span class="sr">Buscar comando</span><input class="pal-x" type="text" value="{{palQ}}" sc-camel-on-change="{{palChange}}" sc-camel-on-key-down="{{palKey}}" ref="{{setPalInput}}" placeholder="ir pra, missão, som, currículo..." autocomplete="off" spellcheck="false"></label>
+<ul class="pal-list" role="listbox" aria-label="Comandos" ref="{{setPalList}}">
+<sc-for list="{{palItems}}" as="pi" hint-placeholder-count="8"><li role="presentation">
+<sc-if value="{{pi.isLink}}" hint-placeholder-val="{{false}}"><a class="pal-i {{pi.cls}}" href="{{pi.href}}" target="_blank" rel="noopener" sc-camel-on-click="{{pi.run}}" sc-camel-on-mouse-enter="{{pi.hover}}" role="option" aria-selected="{{pi.sel}}"><span class="pal-k pix">{{pi.k}}</span><span class="pal-n">{{pi.name}}</span><span class="pal-h">{{pi.hint}}</span></a></sc-if>
+<sc-if value="{{pi.isBtn}}" hint-placeholder-val="{{true}}"><button class="pal-i {{pi.cls}}" sc-camel-on-click="{{pi.run}}" sc-camel-on-mouse-enter="{{pi.hover}}" role="option" aria-selected="{{pi.sel}}"><span class="pal-k pix">{{pi.k}}</span><span class="pal-n">{{pi.name}}</span><span class="pal-h">{{pi.hint}}</span></button></sc-if>
+</li></sc-for>
+</ul>
+<sc-if value="{{palEmpty}}" hint-placeholder-val="{{false}}"><p class="pal-e">Nenhum comando com esse nome. Tente “quarto”, “som” ou “cv”.</p></sc-if>
+<div class="pal-f"><span class="lab-t">↑↓ navega · enter executa · esc fecha</span><span class="lab-t">{{palCount}}</span></div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{sleeping}}" hint-placeholder-val="{{false}}">
+<div class="zz" role="status"><div class="zz-r" aria-hidden="true"><span class="zz-z pix">z</span><span class="zz-z pix">z</span><span class="zz-z pix">Z</span></div><p class="zz-t pix">{{sleepTxt}}</p></div>
+</sc-if>
+
+<div class="redx" aria-hidden="true"></div>
+
+<sc-if value="{{recOpen}}" hint-placeholder-val="{{false}}">
+<div class="rec-l" sc-camel-on-click="{{recBackdrop}}">
+<section class="rec" role="dialog" aria-modal="true" aria-label="Modo recrutador">
+<div class="rec-h">
+<span class="rec-tag pix">MODO RECRUTADOR</span>
+<button class="x-b" sc-camel-on-click="{{closeRec}}" ref="{{setRecFirst}}" aria-label="Fechar modo recrutador"><svg sc-camel-view-box="0 0 16 16" class="ico" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9"></path></svg></button>
+</div>
+<div class="rec-top">
+<div>
+<h2 class="rec-n">Hikaru Ogasawara</h2>
+<p class="rec-r">Engenharia da Computação · Ibmec SP · 2023–2027 (previsto)</p>
+<p class="rec-id">21 anos · São Paulo, BR · <a href="mailto:hogasawara2311@outlook.com">hogasawara2311@outlook.com</a> · <a href="https://www.linkedin.com/in/hikaru-ogasawara" target="_blank" rel="noopener">linkedin.com/in/hikaru-ogasawara</a> · <a href="https://github.com/Hikaru-0gasawara" target="_blank" rel="noopener">github.com/Hikaru-0gasawara</a></p>
+<p class="rec-s">Estudante de Engenharia da Computação, 21 anos, em busca de estágio em infraestrutura, segurança ou sistemas embarcados. Já entreguei projetos para a Invivio Tecnologia, a CPTM e o Ibmec, do firmware ao dashboard, e monto laboratórios por conta própria: servidor Windows com AD, firewall IPFire, SIEM e Proxmox, tudo montado e testado em casa. Gosto de entender como uma coisa funciona por dentro antes de mexer nela, e aprendo fazendo: montar, medir, quebrar e montar de novo.</p>
+</div>
+<div class="rec-cta"><button class="btn btn-g" sc-camel-on-click="{{copyMail}}">{{recMailLabel}}</button></div>
+</div>
+<div class="rec-go" role="group" aria-label="Como você quer seguir?">
+<button class="rec-opt" sc-camel-on-click="{{recSite}}"><span class="rec-ok pix">Site comum <span aria-hidden="true">→</span></span><span class="rec-od">Início, Projetos, Sobre e Contato. Direto ao ponto.</span></button>
+<button class="rec-opt is-game" sc-camel-on-click="{{recRoom}}"><span class="rec-ok pix">Quarto <span aria-hidden="true">→</span></span><span class="rec-od">O portfólio como jogo: anda pelo quarto e mexe nas coisas.</span></button>
+</div>
+<div class="rec-g">
+<div class="rec-c">
+<span class="lab-t">Perfil</span>
+<dl class="rec-dl">
+<dt>Busca</dt><dd>Estágio em infraestrutura, segurança ou sistemas embarcados</dd>
+<dt>Formação</dt><dd>Ibmec · Engenharia da Computação, 2023–2027 (previsto) · Instituto Sidarta · ensino médio, 2010–2022</dd>
+<dt>Local</dt><dd>São Paulo, BR</dd>
+<dt>Contato</dt><dd><a href="mailto:hogasawara2311@outlook.com">hogasawara2311@outlook.com</a> · LinkedIn e GitHub logo abaixo</dd>
+<dt>Idiomas</dt><dd>Português nativo · Inglês fluente na leitura e semifluente na fala · Japonês intermediário-avançado · Espanhol intermediário</dd>
+<dt>Entregas</dt><dd>Invivio Tecnologia (AquaSense, IoT), CPTM (API de ativos ferroviários) e Ibmec (site de evento)</dd>
+<dt>Guildas</dt><dd>Vice-presidente da Ycare, organização voluntária que leva cestas de alimentos e higiene a uma comunidade todo mês · voluntário na Kochi Kenjinkai (Festival do Japão)</dd>
+</dl>
+</div>
+<div class="rec-c">
+<span class="lab-t">Como eu trabalho</span>
+<dl class="rec-dl">
+<dt>Postura</dt><dd>Automotivação e interesse em aprender a área · proatividade e iniciativa pra resolver problemas · responsabilidade com entregas e prazos</dd>
+<dt>Em equipe</dt><dd>Calma sob a pressão do dia a dia · trabalho em grupo, de projeto de faculdade a coordenação de voluntários · comunicação em quatro idiomas, adaptando o material a cada público</dd>
+<dt>Método</dt><dd>Entender a fundo antes de mexer, testar antes de acreditar: multímetro antes do printf, JUnit e Postman antes do deploy</dd>
+</dl>
+<span class="lab-t">O que eu sei</span>
+<dl class="rec-dl">
+<dt>Infra</dt><dd>Windows Server (AD/DC), Proxmox, Linux (Ubuntu Server, Pop!_OS), apt, systemd, DNS, DHCP</dd>
+<dt>Segurança</dt><dd>IPFire, SIEM, Kali Linux, iptables/ufw, segmentação de rede</dd>
+<dt>Hardware</dt><dd>ESP32, Arduino, I²C, UART, PWM, LCD, sensores, LogiSim</dd>
+<dt>Código</dt><dd>Python, Java, C e C++ (Arduino, ESP32), TypeScript, SQL, MATLAB/Octave</dd>
+<dt>Web e APIs</dt><dd>React, Spring Boot, REST, MQTT, WebSocket, Postman · HTML e CSS (básico)</dd>
+<dt>Dados</dt><dd>Power BI, Excel avançado, Git, GitHub Actions, JUnit, Vitest, Playwright · aplicações de IA (básico)</dd>
+</dl>
+</div>
+<div class="rec-c">
+<span class="lab-t">Missões principais</span>
+<sc-for list="{{recProjects}}" as="rp" hint-placeholder-count="4"><div class="rec-m"><span class="rec-mn pix">{{rp.num}}</span><span class="rec-mt">{{rp.title}}</span><span class="rec-ml">{{rp.line}}</span><button class="rec-mb" sc-camel-on-click="{{rp.open}}" aria-label="Abrir a missão {{rp.title}}">abrir</button></div></sc-for>
+</div>
+</div>
+<div class="rec-f">
+<span class="cv-g" data-nopoke="true"><span class="lab-t">Currículo</span><sc-for list="{{resumeLinks}}" as="cv"><span class="cv-language"><a href="{{cv.href}}" target="_blank" rel="noopener" aria-label="Abrir currículo PDF">{{cv.label}} ↗</a></span></sc-for><sc-if value="{{cvMissing}}"><span>Currículos em atualização</span></sc-if></span>
+<div class="ctas"><a class="lnk" href="https://www.linkedin.com/in/hikaru-ogasawara" target="_blank" rel="noopener">LinkedIn <span class="arr" aria-hidden="true">↗</span></a><a class="lnk" href="https://github.com/Hikaru-0gasawara" target="_blank" rel="noopener">GitHub <span class="arr" aria-hidden="true">↗</span></a></div>
+</div>
+</section>
+</div>
+</sc-if>
+
+<sc-if value="{{arcOpen}}" hint-placeholder-val="{{false}}">
+<div class="arc-l" sc-camel-on-click="{{arcBackdrop}}">
+<div class="arc" role="dialog" aria-modal="true" aria-label="Fliperama: Packet Invaders" tabindex="0" ref="{{setArcWrap}}" sc-camel-on-key-down="{{arcKey}}" sc-camel-on-key-up="{{arcKeyUp}}">
+<div class="arc-mq"><span class="arc-t pix">PACKET INVADERS</span><button class="x-b" sc-camel-on-click="{{closeArcade}}" aria-label="Sair do fliperama"><svg sc-camel-view-box="0 0 16 16" class="ico" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9"></path></svg></button></div>
+<div class="arc-b">
+<div class="arc-sc">
+<canvas class="arc-cv" ref="{{setArcCanvas}}" sc-camel-on-click="{{arcCvClick}}" width="640" height="480" aria-label="Tela do jogo"></canvas>
+<sc-if value="{{arcShowGo}}" hint-placeholder-val="{{true}}">
+<div class="arc-go"><button class="ah-go pix" sc-camel-on-click="{{arcPlay}}"><svg sc-camel-view-box="0 0 12 12" aria-hidden="true"><path d="M3 1.5l7.5 4.5L3 10.5z" fill="currentColor"></path></svg>{{arcGoLabel}}</button><span class="ah-s">ou aperte enter</span></div>
+</sc-if>
+</div>
+<div class="arc-p">
+<div class="arc-k"><button class="ak" sc-camel-on-pointer-down="{{akL}}" sc-camel-on-pointer-up="{{akLUp}}" sc-camel-on-pointer-leave="{{akLUp}}" sc-camel-on-pointer-cancel="{{akLUp}}" aria-label="Esquerda"><svg sc-camel-view-box="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M2 6l7-4v8z" fill="currentColor"></path></svg></button><button class="ak" sc-camel-on-pointer-down="{{akR}}" sc-camel-on-pointer-up="{{akRUp}}" sc-camel-on-pointer-leave="{{akRUp}}" sc-camel-on-pointer-cancel="{{akRUp}}" aria-label="Direita"><svg sc-camel-view-box="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M10 6L3 2v8z" fill="currentColor"></path></svg></button></div>
+<button class="ak fire pix" sc-camel-on-pointer-down="{{akF}}" sc-camel-on-pointer-up="{{akFUp}}" sc-camel-on-pointer-leave="{{akFUp}}" sc-camel-on-pointer-cancel="{{akFUp}}">ATIRAR</button>
+</div>
+<aside class="arc-how" aria-label="Como jogar">
+<p class="ah-t pix">COMO JOGAR</p>
+<p class="ah-lead">Você é o firewall. Os pacotes caem rumo à LAN (a linha tracejada).</p>
+<ul class="ah-l">
+<li><span class="ah-pk is-bad pix" aria-hidden="true">SQLi</span><span><b>Dourado é ataque.</b> Atire: +100. Se chegar na LAN, −1&nbsp;escudo.</span></li>
+<li><span class="ah-pk is-ok pix" aria-hidden="true">DNS</span><span><b>Verde é legítimo.</b> Deixe passar: +25. Se acertar, −150.</span></li>
+<li><span class="ah-pk is-hp pix" aria-hidden="true">+HP</span><span><b>Branco é patch.</b> Atire e ganhe 1&nbsp;escudo.</span></li>
+</ul>
+<p class="ah-m">Você começa com 3&nbsp;escudos (os quadradinhos verdes no canto). Cada onda vem mais rápida. 3.000&nbsp;pontos valem troféu.</p>
+<p class="ah-ct lab-t">Controles</p>
+<dl class="ah-c is-kb">
+<dt><kbd>←</kbd><kbd>→</kbd></dt><dd>mover (ou A e D)</dd>
+<dt><kbd>espaço</kbd></dt><dd>atirar (ou ↑)</dd>
+<dt><kbd>enter</kbd></dt><dd>começar</dd>
+<dt><kbd>P</kbd></dt><dd>pausar</dd>
+<dt><kbd>esc</kbd></dt><dd>sair</dd>
+</dl>
+<dl class="ah-c is-tc">
+<dt><kbd><svg sc-camel-view-box="0 0 12 12" aria-hidden="true"><path d="M2 6l7-4v8z" fill="currentColor"></path></svg></kbd><kbd><svg sc-camel-view-box="0 0 12 12" aria-hidden="true"><path d="M10 6L3 2v8z" fill="currentColor"></path></svg></kbd></dt><dd>mover</dd>
+<dt><kbd class="pix">ATIRAR</kbd></dt><dd>atirar (e começar)</dd>
+</dl>
+</aside>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{deOpen}}">
+<div class="desktop-overlay" data-nopoke="true"><section class="desktop-shell" role="dialog" aria-modal="true" aria-label="Computador de Okaru">
+<header class="desktop-bar"><span>△ Okaru / Arch</span><span>{{deTime}}</span><button sc-camel-on-click="{{deClose}}" aria-label="Levantar da cadeira">×</button></header>
+<nav class="desktop-dock" aria-label="Aplicativos"><sc-for list="{{deApps}}" as="app"><button sc-camel-on-click="{{app.open}}"><span aria-hidden="true">{{app.icon}}</span><small>{{app.label}}</small></button></sc-for></nav>
+<main class="desktop-window"><header class="desktop-title"><button sc-camel-on-click="{{deBack}}" aria-label="Voltar ao desktop">←</button><span>{{deTitle}}</span></header>
+<sc-if value="{{deHome}}"><div class="desktop-welcome"><pre aria-hidden="true">{{deAscii}}</pre><h2>Bem-vindo, Okaru.</h2><p>Um pequeno desktop para explorar projetos, habilidades e ideias.</p><p class="desktop-note">Ambiente demonstrativo. O terminal e os recursos de hardware são fictícios.</p></div></sc-if>
+<sc-if value="{{deTerminal}}"><div class="desktop-terminal"><pre class="desktop-output" aria-live="polite">{{deOutput}}</pre><sc-if value="{{deMonitor}}"><table><thead><tr><th>PID</th><th>Processo</th><th>CPU</th><th>RAM</th></tr></thead><tbody><sc-for list="{{deProcesses}}" as="pr"><tr><td>{{pr.pid}}</td><td>{{pr.name}}</td><td>{{pr.cpu}}</td><td>{{pr.ram}}</td></tr></sc-for></tbody></table><p>Dados fictícios · atualização a cada segundo</p></sc-if><div class="desktop-prompt"><label for="desktop-command">okaru@arch:~$</label><input id="desktop-command" value="{{deInput}}" maxlength="128" autocomplete="off" spellcheck="false" sc-camel-on-change="{{deInputChange}}" sc-camel-on-key-down="{{deInputKey}}" aria-label="Comando do desktop"><button sc-camel-on-click="{{deSubmit}}">Executar</button></div></div></sc-if>
+<sc-if value="{{deProfile}}"><div class="desktop-profile"><pre aria-hidden="true">{{deAscii}}</pre><div><sc-for list="{{deProfileLines}}" as="pl"><p>{{pl.t}}</p></sc-for></div></div></sc-if>
+<sc-if value="{{deSkills}}"><div class="desktop-skills"><h2>Árvore de habilidades</h2><svg class="skt-svg" sc-camel-view-box="0 0 640 376" role="group" aria-label="Árvore de habilidades"><sc-for list="{{skLinks}}" as="link"><path d="{{link.d}}" fill="none" stroke="#668977"></path></sc-for><sc-for list="{{skNodes}}" as="sn"><g class="skt-n {{sn.cls}}" transform="{{sn.tf}}" role="button" tabindex="0" aria-label="{{sn.aria}}" sc-camel-on-click="{{sn.pick}}" sc-camel-on-key-down="{{sn.key}}"><rect x="-10" y="-10" width="20" height="20"></rect><text class="skt-t" x="{{sn.tx}}" y="4" text-anchor="{{sn.ta}}">{{sn.label}}</text></g></sc-for></svg><h3>{{skName}}</h3><p>{{skDesc}}</p></div></sc-if>
+<sc-if value="{{deResume}}"><div class="desktop-resume"><object data="{{dePdf}}" type="application/pdf" aria-label="Prévia do currículo"><p>O navegador não oferece prévia de PDF.</p><a href="{{dePdf}}" target="_blank" rel="noopener">Abrir currículo PDF</a></object></div></sc-if>
+<sc-if value="{{deLab}}"><div class="desktop-lab"><!--__DESKTOP_LAB__--></div></sc-if>
+<sc-if value="{{deSettings}}"><div class="desktop-settings"><h2>Idioma do sistema</h2><p>A escolha também é aplicada ao portfólio.</p><div class="language-options"><sc-for list="{{languageChoices}}" as="language"><button sc-camel-on-click="{{language.choose}}" lang="{{language.lang}}">{{language.name}}</button></sc-for></div></div></sc-if>
+<sc-if value="{{deClock}}"><div class="desktop-welcome"><h2>{{deTime}}</h2><p>{{deDate}}</p><p>Horário local do visitante</p></div></sc-if>
+</main><footer class="desktop-status">Hikaru Ogasawara · <span>Ambiente demonstrativo</span></footer>
+</section></div></sc-if>
+
+<sc-if value="{{pcOpen}}" hint-placeholder-val="{{false}}">
+<div class="arc-l" sc-camel-on-click="{{pcBackdrop}}">
+<div class="arc pcg" role="dialog" aria-modal="true" aria-label="Computador: jogo offline Sem Conexão" tabindex="0" ref="{{setPcWrap}}" sc-camel-on-key-down="{{pcKey}}" sc-camel-on-key-up="{{pcKeyUp}}">
+<div class="arc-mq"><span class="arc-t pix">SEM CONEXÃO</span><button class="x-b" sc-camel-on-click="{{closePc}}" aria-label="{{pcCloseLabel}}"><svg sc-camel-view-box="0 0 16 16" class="ico" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9"></path></svg></button></div>
+<canvas class="pcg-cv" ref="{{setPcCanvas}}" sc-camel-on-pointer-down="{{pcCvDown}}" sc-camel-on-pointer-up="{{pcCvUp}}" sc-camel-on-pointer-leave="{{pcCvUp}}" sc-camel-on-pointer-cancel="{{pcCvUp}}" width="720" height="240" aria-label="Tela do jogo: o robozinho corre pela placa de circuito"></canvas>
+<div class="pcg-p">
+<p class="pcg-h is-kb"><kbd>espaço</kbd> pula (segure pra ir mais alto) <span class="pcg-s" aria-hidden="true">·</span> <kbd><svg sc-camel-view-box="0 0 12 12" aria-hidden="true"><path d="M6 10L2 3h8z" fill="currentColor"></path></svg></kbd> abaixa <span class="pcg-s" aria-hidden="true">·</span> <kbd>P</kbd> pausa <span class="pcg-s" aria-hidden="true">·</span> <kbd>esc</kbd> {{pcCloseLabel}}</p>
+<div class="pcg-k is-tc"><button class="ak" sc-camel-on-pointer-down="{{pcDuckDn}}" sc-camel-on-pointer-up="{{pcDuckUp}}" sc-camel-on-pointer-leave="{{pcDuckUp}}" sc-camel-on-pointer-cancel="{{pcDuckUp}}">ABAIXAR</button><button class="ak fire pix" sc-camel-on-pointer-down="{{pcJumpDn}}" sc-camel-on-pointer-up="{{pcJumpUp}}" sc-camel-on-pointer-leave="{{pcJumpUp}}" sc-camel-on-pointer-cancel="{{pcJumpUp}}">PULAR</button></div>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{skOpen}}" hint-placeholder-val="{{false}}">
+<div class="arc-l" sc-camel-on-click="{{skBackdrop}}">
+<div class="arc skov" role="dialog" aria-modal="true" aria-label="Árvore de habilidades" tabindex="0" ref="{{setSkWrap}}">
+<div class="arc-mq"><span class="arc-t pix">ÁRVORE DE HABILIDADES</span><button class="x-b" sc-camel-on-click="{{skClose}}" aria-label="Fechar"><svg sc-camel-view-box="0 0 16 16" class="ico" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9"></path></svg></button></div>
+<svg class="skt-svg" sc-camel-view-box="0 0 640 376" role="group" aria-label="Árvore de habilidades: hardware, infraestrutura, segurança e software">
+<sc-for list="{{skLinks}}" as="sl" hint-placeholder-count="8"><path class="skt-p {{sl.cls}}" d="{{sl.d}}"></path></sc-for>
+<sc-for list="{{skNodes}}" as="sn" hint-placeholder-count="10"><g class="skt-n {{sn.cls}}" transform="{{sn.tf}}" sc-camel-on-click="{{sn.pick}}" sc-camel-on-mouse-enter="{{sn.pick}}" sc-camel-on-focus="{{sn.pick}}" sc-camel-on-key-down="{{sn.key}}" role="button" tabindex="0" aria-label="{{sn.aria}}"><rect class="skt-r" x="-10" y="-10" width="20" height="20"></rect><rect class="skt-c" x="-4" y="-4" width="8" height="8"></rect><text class="skt-t" x="{{sn.tx}}" y="4" text-anchor="{{sn.ta}}">{{sn.label}}</text></g></sc-for>
+<sc-for list="{{skHeads}}" as="sh" hint-placeholder-count="4"><text class="skt-h" x="{{sh.x}}" y="{{sh.y}}" text-anchor="middle">{{sh.t}}</text></sc-for>
+</svg>
+<p class="skt-d"><b>{{skName}}</b>{{skDesc}}</p>
+<p class="skt-lg lab-t"><span class="skt-k is-on"></span>aprendido<span class="skt-k"></span>próximo · {{skHint}}</p>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{dOpen}}" hint-placeholder-val="{{false}}">
+<div class="arc-l" sc-camel-on-click="{{dBackdrop}}">
+<div class="arc d20" role="dialog" aria-modal="true" aria-label="Teste de habilidade com o d20" tabindex="0" ref="{{setDWrap}}" sc-camel-on-key-down="{{dKey}}">
+<div class="arc-mq"><span class="arc-t pix">TESTE DE HABILIDADE</span><button class="x-b" sc-camel-on-click="{{dClose}}" aria-label="Fechar"><svg sc-camel-view-box="0 0 16 16" class="ico" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9"></path></svg></button></div>
+<div class="d20-b">
+<div class="d20-q">
+<p class="kick">Missão <span class="d20-ar">· {{dAreaName}}</span></p>
+<p class="d20-op">{{dOpener}}</p>
+<p class="d20-t">«{{dTaskText}}»</p>
+<div class="d20-chips">
+<span class="d20-chip is-dc"><b>DC {{dDc}}</b>dificuldade</span>
+<span class="d20-chip {{dModCls}}"><b>{{dModTxt}}</b>{{dAreaName}}</span>
+<sc-if value="{{dAdvOn}}" hint-placeholder-val="{{false}}"><span class="d20-chip {{dAdvCls}}"><b>{{dAdvTxt}}</b>{{dAdvWhy}}</span></sc-if>
+</div>
+<p class="d20-rule">{{dRule}}</p>
+</div>
+<div class="d20-r"><p class="honour-badge">Dado dourado · Honour Mode concluído</p>
+<div class="d20-dice {{dDiceCls}}">
+<div class="d20-die {{dDieACls}}"><canvas class="gold-die" ref="{{setGoldA}}" aria-hidden="true"></canvas><span class="sr">{{dFaceA}}</span></div>
+<sc-if value="{{dTwo}}" hint-placeholder-val="{{false}}"><div class="d20-die {{dDieBCls}}"><canvas class="gold-die" ref="{{setGoldB}}" aria-hidden="true"></canvas><span class="sr">{{dFaceB}}</span></div></sc-if>
+</div>
+<p class="d20-math {{dMathCls}}">{{dMath}}</p>
+<p class="d20-v pix {{dVerdictCls}}">{{dVerdict}}</p>
+<p class="d20-re">{{dReact}}</p>
+<div class="ctas d20-acts"><button class="btn btn-p" sc-camel-on-click="{{dRoll}}">{{dRollLabel}} <span class="arr" aria-hidden="true">→</span></button><button class="btn btn-g" sc-camel-on-click="{{dClose}}">Fechar</button></div>
+<p class="d20-k lab-t">{{dKeysHint}}</p>
+</div>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{tvGameOpen}}"><div class="tv-game-overlay" data-nopoke="true"><section class="tv-game-shell" role="dialog" aria-modal="true" aria-labelledby="tv-game-title" aria-describedby="tv-game-help">
+<header class="tv-game-header"><div><small>OKARU / CRT</small><h2 id="tv-game-title">{{tvGameTitle}}</h2></div><button sc-camel-on-click="{{tvGameClose}}">Voltar ao puff</button></header>
+<div class="tv-game-score"><span>Pontos <strong>{{tvGameScore}}</strong></span><span>Recorde <strong>{{tvGameBest}}</strong></span><span>Vidas <strong>{{tvGameLives}}</strong></span><span>Fase <strong>{{tvGameRound}}</strong></span></div>
+<div class="tv-game-screen"><canvas class="tv-game-canvas" width="480" height="320" tabindex="0" ref="{{setTvGameCanvas}}" sc-camel-on-pointer-move="{{tvGameMove}}" sc-camel-on-pointer-down="{{tvGameDown}}" aria-label="Quebra-blocos da TV. Mova a raquete para rebater a bola." aria-describedby="tv-game-help"></canvas><sc-if value="{{tvGameOverlay}}"><div class="tv-game-message" aria-hidden="true"><strong>{{tvGameOverlayTitle}}</strong><p>{{tvGameStatus}}</p></div></sc-if></div>
+<p class="tv-game-status" role="status">{{tvGameStatus}}</p>
+<div class="tv-game-controls"><button disabled="{{tvGamePlaying}}" sc-camel-on-click="{{tvGamePrimary}}">{{tvGamePrimaryLabel}}</button><button disabled="{{tvGameFinished}}" sc-camel-on-click="{{tvGamePause}}">{{tvGamePauseLabel}}</button><button sc-camel-on-click="{{tvGameRestart}}">Reiniciar partida</button></div>
+<div class="tv-game-help" id="tv-game-help"><p>Limpe os blocos de três fases com três vidas. Cada fase concluída recupera uma vida, até o máximo de três.</p><p>Mova o mouse, arraste na tela ou use ←/→ e A/D. Acerte com as pontas da raquete para mudar a direção da bola.</p><p>Clique na tela ou aperte Espaço/Enter para lançar. P pausa ou continua; R reinicia; Esc volta ao puff.</p><p>O recorde fica salvo neste navegador.</p></div>
+</section></div></sc-if>
+
+<sc-if value="{{shooterOpen}}"><div class="arc-l"><section class="arc shooter" role="dialog" aria-modal="true" aria-label="Operação Circuito">
+<header class="arc-h"><span class="pix">OPERAÇÃO CIRCUITO</span><button class="x-b" sc-camel-on-click="{{shooterClose}}" aria-label="Fechar">×</button></header>
+<canvas class="shooter-cv" ref="{{setShooter}}" sc-camel-on-pointer-move="{{shooterAim}}" sc-camel-on-pointer-down="{{shooterFireDown}}" sc-camel-on-pointer-up="{{shooterFireUp}}" sc-camel-on-pointer-cancel="{{shooterFireUp}}" aria-label="Jogo de tiro lateral com robôs e um tanque"></canvas>
+<div class="shooter-help"><p>Mova com A/D ou ←/→. Aponte o mouse para mirar em qualquer direção e segure o clique, Espaço ou J para atirar.</p><p>Pule com W ou K. Sem mouse, use ↑/↓ para mirar para cima ou para baixo; combine com ←/→ para diagonais.</p><p>T chama um tanque por 8 segundos, uma vez por partida. P pausa ou continua. Enter inicia ou reinicia; durante a pausa, Enter continua. Esc fecha.</p><p>No celular, use os botões abaixo. Objetivo: 2.400 pontos. A cada 600 pontos você recupera uma vida.</p></div>
+<div class="shooter-controls" data-nopoke="true"><button class="btn" sc-camel-on-click="{{shooterStart}}">Jogar / reiniciar</button><button class="btn" sc-camel-on-click="{{shooterPause}}">Pausar / continuar</button><sc-for list="{{shooterControls}}" as="sh"><button class="btn" sc-camel-on-pointer-down="{{sh.down}}" sc-camel-on-pointer-up="{{sh.up}}" sc-camel-on-pointer-cancel="{{sh.up}}">{{sh.label}}</button></sc-for></div>
+</section></div></sc-if>
+<sc-if value="{{debug}}" hint-placeholder-val="{{false}}">
+<div class="dbg" aria-hidden="true"><pre class="dbg-t" ref="{{setDbgEl}}"></pre><canvas class="dbg-g" width="360" height="80" ref="{{setDbgCv}}"></canvas></div>
+</sc-if>
+
+<sc-if value="{{savingIcon}}" hint-placeholder-val="{{false}}">
+<div class="sv-i" role="status"><svg sc-camel-view-box="0 0 14 16" aria-hidden="true"><path d="M1 1h9l3 3v11H1z" fill="none" stroke="currentColor" stroke-width="1.4"></path><path d="M4 1v4h5V1M3 9h8v6H3z" fill="none" stroke="currentColor" stroke-width="1.2"></path></svg><span>Salvando</span></div>
+</sc-if>
+
+<sc-if value="{{credOpen}}" hint-placeholder-val="{{false}}">
+<div class="cred" role="dialog" aria-modal="true" aria-label="Créditos">
+<button class="cred-x" sc-camel-on-click="{{closeCredits}}" ref="{{setCredFirst}}">Pular · esc</button>
+<sc-if value="{{credRolling}}" hint-placeholder-val="{{true}}">
+<div class="cred-r">
+<p class="cred-t">Portfólio<br>de Hikaru<br>Ogasawara</p>
+<p class="cred-sub pix">um jogo de exploração em 6 telas</p>
+<sc-for list="{{credList}}" as="cr" hint-placeholder-count="10"><span class="cred-s">{{cr.role}}</span><sc-for list="{{cr.names}}" as="cn" hint-placeholder-count="2"><span class="cred-n">{{cn.t}}</span></sc-for></sc-for>
+</div>
+</sc-if>
+<sc-if value="{{credEnd}}" hint-placeholder-val="{{false}}">
+<div class="cred-end">
+<span class="cred-fim">Fim</span>
+<p class="pix" style="margin: 0; font-size: 16px; color: #E8E4D4">Obrigado por jogar.</p>
+<p class="lab-t" style="margin: 0">{{credStats}}</p>
+<div class="ctas" style="justify-content: center"><button class="btn btn-p" sc-camel-on-click="{{credContact}}">Continue? <span class="arr" aria-hidden="true">→</span></button><button class="btn btn-g" sc-camel-on-click="{{closeCredits}}">Continuar explorando</button></div>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{panic}}" hint-placeholder-val="{{false}}">
+<div class="kp" role="alert" tabindex="-1" ref="{{setPanicEl}}" sc-camel-on-click="{{panicEnd}}" sc-camel-on-key-down="{{panicEnd}}">
+<sc-for list="{{panicLines}}" as="kl" hint-placeholder-count="12"><p class="kp-l {{kl.cls}}" style="animation-delay: {{kl.d}}ms">{{kl.t}}</p></sc-for>
+<p class="kp-e">Pressione qualquer tecla ou clique pra reiniciar.</p>
+</div>
+</sc-if>
+
+<sc-if value="{{shatter}}" hint-placeholder-val="{{false}}">
+<div class="shat" aria-hidden="true">
+<div class="shat-f"></div>
+<svg class="shat-c"><path d="{{shPath}}"></path></svg>
+<sc-for list="{{shards}}" as="sd" hint-placeholder-count="14"><span class="shard" style="left: {{sd.x}}px; top: {{sd.y}}px; width: {{sd.w}}px; height: {{sd.h}}px; clip-path: {{sd.clip}}; --dx: {{sd.dx}}px; --dy: {{sd.dy}}px; --rot: {{sd.rot}}deg; animation-delay: {{sd.d}}ms"></span></sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{transitioning}}" hint-placeholder-val="{{false}}">
+<div class="strata" aria-hidden="true">
+<div class="band bl-l" style="background: #111A14; animation-delay: 158ms"></div>
+<div class="band bl-r" style="background: #16221A; animation-delay: 113ms"></div>
+<div class="band bl-l" style="background: #1C2B20; animation-delay: 68ms"></div>
+<div class="band bl-r" style="background: #D8B24A; animation-delay: 23ms"><span class="band-lab pix">/dev/okaru{{nextTail}}<span class="cur"></span></span></div>
+<div class="band bl-l" style="background: #25361F; animation-delay: 23ms"></div>
+<div class="band bl-r" style="background: #1E2E21; animation-delay: 68ms"></div>
+<div class="band bl-l" style="background: #172419; animation-delay: 113ms"></div>
+<div class="band bl-r" style="background: #111A13; animation-delay: 158ms"></div>
+</div>
+</sc-if>
+
+<sc-if value="{{powering}}" hint-placeholder-val="{{false}}">
+<div class="off-l" aria-hidden="true"></div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;boot&quot;,&quot;inicio&quot;,&quot;projetos&quot;,&quot;lab&quot;,&quot;sobre&quot;,&quot;quarto&quot;,&quot;contato&quot;],&quot;default&quot;:&quot;boot&quot;,&quot;section&quot;:&quot;Protótipo&quot;},&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900}}">
+/*__APP_LOGIC__*/
+</script>
+
+
+</body></html>

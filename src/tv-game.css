@@ -1,0 +1,28 @@
+.tv-game-overlay{position:absolute;inset:0;z-index:45;display:grid;place-items:center;padding:20px;background:#030805dc;overflow:auto;overscroll-behavior:contain}
+.tv-game-shell{width:min(650px,100%);max-height:100%;overflow:auto;background:#18221a;border:1px solid #726742;box-shadow:0 20px 80px #0009,inset 0 0 0 5px #ffffff03;padding:20px;color:var(--tx);font-family:'JetBrains Mono','DotGothic16',monospace;animation:tv-game-enter .4s ease-out}
+.tv-game-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.tv-game-header h2{margin:2px 0 0;font:500 22px/1.4 'JetBrains Mono','DotGothic16',monospace;color:var(--gold2);letter-spacing:0}
+.tv-game-header small{font-size:10px;color:var(--mut);letter-spacing:.08em}
+.tv-game-header button{flex:none;padding:8px 12px;font-family:inherit;font-size:11px;line-height:1.6;border:1px solid var(--ln2)}
+.tv-game-score{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px 16px;margin:0 0 10px;font-size:11px;color:var(--mut)}
+.tv-game-score span{white-space:nowrap}.tv-game-score strong{font-weight:500;color:var(--gold2)}
+.tv-game-screen{position:relative;border:8px solid #080e0a;border-radius:14px;background:#091610;overflow:hidden;box-shadow:0 0 0 1px #465440}
+.tv-game-canvas{display:block;width:100%;height:auto;aspect-ratio:3/2;image-rendering:pixelated;touch-action:none;cursor:crosshair;outline-offset:-3px}
+.tv-game-canvas:focus-visible{outline:2px solid var(--gold2)}
+.tv-game-screen::after{content:'';position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,#0002 0,#0002 1px,transparent 1px,transparent 4px);box-shadow:inset 0 0 45px #0005}
+.display-hd .tv-game-screen::after{display:none}
+.tv-game-message{position:absolute;inset:38% 7% auto;padding:16px 10px;text-align:center;background:#091610ed;border:1px solid #5c6b43;pointer-events:none}
+.tv-game-message strong{font-size:clamp(14px,2.3vw,20px);font-weight:500;color:var(--gold2);line-height:1.5}
+.tv-game-message p{margin:6px 0 0;font-size:11px;line-height:1.6;color:var(--mut)}
+.tv-game-status{margin:12px 0 0;font-size:11px;line-height:1.7;min-height:1.7em;color:var(--jade2)}
+.tv-game-controls{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.tv-game-controls button{min-height:42px;padding:10px 14px;font:11px/1.5 'JetBrains Mono','DotGothic16',monospace;border:1px solid var(--ln2);color:var(--tx);background:#0d1710;cursor:pointer}
+.tv-game-controls button:first-child{background:#d4b756;color:#111a10;border-color:#d4b756}
+.tv-game-controls button:disabled{opacity:.45;cursor:default}
+.tv-game-shell button:not(:disabled):hover,.tv-game-shell button:focus-visible{border-color:var(--gold2);outline:2px solid var(--gold2);outline-offset:2px}
+.tv-game-help{border-top:1px solid var(--ln2);padding-top:12px;font-size:11px;line-height:1.75;color:var(--mut);text-align:left;direction:ltr;overflow-wrap:anywhere}
+.tv-game-help p{margin:0 0 5px}.tv-game-help p:last-child{margin:0}
+@keyframes tv-game-enter{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
+@media(max-width:520px){.tv-game-overlay{padding:10px}.tv-game-shell{padding:14px}.tv-game-header h2{font-size:18px}.tv-game-header button{max-width:105px}.tv-game-score{font-size:10px;gap:6px 12px}.tv-game-message{padding:10px 6px}.tv-game-message p{font-size:10px}}
+@media(max-height:650px){.tv-game-overlay{place-items:start center}.tv-game-screen{max-width:480px;margin-inline:auto}}
+@media(prefers-reduced-motion:reduce){.tv-game-shell{animation:none}}
