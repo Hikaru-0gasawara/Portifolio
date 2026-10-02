@@ -324,7 +324,7 @@ test('hidden doors and hatches sit on the panel lines without changing their lay
   assert.match(css,/\.portal-anchor\.portal-door-l\{left:-12\.5px\}\.portal-anchor\.portal-door-r\{right:-12\.5px\}/);
   assert.match(css,/\.portal-anchor\.portal-floor\{bottom:-15\.5px/);assert.match(css,/\.door-leaf\{stroke:var\(--ln2\)/);
   assert.match(css,/\.portal-rail\{position:relative;height:0\}/);
-  assert.match(html,/<div class="portrait">[^]*?<\/div>\n<\/div>\n<div class="portal-rail"><button[^>]*data-portal-id="about-room"/);
+  assert.match(html,/<div class="portrait">[^]*?<\/div>\s*<\/div>\s*<div class="portal-rail"><button[^>]*data-portal-id="about-room"/);
   // behind a letter: the heading keeps its name and the "?" lets clicks through to the passage under it
   assert.match(html,/<h1 class="cont" aria-label="Continue\?">[^]*?<span class="q"><button class="portal-anchor portal-letter" data-portal-id="contact-room"[^>]*><\/button><span class="q-g">\?<\/span><\/span>/);
   assert.match(css,/\.q-g\{[^}]*pointer-events:none/);
@@ -400,7 +400,7 @@ test('with the schematic hidden, its passages leave and arrive through the quest
   const html=read('src/template.html'),css=read('src/enhancements.css'),styles=read('src/styles.css');
   assert.match(styles,/@media \(max-width:860px\)\{[^]*?\.proj-r\{display:none\}/);
   assert.match(css,/\.proj-rail\{display:none\}/);assert.match(css,/@media\(max-width:860px\)\{\.proj-rail\{display:block\}\}/);
-  assert.match(html,/<\/ol>\n<div class="portal-rail proj-rail">(?:<button[^>]*data-portal-id="projects-(?:about|contact|room)"[^]*?<\/button>){3}<\/div>/);
+  assert.match(html,/<\/ol>\s*<div class="portal-rail proj-rail">(?:<button[^>]*data-portal-id="projects-(?:about|contact|room)"[^]*?<\/button>){3}<\/div>/);
   const {c,geo,sc}=fixture('projetos'),hidden={getBoundingClientRect:()=>({left:0,top:0,right:0,bottom:0,width:0,height:0})};
   const shown={getBoundingClientRect:()=>({left:300,top:500,right:340,bottom:530,width:40,height:30})};
   sc.querySelector=()=>hidden;sc.querySelectorAll=()=>[hidden,shown];

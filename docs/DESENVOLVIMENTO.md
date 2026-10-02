@@ -14,7 +14,7 @@ npm run dev
 
 Abra `http://127.0.0.1:4173`. Encerre com `Ctrl+C`. Após editar fontes, execute o build novamente; não há recarga automática. `npm test` executa o build antes (`pretest`), porque os testes também conferem os arquivos gerados.
 
-O build reconstrói `dist/` e gera uma cópia publicável na raiz. CSS/JS recebem hashes de conteúdo na URL para atualizar o cache quando mudam. Edite os arquivos em `src/`, pois `index.html`, `assets/` e `vendor/` são gerados. React, fontes, imagens e PDFs são locais; o site não depende de CDN ou backend.
+O build reconstrói `dist/` e gera uma cópia na raiz para uso local (ignorada pelo Git; o workflow gera e publica `dist/`). CSS/JS recebem hashes de conteúdo na URL para atualizar o cache quando mudam. Edite os arquivos em `src/`, pois `index.html`, `assets/` e `vendor/` são gerados. React, fontes, imagens e PDFs são locais; o site não depende de CDN ou backend.
 
 ## Organização
 
@@ -78,7 +78,7 @@ O workflow `.github/workflows/pages.yml` gera o site, executa os testes e public
 Exemplo no terminal, após revisar `git status`:
 
 ```powershell
-git add README.md package.json .gitignore .github src scripts tests public docs index.html .nojekyll
+git add README.md package.json .gitignore .github/workflows src scripts tests public docs
 git commit -m "Refatora portfolio e prepara GitHub Pages"
 git push origin main
 ```
