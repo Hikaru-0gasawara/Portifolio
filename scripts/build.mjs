@@ -70,7 +70,7 @@ for (const target of [root, output]) {
   await mkdir(target, { recursive: true });
   await cp(path.join(root, 'public'), target, { recursive: true });
   await mkdir(path.join(target, 'assets'), { recursive: true });
-  for (const name of ['styles.css', 'fonts.css', 'enhancements.css', 'desktop.css', 'display.css', 'tv-game.css', 'i18n.js', 'boot.js', 'boot-flow.js', 'skill-tree.js', 'enhancements.js', 'character.js', 'character-care.js', 'room-props.js','dice.js','shooter.js','scene.js','desktop.js','pocket-games.js','hitbox.js','achievements.js','tv3d.js','display.js','tv-game.js','title-sound.js']) {
+  for (const name of ['styles.css', 'fonts.css', 'enhancements.css', 'desktop.css', 'display.css', 'tv-game.css', 'i18n.js', 'boot.js', 'boot-flow.js', 'skill-tree.js', 'enhancements.js', 'character.js', 'character-care.js', 'room-props.js','dice.js','shooter.js','scene.js','desktop.js','pocket-games.js','hitbox.js','achievements.js','tv3d.js','display.js','tv-game.js','title-sound.js','gamepad.js']) {
     await writeFile(path.join(target, 'assets', name), await read(name));
   }
   const safeJSON = value => JSON.stringify(JSON.parse(value)).replace(/</g, '\\u003c');

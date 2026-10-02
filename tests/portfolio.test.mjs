@@ -9,7 +9,7 @@ function controller(overrides={}){
   context.React={createElement:(type,props,...children)=>({type,props,children})};
   context.DCLogic=class{constructor(){this.state={};this.props={};}setState(value){this.state={...this.state,...value};}};
   vm.createContext(context);
-  for(const f of ['assets/content.js','src/i18n.js','src/boot.js','src/boot-flow.js','src/skill-tree.js','src/character.js','src/character-care.js','src/room-props.js','src/dice.js','src/shooter.js','src/scene.js','src/desktop.js','src/pocket-games.js','src/hitbox.js','src/achievements.js','src/tv3d.js','src/display.js','src/tv-game.js','src/title-sound.js','src/enhancements.js'])vm.runInContext(read(f),context);
+  for(const f of ['assets/content.js','src/i18n.js','src/boot.js','src/boot-flow.js','src/skill-tree.js','src/character.js','src/character-care.js','src/room-props.js','src/dice.js','src/shooter.js','src/scene.js','src/desktop.js','src/pocket-games.js','src/hitbox.js','src/achievements.js','src/tv3d.js','src/display.js','src/tv-game.js','src/title-sound.js','src/gamepad.js','src/enhancements.js'])vm.runInContext(read(f),context);
   vm.runInContext(read('src/app.js')+';Portfolio.install(Component);window.Controller=Component;',context);
   return {c:new context.Controller(),context};
 }
@@ -1357,4 +1357,48 @@ test('the language screen plays one loop in three styles that its cursor swaps, 
   assert.match(html,/<h1 class="language-ask" lang="\{\{languageQuestionLang\}\}"><sc-for list="\{\{languageQuestions\}\}" as="ask"><span class="language-q \{\{ask\.cls\}\}"/);
   assert.ok(read('src/display.css').includes('.language-q{grid-area:1/1;'),'the questions share one cell');
   assert.match(html,/<button class="\{\{language\.cls\}\}" lang="\{\{language\.lang\}\}" sc-camel-on-click="\{\{language\.choose\}\}" sc-camel-on-pointer-enter="\{\{language\.point\}\}" sc-camel-on-focus="\{\{language\.point\}\}">/);
+});
+
+test('the touch pad turns the stick into W A S D, A into E and B into back or run, only on touch screens',()=>{
+  const {context}=controller(),api=context.PortfolioGamepad,keys=(x,y)=>Array.from(api.stickKeys(x,y)).join('');
+  assert.equal(keys(1,0),'d');assert.equal(keys(-1,0),'a');assert.equal(keys(0,1),'s');assert.equal(keys(0,-1),'w');
+  assert.equal(keys(.7,.7),'ds');assert.equal(keys(-.7,-.7),'aw');assert.equal(keys(.1,.1),'','a dead zone in the middle');assert.equal(keys(NaN,0),'');
+  const desk=controller().c;desk.state={page:'projetos'};assert.equal(desk.renderVals().padOn,false,'no pad without a touch screen');
+  const writes=new Map(),{c}=controller({matchMedia:()=>({matches:true,addEventListener(){},removeEventListener(){}}),localStorage:{getItem:k=>writes.get(k)??null,setItem:(k,v)=>writes.set(k,v)}});
+  c.state={page:'projetos'};c.sfx=()=>{};
+  let r=c.renderVals();assert.equal(r.padOn,true);assert.match(r.rootCls,/has-pad/);assert.equal(r.padBLabel,'correr');
+  const log=[];c.rootKey=e=>log.push('+'+e.key);c.rootKeyUp=e=>log.push('-'+e.key);
+  c.padStick(1,0);c.padStick(1,.05);c.padStick(0,1);c.padStick(0,0);
+  assert.deepEqual(log,['+d','-d','+s','-s'],'only changes are pressed, so a held stick does not repeat');
+  log.length=0;c.padADown();c.padADown();c.padAUp();assert.deepEqual(log,['+e','-e']);
+  log.length=0;c.padBDown();assert.equal(c._padRun,true);assert.equal(c.worldFloSpeed({}),1.8,'B runs');c.padBUp();assert.equal(c.worldFloSpeed({}),1);assert.deepEqual(log,[]);
+  c.state.rmDlg=true;assert.equal(c.renderVals().padBLabel,'fechar');c.padBDown();assert.deepEqual(log,['+Escape'],'B closes a bedroom dialog');c.state.rmDlg=false;
+  log.length=0;c.padStick(-1,0);c.state.paused=true;assert.equal(c.renderVals().padOn,false,'a menu takes the pad away');c.componentDidUpdate({},{});assert.deepEqual(log,['+a','-a'],'and releases what was held');
+  c.state.paused=false;c.state.page='quarto';assert.equal(c.renderVals().padOn,true,'the bedroom has it too');assert.match(c.renderVals().rmHelp,/Joystick/);
+  c.state.page='boot';assert.equal(c.renderVals().padOn,false);c.state.page='sobre';
+  c.padToggle();r=c.renderVals();assert.equal(r.padOn,false);assert.equal(r.padMini,true);assert.equal(writes.get(api.storageKey),'off');
+  c.padToggle();assert.equal(c.renderVals().padOn,true);
+  const html=read('src/template.html');
+  for(const h of ['padStickDown','padStickMove','padStickUp','padADown','padAUp','padBDown','padBUp','padToggle','setPadKnob'])assert.ok(html.includes('{{'+h+'}}'),h);
+  assert.ok(html.indexOf('assets/gamepad.js')<html.indexOf('assets/enhancements.js'));assert.ok(read('scripts/build.mjs').includes("'gamepad.js'"));
+  assert.equal(context.Portfolio.modules.at(-1),'PortfolioGamepad');
+  const css=read('src/enhancements.css');assert.ok(css.includes('.okr.has-pad .screen{padding-bottom:170px}'));assert.match(css,/\.pad-stick,\.pad-k\{touch-action:none/);
+  for(const text of ['usar','correr','Esconder o controle de toque','Mostrar o controle de toque','Joystick pra andar · A pra interagir · B pra correr · ou toque']){context.PortfolioI18n.set('en');assert.notEqual(context.PortfolioI18n.t(text),text,text);}
+});
+
+test('on phones and tablets the name fits, and the side doors and Hikaru clear the page titles',()=>{
+  const css=read('src/styles.css');
+  assert.ok(css.includes('.okr{--hf:min(22.4vw,140px)}'));assert.ok(css.includes('.screen{--side:max(16px,calc(var(--hf) * .148 + 3px));padding:26px var(--side) 24px'));
+  assert.match(css,/@media \(min-width:600px\) and \(max-width:860px\)\{\s*\.okr\{--hf:min\(21vw,140px\)\}\s*\.screen\{--side:calc\(var\(--hf\) \* \.21 \+ 6px\)\}/);
+  // The same sizes the browser computes: the world unit is 2.104% of --hf, shrunk to 76%; doors are 9u wide
+  // below 600px and 13u above; the name is about 4.02 times --hf wide.
+  // The name itself fills its column (container units), apart from --hf, which only sizes the doors and Hikaru.
+  assert.match(css,/@media \(max-width:860px\)\{\s*\.home-l\{container-type:inline-size\}\s*\.name\{font-size:min\(calc\(100cqi \/ 4\.06\),200px\)\}/);
+  for(const width of [320,360,390,430,520,599,600,680,690,768,820,860]){
+    const tablet=width>=600,hf=Math.min((tablet?.21:.224)*width,140),side=tablet?hf*.21+6:Math.max(16,hf*.148+3),u=hf*.02104*.76,door=(tablet?13:9)*u;
+    const column=width-2*side,name=Math.min(column/4.06,200);
+    assert.ok(door<=side,width+'px: the door ('+door.toFixed(1)+') stays in the side margin ('+side.toFixed(1)+')');
+    assert.ok(name*4.02<=column,width+'px: the name fits its column');
+    assert.ok(name>=hf*.98,width+'px: and is at least as big as before ('+name.toFixed(0)+' vs '+hf.toFixed(0)+')');
+  }
 });

@@ -6,7 +6,7 @@
   // buttons found by `selector`; the bedroom ends are tiles (room objects with the same id).
   const sel=id=>'[data-portal-id="'+id+'"]';
   const portals={
-    // Início: the hatch above the kanji, the pedestal after "Ver sobre" and the two home buttons' passages
+    // Início: the hatch above the kanji, the payphone after "Ver sobre" and the two home buttons' passages
     'home-room':{page:'inicio',to:'quarto',arrival:'room-home',selector:sel('home-room')},
     'home-contact':{page:'inicio',to:'contato',arrival:'contact-home',selector:sel('home-contact')},
     'projects-button':{page:'inicio',to:'projetos',arrival:'projetos',selector:'[data-portal-to="projetos"]',style:'fall'},
@@ -16,12 +16,12 @@
     'projects-about':{page:'projetos',to:'sobre',arrival:'about-projects',selector:sel('projects-about')},
     'projects-contact':{page:'projetos',to:'contato',arrival:'contact-projects',selector:sel('projects-contact')},
     'projects-room':{page:'projetos',to:'quarto',arrival:'room-projects',selector:sel('projects-room')},
-    // Sobre: the pedestal by the title, two doors in the "Jogando agora" panel and a hatch under the portrait
+    // Sobre: the door by the title, two doors in the "Jogando agora" panel and a hatch under the portrait
     sobre:{page:'sobre',to:'inicio',arrival:'about-button',selector:sel('sobre')},
     'about-projects':{page:'sobre',to:'projetos',arrival:'projects-about',selector:sel('about-projects')},
     'about-contact':{page:'sobre',to:'contato',arrival:'contact-about',selector:sel('about-contact')},
     'about-room':{page:'sobre',to:'quarto',arrival:'room-about',selector:sel('about-room')},
-    // Contato: the pedestal by GitHub, a door in the bubble wrap, the coin slot and the dot of the "?"
+    // Contato: the payphone by GitHub, a door in the bubble wrap, the coin slot and the dot of the "?"
     'contact-home':{page:'contato',to:'inicio',arrival:'home-contact',selector:sel('contact-home')},
     'contact-projects':{page:'contato',to:'projetos',arrival:'projects-contact',selector:sel('contact-projects')},
     'contact-about':{page:'contato',to:'sobre',arrival:'about-contact',selector:sel('contact-about')},
@@ -59,14 +59,18 @@
   // poses and drawings are in sprite pixels with his feet at (0,0).
   // The hidden ends have passages of their own too: he walks through a door in a wall (door-l / door-r, by the
   // wall the door is in) or drops into a floor hatch, and comes out of the other end the same way. Those doors
-  // and hatches are HTML, so these passages only move and clip Hikaru.
-  const passages={fall:{out:1000,in:1150},stairs:{out:1500,in:1500},'door-l':{out:900,in:900},'door-r':{out:900,in:900},hatch:{out:1000,in:900}};
+  // and hatches are HTML, so these passages only move and clip Hikaru. Sobre's title has a door seen from the
+  // front (door): he walks into it, away from us, and out of it towards us. Início and Contato call each other
+  // from two payphones (phone): he answers, it rings and he goes down the line, out of the other one.
+  const passages={fall:{out:1000,in:1150},stairs:{out:1500,in:1500},'door-l':{out:900,in:900},'door-r':{out:900,in:900},hatch:{out:1000,in:900},door:{out:900,in:900},phone:{out:1150,in:1000}};
   const clamp=x=>Math.max(0,Math.min(1,x)),easeIn=x=>x*x,easeOut=x=>1-(1-x)*(1-x),easeInOut=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;
   const passageCues={
     fall:{out:[[0,'crack'],[120,'door'],[480,'whoosh'],[800,'doorShut']],in:[[0,'whoosh'],[720,'stomp']]},
     stairs:{out:[[0,'creak'],[430,'land'],[520,'land'],[660,'land'],[800,'land'],[940,'land'],[1080,'land'],[1440,'doorShut']],in:[[0,'creak'],[430,'land'],[520,'land'],[660,'land'],[800,'land'],[940,'land'],[1080,'land'],[1440,'doorShut']]},
     hatch:{out:[[0,'door'],[480,'whoosh'],[820,'doorShut']],in:[[0,'door'],[160,'jump'],[560,'land'],[780,'doorShut']]}
   };
+  passageCues.door={out:[[0,'door'],[260,'land'],[430,'land'],[600,'land'],[820,'doorShut']],in:[[0,'door'],[300,'land'],[470,'land'],[640,'land'],[820,'doorShut']]};
+  passageCues.phone={out:[[0,'ring'],[420,'ring'],[700,'dial']],in:[[0,'ring'],[640,'land']]};
   passageCues['door-l']=passageCues['door-r']={out:[[0,'door'],[300,'land'],[460,'land'],[620,'land'],[800,'doorShut']],in:[[0,'door'],[240,'land'],[400,'land'],[560,'land'],[780,'doorShut']]};
   // How far the trapdoor leaves or the stair slabs are open: 0 closed, 1 open.
   function passageOpen(style,out,t){
@@ -88,6 +92,28 @@
         else{const k=clamp((t-200)/600);Object.assign(p,{dx:s*(-10+22*easeInOut(k)),walk:k<1,clip:wall,alpha:k<1?1:0});}
       }else if(t<150)Object.assign(p,{dx:12*s,alpha:0,clip:wall});
       else{const k=clamp((t-150)/600);Object.assign(p,{dir:k<1?(s>0?'l':'r'):'d',dx:s*(12-24*easeInOut(k)),walk:k<1,clip:k<1?wall:null});}
+      return p;
+    }
+    if(style==='door'){
+      // A door seen from the front: he turns to it, walks in and fades into the dark, or the other way round.
+      if(out){
+        p.dir='u';
+        if(t>=200){const k=clamp((t-200)/600);Object.assign(p,{walk:k<1,dy:-7*easeIn(k),alpha:1-clamp((k-.35)/.65)});p.sx=p.sy=1-.18*k;}
+      }else if(t<150)p.alpha=0;
+      else if(t<750){const k=clamp((t-150)/600);Object.assign(p,{walk:true,dy:-7*(1-easeOut(k)),alpha:clamp(k/.5)});p.sx=p.sy=.82+.18*k;}
+      return p;
+    }
+    if(style==='phone'){
+      // The payphone: he answers it with his back to us, then the line pulls him up and thin, flickering out;
+      // the arrival gathers him from the line and turns him round.
+      const flicker=Math.floor(t/50)%2?1:.55;
+      if(out){
+        p.dir='u';
+        if(t>=300&&t<420)p.lift=1.5*Math.sin(Math.PI*(t-300)/120);
+        else if(t>=500){const k=easeIn(clamp((t-500)/600));Object.assign(p,{sx:1-.85*k,sy:1+1.2*k,dy:-10*k,alpha:k>=1?0:(1-k)*flicker});}
+      }else if(t<100)p.alpha=0;
+      else if(t<600){const k=easeOut(clamp((t-100)/500));Object.assign(p,{dir:'u',sx:.15+.85*k,sy:2.2-1.2*k,dy:-10*(1-k),alpha:Math.min(1,k*1.4)*flicker});}
+      else if(t<800){const b=Math.sin(Math.PI*(t-600)/200);Object.assign(p,{dir:'d',sy:1-.2*b,sx:1+.12*b});}
       return p;
     }
     if(style==='hatch'){
@@ -153,6 +179,8 @@
       if(open>0&&open<1)for(let i=0;i<6;i++)R(-10+i*4,-19+((clock/40+i*5)%22),1,1,'#9c8f78',.6*fade);
     }
     drawHikaru(ctx,img,pose,t);
+    // the line carries him as a few gold bits rising out of (or falling into) the payphone
+    if(style==='phone'){const from=out?500:100,to=out?1100:600;if(t>=from&&t<to)for(let i=0;i<6;i++){const k=((t-from)/6+i*9)%34;R((i-2.5)*3,out?-24-k:-58+k,1,1,'#F0CE6A',.8*(1-k/34));}}
     if(style==='fall'&&out){R(-13,4,26,1,'#2a2118',fade);R(-13,-5,2,10,'#2a2118',fade);R(11,-5,2,10,'#2a2118',fade);}
     if(style==='stairs')R(-10,2,20,1,'#2f2b22',fade);
     if(pose.mark){const by=-34-pose.lift-(Math.floor(clock/300)%2);R(-3,by,7,8,'#050706');R(-2,by+1,5,6,'#F0CE6A');R(0,by+2,1,2,'#050706');R(0,by+5,1,1,'#050706');}
@@ -364,7 +392,7 @@
       return elements.find(el=>{if(!el)return false;const r=el.getBoundingClientRect(),top=Math.min(r.top,r.bottom-8-6*geo.u-1);return r.width>0&&r.height>0&&x>=r.left&&x<=r.right&&y>=top&&y<=r.bottom;})||null;
     };
     // Hatches, doors, the letter and the hidden pedestals show that they are open while he goes through.
-    p.portalHatch=function(el,open){if(['portal-hatch','portal-door','portal-letter','portal-secret'].some(k=>el?.classList?.contains(k)))el.classList[open?'add':'remove']('is-open');};
+    p.portalHatch=function(el,open){if(['portal-hatch','portal-door','portal-letter','portal-secret','portal-front','portal-phone'].some(k=>el?.classList?.contains(k)))el.classList[open?'add':'remove']('is-open');};
     // Resolve the actual button geometry, so scrolling, translations and seismic overlays
     // cannot move the visual pedestal away from its walking/keyboard interaction.
     p.portalPoint=function(el,geo){const r=el.getBoundingClientRect(),sr=geo.sc.getBoundingClientRect();return [r.left-sr.left+r.width/2,r.bottom-sr.top+geo.top-8-3*geo.u];};
@@ -399,17 +427,22 @@
       try{this.go(to,then);}finally{this._rmOutGo=prior;}
     };
     // Which passage an end uses: hidden doors are walked through, hatches (the coin slot and the "?" too) are
-    // dropped into, pedestals and the kanji hatch spin.
-    p.endStyle=function(el){const has=k=>!!el?.classList?.contains?.(k);return has('portal-door-l')?'door-l':has('portal-door-r')?'door-r':has('portal-floor')||has('portal-letter')?'hatch':'spin';};
+    // dropped into, Sobre's door and the payphones have their own, "Ver sobre" is its staircase, and the
+    // pedestal and the kanji hatch spin.
+    p.endStyle=function(el){
+      const has=k=>!!el?.classList?.contains?.(k);
+      return has('portal-door-l')?'door-l':has('portal-door-r')?'door-r':has('portal-floor')||has('portal-letter')?'hatch':has('portal-front')?'door':has('portal-phone')?'phone':el?.getAttribute?.('data-portal-to')==='sobre'?'stairs':'spin';
+    };
     p.teleport=function(to,arrival=null,source=null,then,style='spin'){
       const wk=this._wk;
       if(wk?.anim?.kind==='teleport-out')return;
-      // fall and stairs belong to the home buttons and shape both ends; the rest depends on each end.
-      const shared=style==='fall'||style==='stairs';
+      // The trapdoor's fall shapes both ends (he lands on the Projetos pedestal). Every other passage leaves the
+      // way its button or end goes (the "Ver sobre" staircase) and arrives the way the other end does.
+      const shared=style==='fall';
       this._teleportArrival=arrival;this._teleportStyle=shared?style:null;
       this.worldPokeCancel();this.setTrip(null);this._wKeys={};if(wk){wk.auto=null;wk.flo=null;}
       if(!this.worldOn()||!wk||this.calm()){this._teleportStyle=null;this.teleportGo(to,then);return;}
-      const leave=shared?style:this.endStyle(source);
+      const leave=style!=='spin'?style:this.endStyle(source);
       wk.anim={kind:'teleport-out',t:0,to,hatch:source,then,style:leave};
       if(!shared){this.portalHatch(source,true);if(leave==='spin')this.sfx('poof');}
     };

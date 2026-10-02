@@ -1247,7 +1247,7 @@ a{color:#D8B24A}a:hover{color:#F0CE6A}
 .nav-i{display:none}
 .nav-b{padding:12px 10px}
 .tro-b{padding:0 10px}
-.screen{padding:26px 16px 24px;--padL:16px}
+.screen{--side:max(16px,calc(var(--hf) * .148 + 3px));padding:26px var(--side) 24px;--padL:var(--side)}
 .home-m,.proj,.lab,.about,.contact{display:flex;flex-direction:column;align-items:stretch;gap:26px}
 .hb-pal,.pwr{display:none}
 .nb-l{display:none}
@@ -1274,7 +1274,7 @@ a{color:#D8B24A}a:hover{color:#F0CE6A}
 .kp{padding:16px;font-size:11px}
 .sv-i{top:74px;right:12px}
 .kanji-w{display:none}
-.okr{--hf:23vw}
+.okr{--hf:min(22.4vw,140px)}
 .proj-r{display:none}
 .ground-b{padding:0 14px;gap:12px}
 .g-l,.tel-on,.tel-fps,.tel-q,.tel-b{display:none}
@@ -1288,6 +1288,17 @@ a{color:#D8B24A}a:hover{color:#F0CE6A}
 .boot{padding:40px 20px}
 .boot-top{left:20px;right:20px}
 .press{font-size:48px}
+}
+/* Tablets: the wide doors (13u) need a wider side, and the name stays clear of it. */
+@media (min-width:600px) and (max-width:860px){
+.okr{--hf:min(21vw,140px)}
+.screen{--side:calc(var(--hf) * .21 + 6px)}
+}
+/* Phones and tablets: the name fills its column ("OGASAWARA" is about 4.06 em wide), while the doors and
+   Hikaru keep the capped --hf, so a bigger name never pushes them over the titles again. */
+@media (max-width:860px){
+.home-l{container-type:inline-size}
+.name{font-size:min(calc(100cqi / 4.06),200px)}
 }
 @media (prefers-reduced-motion:reduce){
 .okr:not(.motion-full) *,.okr:not(.motion-full) *::before,.okr:not(.motion-full) *::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}

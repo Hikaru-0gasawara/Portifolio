@@ -1740,6 +1740,9 @@ class Component extends DCLogic {
         case 'sim3': T(1047, 0.22, 'triangle', 0.045); break;
         case 'dice': for (let i = 0; i < 7; i++) { N(0.03, 0.14, i * 0.07 + r * 0.02, 2600 + Math.random() * 1200, 'bandpass'); T(1800 + Math.random() * 900, 0.02, 'triangle', 0.02, i * 0.07); } break;
         case 'duck': T(240, 0.06, 'square', 0.02, 0, 150); break;
+        // the payphones: an old bell's trill, then a few dialing beeps down the line
+        case 'ring': for (let i = 0; i < 8; i++) T(i % 2 ? 1175 : 988, 0.04, 'square', 0.018, i * 0.045); break;
+        case 'dial': [[697, 1209], [770, 1336], [852, 1209], [941, 1336]].forEach((f, i) => { T(f[0], 0.07, 'sine', 0.025, i * 0.1); T(f[1], 0.07, 'sine', 0.02, i * 0.1); }); break;
         default: T(880, 0.04, 'square', 0.03);
       }
     } catch (err) {
@@ -3120,7 +3123,7 @@ class Component extends DCLogic {
     if (wk.anim && wk.anim.kind === 'in') return;
     if (s.doorTip) this.setState({ doorTip: false });
     const u = g.u;
-    const fx = side === 'L' ? 18 * u : g.W - 18 * u;
+    const fx = side === 'L' ? 12 * u : g.W - 12 * u;
     const fy = g.dy + 24 * u;
     const near = !wk.hidden && !wk.anim && Math.abs(wk.x - fx) < 10 * u && Math.abs(wk.y - fy) < 8 * u;
     wk.anim = { kind: 'in', side: side, t: near ? 250 : 0, to: to, from: near ? wk.x : fx };
@@ -3623,13 +3626,14 @@ class Component extends DCLogic {
       if (t < 200) wk.hidden = true;
       else if (t < 580) {
         wk.hidden = false;
+        // he stops on the door's mat, so a page title right after the margin stays readable
         const p = (t - 200) / 380;
-        wk.x = edgeX(-8 + 26 * p);
+        wk.x = edgeX(-8 + 20 * p);
         wk.dir = L ? 'r' : 'l';
         wk.moving = true;
         wk.walk += dt;
       } else {
-        wk.x = edgeX(18);
+        wk.x = edgeX(12);
         wk.moving = false;
         if (hit(700)) {
           this.worldDoorTween(a.side, false, 200);
@@ -3821,6 +3825,11 @@ class Component extends DCLogic {
       wk = this.worldSpawn(page, g);
     }
     const busy = !!(s.paused || s.palOpen || s.achOpen || s.recOpen || s.arcOpen || s.dOpen || s.skOpen || s.credOpen || s.transitioning || s.powering || s.languageOpen || s.galleryLarge || s.shooterOpen || s.deOpen || s.tvGameOpen);
+    // a window that got narrower or shorter keeps him on the floor
+    if (!wk.anim && !wk.auto && !wk.hidden) {
+      wk.x = Math.max(8 * g.u, Math.min(g.W - 8 * g.u, wk.x));
+      wk.y = Math.max(24 * g.u, Math.min(g.CH - 2 * g.u, wk.y));
+    }
     let moved = false;
     // a trip in progress: once he is out of the door, on to the next one (or done)
     const trip = this._wTrip;

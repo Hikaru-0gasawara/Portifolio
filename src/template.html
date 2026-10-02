@@ -37,6 +37,7 @@
 <script defer src="./assets/display.js"></script>
 <script defer src="./assets/tv-game.js"></script>
 <script defer src="./assets/title-sound.js"></script>
+<script defer src="./assets/gamepad.js"></script>
 <script defer src="./assets/enhancements.js"></script>
 <script defer src="./vendor/dc-runtime.js"></script>
 </head>
@@ -182,7 +183,7 @@
 <div class="ctas home-actions rise" style="animation-delay: 680ms">
 <button class="btn btn-p" data-portal-to="projetos" sc-camel-on-click="{{goProjetos}}">Ver projetos <span class="arr" aria-hidden="true">→</span></button>
 <button class="btn btn-g" data-portal-to="sobre" sc-camel-on-click="{{goSobre}}">Ver sobre</button>
-<button class="portal-anchor" data-portal-id="home-contact" data-poke="twirl" sc-camel-on-click="{{portalContact}}" aria-label="Portal: ir para contato" title="Um atalho para contato"><span class="portal-stone" aria-hidden="true">⌂</span></button>
+<button class="portal-anchor portal-phone" data-portal-id="home-contact" data-poke="twirl" sc-camel-on-click="{{portalContact}}" aria-label="Orelhão: ligar para o Contato" title="Um orelhão que liga para o Contato"><svg class="ph-sym" sc-camel-view-box="0 0 24 32" aria-hidden="true"><g class="ph-ring"><rect x="2" y="5" width="1" height="4" fill="#F0CE6A"></rect><rect x="1" y="6" width="1" height="2" fill="#F0CE6A"></rect><rect x="21" y="5" width="1" height="4" fill="#F0CE6A"></rect><rect x="22" y="6" width="1" height="2" fill="#F0CE6A"></rect></g><rect x="11" y="15" width="2" height="15" fill="#596a5e"></rect><rect x="12" y="15" width="1" height="15" fill="#3e4b42"></rect><rect x="8" y="30" width="8" height="2" fill="#2a362f"></rect><g class="ph-hood"><rect x="9" y="1" width="6" height="1" fill="#E0893A"></rect><rect x="7" y="2" width="10" height="1" fill="#E0893A"></rect><rect x="6" y="3" width="12" height="1" fill="#E0893A"></rect><rect x="5" y="4" width="14" height="11" fill="#E0893A"></rect><rect x="5" y="4" width="1" height="11" fill="#A85A24"></rect><rect x="18" y="4" width="1" height="11" fill="#B8662A"></rect><rect x="8" y="2" width="3" height="1" fill="#F2B266"></rect><rect x="7" y="3" width="2" height="1" fill="#F2B266"></rect><rect x="7" y="5" width="10" height="10" fill="#120d09"></rect><rect x="7" y="14" width="10" height="1" fill="#2a1d12"></rect><g class="ph-set"><rect x="9" y="6" width="6" height="2" fill="#2a2a24"></rect><rect x="9" y="6" width="1" height="4" fill="#2a2a24"></rect></g><rect x="10" y="8" width="4" height="5" fill="#C9C2A8"></rect><rect x="12" y="9" width="1" height="1" fill="#3a3a30"></rect><rect x="10" y="11" width="1" height="1" fill="#596a5e"></rect><rect x="11" y="11" width="1" height="1" fill="#596a5e"></rect><rect x="10" y="12" width="1" height="1" fill="#596a5e"></rect><rect x="11" y="12" width="1" height="1" fill="#596a5e"></rect></g></svg></button>
 </div>
 </div>
 <div class="home-r">
@@ -580,7 +581,7 @@
 <p class="kick rise" style="animation-delay: 80ms">Ficha do personagem</p>
 <div class="page-heading">
 <h1 class="h1"><span class="ln"><span class="ln-in" style="animation-delay: 120ms" ref="{{decH1}}">Sobre</span></span></h1>
-<button class="portal-anchor" data-portal-id="sobre" data-poke="twirl" sc-camel-on-click="{{portalHome}}" aria-label="Portal: voltar ao início" title="Interaja para voltar ao início"><span class="portal-stone" aria-hidden="true">⌂</span></button>
+<button class="portal-anchor portal-front" data-portal-id="sobre" data-poke="twirl" sc-camel-on-click="{{portalHome}}" aria-label="Porta: voltar ao início" title="Uma porta de volta ao início"><svg class="fd-sym" sc-camel-view-box="0 0 24 32" aria-hidden="true"><rect x="2" y="2" width="20" height="30" fill="#2b3a31"></rect><rect x="1" y="1" width="22" height="3" fill="#3B4B41"></rect><rect x="1" y="1" width="22" height="1" fill="#62796A"></rect><rect x="5" y="4" width="14" height="27" fill="#030504"></rect><g class="fd-light"><rect x="6" y="5" width="12" height="26" fill="#F0CE6A"></rect></g><g class="fd-leaf"><rect x="5" y="4" width="14" height="27" fill="#6E4C32"></rect><rect x="9" y="4" width="1" height="27" fill="#5A4029"></rect><rect x="14" y="4" width="1" height="27" fill="#5A4029"></rect><rect x="7" y="7" width="10" height="7" fill="#8C6440"></rect><rect x="8" y="8" width="8" height="5" fill="#6E4C32"></rect><rect x="7" y="17" width="10" height="1" fill="#5A4029"></rect><rect x="16" y="18" width="2" height="2" fill="#F0CE6A"></rect></g><rect x="3" y="31" width="18" height="1" fill="#222C26"></rect></svg></button>
 </div>
 <dl class="attrs rise" style="animation-delay: 300ms">
 <dt class="lab-t">Classe</dt><dd>Engenharia da Computação <span>· São Paulo, BR</span></dd>
@@ -782,7 +783,7 @@
 <a class="lnk" href="https://www.linkedin.com/in/hikaru-ogasawara" target="_blank" rel="noopener">LinkedIn <span class="ph-t">/in/hikaru-ogasawara</span> <span class="arr" aria-hidden="true">↗</span></a>
 <div class="ct-github">
 <a class="lnk" href="https://github.com/Hikaru-0gasawara" target="_blank" rel="noopener">GitHub <span class="ph-t">/Hikaru-0gasawara</span> <span class="arr" aria-hidden="true">↗</span></a>
-<button class="portal-anchor portal-secret" data-portal-id="contact-home" data-poke="twirl" sc-camel-on-click="{{portalHome}}" aria-label="Portal escondido: voltar ao início" title="Um caminho de volta"><span class="portal-stone" aria-hidden="true">⌂</span></button>
+<button class="portal-anchor portal-phone portal-secret" data-portal-id="contact-home" data-poke="twirl" sc-camel-on-click="{{portalHome}}" aria-label="Orelhão: ligar para o Início" title="Um orelhão que liga para o Início"><svg class="ph-sym" sc-camel-view-box="0 0 24 32" aria-hidden="true"><g class="ph-ring"><rect x="2" y="5" width="1" height="4" fill="#F0CE6A"></rect><rect x="1" y="6" width="1" height="2" fill="#F0CE6A"></rect><rect x="21" y="5" width="1" height="4" fill="#F0CE6A"></rect><rect x="22" y="6" width="1" height="2" fill="#F0CE6A"></rect></g><rect x="11" y="15" width="2" height="15" fill="#596a5e"></rect><rect x="12" y="15" width="1" height="15" fill="#3e4b42"></rect><rect x="8" y="30" width="8" height="2" fill="#2a362f"></rect><g class="ph-hood"><rect x="9" y="1" width="6" height="1" fill="#E0893A"></rect><rect x="7" y="2" width="10" height="1" fill="#E0893A"></rect><rect x="6" y="3" width="12" height="1" fill="#E0893A"></rect><rect x="5" y="4" width="14" height="11" fill="#E0893A"></rect><rect x="5" y="4" width="1" height="11" fill="#A85A24"></rect><rect x="18" y="4" width="1" height="11" fill="#B8662A"></rect><rect x="8" y="2" width="3" height="1" fill="#F2B266"></rect><rect x="7" y="3" width="2" height="1" fill="#F2B266"></rect><rect x="7" y="5" width="10" height="10" fill="#120d09"></rect><rect x="7" y="14" width="10" height="1" fill="#2a1d12"></rect><g class="ph-set"><rect x="9" y="6" width="6" height="2" fill="#2a2a24"></rect><rect x="9" y="6" width="1" height="4" fill="#2a2a24"></rect></g><rect x="10" y="8" width="4" height="5" fill="#C9C2A8"></rect><rect x="12" y="9" width="1" height="1" fill="#3a3a30"></rect><rect x="10" y="11" width="1" height="1" fill="#596a5e"></rect><rect x="11" y="11" width="1" height="1" fill="#596a5e"></rect><rect x="10" y="12" width="1" height="1" fill="#596a5e"></rect><rect x="11" y="12" width="1" height="1" fill="#596a5e"></rect></g></svg></button>
 </div>
 </div>
 <div class="ct-foot lab-t"><span>Hikaru Ogasawara · São Paulo, 2026</span><span>Respondo em PT · EN · JP · ES</span><span>Feito com solda, café e ctrl+z</span></div>
@@ -1241,6 +1242,18 @@
 <sc-for list="{{shards}}" as="sd" hint-placeholder-count="14"><span class="shard" style="left: {{sd.x}}px; top: {{sd.y}}px; width: {{sd.w}}px; height: {{sd.h}}px; clip-path: {{sd.clip}}; --dx: {{sd.dx}}px; --dy: {{sd.dy}}px; --rot: {{sd.rot}}deg; animation-delay: {{sd.d}}ms"></span></sc-for>
 </div>
 </sc-if>
+
+<sc-if value="{{padOn}}" hint-placeholder-val="{{false}}">
+<div class="pad" data-nopoke="true">
+<div class="pad-stick" aria-hidden="true" sc-camel-on-pointer-down="{{padStickDown}}" sc-camel-on-pointer-move="{{padStickMove}}" sc-camel-on-pointer-up="{{padStickUp}}" sc-camel-on-pointer-cancel="{{padStickUp}}"><span class="pad-knob" ref="{{setPadKnob}}"></span></div>
+<div class="pad-ab" aria-hidden="true">
+<span class="pad-k pad-k-b {{padBCls}}" sc-camel-on-pointer-down="{{padBDown}}" sc-camel-on-pointer-up="{{padBUp}}" sc-camel-on-pointer-cancel="{{padBUp}}" sc-camel-on-pointer-leave="{{padBUp}}"><b class="pix">B</b><small>{{padBLabel}}</small></span>
+<span class="pad-k pad-k-a" sc-camel-on-pointer-down="{{padADown}}" sc-camel-on-pointer-up="{{padAUp}}" sc-camel-on-pointer-cancel="{{padAUp}}" sc-camel-on-pointer-leave="{{padAUp}}"><b class="pix">A</b><small>usar</small></span>
+</div>
+<button class="pad-hide" sc-camel-on-click="{{padToggle}}" aria-label="Esconder o controle de toque" title="Esconder o controle">×</button>
+</div>
+</sc-if>
+<sc-if value="{{padMini}}" hint-placeholder-val="{{false}}"><button class="pad-show" sc-camel-on-click="{{padToggle}}" aria-label="Mostrar o controle de toque" title="Mostrar o controle"><svg class="pad-ic" sc-camel-view-box="0 0 16 10" aria-hidden="true"><rect x="2" y="1" width="12" height="8" fill="currentColor"></rect><rect x="0" y="3" width="2" height="5" fill="currentColor"></rect><rect x="14" y="3" width="2" height="5" fill="currentColor"></rect><rect x="4" y="3" width="1" height="4" fill="#0b130e"></rect><rect x="3" y="4" width="3" height="2" fill="#0b130e"></rect><rect x="10" y="3" width="2" height="2" fill="#0b130e"></rect><rect x="12" y="5" width="2" height="2" fill="#0b130e"></rect></svg></button></sc-if>
 
 <sc-if value="{{transitioning}}" hint-placeholder-val="{{false}}">
 <div class="strata" aria-hidden="true">

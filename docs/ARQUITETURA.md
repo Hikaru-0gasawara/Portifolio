@@ -46,7 +46,7 @@ Antes de o runtime iniciar, o navegador lê o conteúdo de `<x-dc>` como HTML co
 const wrap = (name, fn) => { const prior = p[name]; p[name] = function (...args) { return fn.call(this, prior.bind(this), ...args); }; };
 ```
 
-`src/enhancements.js` instala a integração (idioma, foco, galeria) e, em seguida, os módulos na ordem da lista `Portfolio.modules`: personagem, quarto, dado, tiro, cena, limpeza, boot, desktop, cartuchos, hitbox, conquistas, jogo da TV, TV de entrada e som (escolha de idioma, com sua trilha e equalizador, e tela de título). Cada módulo envolve o que os anteriores deixaram, então a ordem faz parte do comportamento. Um módulo ausente é registrado no console e o restante continua.
+`src/enhancements.js` instala a integração (idioma, foco, galeria) e, em seguida, os módulos na ordem da lista `Portfolio.modules`: personagem, quarto, dado, tiro, cena, limpeza, boot, desktop, cartuchos, hitbox, conquistas, jogo da TV, TV de entrada, som (escolha de idioma, com sua trilha e equalizador, e tela de título) e controle de toque. Cada módulo envolve o que os anteriores deixaram, então a ordem faz parte do comportamento. Um módulo ausente é registrado no console e o restante continua.
 
 `renderVals()` é a ponte com o template: cada módulo acrescenta os valores e handlers de que suas telas precisam. Handlers usados como `ref` são memorizados no componente para não serem recriados a cada render.
 

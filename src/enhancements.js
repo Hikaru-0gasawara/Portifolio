@@ -165,6 +165,6 @@
       else g.console?.error?.('Portfolio: module '+name+' is missing; its features are disabled.');
     }
   }};
-  const modules=['PortfolioCharacter','PortfolioRoom','PortfolioDice','PortfolioShooter','PortfolioScene','PortfolioCharacterCare','PortfolioBootFlow','PortfolioDesktop','PortfolioPocket','PortfolioHitbox','PortfolioAchievements','PortfolioTvGame','PortfolioDisplay','PortfolioTitleSound'];
+  const modules=['PortfolioCharacter','PortfolioRoom','PortfolioDice','PortfolioShooter','PortfolioScene','PortfolioCharacterCare','PortfolioBootFlow','PortfolioDesktop','PortfolioPocket','PortfolioHitbox','PortfolioAchievements','PortfolioTvGame','PortfolioDisplay','PortfolioTitleSound','PortfolioGamepad'];
   g.Portfolio.modules=modules;
 })(window);

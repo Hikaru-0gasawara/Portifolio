@@ -30,10 +30,10 @@ function fixture(page='projetos',scrollTop=0){
 test('portals are real buttons in heading grid, inside the left content column',()=>{
   const html=read('src/template.html'),css=read('src/enhancements.css');
   assert.equal((html.match(/class="page-heading"/g)||[]).length,2);
-  assert.equal((html.match(/class="portal-anchor(?: portal-secret| portal-hatch)?"/g)||[]).length,5);
-  for(const cls of ['proj-l','ab-s']){
+  assert.equal((html.match(/class="portal-anchor(?: portal-phone| portal-front| portal-phone portal-secret| portal-hatch)?"/g)||[]).length,5);
+  for(const [cls,kind] of [['proj-l',''],['ab-s',' portal-front']]){
     const slice=html.slice(html.indexOf('<div class="'+cls+'">'));
-    assert.match(slice,/^[\s\S]*?<div class="page-heading">\s*<h1[^]*?<button class="portal-anchor"[^]*?<\/button>\s*<\/div>/);
+    assert.match(slice,new RegExp('^[\\s\\S]*?<div class="page-heading">\\s*<h1[^]*?<button class="portal-anchor'+kind+'"[^]*?</button>\\s*</div>'));
   }
   const portalRule=css.match(/\.portal-anchor\{([^}]+)\}/)[1];
   assert.match(portalRule,/position:relative/);assert.doesNotMatch(portalRule,/position:absolute/);
@@ -102,7 +102,7 @@ test('contact keeps its footer below the social links and pairs its portal with 
 test('home contact pedestal follows the about action; full-width hatch preserves its height and furigana',()=>{
   const html=read('src/template.html'),css=read('src/enhancements.css');
   assert.match(html,/<div class="home-r">\s*<div class="sel rise"/);
-  assert.match(html,/<div class="ctas home-actions rise"[^]*?data-portal-to="projetos"[^]*?data-portal-to="sobre"[^]*?<\/button>\s*<button class="portal-anchor" data-portal-id="home-contact"/);
+  assert.match(html,/<div class="ctas home-actions rise"[^]*?data-portal-to="projetos"[^]*?data-portal-to="sobre"[^]*?<\/button>\s*<button class="portal-anchor portal-phone" data-portal-id="home-contact"/);
   assert.doesNotMatch(html,/home-portal-row/);assert.equal((html.match(/data-portal-id="home-contact"/g)||[]).length,1);
   assert.match(html,/<span class="kanji-w">\s*<button[^]*?data-portal-id="home-room"[^]*?<\/button>\s*<button class="kanji-b[^]*?\{\{readName\}\}/);
   assert.match(css,/\.home-actions\{align-items:center;flex-wrap:nowrap/);
@@ -271,8 +271,8 @@ test('Ver projetos opens a trapdoor under Hikaru and drops him spinning onto the
   assert.equal(wk.x,spot.x);assert.equal(c._teleportStyle,null);
 });
 
-test('Ver sobre opens a secret staircase, Hikaru walks down it and climbs out on Sobre',()=>{
-  const {c,geo,finishNavigation,context}=fixture('inicio');const sounds=[];c.sfx=name=>sounds.push(name);
+test('Ver sobre opens a secret staircase, Hikaru walks down it and comes out of the door on Sobre',()=>{
+  const {c,geo,el,finishNavigation,context}=fixture('inicio');const sounds=[];c.sfx=name=>sounds.push(name);
   const api=context.PortfolioScene,{out:leave,in:arrive}=api.passages.stairs;
   c.teleport('sobre',null,null,undefined,'stairs');assert.equal(c._wk.anim.style,'stairs');
   assert.equal(api.passageOpen('stairs',true,0),0);assert.equal(api.passageOpen('stairs',true,600),1,'slabs slide apart');
@@ -282,10 +282,35 @@ test('Ver sobre opens a secret staircase, Hikaru walks down it and climbs out on
   assert.equal(api.passageOpen('stairs',true,leave),0,'the floor closes again');
   c.worldAnim(c._wk,leave,geo);finishNavigation();assert.equal(c.curPage(),'sobre');
   assert.equal(sounds[0],'creak');assert.ok(sounds.indexOf('doorShut')>sounds.lastIndexOf('land'),'the slabs shut after the last step');assert.ok(sounds.filter(s=>s==='land').length>=5,'footsteps');
-  const wk=c.worldSpawn('sobre',geo);assert.equal(wk.anim.style,'stairs');
+  // Sobre's end is a door seen from the front: it opens, he walks out of the dark towards us and it shuts.
+  el.classList.add('portal-front');
+  const wk=c.worldSpawn('sobre',geo),door=api.passages.door.in;assert.equal(wk.anim.style,'door');assert.equal(el.classList.contains('is-open'),true);
+  assert.equal(api.passagePose('door',false,0).alpha,0,'he starts inside the doorway');
+  assert.ok(api.passagePose('door',false,400).alpha>0);assert.equal(api.passagePose('door',false,door-1).dir,'d','and comes out facing us');
+  assert.equal(c.worldAnim(wk,door,geo),false);assert.equal(wk.dir,'d');assert.equal(el.classList.contains('is-open'),false,'the door shuts behind him');
+  // The stairs still belong to "Ver sobre": coming back, he climbs out of them at the button.
+  assert.equal(c.endStyle({classList:{contains:()=>false},getAttribute:k=>k==='data-portal-to'?'sobre':null}),'stairs');
   assert.equal(api.passagePose('stairs',false,0).alpha,0,'he starts inside the stairs');
   assert.ok(api.passagePose('stairs',false,900).alpha>0);assert.equal(api.passagePose('stairs',false,arrive-1).dy,0,'and ends on the floor');
-  assert.equal(c.worldAnim(wk,arrive,geo),false);assert.equal(wk.dir,'d');
+});
+
+test('Sobre’s door is walked into, and Início and Contato call each other from two payphones',()=>{
+  const {context}=fixture('sobre'),api=context.PortfolioScene,kind=cls=>fixture().c.endStyle({classList:{contains:k=>k===cls}});
+  assert.equal(kind('portal-front'),'door');assert.equal(kind('portal-phone'),'phone');
+  const out=api.passages.door.out,call=api.passages.phone;
+  assert.equal(api.passagePose('door',true,100).dir,'u','he turns to the door');assert.ok(api.passagePose('door',true,500).dy<0,'and walks into it');
+  assert.equal(api.passagePose('door',true,out-1).alpha,0,'until the dark takes him');
+  assert.equal(api.passagePose('phone',true,200).dir,'u','he answers with his back to us');
+  const thin=api.passagePose('phone',true,1000);assert.ok(thin.sx<.6&&thin.sy>1.4,'the line pulls him thin and tall');
+  assert.ok(api.passagePose('phone',true,call.out-1).alpha<.1);
+  assert.equal(api.passagePose('phone',false,50).alpha,0);const back=api.passagePose('phone',false,call.in-1);assert.equal(back.dir,'d');assert.equal(back.sx,1);
+  const {c,el}=fixture('inicio'),sounds=[];c.sfx=n=>sounds.push(n);el.classList.add('portal-phone');
+  c.teleport('contato','contact-home',el);assert.equal(c._wk.anim.style,'phone');assert.equal(el.classList.contains('is-open'),true,'it rings');
+  c.passageCue(c._wk.anim,0,call.out);assert.deepEqual(sounds,['ring','ring','dial']);
+  const html=read('src/template.html');
+  assert.equal((html.match(/class="ph-sym"/g)||[]).length,2,'two payphones');assert.equal((html.match(/class="fd-sym"/g)||[]).length,1,'one door');
+  assert.doesNotMatch(html,/data-portal-id="(?:home-contact|sobre|contact-home)"[^>]*><span class="portal-stone"/,'no pedestals left there');
+  assert.match(read('src/app.js'),/case 'ring':[^\n]*case 'dial':|case 'ring':[\s\S]{0,200}case 'dial':/);
 });
 
 test('home passages respect reduced motion, keep pedestal portals spinning and reset on a new destination',()=>{

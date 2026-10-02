@@ -154,6 +154,14 @@
 
 - [x] “Qual idioma você fala?” em destaque no idioma sob o cursor (mouse, foco ou setas), com as outras duas versões menores abaixo e entrada “digitada”; as opções não se movem com a troca, no desktop e no celular.
 
+## Telas de vários tamanhos, controle de toque e novas passagens — 02/10/2026
+
+- [x] Até 860 px, o nome, as portas laterais e Hikaru param de crescer em tablets e a margem lateral acompanha a porta: os títulos não ficam mais sob as portas; Hikaru para sobre o capacho ao sair; reposicionado ao redimensionar a janela.
+- [x] Controle de toque em celulares e tablets: joystick de 8 direções, A (usar) e B (correr ou fechar), nas páginas e no quarto, com botão para esconder; usa as mesmas teclas do teclado.
+- [x] Sobre: o pedestal virou uma porta vista de frente que se abre; Início ↔ Contato: os pedestais viraram dois orelhões que tocam e levam Hikaru pela linha.
+- [x] Testes do controle, das passagens e de um contrato de tamanhos de 320 a 860 px; quadros conferidos no navegador.
+- [x] Em celulares e tablets, “Hikaru Ogasawara” ocupa toda a largura da coluna (até ~190 px a 860 px), sem fazer as portas e o Hikaru crescerem junto.
+
 ## Verificação
 
 - [x] Telas, estados e console conferidos no navegador, no desktop e no celular, quadro a quadro.

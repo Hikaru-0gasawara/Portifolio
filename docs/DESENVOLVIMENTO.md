@@ -30,6 +30,7 @@ O build reconstrói `dist/` e gera uma cópia na raiz para uso local (ignorada p
 | `src/skill-tree.js` | Layout da árvore de habilidades |
 | `src/character.js`, `src/character-care.js` | Quedas, tropeços e limpeza da poeira de Hikaru |
 | `src/scene.js` | Caminhada entre páginas, rede de passagens secretas (páginas e quarto), passagens dos botões da home, ajuste de Movimento e fichas |
+| `src/gamepad.js` | Controle de toque (joystick, A e B) para celulares e tablets, traduzido nas mesmas teclas do teclado |
 | `src/title-sound.js` | Som antes do jogo: trilha da escolha de idioma em três estilos e seu equalizador, tela de título (preferência desde o menu, trilha própria, tecla M) e silêncio atrás da TV de entrada |
 | `src/room-props.js` | Objetos extras do quarto, pelúcias, estante e diálogos |
 | `src/desktop.js` | Desktop do computador do quarto: zoom no monitor, janelas e aplicativos |
@@ -150,9 +151,10 @@ O preparador espera os três nomes originais descritos em `scripts/prepare-resum
 | Área | Controles e comportamento |
 | --- | --- |
 | Navegação | `WASD`/setas movem Hikaru; `E` ou espaço interagem; um clique indica o destino e executa a ação após a animação |
+| Celular e tablet | Um controle de toque aparece nas páginas e no quarto: o joystick anda (8 direções), **A** usa o que está sob Hikaru e **B** corre enquanto segurado (no quarto, fecha os diálogos); o **×** esconde o controle e um botão de controle o traz de volta |
 | Quarto | Máquinas e estante exigem aproximação frontal; clique cuida do caminho e da direção |
 | TV do quarto | Um único botão de imagem alterna **TV antiga → tubo CRT → alta definição**; a caixa permanece aberta para comparar os estilos |
-| Portais | Clique para caminhar e atravessar, ou fique sobre o pedestal e aperte `E`; apenas caminhar sobre ele não dispara a viagem |
+| Portais | Clique para caminhar e atravessar, ou fique sobre a ponta (pedestal, porta ou orelhão) e aperte `E`; apenas caminhar sobre ela não dispara a viagem |
 | Menu | `Esc` abre o pause; `Ctrl+K` abre a paleta/console; idioma e movimento reduzido ficam nos menus |
 | Projetos | Setas trocam imagens; **Ampliar** abre a galeria; `Esc` fecha o visualizador |
 | D20 | Selecione um desafio e role o dado; o número acompanha sua face, com pouso na face sorteada |
@@ -175,9 +177,9 @@ Cada página comum e o quarto se ligam a todas as outras por uma passagem escond
 | De ↔ para | Ponta de um lado | Ponta do outro |
 | --- | --- | --- |
 | Início ↔ Quarto | alçapão acima da caixa de kanji | círculo atrás da planta |
-| Início ↔ Contato | pedestal à direita de “Ver sobre” | pedestal à direita do GitHub |
+| Início ↔ Contato | orelhão à direita de “Ver sobre” | orelhão à direita do GitHub |
 | Início ↔ Projetos | “Ver projetos” (alçapão que se abre) | pedestal ao lado do título |
-| Início ↔ Sobre | “Ver sobre” (escada secreta) | pedestal ao lado do título |
+| Início ↔ Sobre | “Ver sobre” (escada secreta) | porta ao lado do título |
 | Projetos ↔ Sobre | porta na parede esquerda do esquemático | porta na parede esquerda de “Jogando agora” |
 | Projetos ↔ Contato | porta na parede direita do esquemático | porta na moldura do plástico-bolha |
 | Projetos ↔ Quarto | alçapão na linha de baixo do esquemático | alçapão sob o pinball |
@@ -186,13 +188,14 @@ Cada página comum e o quarto se ligam a todas as outras por uma passagem escond
 | Contato ↔ Quarto | o ponto do “?” de CONTINUE? | túnel debaixo da cama |
 
 - **Portas e alçapões nas linhas:** são símbolos de planta desenhados sobre a borda de 1 px dos painéis, posicionados fora do fluxo. Fechados, a folha cobre exatamente a borda e só dois batentes pequenos denunciam a porta; o painel mantém tamanho e formatação. No hover, a folha fica dourada e entreabre; durante a viagem, abre com o arco tracejado e a abertura escura. Em telas de até 860 px, onde o esquemático fica oculto, as três passagens dele esperam em alçapões na última linha da lista de missões, e o código usa a ponta que estiver na tela.
-- **Atravessar de verdade:** nas portas escondidas, a porta abre, Hikaru recua um passo, atravessa e some na linha da parede; na outra ponta, a porta de destino abre, ele sai de dentro da parede, fica do lado de fora e ela se fecha. Nos alçapões, na fenda das fichas e no “?”, ele pula para dentro e, na chegada, sai de dentro. A saída usa o tipo da ponta de origem e a chegada o da ponta de destino (porta, alçapão ou pedestal); os pedestais e o alçapão do kanji continuam com o giro. Cada passagem tem sons de porta, passos e fechamento.
+- **Atravessar de verdade:** nas portas escondidas, a porta abre, Hikaru recua um passo, atravessa e some na linha da parede; na outra ponta, a porta de destino abre, ele sai de dentro da parede, fica do lado de fora e ela se fecha. Nos alçapões, na fenda das fichas e no “?”, ele pula para dentro e, na chegada, sai de dentro. A saída usa o tipo da ponta de origem e a chegada o da ponta de destino (porta, alçapão, orelhão ou pedestal); o pedestal de Projetos e o alçapão do kanji continuam com o giro. Cada passagem tem sons de porta, passos e fechamento.
 - **Atrás da letra:** o “?” de CONTINUE? desliza para o lado e mostra a passagem que estava sob o ponto. O título mantém o nome acessível “Continue?”.
 - **No quarto:** o pinball desliza para trás e revela um alçapão, onde Hikaru pula; a estante sobe pela parede e mostra uma escada, por onde ele sobe até sumir; e ele se agacha e se arrasta para baixo da cama, que é redesenhada por cima dele. Na chegada, a mesma passagem se abre, ele sai e ela se fecha. Cada uma tem sons próprios e um detalhe discreto que aparece mesmo fechada (brilho sob o pinball, luz na fresta da estante, brilho sob a cama). Para usar, clique no ladrilho ou fique sobre ele e aperte `E`; ir até um objeto vizinho continua abrindo o objeto. Os quatro ladrilhos contam como objetos do quarto.
-- **Contato ↔ Início:** o pedestal fica imediatamente à direita do link do GitHub. Sua outra ponta fica à direita de “Ver sobre”, na mesma linha dos botões “Ver projetos” e “Ver sobre”. o pedestal fica imediatamente à direita do link do GitHub. Sua outra ponta fica à direita de “Ver sobre”, na mesma linha dos botões “Ver projetos” e “Ver sobre”.
+- **Contato ↔ Início (orelhões):** dois orelhões em pixel art, um à direita de “Ver sobre” (na linha dos botões da home) e outro, mais discreto, à direita do link do GitHub. No hover, o fone levanta e aparecem as marcas de toque. Na viagem, o orelhão toca (campainha) e balança, Hikaru atende de costas, a linha o puxa fino e alto, piscando, e ele some subindo em bits dourados (com os bipes de discagem); no outro orelhão, a ligação o remonta e ele se vira para a frente.
+- **Sobre (porta):** ao lado do título fica uma porta vista de frente. No hover ela entreabre com luz por trás; na viagem, abre, Hikaru entra de costas e some no escuro, ou sai dele caminhando para a frente, e ela se fecha.
 - **Quarto ↔ Início:** há um círculo escondido atrás da planta, abaixo do gaveteiro. Ele leva ao alçapão acima da caixa de kanji, com a mesma largura da caixa e a altura original; o alçapão também faz a volta. A caixa continua mostrando furigana.
 - **Ver projetos** abre um alçapão no meio do chão sob Hikaru: as duas folhas se separam, ele fica um instante no ar com um “!” e cai girando para dentro. Em Projetos, ele despenca do alto da tela girando e aterrissa no pedestal, com sombra crescendo, impacto e poeira (cerca de 1 s de saída e 1,15 s de chegada).
-- **Ver sobre** abre do nada uma escada secreta: duas lajes de pedra deslizam para os lados, Hikaru vira e desce os degraus até sumir atrás da borda, e as lajes se fecham. Em Sobre, a mesma escada se abre no pedestal e ele sobe por ela (1,5 s em cada lado). As duas passagens têm sons próprios (rachadura, porta, queda e impacto; pedra arrastando, passos e fechamento) e, com Movimento reduzido, a troca de página é direta.
+- **Ver sobre** abre do nada uma escada secreta: duas lajes de pedra deslizam para os lados, Hikaru vira e desce os degraus até sumir atrás da borda, e as lajes se fecham. Em Sobre, ele sai pela porta ao lado do título; ao voltar por essa porta, ele sobe a escada no “Ver sobre” (1,5 s na escada, 0,9 s na porta). As duas passagens têm sons próprios (rachadura, porta, queda e impacto; pedra arrastando, passos e fechamento) e, com Movimento reduzido, a troca de página é direta.
 - Os portais de Projetos e Sobre continuam retornando aos respectivos botões da home. As portas preservam seus caminhos originais. As passagens usam giro de saída/entrada; movimento reduzido mantém o mesmo destino sem o giro.
 - Ao escolher outra página pela navegação, Hikaru pode decidir caminhar até a passagem escondida que liga as duas páginas e atravessá-la: **10%** para uma página de distância, **12,5%** para duas, **16,7%** para três e **25%** para quatro. O quarto conta como a página antes do Início (a ordem é Quarto, Início, Projetos, Sobre, Contato), então a regra vale também para sair ou chegar ao quarto: lá, em vez de seguir até a porta, ele pode ir até o pinball, a estante, a cama ou a planta. Saindo do Início para Projetos ou Sobre, a passagem é a dos próprios botões (alçapão ou escada). A escolha acontece uma vez por viagem; acelerar, pular ou mudar o destino continuam disponíveis. Clicar diretamente em uma porta, a ação **Ir pro site comum** da porta do quarto, os objetos do quarto e o Movimento reduzido mantêm o caminho pela porta.
 - A primeira chegada ao quarto inicia o mesmo tutorial de cinco passos, entrando pela porta ou pelo alçapão. Ele espera a animação de chegada terminar e é registrado em `roomIntro` no save. Novo jogo reinicia o tutorial; saves antigos com mais de dois objetos do quarto explorados são reconhecidos como visitas anteriores.
@@ -266,7 +269,7 @@ O terminal interno aceita `help`, `neofetch`, `whoami`, `htop`, `date` e `clear`
 
 ## Verificação
 
-**Estado atual: 181 testes passam** (`npm test`). Eles cobrem o contrato do template e do build, controller, idioma e catálogo, escolha de idioma antes da TV e sua trilha, vidro do recrutador no primeiro canal da TV, boot e pânico, botão de energia de volta à TV (saída pelo vidro, ao contrário da entrada), trilha da TV, árvore, caminhos e portais, a rede de passagens secretas (ida e volta de cada par, portas nas linhas, passagens do quarto e a regra de chance), passagens da home, som da tela de título, quarto, desktop, TV 3D (estado, câmera, seleção dos controles e entrada), hitbox e boneco de treino, minijogos, privacidade dos currículos e links de contato.
+**Estado atual: 184 testes passam** (`npm test`). Eles cobrem o contrato do template e do build, controller, idioma e catálogo, escolha de idioma antes da TV e sua trilha, controle de toque, ajuste de tamanho em celulares e tablets, porta do Sobre e orelhões, vidro do recrutador no primeiro canal da TV, boot e pânico, botão de energia de volta à TV (saída pelo vidro, ao contrário da entrada), trilha da TV, árvore, caminhos e portais, a rede de passagens secretas (ida e volta de cada par, portas nas linhas, passagens do quarto e a regra de chance), passagens da home, som da tela de título, quarto, desktop, TV 3D (estado, câmera, seleção dos controles e entrada), hitbox e boneco de treino, minijogos, privacidade dos currículos e links de contato.
 
 Além dos testes, a TV 3D, os canais, as passagens, o boneco de treino e o zoom do desktop foram conferidos quadro a quadro no navegador, no desktop e no celular, sem erros no console. O ritmo das animações e o som ainda merecem uma conferência em tempo real numa aba visível. A auditoria completa está em [AUDITORIA.md](AUDITORIA.md).
 

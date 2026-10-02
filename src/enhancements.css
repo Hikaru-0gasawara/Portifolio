@@ -65,6 +65,28 @@ html[lang=ja] .d20-rule{line-height:1.8}html[lang=ja] .bll-t{overflow-wrap:anywh
 .portal-stone{display:grid;place-items:center;width:54px;height:18px;border:1px solid #799585;border-radius:50%;background:#193025;box-shadow:0 5px 0 #0f2119,0 6px 0 #4d6558;transform:rotateX(28deg);font:12px monospace}
 .portal-anchor:hover .portal-stone,.portal-anchor:focus-visible .portal-stone{color:var(--gold2);border-color:var(--gold2);box-shadow:0 5px 0 #132b20,0 6px 0 #a08748,0 0 18px #d8b24a30}
 .portal-anchor:focus-visible{outline:1px solid var(--gold);outline-offset:2px}
+/* Início and Contato call each other from two payphones (orelhões): hovering lifts the handset, the call rings. */
+.portal-anchor.portal-phone{width:40px;height:52px}
+.ph-sym,.fd-sym{display:block;shape-rendering:crispEdges;overflow:visible}
+.ph-sym{width:30px;height:40px}
+.ph-hood{transform-box:view-box;transform-origin:12px 15px}
+.ph-set{transition:transform .15s steps(2,end)}
+.ph-ring{opacity:0}
+.portal-phone:hover .ph-set,.portal-phone:focus-visible .ph-set,.portal-phone.is-open .ph-set{transform:translateY(-1px)}
+.portal-phone:hover .ph-ring,.portal-phone:focus-visible .ph-ring{opacity:.6}
+.portal-phone.is-open .ph-hood{animation:ph-ring .12s steps(2,end) 6}
+.portal-phone.is-open .ph-ring{animation:ph-blink .24s steps(1,end) 5}
+@keyframes ph-ring{0%{transform:rotate(-3deg)}100%{transform:rotate(3deg)}}
+@keyframes ph-blink{0%{opacity:1}50%{opacity:0}}
+/* Sobre's door, seen from the front: the leaf swings in on its left hinge and the light behind it spills out. */
+.portal-anchor.portal-front{width:40px;height:56px}
+.fd-sym{width:36px;height:48px}
+.fd-leaf{transform-box:view-box;transform-origin:5px 0;transition:transform .28s cubic-bezier(.3,.7,.2,1)}
+.fd-light{opacity:0;transition:opacity .25s}
+.portal-front:hover .fd-leaf,.portal-front:focus-visible .fd-leaf{transform:scaleX(.82)}
+.portal-front:hover .fd-light,.portal-front:focus-visible .fd-light{opacity:.25}
+.portal-front.is-open .fd-leaf{transform:scaleX(.14)}
+.portal-front.is-open .fd-light{opacity:.45}
 .ct-acts{position:relative}.ct-acts>.ct-foot{margin-top:0;gap:6px 18px;line-height:1.65}
 .ct-github{display:flex;align-items:center;gap:12px;min-width:0;max-width:100%}.ct-github>.lnk{min-width:0}.ct-github .ph-t{overflow-wrap:anywhere}
 .ct-github>.portal-secret{flex:none;align-self:center;opacity:.45;margin:0}.portal-secret:hover,.portal-secret:focus-visible{opacity:1}
@@ -160,3 +182,28 @@ html[lang=ja] .attrs{grid-template-columns:minmax(72px,22%) minmax(0,1fr)}
 .lcd.is-hitbox .lcd-t{font-size:clamp(13px,1.1vw,18px);line-height:1.65;white-space:normal;overflow-wrap:anywhere}
 .lcd.is-hitbox .lcd-s{font-size:11px;line-height:1.7}
 .lcd.is-hitbox.is-invalid :is(.lcd-t,.lcd-s){color:#e8957f}
+/* The touch pad: a stick on the left, B and A on the right (Game Boy style), over the page and above the bottom
+   bar. Pages keep room below their last line so nothing stays under it; the bedroom shrinks to fit above it. */
+.pad{position:absolute;left:0;right:0;bottom:66px;z-index:56;display:flex;justify-content:space-between;align-items:flex-end;padding:0 14px;pointer-events:none}
+.pad>*{pointer-events:auto}
+.pad-stick,.pad-k{touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
+.pad-stick{position:relative;width:112px;height:112px;border-radius:50%;background:radial-gradient(circle,#132019 0 56%,#0b130e 58%);border:2px solid #2f4136;box-shadow:inset 0 0 0 6px #0a0f0bcc,0 6px 0 #050806,0 10px 24px #0009;opacity:.94}
+.pad-stick::before,.pad-stick::after{content:'';position:absolute;background:#2f4136;pointer-events:none}
+.pad-stick::before{left:16px;right:16px;top:calc(50% - 1px);height:2px}
+.pad-stick::after{top:16px;bottom:16px;left:calc(50% - 1px);width:2px}
+.pad-knob{position:absolute;z-index:1;left:calc(50% - 25px);top:calc(50% - 25px);width:50px;height:50px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f0ce6a,#d8b24a 45%,#8e7330);box-shadow:0 4px 0 #5e4b20,0 6px 12px #000a;pointer-events:none;transition:transform .08s ease-out}
+.pad-ab{position:relative;width:142px;height:118px}
+.pad-k{position:absolute;display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#e0604f,#b3261e 55%,#6e1510);box-shadow:0 5px 0 #4a0e0a,0 8px 16px #000a;color:#f4d6cf;cursor:pointer;transition:transform .06s ease-out,box-shadow .06s ease-out}
+.pad-k b{font-size:22px;line-height:1}
+.pad-k small{position:absolute;top:calc(100% + 7px);left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);white-space:nowrap}
+.pad-k-a{right:0;top:0}
+.pad-k-b{left:4px;top:34px}
+.pad-k:active,.pad-k.is-down{transform:translateY(3px);box-shadow:0 2px 0 #4a0e0a,0 4px 10px #000a}
+.pad-hide{position:absolute;left:50%;bottom:4px;transform:translateX(-50%);width:32px;height:32px;border:1px solid var(--ln2);border-radius:50%;background:#0b130ee6;color:var(--mut);font-size:16px;line-height:1}
+.pad-show{position:absolute;left:14px;bottom:70px;z-index:56;display:grid;place-items:center;width:44px;height:44px;border:1px solid var(--ln2);background:#0b130ee6;color:var(--gold)}
+.pad-ic{width:24px;height:15px;shape-rendering:crispEdges}
+.okr.has-pad .screen{padding-bottom:170px}
+.okr.has-pad .screen.scr-room{padding-bottom:150px}
+.okr.has-pad .trip-b{bottom:200px}
+.okr.has-pad .toast{bottom:206px}
+@media(max-width:360px){.pad{padding:0 8px}.pad-stick{width:100px;height:100px}.pad-ab{width:128px}}
