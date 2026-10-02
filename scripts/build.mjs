@@ -3,18 +3,23 @@ import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import vm from 'node:vm';
+import { validateTemplate } from './validate-template.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const read = name => readFile(path.join(root, 'src', name), 'utf8');
 const [template, app, projects, translations] = await Promise.all([
   read('template.html'), read('app.js'), read('projects.json'), read('translations.tsv')
 ]);
+validateTemplate(template);
 const catalog={};
 const extraTSV=(await readdir(path.join(root,'src'))).filter(n=>n.startsWith('translations-')&&n.endsWith('.tsv')).sort();
 const allTranslations=[translations,...await Promise.all(extraTSV.map(read))].join('\n');
 for(const line of allTranslations.split(/\r?\n/).filter(Boolean)) {
   const [pt,en,ja,overridePt]=line.split('\t');
   if(!pt||!en||!ja)throw new Error('Incomplete translation: '+line);
+  // The TSV files are merged in name order; a second, different translation would silently win.
+  const prior=catalog[pt];
+  if(prior&&(prior.en!==en||prior.ja!==ja||(prior.pt||'')!==(overridePt||'')))throw new Error('Conflicting translations for: '+pt);
   catalog[pt]={en,ja,...(overridePt?{pt:overridePt}:{})};
 }
 // Resolve translations against the current data, including room and challenge extensions.
@@ -50,6 +55,7 @@ const labStart=template.indexOf('\n<sc-if value="{{isLab}}"'),labEnd=template.in
 if(labStart<0||labEnd<0)throw new Error('Lab template section not found');
 const lab=template.slice(labStart,labEnd).replace(/^\s*<sc-if[^>]+>/,'').replace(/<\/sc-if>\s*$/,'');
 const html = template.replace('<!--__DESKTOP_LAB__-->',()=>lab).replace('/*__APP_LOGIC__*/', () => app + '\nPortfolio.install(Component);');
+validateTemplate(html, { generated: true });
 const resumes=[];
 for(const [locale,label] of [['pt','PT'],['en','EN'],['ja','JP']]){
   await access(path.join(root,'public','resume','hikaru-'+locale+'.pdf'));
@@ -64,7 +70,7 @@ for (const target of [root, output]) {
   await mkdir(target, { recursive: true });
   await cp(path.join(root, 'public'), target, { recursive: true });
   await mkdir(path.join(target, 'assets'), { recursive: true });
-  for (const name of ['styles.css', 'fonts.css', 'enhancements.css', 'display.css', 'tv-game.css', 'i18n.js', 'boot.js', 'boot-flow.js', 'skill-tree.js', 'enhancements.js', 'character.js', 'room-props.js','dice.js','shooter.js','scene.js','desktop.js','pocket-games.js','hitbox.js','achievements.js','display.js','tv-game.js']) {
+  for (const name of ['styles.css', 'fonts.css', 'enhancements.css', 'desktop.css', 'display.css', 'tv-game.css', 'i18n.js', 'boot.js', 'boot-flow.js', 'skill-tree.js', 'enhancements.js', 'character.js', 'character-care.js', 'room-props.js','dice.js','shooter.js','scene.js','desktop.js','pocket-games.js','hitbox.js','achievements.js','tv3d.js','display.js','tv-game.js','title-sound.js']) {
     await writeFile(path.join(target, 'assets', name), await read(name));
   }
   const safeJSON = value => JSON.stringify(JSON.parse(value)).replace(/</g, '\\u003c');

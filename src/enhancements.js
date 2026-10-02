@@ -111,17 +111,13 @@
       const next=r.nextProj;r.nextProj=()=>{this.setState({galleryIndex:0,galleryLarge:false});next();};
       return r;
     });
-    g.PortfolioCharacter?.install(Component);
-    g.PortfolioRoom?.install(Component);
-    g.PortfolioDice?.install(Component);
-    g.PortfolioShooter?.install(Component);
-    g.PortfolioScene?.install(Component);
-    g.PortfolioBootFlow?.install(Component);
-    g.PortfolioDesktop?.install(Component);
-    g.PortfolioPocket?.install(Component);
-    g.PortfolioHitbox?.install(Component);
-    g.PortfolioAchievements?.install(Component);
-    g.PortfolioTvGame?.install(Component);
-    g.PortfolioDisplay?.install(Component);
+    // Order matters: each module wraps the methods left by the previous ones. A module that failed to load
+    // is reported instead of silently removing its feature; the rest of the portfolio still starts.
+    for(const name of modules){
+      if(g[name]?.install)g[name].install(Component);
+      else g.console?.error?.('Portfolio: module '+name+' is missing; its features are disabled.');
+    }
   }};
+  const modules=['PortfolioCharacter','PortfolioRoom','PortfolioDice','PortfolioShooter','PortfolioScene','PortfolioCharacterCare','PortfolioBootFlow','PortfolioDesktop','PortfolioPocket','PortfolioHitbox','PortfolioAchievements','PortfolioTvGame','PortfolioDisplay','PortfolioTitleSound'];
+  g.Portfolio.modules=modules;
 })(window);

@@ -9,7 +9,7 @@ function controller(overrides={}){
   context.React={createElement:(type,props,...children)=>({type,props,children})};
   context.DCLogic=class{constructor(){this.state={};this.props={};}setState(value){this.state={...this.state,...value};}};
   vm.createContext(context);
-  for(const f of ['assets/content.js','src/i18n.js','src/boot.js','src/boot-flow.js','src/skill-tree.js','src/character.js','src/room-props.js','src/dice.js','src/shooter.js','src/scene.js','src/desktop.js','src/pocket-games.js','src/hitbox.js','src/achievements.js','src/display.js','src/tv-game.js','src/enhancements.js'])vm.runInContext(read(f),context);
+  for(const f of ['assets/content.js','src/i18n.js','src/boot.js','src/boot-flow.js','src/skill-tree.js','src/character.js','src/character-care.js','src/room-props.js','src/dice.js','src/shooter.js','src/scene.js','src/desktop.js','src/pocket-games.js','src/hitbox.js','src/achievements.js','src/tv3d.js','src/display.js','src/tv-game.js','src/title-sound.js','src/enhancements.js'])vm.runInContext(read(f),context);
   vm.runInContext(read('src/app.js')+';Portfolio.install(Component);window.Controller=Component;',context);
   return {c:new context.Controller(),context};
 }
@@ -105,6 +105,67 @@ test('all five falls have distinct finite poses and recover',()=>{
   }
   assert.equal(new Set(rotations).size,5);
 });
+test('dust appears at the fall impact and remains after getting up',()=>{
+  const {c}=controller();c.state={page:'inicio'};c.sfx=()=>{};c.unlock=()=>{};
+  const wk={page:'inicio',x:120,y:150,dir:'d',moving:true};c._wk=wk;c.tripStart(wk);
+  c.worldFloStep(wk,800);assert.equal(!!c._characterDust,false);
+  c.worldFloStep(wk,200);assert.equal(c._characterDust,true);assert.equal(c.state.characterDirty,true);
+  c.worldFloStep(wk,700);assert.equal(wk.flo,null);assert.equal(c._characterDust,true);
+});
+test('face wipe, clothes brush and shake finish on the same walking page',()=>{
+  const {c,context}=controller();c.sfx=()=>{};
+  for(const [index,page] of ['inicio','projetos','sobre','contato'].entries()){
+    c.state={page};c._wk={page,x:180,y:190,dir:'r',moving:false};c._characterDust=true;
+    const kind=context.PortfolioCharacterCare.kinds[index%3];assert.equal(c.characterClean(kind),true);assert.equal(c._characterClean.kind,kind);
+    for(let i=0;i<21;i++)c.worldFloStep(c._wk,60);
+    assert.equal(c._characterDust,false);assert.equal(c._characterClean,null);assert.equal(c.state.page,page);assert.equal(c._wk.x,180);assert.equal(c._wk.y,190);
+  }
+});
+test('cleanup requires six alternating presses and ignores repeats, typing and control inputs',()=>{
+  const {c,context}=controller();c.state={page:'sobre'};c._wk={page:'sobre',dir:'d'};c._characterDust=true;c.sfx=()=>{};
+  for(const key of 'adada')assert.equal(c.characterCareKey({key,preventDefault(){}}),false);
+  assert.equal(c.characterCareKey({key:'d',preventDefault(){}}),true);assert.equal(c._characterClean.kind,'shake');
+  c._characterClean=null;c._characterShake=null;
+  for(let i=0;i<12;i++)c.characterCareKey({key:i%2?'d':'a',repeat:true,preventDefault(){}});assert.equal(c._characterClean,null);
+  for(const key of 'adadad')c.characterCareKey({key,target:{closest:()=>true},preventDefault(){}});assert.equal(c._characterClean,null);
+  const input=context.PortfolioCharacterCare.shakeInput;
+  let sequence=null;for(let i=0;i<6;i++)sequence=input(sequence,i%2?'a':'d',i*300);assert.equal(sequence.count,6);
+  sequence=input(sequence,'d',2401);assert.equal(sequence.count,1);assert.equal(input(sequence,'w',2500),null);
+});
+test('cleanup is cosmetic, does not block ordinary walking, and cannot start behind a game or menu',()=>{
+  const {c}=controller();c.state={page:'inicio'};c._wk={page:'inicio',dir:'d'};c.sfx=()=>{};
+  assert.equal(c.characterClean(),false);c._characterDust=true;
+  c.worldKey({key:'w',preventDefault(){}});assert.equal(c._wKeys.w,true);
+  for(const flag of ['paused','languageOpen','tvGameOpen','deOpen','rmDlg','shooterOpen']){c.state[flag]=true;assert.equal(c.characterClean(),false);c.state[flag]=false;}
+  assert.equal(c.characterClean('wipe'),true);c.state.paused=true;c.characterCareStep(60);assert.equal(c._characterClean.t,0);
+  c.state.paused=false;c.characterCareStep(60);assert.equal(c._characterClean.t,60);
+});
+test('clicking the room sprite clears dust without walking to another tile',()=>{
+  const {c}=controller();c.state={page:'quarto'};c.sfx=()=>{};const rm=c.rmInit();rm.enter=false;rm.exit=false;rm.moving=false;c._characterDust=true;
+  const [x,y]=[rm.x,rm.y];c.rmPxAt=()=>[x*16+8,y*16];let clicks=0;
+  c.rmPointer({preventDefault(){clicks++;}});assert.equal(clicks,1);assert.equal(c._characterClean.actor,'room');
+  for(let i=0;i<20;i++)c.rmUpdate(rm,60,false);
+  assert.equal(c._characterDust,false);assert.equal(rm.x,x);assert.equal(rm.y,y);assert.equal(c.state.page,'quarto');
+});
+test('cleanup poses stay finite and reduced motion avoids rotation and particles',()=>{
+  const {context}=controller(),api=context.PortfolioCharacterCare,poses=[];
+  for(const kind of api.kinds){const pose=api.cleanPose({kind,t:420,dur:1200});poses.push(pose.rot);for(const value of Object.values(pose))assert.ok(typeof value==='string'||Number.isFinite(value));
+    const calm=api.cleanPose({kind,t:180,dur:360,calm:true});assert.equal(calm.rot,0);assert.equal(calm.sx,1);assert.equal(calm.sy,1);
+  }
+  assert.equal(new Set(poses).size,3);
+});
+test('the clickable character area follows scrolling and hides during cleanup',()=>{
+  const {c}=controller();c.state={page:'inicio'};c._wk={page:'inicio',x:100,y:200,dir:'d',walk:0};c._characterDust=true;c.sfx=()=>{};c.worldImg=()=>null;
+  const ctx=new Proxy({},{get:(target,key)=>target[key]??(()=>{}),set:(target,key,value)=>(target[key]=value,true)}),cv={width:600,height:400,style:{},getContext:()=>ctx};
+  const geo={W:600,H:400,CH:900,u:2,top:50,dy:20},el={style:{},hidden:true};c._characterCleanTarget=el;c.worldDraw(cv,geo,c._wk);
+  assert.equal(el.hidden,false);assert.equal(el.style.transform,'translate(78px,98px)');assert.equal(el.style.width,'44px');
+  c.characterClean();c.worldDraw(cv,geo,c._wk);assert.equal(el.hidden,true);
+});
+test('cleanup prompts are localized and do not add progress to a save',()=>{
+  const saved=new Map(),{c,context}=controller({localStorage:{getItem:k=>saved.get(k),setItem:(k,v)=>saved.set(k,v)}});
+  for(const locale of ['en','ja']){context.PortfolioI18n.set(locale);for(const text of ['Limpar a poeira de Hikaru','Clique para limpar a poeira','Um pouco de poeira. Clique em Hikaru ou alterne A/D seis vezes.','Limpar o rosto','Sacudir a roupa'])assert.notEqual(context.PortfolioI18n.t(text),text);}
+  c._characterDust=true;c._visited={boot:true};assert.equal(c.canContinue(),false);assert.equal(c.persist(),false);
+});
 test('room first fall is guaranteed and same stone does not retrigger',()=>{
   const {c}=controller();c.calm=()=>false;c.sfx=()=>{};c._walkTotal=1700;
   const rm={moving:true,t:.2,to:[7,7],from:[6,7],x:6,y:7,dir:'r',path:[],clock:0};
@@ -183,6 +244,38 @@ test('D20 has twenty equilateral faces and every result faces the camera',()=>{
   }
 });
 
+test('both playable room cabinets present play, their interaction and close in that order',()=>{
+  const {c,context}=controller();
+  for(const [id,play,interaction] of [['fliperama','arcade','cab:fliperama'],['fliperama-slug','shooter','cab:fliperama-slug']]){
+    c.state={page:'quarto',roomObj:c.data().room.findIndex(o=>o.id===id),rmDlg:true};
+    assert.deepEqual(Array.from(c.rmActs(),a=>a[1]),[play,interaction,'close']);assert.equal(c.rmActs()[0][0],'Jogar');
+    assert.match(c.renderVals().rmDlgCls,/is-arcade/);assert.equal(c.renderVals().propOn,false);
+    for(const lang of ['en','ja']){context.PortfolioI18n.set(lang);for(const [text] of c.rmActs())assert.notEqual(context.PortfolioI18n.t(text),text);}
+  }
+});
+
+test('both arcade dialogs share the right-side close header and screen-controls-help structure',()=>{
+  const html=read('src/template.html'),css=read('src/enhancements.css');
+  for(const fragment of [html.split('<sc-if value="{{arcOpen}}"')[1].split('<sc-if value="{{deOpen}}"')[0],html.split('<sc-if value="{{shooterOpen}}">')[1].split('<sc-if value="{{debug}}">')[0]]){
+    assert.match(fragment,/class="arc arcade-game/);assert.match(fragment,/class="arc-mq"[^]*?class="arc-t pix"[^]*?class="x-b"[^]*?aria-label="Sair do fliperama"/);
+    assert.ok(fragment.indexOf('class="arc-sc"')<fragment.indexOf('class="arc-p'));
+    assert.ok(fragment.indexOf('class="arc-p')<fragment.indexOf('<aside class="arc-how'));
+  }
+  assert.match(css,/\.shooter-cv\{aspect-ratio:64 \/ 30/);assert.doesNotMatch(css,/\.shooter\{display:block/);
+  assert.match(css,/\.rm-dlg\.is-arcade\{grid-template-areas:'head actions' 'text actions'/);
+  const {context}=controller();for(const lang of ['en','ja']){context.PortfolioI18n.set(lang);for(const row of read('src/translations-arcade.tsv').trim().split(/\r?\n/)){const [pt,en,ja]=row.split('\t');assert.equal(context.PortfolioI18n.t(pt),lang==='en'?en:ja);}}
+});
+
+test('shooter controls support keyboard holds, native button activation and stable modal refs',()=>{
+  const {c}=controller();c.state={page:'quarto'};c.startLoop=()=>{};c.sfx=()=>{};c.unlock=()=>{};c.shooterOpen();c.shooterStart();
+  const r=c.renderVals(),fire=r.shooterControls.find(x=>x.label==='Atirar');let stops=0;
+  const e={key:' ',preventDefault(){},stopPropagation(){stops++;}};fire.keyDown(e);assert.equal(c._shooter.keys.fire,true);fire.keyUp(e);assert.equal(c._shooter.keys.fire,false);assert.equal(stops,2);
+  const game=c._shooter;c.shooterKey({...e,key:'Enter',target:{closest:()=>({})}},true);assert.equal(c._shooter,game,'Enter on a focused button keeps its native action');
+  assert.equal(r.setShooter,c.renderVals().setShooter);assert.equal(r.setShooterWrap,c.renderVals().setShooterWrap);
+  const el={focus(){stops++;}};r.setShooterWrap(el);assert.equal(stops,3);r.shooterBackdrop({target:{},currentTarget:el});assert.equal(c.state.shooterOpen,true);
+  r.shooterBackdrop({target:el,currentTarget:el});assert.equal(c.state.shooterOpen,false);
+});
+
 test('shooter aims up, down and backwards and pauses simulation',()=>{
   const {context}=controller(),api=context.PortfolioShooter;
   for(const [keys,vx,vy] of [[{up:true,fire:true},0,-1],[{down:true,fire:true},0,1],[{left:true,fire:true},-1,0]]){
@@ -217,9 +310,9 @@ test('all current room names, dialogue and actions have English and Japanese tra
   assert.deepEqual(missing,[]);
 });
 
-test('hitbox is default, exposes twelve inputs and 28 adapted classic moves',()=>{
+test('hitbox is default, exposes twelve inputs and 42 adapted classic moves',()=>{
   const {c,context}=controller(),r=c.renderVals();assert.equal(r.isHitbox,true);assert.equal(r.isGb,false);
-  assert.equal(r.hitDirections.length,4);assert.equal(r.hitAttacks.length,8);assert.equal(context.PortfolioHitbox.moves.length,28);
+  assert.equal(r.hitDirections.length,4);assert.equal(r.hitAttacks.length,8);assert.equal(context.PortfolioHitbox.moves.length,42);
   c.sfx=()=>{};c.persistSoon=()=>{};c.unlock=()=>{};c.calm=()=>false;
   for(const m of context.PortfolioHitbox.moves){c.state.hitFighter=m.fighter;c._pad=[];c._wk={};for(const k of m.seq)c.hitInput(k);assert.equal(c.state.hitResult,m.name,m.name);assert.equal(c._wk.anim.kind,'combat');assert.equal(c.worldAnim(c._wk,1200,{}),false);}
 });
@@ -247,12 +340,192 @@ test('three-lane race clamps movement and prevents repeated collision damage',()
 });
 test('desktop has eight apps, embedded locale resume and an allowlisted terminal',()=>{
   const {c,context}=controller(),got=[];c.state={page:'quarto'};c.unlock=x=>got.push(x);c.sfx=()=>{};c.startLoop=()=>{};
-  c.openPc();assert.equal(c.state.deOpen,true);assert.equal(c.renderVals().deApps.length,8);
+  c.openPc();c.desktopReady();assert.equal(c.state.deOpen,true);assert.equal(c.renderVals().deApps.length,8);
   for(const lang of ['pt','en','ja']){context.PortfolioI18n.set(lang);c.desktopApp('resume');assert.equal(c.renderVals().dePdf,'./resume/hikaru-'+lang+'.pdf');}
   for(const cmd of ['neofetch','whoami','htop','date']){c.state.deInput=cmd;c.desktopCommand();assert.ok(c.state.deOutput);}
   assert.ok(got.includes('fetch-yourself'));assert.ok(got.includes('desktop-resume'));
   c.state.deInput='window.evil=true';c.desktopCommand();assert.equal(context.evil,undefined);assert.match(c.state.deOutput,/Comando não encontrado/);
-  c.desktopApp('game');assert.equal(c.state.deOpen,false);assert.equal(c.state.pcOpen,true);c.closePc();assert.equal(c.state.deOpen,true);assert.equal(c.state.pcOpen,false);
+  c.desktopApp('game');assert.equal(c.state.deOpen,true);assert.equal(c.state.pcOpen,true);assert.equal(c.renderVals().pcOpen,false);c.closePc();assert.equal(c.state.deOpen,true);assert.equal(c.state.pcOpen,false);
+});
+
+test('desktop zoom centers the actual monitor on wide and portrait viewports',()=>{
+  const {context}=controller(),zoom=context.PortfolioDesktop.zoomGeometry;
+  for(const viewport of [{left:8,top:8,width:1904,height:1064},{left:0,top:0,width:390,height:844}]){
+    const canvas={left:80,top:100,width:768,height:448},size={width:384,height:224},camera={camX:80,camY:0};
+    const z=zoom(canvas,viewport,size,camera),x=canvas.left-viewport.left+(338-80)*2,y=canvas.top-viewport.top+21*2;
+    assert.ok(Math.abs(x*z.scale+z.x-viewport.width/2)<.001);
+    assert.ok(Math.abs(y*z.scale+z.y-viewport.height/2)<.001);
+    assert.ok(44*z.scale>=viewport.width);assert.ok(28*z.scale>=viewport.height);
+  }
+  assert.equal(zoom(null,null,null),null);assert.equal(zoom({left:0,top:0,width:0,height:2},{left:0,top:0,width:1,height:2},{width:1,height:2}),null);
+});
+
+test('desktop waits for zoom, supports reduced motion and cancels an interrupted entry',()=>{
+  for(const reduced of [false,true,'system']){
+    const timers=new Map();let id=0;
+    const {c}=controller({matchMedia:()=>({matches:reduced==='system'}),setTimeout:(fn,delay)=>{timers.set(++id,{fn,delay});return id;},clearTimeout:key=>timers.delete(key)});
+    c.state={page:'quarto',motionReduced:reduced===true};c.unlock=()=>{};c.sfx=()=>{};c.persistSoon=()=>{};c.startLoop=()=>{};
+    c.openPc();const entry=c._deEntryT;assert.equal(timers.get(entry).delay,reduced===true?160:2300);assert.equal(c.renderVals().deReady,false);
+    c.desktopApp('terminal');assert.equal(c.state.deView,'home');c.openPc();assert.equal(c._deEntryT,entry);
+    timers.get(entry).fn();assert.equal(c.renderVals().deReady,true);assert.equal(timers.has(entry),false);
+    c.desktopClose();c.openPc();const late=timers.get(c._deEntryT).fn;c.desktopClose();late();assert.equal(c.state.deOpen,false);assert.equal(c.state.dePhase,'closed');
+  }
+});
+
+test('desktop applications are separate retained windows with close and minimize',()=>{
+  const {c}=controller({setTimeout:()=>1,clearTimeout(){}});c.state={page:'quarto'};c.unlock=()=>{};c.sfx=()=>{};c.startLoop=()=>{};
+  c.openPc();c.desktopReady();c.desktopApp('terminal');c.state.deInput='whoami';c.desktopCommand();const output=c.state.deOutput;
+  c.desktopApp('resume');c.desktopApp('skills');c.desktopApp('resume');
+  assert.deepEqual(Array.from(c.state.deWindows),['terminal','resume','skills']);
+  assert.deepEqual(Array.from(c.renderVals().deWindows.filter(w=>!w.hidden),w=>w.id),['terminal','skills','resume']);
+  c.desktopMinimize();assert.equal(c.state.deView,'skills');assert.equal(c.state.deWindows.length,3);
+  c.desktopApp('terminal');assert.equal(c.state.deOutput,output);c.desktopWindowClose();
+  assert.deepEqual(Array.from(c.state.deWindows),['resume','skills']);assert.equal(c.state.deOpen,true);
+  assert.equal(c.renderVals().deApps.find(a=>a.id==='resume').cls,'is-open');c.desktopApp('unknown');assert.equal(c.state.deView,'skills');
+});
+
+test('live desktop glass expands to precisely the final shell bounds without a replacement fade',()=>{
+  const {context}=controller(),zoom=context.PortfolioDesktop.zoomGeometry;
+  for(const viewport of [{left:8,top:8,width:1904,height:1064},{left:0,top:0,width:390,height:844}]){
+    const canvas={left:80,top:100,width:768,height:448},z=zoom(canvas,viewport,{width:384,height:224},{camX:80});
+    const margin=viewport.width<=760?6:16,w=Math.min(1800,viewport.width-2*margin),h=viewport.height-2*margin,left=(viewport.width-w)/2;
+    const glassX=canvas.left-viewport.left+(327-80)*2,glassY=canvas.top-viewport.top+14*2;
+    assert.ok(Math.abs(left+z.fromX-glassX)<.001);assert.ok(Math.abs(margin+z.fromY-glassY)<.001);
+    assert.ok(Math.abs(w*z.fromSX-44)<.001);assert.ok(Math.abs(h*z.fromSY-28)<.001);
+    assert.ok(Math.abs(glassX*z.cameraSX+z.cameraX-left)<.001);assert.ok(Math.abs(glassY*z.cameraSY+z.cameraY-margin)<.001);
+  }
+  const html=read('src/template.html'),css=read('src/desktop.css');
+  assert.doesNotMatch(html,/<sc-if value="\{\{deReady\}\}"><section class="desktop-shell"/);
+  assert.match(html,/desktop-shell" inert="\{\{deSurfaceInert\}\}"/);assert.doesNotMatch(css,/de-entry-fade/);
+});
+
+test('sitting immediately mounts the landing surface and starting zoom preserves that session',()=>{
+  const timers=[];const {c}=controller({setTimeout:(fn,ms)=>{timers.push({fn,ms});return timers.length;},clearTimeout(){}});
+  c.state={page:'quarto'};c.sfx=()=>{};c.unlock=()=>{};c.startLoop=()=>{};c.persistSoon=()=>{};
+  c.pcSit();assert.equal(c.state.dePhase,'seated');assert.equal(c.state.deOpen,true);assert.ok(c._rm.sit);
+  assert.equal(c.renderVals().deSurfaceInert,'');const windows=c.state.deWindows;
+  timers.find(t=>t.ms===480).fn();assert.equal(c.state.dePhase,'zoom');assert.equal(c.state.deWindows,windows);
+  c.desktopReady();assert.equal(c.renderVals().deSurfaceInert,undefined);
+  c.desktopClose();assert.equal(c._desktopSession,false);assert.equal(c.state.deOpen,false);
+  assert.match(read('src/app.js'),/rm\.sit && rm\.sit\.kind !== 'puff' && !this\._desktopSession/);
+});
+
+test('taskbar toggles its own window and closing the top game reveals the profile underneath',()=>{
+  const {c}=controller({setTimeout:()=>1,clearTimeout(){}});c.state={page:'quarto'};c.sfx=()=>{};c.unlock=()=>{};c.startLoop=()=>{};c.persistSoon=()=>{};
+  c.openPc();c.desktopReady();c.desktopApp('profile');const frame=c.state.deFrames.profile;c.desktopApp('game');
+  assert.equal(c.renderVals().deWindows.filter(w=>!w.hidden).length,2);c.desktopWindowClose('game');
+  assert.equal(c.state.deView,'profile');assert.equal(c.state.deFrames.profile,frame);assert.equal(c._pc,null);
+  c.desktopApp('profile');assert.equal(c.state.deView,'home');assert.equal(c.renderVals().deWindows.find(w=>w.id==='profile').hidden,true);
+  c.desktopApp('profile');assert.equal(c.state.deView,'profile');assert.equal(c.state.deFrames.profile,frame);
+  for(const id of ['terminal','clock','settings'])c.desktopApp(id);
+  assert.equal(c.renderVals().deWindows.filter(w=>!w.hidden).length,4);
+  c.desktopWindowClose('clock');assert.equal(c.state.deView,'settings');
+  c.desktopWindowClose('settings');assert.equal(c.state.deView,'terminal');
+  const slots=c.renderVals().deWindows.map(w=>w.id).join();c.desktopWindowClose('profile');
+  assert.equal(c.renderVals().deWindows.map(w=>w.id).join(),slots,'Stable loop slots prevent remounting another app');
+});
+
+test('floating windows drag, resize and release pointer capture within desktop bounds',()=>{
+  const {c}=controller({setTimeout:()=>1,clearTimeout(){}});c.state={page:'quarto'};c.sfx=()=>{};c.unlock=()=>{};c.startLoop=()=>{};
+  c.openPc();c.desktopReady();let held=false,dragging=false;const node={style:{}},el={closest:()=>node,setPointerCapture(){held=true;},hasPointerCapture:()=>held,releasePointerCapture(){held=false;}};
+  c._deWorkspace={getBoundingClientRect:()=>({width:1000,height:650}),setAttribute(){dragging=true;},removeAttribute(){dragging=false;}};
+  c.desktopApp('terminal');c.state.deFrames.terminal={x:40,y:50,w:400,h:300};
+  const e={button:0,pointerId:1,currentTarget:el,target:{closest:()=>null},clientX:100,clientY:100,preventDefault(){}};
+  c.desktopDragStart('terminal',e);c.desktopDragMove({...e,clientX:170,clientY:150});assert.equal(node.style.left,'110px');assert.equal(node.style.top,'100px');assert.equal(held,true);
+  c.setState({now:Date.now()});assert.match(c.renderVals().deWindows.find(w=>w.id==='terminal').style,/left:110px;top:100px/,'Clock ticks must not undo a live drag');
+  c.desktopEndDrag({...e,pointerId:2});assert.ok(c._deDrag);c.desktopEndDrag(e);assert.equal(c._deDrag,null);assert.equal(dragging,false);assert.equal(held,false);assert.equal(c.state.deFrames.terminal.x,110);
+  c.desktopDragStart('terminal',e,true);c.desktopDragMove({...e,clientX:2000,clientY:2000});c.desktopEndDrag(e);
+  assert.equal(c.state.deFrames.terminal.w,890);assert.equal(c.state.deFrames.terminal.h,550);assert.equal(c.state.deFrames.terminal.x,110);
+  c.desktopDragStart('terminal',{...e,target:{closest:()=>({})}});assert.equal(c._deDrag,null,'Title buttons never initiate dragging');
+  c.desktopDragStart('terminal',e);c.desktopWindowClose('terminal');assert.equal(held,false);assert.equal(c._deDrag,null);
+});
+
+test('window keyboard controls and viewport resize keep every window accessible',()=>{
+  const {c,context}=controller({setTimeout:()=>1,clearTimeout(){}});c.state={page:'quarto'};c.sfx=()=>{};c.unlock=()=>{};c.startLoop=()=>{};
+  c.openPc();c.desktopReady();c.desktopApp('profile');c.state.deFrames.profile={x:40,y:50,w:400,h:300};
+  const e={key:'ArrowRight',preventDefault(){},stopPropagation(){}};c.desktopWindowKey('profile',e);assert.equal(c.state.deFrames.profile.x,60);
+  c.desktopWindowKey('profile',{...e,shiftKey:true});assert.equal(c.state.deFrames.profile.w,420);
+  for(const size of [{width:320,height:380},{width:1920,height:900},{width:220,height:140}]){
+    const f=context.PortfolioDesktop.boundedFrame({x:3000,y:-5,w:1400,h:900},size);
+    assert.ok(f.x>=0&&f.y>=0&&f.x+f.w<=size.width&&f.y+f.h<=size.height);
+  }
+  c._deWorkspace={getBoundingClientRect:()=>({width:320,height:380})};c.desktopFit();assert.ok(c.state.deFrames.profile.x+c.state.deFrames.profile.w<=320);
+  assert.equal(c.renderVals().setDeWorkspace,c.renderVals().setDeWorkspace,'Stable refs avoid resize observer render loops');
+});
+
+test('desktop UI removes demo qualifiers and localizes floating window controls',()=>{
+  const {c,context}=controller(),html=read('src/template.html').split('<sc-if value="{{deOpen}}">')[1].split('<sc-if value="{{pcOpen}}"')[0];
+  assert.doesNotMatch(html,/fictício|demonstrativo|demonstração|simulad/i);assert.doesNotMatch(context.PortfolioDesktop.system.join(' '),/fictício|demonstração|simulad/i);
+  c.state={deInput:'htop'};c.desktopCommand();assert.equal(c.state.deOutput,'Monitor de processos');
+  for(const lang of ['en','ja']){
+    context.PortfolioI18n.set(lang);
+    for(const text of ['Arraste para mover. Setas movem; Shift + setas redimensionam.','Redimensionar janela','Monitor de processos','Atualização a cada segundo','CPU: 8 núcleos','Memória: 4,2 / 16 GB'])assert.notEqual(context.PortfolioI18n.t(text),text);
+  }
+});
+
+test('desktop game stays inside the desktop and suspends while another window is active',()=>{
+  const {c,context}=controller({setTimeout:()=>1,clearTimeout(){}});c.state={page:'quarto'};c.unlock=()=>{};c.sfx=()=>{};c.startLoop=()=>{};c.persistSoon=()=>{};
+  c.openPc();c.desktopReady();c.desktopApp('game');const game=c._pc;c.loopPc(40);assert.equal(game.t,.04);
+  assert.equal(c.renderVals().pcOpen,false,'No unrelated fullscreen game overlay');assert.equal(c.state.deOpen,true);
+  game.keys={j:true};c.desktopApp('profile');c.loopPc(40);assert.equal(game.t,.04);assert.deepEqual({...game.keys},{});
+  c.desktopApp('game');assert.equal(c._pc,game);c.loopPc(40);assert.equal(game.t,.08);
+  context.document.hidden=true;c.loopPc(40);assert.equal(game.t,.08);context.document.hidden=false;
+  c.desktopMinimize();c.loopPc(40);assert.equal(game.t,.08);c.closePc();assert.equal(c._pc,null);assert.equal(c.state.deOpen,true);
+});
+
+test('desktop game keyboard buttons release jump/duck and native controls keep Enter',()=>{
+  const {c}=controller();c._pc=c.pcNew();c.sfx=()=>{};c.pcStart();let stopped=0;
+  const e={key:' ',preventDefault(){},stopPropagation(){stopped++;}},r=c.renderVals();
+  r.deDuckKeyDown(e);assert.equal(c._pc.duck,true);r.deDuckKeyUp(e);assert.equal(c._pc.duck,false);
+  r.deJumpKeyDown(e);assert.equal(c._pc.air,true);r.deJumpKeyUp(e);assert.equal(c._pc.keys.j,false);assert.equal(stopped,4);
+  const keys={...c._pc.keys};r.deGameKey({...e,key:'Enter',target:{closest:()=>({})}});assert.deepEqual({...c._pc.keys},keys);
+});
+
+test('desktop skills expose four populated categories and localized skill descriptions',()=>{
+  const {c,context}=controller();c.sfx=()=>{};
+  for(const lang of ['pt','en','ja']){
+    context.PortfolioI18n.set(lang);const r=c.renderVals();assert.equal(r.skNodes.length,21);assert.equal(r.deSkillGroups.length,4);
+    assert.equal(r.deSkillGroups.reduce((n,g)=>n+g.nodes.length,0),16);
+    for(const group of r.deSkillGroups)for(const skill of group.nodes){
+      skill.pick();const selected=c.renderVals();assert.equal(selected.skName,skill.label);assert.ok(selected.skDesc.length>15);
+      if(lang!=='pt')assert.notEqual(context.PortfolioI18n.t(selected.skDesc),selected.skDesc);
+    }
+  }
+});
+
+test('desktop has a local power button, bottom icon taskbar, internal windows and no boot skip',()=>{
+  const html=read('src/template.html'),desktop=html.split('<sc-if value="{{deOpen}}">')[1].split('<sc-if value="{{pcOpen}}"')[0],css=read('src/desktop.css');
+  assert.match(desktop,/class="desktop-bar"[^]*?on-click="\{\{deClose\}\}"[^]*?aria-label="Desligar o computador"[^]*?class="desktop-power"/);
+  assert.match(html,/class="hb pwr"[^]*?on-pointer-down="\{\{pwrDown\}\}"/);
+  assert.match(desktop,/list="\{\{deWindows\}\}"/);assert.match(desktop,/hidden="\{\{win.hidden\}\}"/);
+  assert.match(desktop,/on-click="\{\{win.close\}\}"[^]*?aria-label="Fechar janela"/);
+  assert.ok(desktop.indexOf('desktop-dock')>desktop.indexOf('desktop-window-body'));
+  assert.match(desktop,/path sc-camel-d="\{\{app.icon\}\}"/);assert.doesNotMatch(desktop,/<small>/);
+  assert.match(css,/\.desktop-window\[hidden\]\{display:none\}/);assert.match(css,/\.desktop-dock>button\{[^}]*flex:0 0 94px/);
+  assert.match(css,/\.desktop-window-body\{[^}]*overflow:auto/);assert.doesNotMatch(html,/bootSkip|blog-skip/);
+});
+
+test('desktop entry beat is short, muted correctly and released on cancellation',()=>{
+  const {c}=controller();let created=0,stops=0;const starts=[],ends=[];
+  const param={setValueAtTime(){},exponentialRampToValueAtTime(){}};
+  const ac={state:'running',currentTime:0,createGain:()=>({gain:{...param},connect(){},disconnect(){}}),createOscillator:()=>{created++;return {frequency:param,connect(){},disconnect(){},start:t=>starts.push(t),stop:t=>{stops++;if(t!==undefined)ends.push(t);}};}};
+  c.audio=()=>ac;c._mix={};c._snd=false;c.desktopBeat();assert.equal(created,0);
+  c._snd=true;ac.state='suspended';c.desktopBeat();assert.equal(created,0);
+  ac.state='running';c.desktopBeat();assert.equal(created,14);assert.ok(Math.max(...ends)<2.3);assert.equal(starts[0],0);
+  const scheduled=stops;c.desktopStopBeat();assert.equal(stops,scheduled+14);assert.equal(c._deBeatNodes.length,0);assert.equal(c._deBeatBus,null);
+});
+
+test('desktop focus is requested once and Escape closes windows before leaving the computer',()=>{
+  const {c}=controller({setTimeout:()=>1,clearTimeout(){}});c.state={page:'quarto'};c.unlock=()=>{};c.sfx=()=>{};c.startLoop=()=>{};c.persistSoon=()=>{};
+  let focus=0;const target={focus(){focus++;}};c._deShell={querySelector:()=>target,focus(){focus++;}};
+  c.openPc();c.desktopFocus();c.desktopReady();c.desktopApp('terminal');c.desktopFocus();c.desktopFocus();assert.equal(focus,2);
+  const e={key:'Escape',preventDefault(){},stopPropagation(){}};c.rootKey(e);assert.equal(c.state.deOpen,true);assert.equal(c.state.deView,'home');
+  c.rootKey(e);assert.equal(c.state.deOpen,false);assert.equal(c._desktopSession,false);assert.equal(c.state.powering,undefined);
+});
+
+test('new desktop window, taskbar, skill and game instructions are translated',()=>{
+  const {context}=controller(),copy=['Abrindo o computador…','Abra um aplicativo na barra inferior.','Minimizar janela','Fechar janela','Desligar o computador','Explore os ramos ou selecione uma habilidade para ver como eu a uso.','Espaço ou ↑: pular · ↓: abaixar · P: pausar · Esc: fechar a janela.','Segure o salto para ir mais alto. Trocar de aplicativo suspende a partida.','Pausar / continuar','Reiniciar partida'];
+  for(const lang of ['en','ja']){context.PortfolioI18n.set(lang);for(const text of copy)assert.notEqual(context.PortfolioI18n.t(text),text,lang+': '+text);}
 });
 test('puff offers its TV game only while seated and returns without standing up',()=>{
   const {c}=controller({setTimeout:()=>1,clearTimeout(){}});c.state={page:'quarto'};c.sfx=()=>{};c.say=()=>{};c.unlock=()=>{};c.startLoop=()=>{};
@@ -337,6 +610,41 @@ test('an unsuccessful save does not enable Continue',()=>{
   const {c}=controller({localStorage:{getItem(){return null;},setItem(){throw new Error('Storage unavailable');}}});
   c.state={page:'quarto'};c._visited={quarto:true};c._got={start:true};
   assert.equal(c.persist(),false);assert.equal(c.canContinue(),false);
+});
+
+test('the first bedroom tutorial is saved, restored and reset with a new game',()=>{
+  const saved=new Map(),storage={getItem:k=>saved.get(k),setItem:(k,v)=>saved.set(k,v)};
+  const options={localStorage:storage,setTimeout:()=>1,clearTimeout(){}};
+  const {c}=controller(options);c.state={page:'quarto'};c._visited={inicio:true,quarto:true};c.sfx=()=>{};
+  c.roomIntro();assert.equal(c.state.rmIntro,true);assert.equal(c._rmIntroShown,true);
+  assert.equal(c.persist(),true);assert.equal(JSON.parse(saved.get('okaru-save-v1')).roomIntro,true);
+  const {c:restored}=controller(options);restored.loadSave();restored.state.page='quarto';
+  assert.equal(restored._rmIntroShown,true);restored.roomIntro();assert.notEqual(restored.state.rmIntro,true);
+  restored.wipeProgress();assert.equal(restored._rmIntroShown,false);restored.roomIntro();assert.equal(restored.state.rmIntro,true);
+});
+
+test('a legacy portfolio-only save still gets the room tutorial; experienced room visitors do not repeat it',()=>{
+  const save={v:1,visited:{inicio:true},room:{}};
+  const {c}=controller({localStorage:{getItem:()=>JSON.stringify(save)},setTimeout:()=>1,clearTimeout(){}});
+  c.loadSave();assert.equal(c._rmIntroShown,false);
+  save.room={janela:true,espelho:true,celular:true};c.loadSave();assert.equal(c._rmIntroShown,true);
+  save.roomIntro=false;c.loadSave();assert.equal(c._rmIntroShown,false,'Explicit new-format flag supersedes the legacy inference');
+  save.roomIntro='true';c.loadSave();assert.equal(c._rmIntroShown,false,'Only boolean true counts');
+});
+
+test('room tutorial uses all five translated steps after hatch arrival in every language',()=>{
+  for(const lang of ['pt','en','ja']){
+    const {c,context}=controller({setTimeout:()=>1,clearTimeout(){}});context.PortfolioI18n.set(lang);
+    c.state={page:'quarto',motionReduced:true};c.sfx=()=>{};
+    c._teleportDestination='quarto';c._teleportArrival='room-home';c.rmWalkIn();
+    assert.equal(c.state.rmIntro,true);assert.equal(c.state.rmStep,0);
+    const lines=c.rmIntroLines();assert.equal(lines.length,5);
+    for(let i=0;i<lines.length;i++){
+      c.rmIntroStep(i);assert.equal(c.state.rmStep,i);
+      assert.equal(c._dlg.text,context.PortfolioI18n.t(lines[i].text));
+      if(lang!=='pt')assert.notEqual(c._dlg.text,lines[i].text);
+    }
+  }
 });
 test('failed boot completes logs then closes errors before offering a safe reboot',()=>{
   const timers=new Map();let id=0;const math=Object.create(Math);math.random=()=>0;
@@ -494,9 +802,9 @@ test('every entry finishes its TV opening before language selection or saved-lan
     assert.equal(writes.has('okaru-boot-seen'),false);assert.equal(c._blT,undefined);
     c.bootLogStart();c.chooseLanguage('en');assert.equal(writes.has('okaru-boot-seen'),false);assert.equal(writes.get('okaru-language'),saved||undefined);
     assert.equal(c._displayOpenT,undefined);assert.equal(c.renderVals().displayPowerGate,true);
-    c.powerDisplayOn();assert.equal(c._displayPhase,'approach');timers.get(c._displayApproachT).fn();
-    assert.equal(c._displayPhase,'zoom');timers.get(c._displayZoomT).fn();
-    const openingTimer=c._displayOpenT;assert.equal(timers.get(openingTimer).delay,4400);
+    c.enterDisplay();assert.equal(c._displayPhase,'zoom');assert.equal(!!c.state.bootLog,false);timers.get(c._displayZoomT).fn();
+    assert.equal(c._displayPhase,'reveal');assert.equal(!!c.state.bootLog,false);
+    const openingTimer=c._displayOpenT;assert.equal(timers.get(openingTimer).delay,520);
     c.finishDisplayOpening();assert.equal(timers.has(openingTimer),false);assert.equal(c.state.displayStarting,false);
     assert.equal(!!c.state.bootLog,!!saved);if(saved)assert.equal(context.PortfolioI18n.locale,saved);assert.equal(c.canContinue(),false);
     if(!saved){c.chooseLanguage('ja');assert.equal(c.state.bootFault,true);assert.equal(c.state.bootLog,true);}
@@ -504,21 +812,24 @@ test('every entry finishes its TV opening before language selection or saved-lan
   }
 });
 
-test('only the opening overlay animation can release startup; fallback and reduced motion also work',()=>{
+test('only the gate fade releases startup; WebGL entry and the Movimento setting also work',()=>{
   for(const reduce of [false,true]){
     const timers=new Map();let id=0;
-    const {c,context}=controller({matchMedia:()=>({matches:reduce}),document:{documentElement:{},getElementById:()=>null,addEventListener(){}},setInterval:()=>1,setTimeout:(fn,delay)=>{timers.set(++id,{fn,delay});return id;},clearTimeout:i=>timers.delete(i)});
-    context.addEventListener=()=>{};c.startLoop=()=>{};c.componentDidMount();c.powerDisplayOn();
-    assert.equal(timers.get(c._displayApproachT).delay,reduce?280:760);timers.get(c._displayApproachT).fn();
-    assert.equal(timers.get(c._displayZoomT).delay,reduce?280:1560);timers.get(c._displayZoomT).fn();
-    const opening=c._displayOpenT;assert.equal(timers.get(opening).delay,reduce?320:4400);
+    // The system asks for reduced motion in both runs: only the portfolio setting decides.
+    const {c,context}=controller({matchMedia:()=>({matches:true}),document:{documentElement:{},getElementById:()=>null,addEventListener(){}},setInterval:()=>1,setTimeout:(fn,delay)=>{timers.set(++id,{fn,delay});return id;},clearTimeout:i=>timers.delete(i)});
+    context.addEventListener=()=>{};c.startLoop=()=>{};c.state={motionReduced:reduce};c.componentDidMount();
     assert.equal(c.renderVals().rootCls.includes('is-tv-calm'),reduce);
+    assert.equal(c._displayPhase,'idle');assert.equal(c.renderVals().displayAnimating,false,'the television can be explored first');
+    const tv=fakeTv(c,{gl:true});c.enterDisplay();
+    assert.equal(tv.calls[0][0],'enter');assert.equal(tv.calls[0][1].reduced,reduce);assert.equal(c._displayPhase,'entering');
+    assert.equal(timers.get(c._displayWarmT).delay,9000);
+    const gate={classList:{contains:k=>k==='tv-power-gate'}},end=c.renderVals().displayOpeningEnd;
+    end({target:gate,animationName:'tv-gate-reveal'});assert.equal(c._displayPhase,'entering','the gate cannot finish before the camera is inside');
+    c.displayEntered();assert.equal(c._displayPhase,'reveal','WebGL already flew into the glass');assert.equal(timers.has(c._displayWarmT),false);
+    const opening=c._displayOpenT;assert.equal(timers.get(opening).delay,reduce?360:520);
     let blocked=0;c.rootKey({key:'Enter',preventDefault(){blocked++;}});assert.equal(blocked,1);assert.equal(c.state.displayStarting,true);
-    const root={},child={},overlay={classList:{contains:k=>k==='tv-power-on'}},event=c.renderVals().displayOpeningEnd;
-    event({target:child,currentTarget:root,animationName:'tv-power-sequence'});assert.equal(c.state.displayStarting,true);
-    event({target:overlay,currentTarget:root,animationName:'tv-beam-expand'});assert.equal(c.state.displayStarting,true);
-    if(reduce)timers.get(opening).fn();else event({target:overlay,currentTarget:root,animationName:'tv-power-sequence'});
-    assert.equal(c.state.displayStarting,false);assert.equal(c.state.languageOpen,true);assert.equal(timers.has(opening),false);
+    if(reduce)timers.get(opening).fn();else end({target:gate,animationName:'tv-gate-reveal'});
+    assert.equal(c.state.displayStarting,false);assert.equal(c.state.languageOpen,true);assert.equal(timers.has(opening),false);assert.ok(tv.calls.includes('destroy'));
     c.chooseLanguage('en');assert.equal(c.state.bootLog,true);assert.equal(c.state.bootFault,true);
   }
 });
@@ -526,7 +837,7 @@ test('only the opening overlay animation can release startup; fallback and reduc
 test('TV opening is cancelled on unmount and never returns for an internal reboot or language change',()=>{
   const timers=new Map();let id=0;
   const {c,context}=controller({document:{documentElement:{},getElementById:()=>null,addEventListener(){},removeEventListener(){}},setInterval:()=>1,clearInterval(){},setTimeout:(fn,delay)=>{timers.set(++id,{fn,delay});return id;},clearTimeout:i=>timers.delete(i)});
-  context.addEventListener=()=>{};context.removeEventListener=()=>{};c.startLoop=()=>{};c.componentDidMount();c.powerDisplayOn();c.prepareDisplayZoom();c.beginDisplayOpening(false);
+  context.addEventListener=()=>{};context.removeEventListener=()=>{};c.startLoop=()=>{};c.componentDidMount();c.enterDisplay();timers.get(c._displayZoomT).fn();
   const stale=timers.get(c._displayOpenT).fn;c.componentWillUnmount();assert.equal(c._displayOpenT,null);stale();assert.equal(c.state.bootLog,undefined);
   const next=controller({setTimeout:()=>1,clearTimeout(){}}).c;next._displayStarting=false;next._languageReady=true;next.startLoop=()=>{};next.state={page:'boot'};
   next.bootLogStart();assert.equal(next.renderVals().displayStarting,false);assert.equal(next.renderVals().isBoot,true);
@@ -572,62 +883,85 @@ test('screen effects and TV copy are localized and presentation never intercepts
   assert.match(html,/<sc-for list="\{\{languageChoices\}\}" as="language"><button[^>]+disabled="\{\{displayStarting\}\}"/);
 });
 
+function fakeTv(c,{gl=true}={}){
+  const calls=[],tv={gl,screen:{remove(){}},calls,press:name=>calls.push(name),orbit:(a,b)=>calls.push(['orbit',a,b]),enter:opts=>{calls.push(['enter',opts]);return true;},destroy:()=>calls.push('destroy')};
+  c._tv=tv;c._tvGl=gl;c.state.displayGl=gl;return tv;
+}
 function television(state='suspended',extra={}){
   const timers=new Map();let id=0;
   const {c,context}=controller({document:{documentElement:{},getElementById:()=>null,addEventListener(){},removeEventListener(){}},setInterval:()=>1,clearInterval(){},setTimeout:(fn,delay)=>{timers.set(++id,{fn,delay});return id;},clearTimeout:i=>timers.delete(i),...extra});
   context.addEventListener=()=>{};context.removeEventListener=()=>{};
   const ac={state,close(){this.state='closed';}};
   c._ac=ac;c.audio=()=>ac;c.startLoop=()=>{};c.state={page:'boot'};
-  const sounds=[];c.tvPowerSound=()=>{if(ac.state!=='running')return false;sounds.push(ac.state);return true;};
+  const sounds=[];c.tvPowerSound=c.tvWarmupSound=()=>{if(ac.state!=='running')return false;sounds.push(ac.state);return true;};
   return {c,context,ac,timers,sounds};
 }
 
-test('the physical TV starts only on power, zooms inside the glass, then synchronizes sound and opening',()=>{
-  const {c,ac,timers,sounds}=television();c.componentDidMount();
-  assert.equal(c.renderVals().displayPowerGate,true);assert.equal(c.renderVals().languageOpen,false);
-  assert.equal(c.renderVals().displayAnimating,false);assert.equal(c.renderVals().isBoot,false);assert.equal(c._displayOpenT,undefined);
-  assert.equal(sounds.length,0);assert.equal(timers.size,0);assert.match(c.renderVals().displayPowerLabel,/Power on/);
-  c.finishDisplayOpening();assert.equal(c.state.displayStarting,true);assert.equal(c.state.bootLog,undefined);
-  c.rootKey({key:'Tab',preventDefault(){assert.fail('Tab must remain available for the power buttons');}});
-  c.audio=()=>{ac.state='running';return ac;};c.rootKey({key:'Enter',preventDefault(){}});
-  assert.equal(sounds.length,0);assert.equal(c.renderVals().displayPowerGate,true);assert.equal(c.renderVals().displayTvBusy,true);
-  assert.equal(timers.get(c._displayApproachT).delay,760);
+test('the opening television starts on and explorable, and its dock and keys drive the set until Enter',()=>{
+  const {c,timers}=television();c.componentDidMount();
+  let r=c.renderVals();assert.equal(r.displayPowerGate,true);assert.equal(r.languageOpen,false);assert.equal(r.displayAnimating,false);assert.equal(r.isBoot,false);
+  assert.equal(r.displayPowered,true);assert.equal(r.displayPowerLabel,'Desligar TV');assert.equal(r.displayChannel,'CH 01');assert.equal(r.displayVolume,4);
+  c.finishDisplayOpening();assert.equal(c.state.displayStarting,true);
+  r.displayChannelNext();r.displayVolRaise();r.displayPower();r=c.renderVals();
+  assert.equal(r.displayChannel,'CH 02');assert.equal(r.displayVolume,5);assert.equal(r.displayPowered,false);assert.equal(r.displayPowerLabel,'Ligar TV');
+  const tv=fakeTv(c,{gl:false}),free={closest:()=>null};
+  for(const [key,action] of [['PageUp','channel+'],[']','channel+'],['PageDown','channel-'],['+','volume+'],['-','volume-'],['p','power']]){c.rootKey({key,target:free,preventDefault(){}});assert.equal(tv.calls.at(-1),action,key);}
+  c.rootKey({key:'ArrowLeft',target:free,preventDefault(){}});assert.equal(tv.calls.at(-1)[0],'orbit');
+  c.rootKey({key:'Tab',preventDefault(){assert.fail('Tab must reach the dock buttons');}});
+  c.rootKey({key:'Enter',target:free,preventDefault(){}});assert.equal(c._displayPhase,'entering');assert.equal(tv.calls.at(-1)[0],'enter');
+  c.renderVals().displayChannelNext();assert.equal(tv.calls.at(-1)[0],'enter','controls are locked while entering');
+  c.displayEntered();assert.equal(c._displayPhase,'zoom','the CSS fallback still zooms into the glass');assert.equal(timers.get(c._displayZoomT).delay,1560);
   const transition=(cls,propertyName='transform')=>c.renderVals().displayCameraEnd({target:{classList:{contains:k=>k===cls}},propertyName});
-  transition('vintage-knob-face');assert.equal(c._displayPhase,'approach');
-  transition('tv-cabinet');assert.equal(c._displayPhase,'zoom');assert.equal(timers.get(c._displayZoomT).delay,1560);
-  transition('tv-camera','border-color');assert.equal(c._displayPhase,'zoom');transition('tv-camera');
-  assert.deepEqual(sounds,['running']);assert.equal(c.renderVals().displayPowerGate,false);
-  assert.equal(c.renderVals().displayAnimating,true);assert.equal(c.state.bootLog,undefined);
-  const opening=c._displayOpenT;assert.equal(timers.get(opening).delay,4400);
-  c.powerDisplayOn();assert.equal(sounds.length,1);assert.equal(c._displayOpenT,opening);
-  c.finishDisplayOpening();assert.equal(c.state.languageOpen,true);c.chooseLanguage('pt');assert.equal(c.state.bootFault,true);
+  transition('tv-camera','border-color');assert.equal(c._displayPhase,'zoom');transition('tv-camera');assert.equal(c._displayPhase,'reveal');
+  c.finishDisplayOpening();assert.equal(c.renderVals().displayPowerGate,false);assert.equal(c.state.languageOpen,true);
 });
 
-test('even permitted audio waits for power, while stored mute keeps the same visual entry',()=>{
-  const live=television('running');live.c.componentDidMount();assert.equal(live.sounds.length,0);assert.equal(live.c.renderVals().displayPowerGate,true);
-  live.c.powerDisplayOn();live.c.prepareDisplayZoom();live.c.beginDisplayOpening(live.c._displaySoundWanted);assert.deepEqual(live.sounds,['running']);
-  assert.equal(live.c.renderVals().displayPowerGate,false);assert.equal(live.c.renderVals().displayAnimating,true);
+test('the television host unlocks audio only from a gesture and respects the stored mute',()=>{
+  const live=television('running');live.c.componentDidMount();let unlocked=0;live.c.audio=()=>{unlocked++;return live.ac;};
+  const host=live.c.tvHost();assert.equal(unlocked,0,'nothing plays before the visitor interacts');
+  assert.equal(host.soundOn(),true);host.unlock();assert.equal(unlocked,1);assert.equal(host.initialVolume,4);
+  host.onChange({power:'off',channel:3,volume:7});const r=live.c.renderVals();assert.equal(r.displayPowered,false);assert.equal(r.displayChannel,'CH 04');assert.equal(r.displayVolume,7);
   const muted=television();muted.c._sndPref=false;muted.c.audio=()=>assert.fail('Muted preference must not initialize audio');muted.c.componentDidMount();
-  muted.c.powerDisplayOn();muted.c.prepareDisplayZoom();muted.c.beginDisplayOpening(muted.c._displaySoundWanted);
-  assert.equal(muted.sounds.length,0);assert.equal(muted.c.renderVals().displayPowerGate,false);assert.equal(muted.c.renderVals().displayAnimating,true);
+  const mh=muted.c.tvHost();assert.equal(mh.soundOn(),false);mh.unlock();muted.c.enterDisplay();assert.equal(muted.c._displayPhase,'zoom');
 });
 
-test('audio may resume during zoom but never plays late or blocks entry if it remains suspended',()=>{
-  const live=television();live.c.componentDidMount();live.c.powerDisplayOn();live.c.prepareDisplayZoom();
-  live.ac.state='running';live.c.beginDisplayOpening(true);assert.deepEqual(live.sounds,['running']);
-  live.c.beginDisplayOpening(true);assert.equal(live.sounds.length,1);
-  const silent=television();silent.c.componentDidMount();silent.c.powerDisplayOn();silent.c.prepareDisplayZoom();silent.c.beginDisplayOpening(true);
-  assert.equal(silent.c.renderVals().displayAnimating,true);assert.equal(silent.sounds.length,0);
-  silent.ac.state='running';silent.c.beginDisplayOpening(true);assert.equal(silent.sounds.length,0);
-  silent.c.finishDisplayOpening();assert.equal(silent.c.state.languageOpen,true);assert.equal(silent.sounds.length,0);
+test('television state: power cycles, tuning, volume, knobs and the flight into the glass',()=>{
+  const {context}=controller(),TV=context.PortfolioTV,D=TV.durations,s=TV.createState({aspect:16/10});
+  assert.equal(s.power,'on');assert.equal(TV.channels[s.channel].id,'fight','idle shows the fighting game');
+  assert.deepEqual(Array.from(TV.channels,c=>c.id),['fight','monsters','show','rpg','western']);
+  TV.press(s,'channel+');assert.equal(s.channel,1);assert.ok(s.tuneT>0);assert.ok(s.events.includes('tune'));TV.step(s,D.TUNE);assert.equal(s.tuneT,0);
+  TV.press(s,'channel-');TV.press(s,'channel-');assert.equal(s.channel,TV.channels.length-1);
+  s.events.length=0;for(let i=0;i<20;i++)TV.press(s,'volume+');assert.equal(s.volume,10);for(let i=0;i<20;i++)TV.press(s,'volume-');assert.equal(s.volume,0);
+  assert.equal(s.events.filter(e=>e==='vol').length,40);assert.equal(TV.gainFor(0),0);assert.ok(TV.gainFor(10)>TV.gainFor(5));assert.ok(s.volT>0,'the volume bar shows on screen');
+  TV.press(s,'power');assert.equal(s.power,'cooling');TV.step(s,D.POWER_OFF);assert.equal(s.power,'off');
+  TV.press(s,'power');assert.equal(s.power,'warming');s.events.length=0;for(let t=0;t<D.POWER_ON;t+=50)TV.step(s,50);assert.equal(s.power,'on');
+  for(const sound of ['dot','crackle','snow','blup'])assert.ok(s.events.includes(sound),sound);
+  for(let i=0;i<40;i++)TV.step(s,16);const k=TV.knobTargets(s);assert.ok(Math.abs(s.knob.volume-k.volume)<.01,'the volume knob turns to its position');
+  TV.press(s,'power');TV.step(s,D.POWER_OFF);assert.equal(TV.beginEnter(s,false),true);assert.equal(s.power,'warming');assert.equal(s.card,true);
+  assert.equal(TV.press(s,'channel+'),false,'controls are locked while entering');
+  for(let t=0;t<D.POWER_ON+D.ALIGN+D.DOLLY+200;t+=40)TV.step(s,40);
+  assert.equal(s.enter.stage,'done');assert.equal(s.fx,0);assert.ok(Math.abs(TV.finalDistance(16/10)-s.cam.dist)<1e-6);assert.ok(Math.abs(s.cam.yaw)<1e-9&&Math.abs(s.cam.pitch)<1e-9);
+  const reduced=TV.createState();TV.beginEnter(reduced,true);for(let t=0;t<D.TUNE+40;t+=40)TV.step(reduced,40);assert.equal(reduced.enter.stage,'done','reduced motion skips the flight');assert.equal(reduced.fx,1);
+});
+test('the television camera orbits all the way round and only front panel controls can be clicked',()=>{
+  const {context}=controller(),TV=context.PortfolioTV,s=TV.createState({aspect:1.6});
+  for(const [name,c] of Object.entries(TV.layout.controls))assert.equal(TV.pick({yaw:0,pitch:0,dist:2,tx:c.x,ty:c.y,tz:0},1.6,0,0),name);
+  assert.equal(TV.pick({yaw:Math.PI,pitch:0,dist:2,tx:.62,ty:-.21,tz:0},1.6,0,0),null,'from behind the set nothing on the front is clickable');
+  assert.equal(TV.pick({yaw:0,pitch:0,dist:2,tx:-.2,ty:0,tz:0},1.6,0,0),null,'the glass itself is not a button');
+  assert.equal(TV.controlAction({name:'volume+',x:.5,y:0}),'volume-');assert.equal(TV.controlAction({name:'volume+',x:.58,y:0}),'volume+');assert.equal(TV.controlAction({name:'channel+',x:.5,y:.24}),'channel-');
+  s.cam.vy=.01;s.cam.vp=.01;for(let i=0;i<200;i++)TV.step(s,16);assert.ok(Math.abs(s.cam.pitch)<=1.45);assert.equal(s.cam.vy,0,'the spin settles');
+  const top=TV.orbitEye({yaw:0,pitch:1.45,dist:3,tx:0,ty:0,tz:0}),bottom=TV.orbitEye({yaw:0,pitch:-1.45,dist:3,tx:0,ty:0,tz:0}),behind=TV.orbitEye({yaw:Math.PI,pitch:0,dist:3,tx:0,ty:0,tz:0});
+  assert.ok(top[1]>2.9);assert.ok(bottom[1]<-2.9);assert.ok(behind[2]<-2.9);
+  assert.ok(TV.finalDistance(1.6)<TV.fitDistance(1.6));
 });
 
-test('unmount cancels every camera phase and prevents stale callbacks from starting the portfolio',()=>{
-  for(const phase of ['off','approach','zoom','warmup']){
-    const {c,timers,sounds}=television();c.componentDidMount();
-    if(phase!=='off')c.powerDisplayOn();if(['zoom','warmup'].includes(phase))c.prepareDisplayZoom();if(phase==='warmup')c.beginDisplayOpening(true);
-    const stale=[...timers.values()].map(t=>t.fn);c.componentWillUnmount();stale.forEach(fn=>fn());
-    assert.equal(timers.size,0);assert.equal(sounds.length,0);assert.equal(c._displayOpenT,null);assert.equal(c.state.bootLog,undefined);
+test('unmount cancels every opening phase and prevents stale callbacks from starting the portfolio',()=>{
+  for(const phase of ['idle','entering','zoom','reveal']){
+    const {c,timers}=television();c.componentDidMount();const tv=phase==='entering'?fakeTv(c,{gl:true}):null;
+    if(phase!=='idle')c.enterDisplay();if(phase==='reveal')timers.get(c._displayZoomT).fn();
+    assert.equal(c._displayPhase,phase);
+    const stale=[...timers.values()].map(t=>t.fn);c.componentWillUnmount();stale.forEach(fn=>fn());c.displayEntered();
+    assert.equal(timers.size,0);assert.equal(c._displayOpenT,null);assert.equal(c.state.bootLog,undefined);if(tv)assert.ok(tv.calls.includes('destroy'));
   }
 });
 
@@ -646,28 +980,32 @@ test('camera zoom covers desktop and portrait viewports and centers the actual T
   assert.equal(zoom(null,{}),null);assert.equal(zoom({left:0,top:0,width:0,height:40},{left:0,top:0,width:500,height:500}),null);
 });
 
-test('vintage dials click, drag and use keyboard without starting the TV or changing sound',()=>{
-  const {c,sounds,timers}=television();c.componentDidMount();
-  c.turnDisplayKnob('channel');c.turnDisplayKnob('volume');assert.equal(c.state.displayChannel,2);assert.equal(c.state.displayVolume,6);
+test('the CSS fallback dials still click, drag and take arrow keys through the same television actions',()=>{
+  const {c,timers}=television();c.componentDidMount();
+  c.turnDisplayKnob('channel');c.turnDisplayKnob('volume');assert.equal(c.state.displayChannel,1);assert.equal(c.state.displayVolume,5);
   const target={setPointerCapture(){},hasPointerCapture:()=>true,releasePointerCapture(){}};
   c.displayVolumeDown({pointerId:1,clientX:0,clientY:100,currentTarget:target});
-  c.displayVolumeMove({pointerId:2,clientX:0,clientY:0});assert.equal(c.state.displayVolume,6);
-  c.displayVolumeMove({pointerId:1,clientX:0,clientY:0});assert.equal(c.state.displayVolume,10);
-  c.displayVolumeUp({pointerId:1,currentTarget:target});c.turnDisplayKnob('volume',{detail:1});assert.equal(c.state.displayVolume,10);
-  c.displayVolumeKey({key:'Home',preventDefault(){},stopPropagation(){}});assert.equal(c.state.displayVolume,0);
-  c.displayVolumeKey({key:'ArrowDown',preventDefault(){},stopPropagation(){}});assert.equal(c.state.displayVolume,0);
-  c.displayVolumeKey({key:'ArrowRight',preventDefault(){},stopPropagation(){}});assert.equal(c.state.displayVolume,1);
-  assert.equal(c._displayPhase,'off');assert.equal(sounds.length,0);assert.equal(timers.size,0);
-  c.powerDisplayOn();c.turnDisplayKnob('volume');assert.equal(c.state.displayVolume,1);
+  c.displayVolumeMove({pointerId:2,clientX:0,clientY:0});assert.equal(c.state.displayVolume,5);
+  c.displayVolumeMove({pointerId:1,clientX:0,clientY:60});assert.equal(c.state.displayVolume,10);
+  c.displayVolumeUp({pointerId:1,currentTarget:target});c.turnDisplayKnob('volume');assert.equal(c.state.displayVolume,10,'the click after a drag is ignored');
+  c.displayVolumeKey({key:'ArrowDown',preventDefault(){},stopPropagation(){}});assert.equal(c.state.displayVolume,9);
+  c.displayVolumeKey({key:'ArrowRight',preventDefault(){},stopPropagation(){}});assert.equal(c.state.displayVolume,10);
+  assert.equal(c._displayPhase,'idle');assert.equal(timers.size,0);
+  c.enterDisplay();c.turnDisplayKnob('volume');assert.equal(c.state.displayVolume,10,'dials are locked once entering');
 });
 
-test('entry contains a 3D cabinet with working physical controls and a deliberately slower warmup',()=>{
-  const {context}=controller(),api=context.PortfolioDisplay,html=read('src/template.html'),css=read('src/display.css');
-  assert.equal(api.approachDuration+api.zoomDuration+api.openingDuration,6200);
-  assert.match(css,/transform-style:preserve-3d/);assert.match(css,/tv-power-sequence 4200ms/);
+test('the entrance mounts a WebGL stage with a dock, keeps the CSS television as fallback and matches the card to the zoom',()=>{
+  const {context}=controller(),api=context.PortfolioDisplay,TV=context.PortfolioTV,html=read('src/template.html'),css=read('src/display.css');
+  assert.match(html,/<div class="tv-stage" ref="\{\{setDisplayStage\}\}"><\/div>/);
+  for(const handler of ['displayPower','displayChannelPrev','displayChannelNext','displayVolLower','displayVolRaise','displayEnter'])assert.ok(html.includes('sc-camel-on-click="{{'+handler+'}}"'),handler);
+  assert.ok(css.includes('.tv-power-gate.has-gl .tv-camera{display:none}'));assert.ok(css.includes('.tv-power-gate:not(.tv-phase-idle) .tv-dock{opacity:0;pointer-events:none}'));
+  assert.match(css,new RegExp('tv-gate-reveal '+api.revealDuration+'ms'));assert.match(css,new RegExp('transition:transform '+api.zoomDuration+'ms'));
+  assert.doesNotMatch(html+css,/tv-tube|tv-power-on/);
   for(const cls of ['vintage-front','vintage-side','vintage-top','vintage-screen','vintage-power','vintage-volume','vintage-channel'])assert.ok(html.includes(cls),cls);
-  assert.match(html,/ref="\{\{setDisplayTvScreen\}\}"/);assert.match(html,/sc-camel-on-pointer-move="\{\{displayVolumeMove\}\}"/);
-  assert.doesNotMatch(html,/displayPowerSilent|tv-power-silent/);
+  assert.ok(read('scripts/build.mjs').includes("'tv3d.js','display.js'"));assert.ok(html.indexOf('assets/tv3d.js')<html.indexOf('assets/display.js'));
+  const screen={left:400,top:200,width:420,height:300},viewport={left:0,top:0,width:1440,height:900};
+  assert.ok(Math.abs(api.pictureScale(screen,viewport)*api.zoomTransform(screen,viewport).scale-1)<1e-9,'the fallback zoom lands on the full-size card');
+  assert.equal(TV.create(null),null,'without a document there is no television');
 });
 
 test('TV blup uses a short descending rounded tone, respects suspended audio and contains no high whistle',()=>{
@@ -693,4 +1031,155 @@ test('desktop Escape from the terminal input returns to its home screen',()=>{
 test('reboot closes the desktop and a new game restores the initial hitbox',()=>{
   const {c}=controller({setTimeout:()=>1});c.state={page:'quarto',deOpen:true,ctl:'pad'};c._desktopSession=true;c.persist=()=>true;c.sfx=()=>{};c.unlock=()=>{};c.musicStop=()=>{};
   c.reboot();assert.equal(c.state.deOpen,false);assert.equal(c._desktopSession,false);c.wipeProgress();assert.equal(c.state.ctl,'hitbox');assert.equal(c.state.hitFighter,'ryu');
+});
+
+function hitboxController(){
+  const {c,context}=controller();c.sfx=()=>{};c.persistSoon=()=>{};c.unlock=()=>{};c.moveFx=()=>{};c.calm=()=>false;
+  return {c,api:context.PortfolioHitbox,context};
+}
+test('combos only run when the whole entry is exactly the sequence',()=>{
+  const {c}=hitboxController();c.state.hitFighter='ryu';c._wk={};
+  for(const k of 'KDRP')c.hitInput(k);
+  assert.equal(c.state.hitResult,'','a stray button before the combo cancels it');
+  assert.equal(c.renderVals().padSub,'Sequência inválida · SELECT limpa');
+  assert.match(c.renderVals().lcdCls,/is-invalid/);
+  for(const k of 'DRP')c.hitInput(k);
+  assert.equal(c.state.hitResult,'','further input does not recover an invalid entry');
+  c.padReset();assert.equal(c.renderVals().hitInvalid,false);
+  for(const k of 'DRP')c.hitInput(k);
+  assert.equal(c.state.hitResult,'Hadouken');
+  assert.equal(c._pad.length,0);
+  c.state.hitResult='';for(const k of 'DRDRP')c.hitInput(k);
+  assert.equal(c.state.hitResult,'','a combo surrounded by other inputs is not recognised');
+});
+test('every move is reachable: no sequence is a prefix of another in the same list',()=>{
+  const {c,api}=hitboxController();
+  for(const [id] of api.fighters){
+    c.state.hitFighter=id;const list=c.hitMoves().concat(c.data().secrets);
+    for(const a of list)for(const b of list)if(a!==b)assert.ok(!b.seq.startsWith(a.seq),id+': '+a.seq+' blocks '+b.seq);
+  }
+});
+test('roster swaps Peacock for Squigly, Big Band, Annie, Ms. Fortune, Falke and Iroh',()=>{
+  const {api}=hitboxController(),ids=api.fighters.map(f=>f[0]);
+  assert.ok(!ids.includes('peacock'));assert.ok(!api.moves.some(m=>m.fighter==='peacock'));
+  for(const id of ['squigly','bigband','annie','fortune','falke','iroh'])assert.ok(api.moves.filter(m=>m.fighter===id).length>=2,id);
+  for(const m of api.moves)assert.ok(api.kinds[m.kind],m.name+' has a dummy reaction');
+});
+test('the dummy drops in, takes each move and leaves',()=>{
+  const {api}=hitboxController(),spec=name=>api.specFor(api.moves.find(m=>m.name===name));
+  const hadouken=spec('Hadouken'),h=hadouken.hits[0];
+  assert.ok(api.dummyState(hadouken,0).lift>0,'drops in from above');
+  assert.equal(api.dummyState(hadouken,h-1).dx,0);
+  assert.ok(api.dummyState(hadouken,h+200).dx>4,'the fireball knocks it back');
+  const spear=spec('Spear'),pulled=api.dummyState(spear,spear.hits[0]+400);
+  assert.equal(Math.round(pulled.dx),-(spear.reach-18),'Get over here pulls the dummy to Scorpion');
+  assert.equal(pulled.stars,true);
+  const sho=spec('Shoryuken');assert.ok(api.dummyState(sho,sho.hits[0]+320).lift>25,'the uppercut launches it');
+  assert.equal(api.dummyState(spec('Ice Ball'),spec('Ice Ball').hits[0]+100).tint,'ice');
+  assert.equal(api.dummyState(spec('Daisy Pusher'),spec('Daisy Pusher').hits[0]+600).sink,30,'Daisy Pusher buries it');
+  assert.equal(api.dummyState(spec('Redirecionar o relâmpago'),spec('Redirecionar o relâmpago').hits[0]+30).tint.startsWith('shock'),true);
+  assert.equal(api.dummyState(hadouken,api.lifetime(hadouken)).alpha,0);
+  assert.equal(api.effective(h+20,hadouken.hits),h,'hit-stop holds the impact');
+  assert.equal(api.effective(h+200,hadouken.hits),h+155);
+});
+test('Hikaru strikes from where he stands and the dummy uses the side with room',()=>{
+  const {c,api}=hitboxController();c.state={page:'sobre',hitFighter:'ryu'};
+  c.worldGeo=()=>({u:3,W:1000,H:700,top:0});
+  c._wk={x:200,y:300};c.hitStrike(api.moves.find(m=>m.name==='Hadouken'));
+  assert.equal(c._dummy.side,1);assert.equal(c._dummy.x0,200);assert.equal(c._dummy.page,'sobre');
+  c._wk={x:950,y:300};c.hitStrike(api.moves.find(m=>m.name==='Hadouken'));
+  assert.equal(c._dummy.side,-1,'near the right edge he turns around');
+  c._wk={x:300,y:300};c.hitStrike(api.moves.find(m=>m.name==='Spinning Bird Kick'));
+  c.worldAnim(c._wk,400,{u:3});assert.ok(c._wk.x>300,'travelling moves carry him to the dummy');
+  c.worldAnim(c._wk,1000,{u:3});assert.equal(c._wk.x,300,'and he ends where he started');
+  assert.equal(c.worldPose(c._wk).dir!==undefined,true);
+});
+
+test('entering the monitor keeps the desktop glued to the glass while the camera pushes in',()=>{
+  const {context}=controller(),api=context.PortfolioDesktop;
+  const z=api.zoomGeometry({left:103,top:85,width:1234,height:719},{left:0,top:0,width:1440,height:900},{width:384,height:224},{camX:0,camY:0});
+  const {camera,shell}=api.zoomFrames(z);
+  const parse=t=>t.match(/-?\d[\d.]*(?:e-?\d+)?/g).map(Number);
+  assert.equal(camera[0].offset,0);assert.equal(camera.at(-1).offset,1);
+  let last=0;
+  camera.forEach((frame,i)=>{
+    const [tx,ty,sx,sy]=parse(frame.transform),[ux,uy,kx,ky]=parse(shell[i].transform);
+    // the glass seen through the camera is exactly where the desktop is drawn
+    const gx=tx+sx*(z.shellLeft+z.fromX),gy=ty+sy*(z.shellTop+z.fromY);
+    assert.ok(Math.abs(z.shellLeft+ux-gx)<1e-6&&Math.abs(z.shellTop+uy-gy)<1e-6,'frame '+i+' position');
+    assert.ok(Math.abs(kx-z.fromSX*sx)<1e-9&&Math.abs(ky-z.fromSY*sy)<1e-9,'frame '+i+' size');
+    assert.ok(sx>=last-1e-9,'the camera only moves forward');last=sx;
+  });
+  const [,,sx0,sy0]=parse(camera[0].transform),[ex,ey,esx,esy]=parse(shell.at(-1).transform);
+  assert.equal(sx0,1);assert.equal(sy0,1);
+  assert.ok(Math.abs(ex)<1e-6&&Math.abs(ey)<1e-6&&Math.abs(esx-1)<1e-9&&Math.abs(esy-1)<1e-9,'ends as the full desktop');
+  const mid=parse(camera[24].transform)[2];
+  // perceived zoom (log of the scale) follows the strong ease-in-out: about 60% of the way at half time
+  const perceived=Math.log(mid)/Math.log(z.cameraSX);assert.ok(perceived>.55&&perceived<.65,String(perceived));
+  const css=read('src/desktop.css');
+  assert.doesNotMatch(css,/@keyframes de-camera|@keyframes de-monitor/);
+  assert.match(css,/is-calm\.is-zoom \.desktop-shell\{transform:none;animation:de-fade/);
+});
+test('the pause-menu Movimento setting alone decides the push-in, and it persists',()=>{
+  const store={};const storage={getItem:k=>store[k]??null,setItem:(k,v)=>{store[k]=String(v);}};
+  const first=controller({localStorage:storage,matchMedia:()=>({matches:true})}).c;first.state={page:'quarto'};
+  assert.equal(first.desktopReduced(),false,'the system preference does not cancel the zoom');
+  first.toggleMotion();assert.equal(first.calm(),true);assert.equal(store['okaru-motion'],'reduced');
+  const next=controller({localStorage:storage}).c;next.state={page:'quarto'};assert.equal(next.desktopReduced(),true,'restored on the next visit');
+  next.toggleMotion();assert.equal(store['okaru-motion'],'full');assert.equal(next.renderVals().motionLabel,'Completo');
+  next.wipeProgress?.();assert.equal(next.calm(),false,'a new game keeps the preference');
+});
+test('reduced motion swaps the push-in for a short fade',()=>{
+  for(const [state,system,calm] of [[{},false,false],[{motionReduced:true},false,true],[{},true,false]]){
+    const {c}=controller({matchMedia:()=>({matches:system})});c.state={page:'quarto',...state};
+    assert.equal(c.renderVals().dePhaseClass.includes('is-calm'),calm);
+  }
+});
+
+test('audit: translation files never disagree, every module installs and controller games translate',()=>{
+  const files=fs.readdirSync(new URL('../src/',import.meta.url)).filter(n=>/^translations(?:-.*)?\.tsv$/.test(n)),seen=new Map(),conflicts=[];
+  for(const file of files)for(const line of read('src/'+file).split(/\r?\n/).filter(Boolean)){
+    const [pt,en,ja,override='']=line.split('\t'),value=[en,ja,override].join('\t');
+    if(seen.has(pt)&&seen.get(pt).value!==value)conflicts.push(pt+' ('+seen.get(pt).file+' / '+file+')');
+    seen.set(pt,{value,file});
+  }
+  assert.deepEqual(conflicts,[]);
+  const {c,context}=controller(),I=context.PortfolioI18n;
+  assert.ok(context.Portfolio.modules.length>=13);
+  for(const name of context.Portfolio.modules)assert.equal(typeof context[name]?.install,'function',name);
+  I.set('en');for(const item of c.ctlList())if(!['Hitbox','Game Boy'].includes(item.game))assert.notEqual(I.t(item.game),item.game,item.game);
+});
+
+test('the title screen follows the sound preference, plays its theme and mutes with the button or M',()=>{
+  const {c,ac,context}=television('running');c.componentDidMount();
+  const bus=()=>({gain:{value:1,setValueAtTime(){},exponentialRampToValueAtTime(){},cancelScheduledValues(){}},connect(){},disconnect(){}});
+  Object.assign(ac,{currentTime:0,createGain:bus});c._mix={};c.tone=()=>{};c.noise=()=>{};
+  assert.equal(c._snd,true,'new visitors start with sound');assert.equal(c.state.snd,true);
+  c.titleMusicSync();assert.equal(c.titlePlaying(),false,'not behind the opening television');
+  c._displayStarting=false;Object.assign(c.state,{page:'boot',bootLog:false,languageOpen:false});
+  c.titleMusicSync();assert.equal(c.titlePlaying(),true);assert.equal(c._mTrack.name,'Tela de título');
+  c.state.recOpen=true;c.titleMusicSync();assert.equal(c.titlePlaying(),true,'the recruiter glass keeps the theme');
+  c.rootKey({key:'m',target:{},preventDefault(){}});assert.equal(c._snd,true,'M belongs to the recruiter view while it is open');
+  c.state.recOpen=false;c.rootKey({key:'m',target:{},preventDefault(){}});assert.equal(c._snd,false);assert.equal(c.titlePlaying(),false);assert.equal(c._sndPref,false);
+  c.renderVals().toggleSnd();assert.equal(c._snd,true);assert.equal(c.titlePlaying(),true);
+  c.state.transitioning=true;c.titleMusicSync();assert.equal(c.titlePlaying(),false,'Novo jogo and the recruiter links leave the title screen');
+  assert.equal(c._snd,true,'the pages keep the sound the title screen had');
+  const html=read('src/template.html');
+  assert.match(html,/<div class="boot-top"><span>Créditos \{\{credits\}\}<\/span><button class="boot-snd" sc-camel-on-click="\{\{toggleSnd\}\}" aria-pressed="\{\{sndPressed\}\}"/);
+  const muted=television('running');muted.c._sndPref=false;muted.c.componentDidMount();assert.equal(muted.c._snd,false,'a saved mute is respected');
+  const theme=context.PortfolioTitleSound.titleTrack(),notes=theme.ev.flat().filter(e=>!e.drum);
+  assert.equal(theme.len,64);assert.ok(notes.length>40);assert.ok(Math.max(...notes.map(n=>n.m))<=79,'nothing above G5');
+});
+
+test('the portfolio stays quiet behind the opening TV, never starts audio before a gesture and paces the failure alarm',()=>{
+  const {c}=controller(),tones=[];c.tone=(...a)=>tones.push(a);c.noise=()=>{};c._snd=true;c.audio=()=>({});c._mix={};c.state={page:'boot'};
+  c._displayStarting=true;c.sfx('hover');assert.equal(tones.length,0);
+  c._displayStarting=false;c.sfx('hover');assert.equal(tones.length,1);
+  c.state.bootLog=true;tones.length=0;c.sfx('error');c.sfx('error');assert.equal(tones.length,2,'one alarm (two tones) at a time');
+  c._bootSfxAt-=1000;c.sfx('error');assert.equal(tones.length,4);
+  c.state.bootLog=false;c.sfx('error');c.sfx('error');assert.equal(tones.length,8,'outside the boot log every error sounds');
+  let made=0;const gesture={hasBeenActive:false};
+  const {c:fresh}=controller({navigator:{language:'en',userActivation:gesture},AudioContext:function(){made++;this.state='running';this.destination={};this.createGain=()=>({gain:{},connect(){}});}});
+  assert.equal(fresh.audio(),null);assert.equal(made,0);
+  gesture.hasBeenActive=true;assert.ok(fresh.audio());assert.equal(made,1);
 });

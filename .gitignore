@@ -8,3 +8,6 @@ coverage/
 /resume/
 __pycache__/
 *.py[cod]
+# Local editor and agent settings
+.claude/settings.local.json
+.impeccable/config.local.json

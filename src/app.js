@@ -23,9 +23,10 @@ class Component extends DCLogic {
     this._bubCoin = Math.floor(Math.random() * 24);
     this.loadSave();
     this.measureLoad();
+    this.rmImg();
     this._tick = setInterval(() => {
       const s = this.state || {};
-      if (!s.seis) this.setState({ now: Date.now() });
+      if (!s.seis || s.deOpen) this.setState({ now: Date.now() });
       this.checkOwl();
       this._tickN = (this._tickN || 0) + 1;
       if (this._tickN % 30 === 0 && this.curPage() !== 'boot') this.persist(false);
@@ -112,6 +113,8 @@ class Component extends DCLogic {
     this._gamesRead = obj(sv.games);
     this._recipes = obj(sv.recipes);
     this._roomSeen = obj(sv.room);
+    // Older saves inferred the tutorial from explored objects; new saves record it explicitly.
+    this._rmIntroShown = sv.roomIntro === true || (sv.roomIntro === undefined && this.roomSeenN() > 2);
     this._plushMeet = obj(sv.plush);
     this._galleryRead = obj(sv.gallery);
     this._spun = obj(sv.spun);
@@ -164,6 +167,7 @@ class Component extends DCLogic {
       games: this._gamesRead || {},
       recipes: this._recipes || {},
       room: this._roomSeen || {},
+      roomIntro: !!this._rmIntroShown,
       plush: this._plushMeet || {},
       gallery: this._galleryRead || {},
       spun: this._spun || {},
@@ -2494,16 +2498,18 @@ class Component extends DCLogic {
     wrap.style.height = Math.floor(vh * sc) + 'px';
   }
 
+  // Preloaded at mount; a failed request is retried instead of leaving the room without its atlas.
   rmImg() {
-    if (this._rmAtlas !== undefined) return this._rmAtlas;
-    this._rmAtlas = null;
+    if (this._rmAtlas) return this._rmAtlas;
+    if (this._rmAtlasReq || typeof Image === 'undefined' || Date.now() < (this._rmAtlasRetry || 0)) return null;
     try {
-      if (typeof Image === 'undefined') return null;
       const img = new Image();
-      img.onload = () => { this._rmAtlas = img; };
+      this._rmAtlasReq = img;
+      img.onload = () => { this._rmAtlas = img; this._rmAtlasReq = null; };
+      img.onerror = () => { this._rmAtlasReq = null; this._rmAtlasRetry = Date.now() + 1500; };
       img.src = this.blob(this.data().roomAtlas);
     } catch (err) {
-      this._rmAtlas = null;
+      this._rmAtlasReq = null;
     }
     return null;
   }
@@ -2545,15 +2551,11 @@ class Component extends DCLogic {
     const cyw = focusO ? (focusO.t[1] + focusO.t[3] / 2) * 16 : fy * 16 + 8;
     rm.camX = Math.round(Math.max(0, Math.min(384 - vw, cxw - vw / 2)));
     rm.camY = Math.round(Math.max(0, Math.min(224 - vh, cyw - vh / 2)));
+    // Without the atlas there is nothing to paint; keep the previous frame until the retry lands.
+    if (!img) return;
     ctx.imageSmoothingEnabled = false;
     ctx.fillStyle = '#050706';
     ctx.fillRect(0, 0, vw, vh);
-    if (!img) {
-      ctx.fillStyle = '#8FD3A6';
-      ctx.font = '8px monospace';
-      this.canvasText(ctx, 'carregando o quarto...', 8, 16);
-      return;
-    }
     ctx.drawImage(img, rm.camX, rm.camY, vw, vh, 0, 0, vw, vh);
     const X = (x) => x - rm.camX;
     const Y = (y) => y - rm.camY;
@@ -2572,8 +2574,8 @@ class Component extends DCLogic {
     }
     ctx.fillStyle = '#F0CE6A';
     if (Math.floor(tt / 530) % 2) ctx.fillRect(X(335), Y(24), 3, 1);
-    if (rm.sit) {
-      // he is playing: the monitor shows the offline runner
+    if (rm.sit && rm.sit.kind !== 'puff' && !this._desktopSession) {
+      // Standalone runner fallback; the desktop session paints its live DOM on this glass.
       ctx.fillStyle = '#0E2A1C';
       ctx.fillRect(X(327), Y(14), 22, 14);
       ctx.fillStyle = '#D8B24A';
@@ -2976,7 +2978,7 @@ class Component extends DCLogic {
     if (behind) teddy();
     // "!" above the head when something interesting is right in front
     const over = !!(s.paused || s.palOpen || s.achOpen || s.recOpen || s.arcOpen || s.pcOpen || s.deOpen || s.tvGameOpen || s.dOpen || s.skOpen || s.credOpen);
-    if (!rm.moving && !rm.sit && !s.rmDlg && !over) {
+    if (!rm.moving && !rm.sit && !rm.portalTravel && !s.rmDlg && !over) {
       const f = this.rmFront(rm);
       const onDoor = rm.dir === 'd' && f[1] >= G.H && G.obj[rm.y * G.W + rm.x] === G.door;
       const oi = f[0] >= 0 && f[1] >= 0 && f[0] < G.W && f[1] < G.H ? G.obj[f[1] * G.W + f[0]] : -1;
@@ -3957,6 +3959,7 @@ class Component extends DCLogic {
       }
       if (pose.sx !== 1 || pose.sy !== 1) ctx.scale(pose.sx, pose.sy);
       ctx.drawImage(img, 48 + fr * 16, 224, 16, 24, Math.round(-w / 2), Math.round(-h), Math.round(w), Math.round(h));
+      this.drawCharacterCare?.(ctx, u * dpr, pose.dir || wk.dir);
       ctx.restore();
     }
     if (wk.bang || (hitEl && !wk.anim && !this._wPoke)) {
@@ -4173,9 +4176,10 @@ class Component extends DCLogic {
   }
 
   roomIntro() {
-    if (this._rmIntroShown || this.roomSeenN() > 2) return;
+    if (this._rmIntroShown) return;
     this._rmIntroShown = true;
     this.rmIntroStep(0);
+    this.persistSoon();
   }
 
   rmIntroStep(i) {

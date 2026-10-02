@@ -4,12 +4,9 @@ Computador de Okaru	Okaru's computer	Okaruのコンピューター
 Aplicativos	Applications	アプリ
 Bem-vindo, Okaru.	Welcome, Okaru.	おかえり、Okaru。
 Um pequeno desktop para explorar projetos, habilidades e ideias.	A small desktop for exploring projects, skills and ideas.	プロジェクト、スキル、アイデアを探索する小さなデスクトップ。
-Ambiente demonstrativo. O terminal e os recursos de hardware são fictícios.	Demo environment. The terminal and hardware resources are fictional.	デモ環境です。ターミナルとハードウェアの情報は架空です。
-Ambiente demonstrativo	Demo environment	デモ環境
-OS: Arch Linux · demonstração	OS: Arch Linux · demo	OS：Arch Linux · デモ
-CPU: 8 núcleos fictícios	CPU: 8 simulated cores	CPU：架空の8コア
-Memória: 4,2 / 16 GB fictícios	Memory: 4.2 / 16 simulated GB	メモリ：架空の4.2 / 16 GB
-Todos os recursos desta máquina são simulados.	All resources on this machine are simulated.	このマシンのリソースはすべて架空です。
+OS: Arch Linux	OS: Arch Linux	OS：Arch Linux
+CPU: 8 núcleos	CPU: 8 cores	CPU：8コア
+Memória: 4,2 / 16 GB	Memory: 4.2 / 16 GB	メモリ：4.2 / 16 GB
 OS: humano	OS: human	OS：人間
 Uptime: 21 anos	Uptime: 21 years	稼働時間：21年
 Modelo: Engenharia da Computação	Model: Computer Engineering	モデル：コンピューター工学
@@ -19,12 +16,12 @@ Foco: hardware, infraestrutura e segurança	Focus: hardware, infrastructure and 
 Guilda: Ycare · vice-presidente	Guild: Ycare · vice president	ギルド：Ycare · 副代表
 Contato: hogasawara2311@outlook.com	Contact: hogasawara2311@outlook.com	連絡先：hogasawara2311@outlook.com
 Comandos: help, neofetch, whoami, htop, date, clear. Use os ícones para abrir os aplicativos.	Commands: help, neofetch, whoami, htop, date, clear. Use the icons to open applications.	コマンド：help、neofetch、whoami、htop、date、clear。アイコンからアプリを開けます。
-Monitor de processos fictícios	Simulated process monitor	架空のプロセスモニター
+Monitor de processos	Process monitor	プロセスモニター
 Comando não encontrado. Digite help.	Command not found. Type help.	コマンドが見つかりません。helpを入力してください。
 Sentar e usar o computador	Sit down and use the computer	座ってコンピューターを使う
 Voltar ao desktop	Return to desktop	デスクトップに戻る
 Processo	Process	プロセス
-Dados fictícios · atualização a cada segundo	Simulated data · refreshed every second	架空のデータ · 毎秒更新
+Atualização a cada segundo	Refreshed every second	毎秒更新
 Comando do desktop	Desktop command	デスクトップのコマンド
 Executar	Run	実行
 Prévia do currículo	Résumé preview	履歴書のプレビュー
@@ -34,4 +31,14 @@ A escolha também é aplicada ao portfólio.	This choice also applies to the por
 Horário local do visitante	Visitor's local time	閲覧者の現地時刻
 Host: Okaru Workstation	Host: Okaru Workstation	ホスト：Okaru Workstation
 Kernel: portfolio 1.0	Kernel: portfolio 1.0	カーネル：portfolio 1.0
-DE: Okaru Desktop	DE: Okaru Desktop	デスクトップ環境：Okaru Desktop
+Abrindo o computador…	Opening the computer…	コンピューターに接続中…
+Abra um aplicativo na barra inferior.	Open an app from the taskbar below.	下のタスクバーからアプリを開いてください。
+Minimizar janela	Minimize window	ウィンドウを最小化
+Fechar janela	Close window	ウィンドウを閉じる
+Desligar o computador	Shut down the computer	コンピューターの電源を切る
+Explore os ramos ou selecione uma habilidade para ver como eu a uso.	Explore the branches or select a skill to see how I use it.	各分野を探索したり、スキルを選んで活用例を見たりできます。
+Espaço ou ↑: pular · ↓: abaixar · P: pausar · Esc: fechar a janela.	Space or ↑: jump · ↓: duck · P: pause · Esc: close the window.	スペースまたは↑：ジャンプ · ↓：しゃがむ · P：一時停止 · Esc：ウィンドウを閉じる。
+Segure o salto para ir mais alto. Trocar de aplicativo suspende a partida.	Hold jump to go higher. Switching apps suspends the game.	ジャンプを長押しすると高く跳べます。別のアプリに切り替えるとゲームが一時停止します。
+
+Arraste para mover. Setas movem; Shift + setas redimensionam.	Drag to move. Arrow keys move; Shift + arrows resize.	ドラッグで移動。矢印キーで移動、Shift＋矢印キーでサイズ変更。
+Redimensionar janela	Resize window	ウィンドウのサイズを変更

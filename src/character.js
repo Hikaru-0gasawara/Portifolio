@@ -118,9 +118,10 @@
       return fn(rm,dt,busy);
     });
     p.drawRoomPlayer=function(ctx,img,fr,x,y,rm){
-      const f=rm.fall,ps=f?pose(f):{rot:0,lift:0,sx:1,sy:1};
+      const f=rm.fall,ps=f?pose(f):this.characterCarePose?.()||{rot:0,lift:0,sx:1,sy:1};
+      if(ps.dir)fr={d:0,u:3,l:6,r:9}[ps.dir];
       ctx.save();ctx.translate(x+8,y+24-ps.lift);ctx.translate(0,-12);ctx.rotate(ps.rot);ctx.translate(0,12);ctx.scale(ps.sx,ps.sy);
-      ctx.drawImage(img,48+fr*16,224,16,24,-8,-24,16,24);ctx.restore();
+      ctx.drawImage(img,48+fr*16,224,16,24,-8,-24,16,24);this.drawCharacterCare?.(ctx,1,['d','u','l','r'][Math.floor(fr/3)]);ctx.restore();
       if(f)alert(ctx,x+8,y+24,1,f.t/f.dur);
     };
     p.drawRoomObstacle=function(ctx,rm){if(rm.stone)rock(ctx,rm.stone.x*16+8-rm.camX,rm.stone.y*16+14-rm.camY,1,rm.stone.variant,rm.clock);};

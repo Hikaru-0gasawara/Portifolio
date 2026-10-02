@@ -37,7 +37,6 @@ Lutador	Fighter	キャラクター
 Direções	Directions	方向
 Ataques e assistências	Attacks and assists	攻撃とアシスト
 Limpar sequência	Clear sequence	入力をリセット
-Comandos adaptados para cliques, sem precisão de frames. As técnicas de Toph são homenagens originais.	Commands adapted for clicks, without frame timing. Toph’s techniques are original tributes.	クリック向けにアレンジしたコマンドです。フレーム単位の入力は不要です。トフの技は本サイト独自のオマージュです。
 Foque a hitbox: WASD ou setas movem; J K L dão socos; U I O dão chutes; 1 e 2 chamam assistências. Esc limpa.	Focus the hitbox: WASD or arrows move; J K L punch; U I O kick; 1 and 2 assist. Esc clears.	ヒットボックスを選択：WASD・矢印キーで方向入力、J K Lでパンチ、U I Oでキック、1・2でアシスト。Escでリセット。
 Analógico	Analog stick	アナログスティック
 Analógico esquerdo: mudar de pista	Left stick: change lane	左スティック：車線変更

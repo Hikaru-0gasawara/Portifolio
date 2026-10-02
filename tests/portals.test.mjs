@@ -6,7 +6,7 @@ import vm from 'node:vm';
 const read=name=>fs.readFileSync(new URL('../'+name,import.meta.url),'utf8');
 function fixture(page='projetos',scrollTop=0){
   const timers=new Map();let timerId=0;
-  const context={window:{},console,Date,Math,setTimeout:(fn,delay)=>{timers.set(++timerId,{fn,delay});return timerId;},clearTimeout:id=>timers.delete(id),document:{}};
+  const context={window:{},console,Date,Math:Object.create(Math),setTimeout:(fn,delay)=>{timers.set(++timerId,{fn,delay});return timerId;},clearTimeout:id=>timers.delete(id),document:{}};
   context.window=context;
   context.DCLogic=class{constructor(){this.state={page};this.props={};}setState(s){Object.assign(this.state,s);}};
   vm.createContext(context);
@@ -24,7 +24,7 @@ function fixture(page='projetos',scrollTop=0){
   c.worldGeo=()=>geo;c.screenEl=()=>sc;c._wk={page,x:50,y:80,hidden:false,anim:null,walk:0};
   c.sfx=()=>{};c.unlock=()=>{};c.persistSoon=()=>{};c.worldFloSpeed=()=>1;c.worldCurve=()=>{};c.worldRoute=()=>[];
   const finishNavigation=()=>{for(const [key,timer]of [...timers])if([680,1420].includes(timer.delay)){timers.delete(key);timer.fn();}};
-  return {c,geo,el,hatch,rect,sc,finishNavigation};
+  return {c,geo,el,hatch,rect,sc,context,finishNavigation};
 }
 
 test('portals are real buttons in heading grid, inside the left content column',()=>{
@@ -89,20 +89,25 @@ test('standing on a portal alone does not activate it and pause keeps E inactive
   assert.equal(c.worldKey({key:'e',preventDefault(){}}),false);assert.equal(c._wk.anim,null);
 });
 
-test('contact footer follows social links and its portal sits below on the left',()=>{
+test('contact keeps its footer below the social links and pairs its portal with GitHub',()=>{
   const html=read('src/template.html').split('<div class="ct-acts rise"')[1],css=read('src/enhancements.css');
   assert.ok(html.indexOf('ct-social')<html.indexOf('ct-foot'));
-  assert.ok(html.indexOf('ct-foot')<html.indexOf('data-portal-id="contact-home"'));
+  assert.ok(html.indexOf('data-portal-id="contact-home"')<html.indexOf('ct-foot'));
+  assert.match(html,/<div class="ct-github">\s*<a class="lnk"[^]*?GitHub[^]*?<\/a>\s*<button[^]*?data-portal-id="contact-home"[^]*?<\/button>\s*<\/div>/);
   assert.match(css,/\.ct-acts>\.ct-foot\{margin-top:0/);
-  assert.match(css,/\.portal-secret\{align-self:flex-start;[^}]*margin:2px 0 0 8px/);
+  assert.match(css,/\.ct-github\{display:flex;align-items:center;gap:12px/);
+  assert.match(css,/\.ct-github>\.portal-secret\{flex:none;align-self:center;[^}]*margin:0/);
 });
 
-test('home contact pedestal is outside the selector; separate hatch preserves furigana',()=>{
+test('home contact pedestal follows the about action; full-width hatch preserves its height and furigana',()=>{
   const html=read('src/template.html'),css=read('src/enhancements.css');
-  assert.match(html,/<div class="home-r">\s*<div class="home-portal-row">[^]*?data-portal-id="home-contact"[^]*?<\/div>\s*<div class="sel rise"/);
+  assert.match(html,/<div class="home-r">\s*<div class="sel rise"/);
+  assert.match(html,/<div class="ctas home-actions rise"[^]*?data-portal-to="projetos"[^]*?data-portal-to="sobre"[^]*?<\/button>\s*<button class="portal-anchor" data-portal-id="home-contact"/);
+  assert.doesNotMatch(html,/home-portal-row/);assert.equal((html.match(/data-portal-id="home-contact"/g)||[]).length,1);
   assert.match(html,/<span class="kanji-w">\s*<button[^]*?data-portal-id="home-room"[^]*?<\/button>\s*<button class="kanji-b[^]*?\{\{readName\}\}/);
-  assert.match(css,/\.home-portal-row\{display:grid;place-items:center/);
-  assert.match(css,/\.kanji-w>\.portal-hatch\{position:absolute;bottom:100%/);
+  assert.match(css,/\.home-actions\{align-items:center;flex-wrap:nowrap/);
+  assert.match(css,/\.kanji-w>\.portal-hatch\{position:absolute;bottom:100%;left:0;width:100%;height:28px/);
+  assert.match(css,/\.hatch-slot\{[^}]*width:100%;height:7px/);
   assert.match(css,/@media\(max-width:860px\)\{[^]*?\.name-row \.kanji-w\{display:block/);
 });
 
@@ -118,7 +123,7 @@ test('E distinguishes both home portals and does not reuse the first portal for 
   }
 });
 
-test('contact return lands on the selector pedestal, not on the project or about buttons',()=>{
+test('contact return lands on its home pedestal beside the about action, not inside either button',()=>{
   const {c,geo,el,finishNavigation}=fixture('contato');Object.assign(c._wk,c.teleportSpot(geo));
   c.teleportHome();assert.equal(c._teleportArrival,'home-contact');
   c.worldAnim(c._wk,760,geo);finishNavigation();assert.equal(c.curPage(),'inicio');
@@ -155,8 +160,258 @@ test('home hatch returns to the room portal; ordinary doors still enter through 
 });
 
 test('reduced motion and missing walking sprite preserve portal destinations',()=>{
-  const {c,geo,finishNavigation}=fixture('inicio');c.state.motionReduced=true;c._wk=null;
+  const {c,geo,finishNavigation}=fixture('inicio');c.state.motionReduced=true;c._wk=null;c._rmIntroShown=true;
   c.usePortal('home-room');finishNavigation();assert.equal(c.curPage(),'quarto');assert.equal(c._rm.x,23);assert.equal(c._rm.portalTravel,null);
   c.roomPortalStart();finishNavigation();assert.equal(c.curPage(),'inicio');
   const wk=c.worldSpawn('inicio',geo);assert.equal(wk.x,362);assert.equal(wk.anim,null);assert.equal(wk.hidden,false);
+});
+
+test('first room tutorial waits for arrival from the hatch or door and runs only once',()=>{
+  for(const entry of ['door','hatch'])for(const reduced of [false,true]){
+    const {c}=fixture('quarto');c.state.motionReduced=reduced;
+    const spoken=[];c.say=text=>spoken.push(text);
+    if(entry==='hatch'){c._teleportDestination='quarto';c._teleportArrival='room-home';}
+    c.rmWalkIn();const rm=c.rmInit();
+    if(entry==='hatch'&&!reduced){c.rmUpdate(rm,759,false);assert.equal(spoken.length,0);c.rmUpdate(rm,1,false);}
+    else for(let i=0;i<30&&!c.state.rmIntro;i++)c.rmUpdate(rm,200,false);
+    assert.equal(spoken.length,1,`${entry}, reduced ${reduced}`);assert.equal(c.state.rmIntro,true);assert.equal(c.state.rmStep,0);
+    c.state.rmIntro=false;c.state.rmDlg=false;c.rmWalkIn();
+    for(let i=0;i<30;i++)c.rmUpdate(rm,200,false);
+    assert.equal(spoken.length,1);assert.equal(c.state.rmIntro,false);
+  }
+});
+
+test('portal odds rise with page distance, the bedroom included, and leave doors as the majority',()=>{
+  const {context}=fixture(),chance=context.PortfolioScene.portalChance,pages=['quarto','inicio','projetos','sobre','contato'];
+  assert.deepEqual([...context.PortfolioScene.pageOrder],pages);
+  for(const from of pages)for(const to of pages){
+    const distance=Math.abs(pages.indexOf(from)-pages.indexOf(to));
+    assert.equal(chance(from,to),[0,.1,.125,1/6,.25][distance]);
+    let portal=0;for(let i=0;i<6000;i++)if(i/6000<chance(from,to))portal++;
+    assert.equal(portal,[0,600,750,1000,1500][distance]);assert.ok(portal<3000);
+  }
+  assert.equal(chance('inicio','lab'),0);assert.equal(chance('lab','quarto'),0);
+});
+
+test('automatic portal trips take the passage that joins the two pages and keep every requested destination',()=>{
+  const pages=['inicio','projetos','sobre','contato'];
+  for(const from of pages)for(const to of pages.filter(p=>p!==from)){
+    const {c,geo,el,context,finishNavigation}=fixture(from),api=context.PortfolioScene,link=api.portals[api.directPortal(from,to)];
+    // From Início the passages to Projetos and Sobre are the home buttons' trapdoor and staircase.
+    const source=link.selector.startsWith('[data-portal-to=')?geo.sc.querySelector(link.selector):el;context.Math.random=()=>0;
+    let callbacks=0;c.navGo(to,()=>callbacks++);
+    assert.equal(c._wTrip?.portal?.from,from);assert.equal(c._wTrip.portal.id,api.directPortal(from,to));assert.equal(c._wk.anim,null);
+    const startX=c._wk.x;c.worldAutoMove(c._wk,16,geo);assert.ok(c._wk.x>startX);assert.equal(c.state.transitioning,undefined);
+    for(let i=0;i<1000&&!c._wk.anim;i++)c.worldAutoMove(c._wk,16,geo);
+    assert.equal(c._wk.anim?.to,to);assert.equal(c._wk.anim?.hatch,source);assert.ok(c.portalHit(geo,c._wk,source));
+    assert.equal(c._wk.anim.style,link.style||'spin');assert.equal(c._teleportArrival,link.arrival);
+    assert.equal(c._wTrip,null);assert.equal(callbacks,0);
+    c.worldAnim(c._wk,api.passages[link.style]?.out||760,geo);finishNavigation();assert.equal(c.curPage(),to);assert.equal(callbacks,1);
+    const wk=c.worldSpawn(to,geo);assert.equal(wk.anim?.kind,'teleport-in');assert.equal(wk.hidden,false);
+    if(to==='inicio'&&from==='contato')assert.equal(wk.x,731);
+    else if(to==='inicio')assert.equal(wk.x,150);
+    else assert.equal(wk.x,731);
+  }
+});
+
+test('repeated navigation accelerates then skips a portal trip without rerolling',()=>{
+  const {c,context,finishNavigation}=fixture('inicio');let rolls=0,callbacks=0;context.Math.random=()=>{rolls++;return 0;};
+  c.navGo('contato',()=>callbacks++);assert.equal(rolls,1);assert.equal(c.state.trip,1);
+  c.navGo('contato');assert.equal(rolls,1);assert.equal(c.state.trip,2);assert.ok(c._wTrip.portal);
+  c.navGo('contato');assert.equal(rolls,1);finishNavigation();assert.equal(c.curPage(),'contato');assert.equal(callbacks,1);assert.equal(c._wTrip,null);
+});
+
+test('doors remain explicit and missing portals fall back to the ordinary door trip',()=>{
+  const {c,geo,sc,context}=fixture('sobre');context.Math.random=()=>0;
+  c.worldUseDoor('L');assert.equal(c._wTrip.to,'projetos');assert.equal(c._wTrip.portal,undefined);
+  c.navGo('inicio');assert.ok(c._wTrip.portal);
+  sc.querySelector=()=>null;c.worldAutoMove(c._wk,16,geo);assert.equal(c._wTrip.to,'inicio');assert.equal(c._wTrip.portal,undefined);assert.equal(c._wk.auto.side,'L');
+  c.navGo('contato');assert.equal(c._wTrip.portal,undefined);
+  const changed=fixture('sobre');changed.context.Math.random=()=>0;changed.c.navGo('inicio');
+  changed.c.state.page='projetos';changed.c._wk.page='projetos';
+  changed.c.worldAutoMove(changed.c._wk,16,changed.geo);assert.equal(changed.c._wTrip.portal,undefined);
+});
+
+test('a new destination cancels the previous portal route and its callback',()=>{
+  const {c,geo,context,finishNavigation}=fixture('sobre');context.Math.random=()=>0;
+  let old=0,newCall=0;c.navGo('inicio',()=>old++);assert.ok(c._wTrip.portal);
+  context.Math.random=()=>.9;c.navGo('contato',()=>newCall++);assert.equal(c._wTrip.portal,undefined);
+  assert.equal(c._wk.auto.side,'R');c.worldTripSkip();finishNavigation();assert.equal(old,0);assert.equal(newCall,1);
+  // Changing the destination during the spin must not execute the old callback either.
+  c.state.page='sobre';c._wk={page:'sobre',x:731,y:144,walk:0};context.Math.random=()=>0;
+  c.navGo('inicio',()=>old++);c.worldAutoMove(c._wk,16,geo);assert.equal(c._wk.anim.kind,'teleport-out');
+  c.navGo('projetos',()=>newCall++);c.worldAnim(c._wk,760,geo);finishNavigation();
+  assert.equal(c.curPage(),'projetos');assert.equal(old,0);assert.equal(newCall,2);
+});
+
+test('reduced motion completes an automatic portal trip without leaving an active journey',()=>{
+  const {c,geo,context,finishNavigation}=fixture('inicio');context.Math.random=()=>0;c.state.motionReduced=true;
+  let calls=0;c.navGo('contato',()=>calls++);Object.assign(c._wk,{x:731,y:144});
+  c.worldAutoMove(c._wk,16,geo);assert.equal(c._wTrip,null);assert.equal(c._wk.auto,null);finishNavigation();
+  assert.equal(c.curPage(),'contato');assert.equal(calls,1);assert.equal(c.worldSpawn('contato',geo).anim,null);
+});
+
+test('Ver projetos opens a trapdoor under Hikaru and drops him spinning onto the Projetos pedestal',()=>{
+  const {c,geo,finishNavigation,context}=fixture('inicio');const sounds=[];c.sfx=name=>sounds.push(name);
+  c.teleport('projetos',null,null,undefined,'fall');const out=c._wk.anim;
+  assert.ok(read('src/scene.js').includes("r.goProjetos=()=>this.teleport('projetos',null,null,undefined,'fall');r.goSobre=()=>this.teleport('sobre',null,null,undefined,'stairs')"));
+  assert.equal(out.kind,'teleport-out');assert.equal(out.style,'fall');assert.equal(out.to,'projetos');
+  const api=context.PortfolioScene,{out:leave,in:land}=api.passages.fall;
+  c.worldAnim(c._wk,400,geo);assert.equal(api.passageOpen('fall',true,400),1,'the floor has split open');
+  assert.equal(api.passagePose('fall',true,400).mark,true,'a beat in the air before the drop');
+  assert.ok(api.passagePose('fall',true,700).clip,'he is clipped into the hole');
+  assert.equal(c.curPage(),'inicio');c.worldAnim(c._wk,leave-400,geo);finishNavigation();assert.equal(c.curPage(),'projetos');
+  assert.deepEqual(sounds.slice(0,4),['crack','door','whoosh','doorShut']);
+  const wk=c.worldSpawn('projetos',geo),spot=c.teleportSpot(geo);
+  assert.equal(wk.anim.kind,'teleport-in');assert.equal(wk.anim.style,'fall');assert.equal(wk.x,spot.x);assert.equal(wk.y,spot.y);
+  assert.ok(api.passagePose('fall',false,0,wk.anim.drop).lift>=(wk.y-geo.top)/geo.u,'he starts above the screen');
+  assert.ok(api.passagePose('fall',false,360,wk.anim.drop).rot>0,'and spins while falling');
+  assert.equal(api.passagePose('fall',false,719.9,wk.anim.drop).lift<1,true,'he reaches the pedestal');
+  sounds.length=0;assert.equal(c.worldAnim(wk,land,geo),false);assert.deepEqual(sounds,['whoosh','stomp']);
+  assert.equal(wk.x,spot.x);assert.equal(c._teleportStyle,null);
+});
+
+test('Ver sobre opens a secret staircase, Hikaru walks down it and climbs out on Sobre',()=>{
+  const {c,geo,finishNavigation,context}=fixture('inicio');const sounds=[];c.sfx=name=>sounds.push(name);
+  const api=context.PortfolioScene,{out:leave,in:arrive}=api.passages.stairs;
+  c.teleport('sobre',null,null,undefined,'stairs');assert.equal(c._wk.anim.style,'stairs');
+  assert.equal(api.passageOpen('stairs',true,0),0);assert.equal(api.passageOpen('stairs',true,600),1,'slabs slide apart');
+  assert.equal(api.passagePose('stairs',true,600).dir,'u','he turns to the stairs');
+  assert.ok(api.passagePose('stairs',true,900).dy>0,'and sinks below the lip');
+  assert.equal(api.passagePose('stairs',true,1200).alpha,0,'until he is gone');
+  assert.equal(api.passageOpen('stairs',true,leave),0,'the floor closes again');
+  c.worldAnim(c._wk,leave,geo);finishNavigation();assert.equal(c.curPage(),'sobre');
+  assert.equal(sounds[0],'creak');assert.ok(sounds.indexOf('doorShut')>sounds.lastIndexOf('land'),'the slabs shut after the last step');assert.ok(sounds.filter(s=>s==='land').length>=5,'footsteps');
+  const wk=c.worldSpawn('sobre',geo);assert.equal(wk.anim.style,'stairs');
+  assert.equal(api.passagePose('stairs',false,0).alpha,0,'he starts inside the stairs');
+  assert.ok(api.passagePose('stairs',false,900).alpha>0);assert.equal(api.passagePose('stairs',false,arrive-1).dy,0,'and ends on the floor');
+  assert.equal(c.worldAnim(wk,arrive,geo),false);assert.equal(wk.dir,'d');
+});
+
+test('home passages respect reduced motion, keep pedestal portals spinning and reset on a new destination',()=>{
+  const calm=fixture('inicio');calm.c.state.motionReduced=true;calm.c.teleport('projetos',null,null,undefined,'fall');
+  assert.equal(calm.c._wk.anim,null);calm.finishNavigation();assert.equal(calm.c.curPage(),'projetos');assert.equal(calm.c._teleportStyle,null);
+  const spin=fixture('inicio');spin.c.teleport('contato','contact-home');assert.equal(spin.c._wk.anim.style,'spin');
+  const moved=fixture('inicio');moved.c.teleport('sobre',null,null,undefined,'stairs');moved.c.go('contato');assert.equal(moved.c._teleportStyle,null);
+});
+
+test('every page reaches every other through one hidden passage, and each passage leads back',()=>{
+  const {c,context}=fixture('quarto'),api=context.PortfolioScene,html=read('src/template.html'),pages=api.pageOrder;
+  assert.equal(Object.keys(api.portals).length,20,'five pages, four ends each');
+  for(const from of pages)for(const to of pages.filter(p=>p!==from)){
+    const id=api.directPortal(from,to),link=api.portals[id],back=api.portals[link?.arrival];
+    assert.ok(id,from+' → '+to);assert.equal(link.page,from);assert.equal(link.to,to);
+    assert.equal(back.page,to);assert.equal(back.to,from);assert.equal(back.arrival,id,id+' comes back the same way');
+    if(from==='quarto'){
+      const o=c.roomPortal(id);assert.ok(o,id);assert.equal(o.walk,true);assert.equal(c.rmFree(o.t[0],o.t[1]),true);
+      assert.ok(c.rmPath(11,12,[[o.t[0],o.t[1]]]),id+' is reachable from the door');
+    }else{
+      // The schematic's passages also wait on the quest list for narrow screens, where the schematic is hidden.
+      const [,attr,value]=link.selector.match(/\[(data-portal-(?:id|to))="([^"]+)"\]/),twice=['projects-about','projects-contact','projects-room'].includes(id);
+      assert.equal((html.match(new RegExp(attr+'="'+value+'"','g'))||[]).length,twice?2:1,id+' has one button per layout');
+    }
+  }
+});
+
+test('hidden doors and hatches sit on the panel lines without changing their layout',()=>{
+  const html=read('src/template.html'),css=read('src/enhancements.css');
+  const prev=html.split('<div class="prev">')[1].split('<div class="pnl">')[0];
+  for(const id of ['projects-about','projects-contact','projects-room'])assert.ok(prev.includes('data-portal-id="'+id+'"'),id+' is in the schematic');
+  assert.ok(prev.indexOf('portal-door-l')>prev.indexOf('class="prev-f"'),'the doors follow the schematic, out of its flow');
+  assert.match(prev,/<svg class="sch"/);assert.match(prev,/clique pra abrir a missão/);
+  assert.match(css,/\.portal-anchor\.portal-door\{position:absolute/);assert.match(css,/\.prev\{position:relative\}/);
+  // the leaf is centered on the 1px border and erases it underneath, so a closed door is the line itself
+  assert.match(css,/\.portal-anchor\.portal-door-l\{left:-12\.5px\}\.portal-anchor\.portal-door-r\{right:-12\.5px\}/);
+  assert.match(css,/\.portal-anchor\.portal-floor\{bottom:-15\.5px/);assert.match(css,/\.door-leaf\{stroke:var\(--ln2\)/);
+  assert.match(css,/\.portal-rail\{position:relative;height:0\}/);
+  assert.match(html,/<div class="portrait">[^]*?<\/div>\n<\/div>\n<div class="portal-rail"><button[^>]*data-portal-id="about-room"/);
+  // behind a letter: the heading keeps its name and the "?" lets clicks through to the passage under it
+  assert.match(html,/<h1 class="cont" aria-label="Continue\?">[^]*?<span class="q"><button class="portal-anchor portal-letter" data-portal-id="contact-room"[^>]*><\/button><span class="q-g">\?<\/span><\/span>/);
+  assert.match(css,/\.q-g\{[^}]*pointer-events:none/);
+  for(const id of ['about-projects','about-contact','contact-about','contact-projects','contact-room','projects-about'])assert.match(html,new RegExp('data-portal-id="'+id+'" data-poke="twirl" sc-camel-on-click="\\{\\{portalUse\\}\\}"'));
+});
+
+test('each bedroom passage opens its hiding place, plays out and lands on its page end',()=>{
+  for(const [id,to] of [['room-projects','projetos'],['room-about','sobre'],['room-contact','contato']]){
+    const {c,geo,el,context,finishNavigation}=fixture('quarto'),api=context.PortfolioScene,o=c.roomPortal(id),rm=c.rmInit(),sounds=[];
+    c.sfx=name=>sounds.push(name);c.rmExit=()=>{throw new Error('a passage never walks through the door');};
+    c.rmGoTo(o.t[0],o.t[1],c.data().room.indexOf(o));assert.equal(rm.portalTravel,undefined,'walking there is not enough');
+    for(let i=0;i<300&&!rm.portalTravel;i++)c.rmUpdate(rm,160,false);
+    assert.deepEqual([rm.x,rm.y],[o.t[0],o.t[1]]);assert.equal(rm.portalTravel?.kind,'out');assert.equal(rm.portalTravel.id,id);
+    assert.equal(c._teleportArrival,api.portals[id].arrival);assert.equal(c._roomSeen[id],true);
+    const {out}=api.roomEnds[id].len,last=api.roomPose(id,true,out-1);
+    assert.equal(api.roomOpen(id,'out',0),0);assert.equal(api.roomOpen(id,'out',400),1,'the hiding place opens first');
+    assert.ok(last.alpha<.1||last.under&&last.dx<=-20,id+': he is gone (or under the bed) by the end');
+    c.rmUpdate(rm,out-1,false);assert.equal(rm.portalTravel.kind,'out');c.rmUpdate(rm,1,false);assert.equal(rm.portalTravel.kind,'wait');
+    assert.ok(sounds.length>=3,id+' has its own sounds');
+    finishNavigation();assert.equal(c.curPage(),to);
+    const wk=c.worldSpawn(to,geo);assert.equal(wk.anim?.kind,'teleport-in');assert.equal(wk.anim.hatch,el);
+  }
+});
+
+test('each page end returns to its bedroom passage, which closes behind him before the tutorial',()=>{
+  for(const [from,id] of [['projetos','projects-room'],['sobre','about-room'],['contato','contact-room']]){
+    const {c,geo,context,finishNavigation}=fixture(from),api=context.PortfolioScene,back=api.portals[id].arrival,o=c.roomPortal(back),spoken=[];
+    c.say=text=>spoken.push(text);
+    c._teleportArrival=id;Object.assign(c._wk,c.teleportSpot(geo));c._teleportArrival=null;
+    c.usePortal(id);assert.equal(c._wk.anim?.kind,'teleport-out');assert.equal(c._wk.anim.to,'quarto');assert.equal(c._teleportArrival,back);
+    c.worldAnim(c._wk,760,geo);finishNavigation();assert.equal(c.curPage(),'quarto');
+    const rm=c.rmInit(),len=api.roomEnds[back].len.in,first=api.roomPose(back,false,0);
+    assert.deepEqual([rm.x,rm.y],[o.t[0],o.t[1]]);assert.equal(rm.portalTravel?.kind,'in');assert.equal(rm.portalTravel.id,back);assert.equal(rm.enter,false);
+    assert.ok(api.roomOpen(back,'in',len-1)<.05,'closed again at the end');assert.ok(first.alpha===0||first.under,'he starts inside the passage');
+    c.rmUpdate(rm,len-1,false);assert.equal(spoken.length,0);c.rmUpdate(rm,1,false);assert.equal(rm.portalTravel,null);assert.equal(spoken.length,1);
+  }
+});
+
+test('leaving the bedroom through the navigation may take the passage to that page instead of the door',()=>{
+  const {c,context,finishNavigation}=fixture('quarto'),api=context.PortfolioScene,rm=c.rmInit();
+  c._rmCv={};context.Math.random=()=>0;let calls=0;
+  c.navGo('sobre',()=>calls++);
+  assert.equal(c._rmOut?.portal,'room-about');assert.ok(!rm.exit);assert.ok(rm.path.length);assert.equal(c.state.trip,1);
+  for(let i=0;i<400&&!rm.portalTravel;i++)c.rmUpdate(rm,160,false);
+  assert.deepEqual([rm.x,rm.y],[0,10]);assert.equal(rm.portalTravel?.kind,'out');assert.equal(c._rmOut,null);assert.equal(c.state.trip,0);
+  c.rmUpdate(rm,api.roomEnds['room-about'].len.out,false);finishNavigation();assert.equal(c.curPage(),'sobre');assert.equal(calls,1);
+  // a new destination drops the old passage; the door's own action and reduced motion keep the door
+  const swap=fixture('quarto');swap.c._rmCv={};swap.context.Math.random=()=>0;swap.c.rmInit();swap.c.navGo('sobre');swap.c.navGo('contato');
+  assert.equal(swap.c._rmOut?.portal,'room-contact');assert.equal(swap.c._rmOut.to,'contato');
+  const door=fixture('quarto');door.c._rmCv={};door.context.Math.random=()=>0;door.c.rmInit();door.c.roomAct('site');
+  assert.equal(door.c._rmOut?.portal,undefined);assert.equal(door.c._rm.exit,true);
+  const calm=fixture('quarto');calm.c._rmCv={};calm.context.Math.random=()=>0;calm.c.state.motionReduced=true;calm.c.rmInit();calm.c.navGo('contato');
+  assert.equal(calm.c._rmOut?.portal,undefined);
+});
+
+test('passage tiles never take an object away: each one still answers from a tile of its own',()=>{
+  const {c}=fixture('quarto'),room=c.data().room,ends=new Set(c.roomPortals().map(o=>o.t[0]+','+o.t[1]));
+  assert.equal(ends.size,4);
+  const spots=(o,skip)=>{const list=[];for(let y=o.t[1];y<o.t[1]+o.t[3];y++)for(let x=o.t[0];x<o.t[0]+o.t[2];x++)for(const [nx,ny,f] of [[x,y+1,'u'],[x-1,y,'r'],[x+1,y,'l'],[x,y-1,'d']])if(c.rmFree(nx,ny)&&(!o.face||o.face===f)&&!(skip&&ends.has(nx+','+ny)))list.push([nx,ny]);return list;};
+  for(const o of room.filter(o=>!o.walk&&!o.door)){
+    const all=spots(o,false),own=spots(o,true);
+    if(all.length&&c.rmPath(11,12,all))assert.ok(own.length&&c.rmPath(11,12,own),o.id+' stays reachable without standing on a passage');
+  }
+  // walking to an object can still end on a passage tile: the object answers and the passage stays shut
+  const rm=c.rmInit(),caderno=room.findIndex(o=>o.id==='caderno');let opened=-1;c.rmOpen=i=>{opened=i;};
+  Object.assign(rm,{x:2,y:4,from:[2,4],to:[2,4],dir:'u',goal:caderno,goalDir:'u'});c.rmReach(rm);
+  assert.equal(opened,caderno);assert.equal(rm.portalTravel,undefined);
+  // E on the tile itself still takes the passage
+  c.rmKey({key:'e',preventDefault(){}});assert.equal(rm.portalTravel?.id,'room-contact');
+});
+
+test('with the schematic hidden, its passages leave and arrive through the quest list',()=>{
+  const html=read('src/template.html'),css=read('src/enhancements.css'),styles=read('src/styles.css');
+  assert.match(styles,/@media \(max-width:860px\)\{[^]*?\.proj-r\{display:none\}/);
+  assert.match(css,/\.proj-rail\{display:none\}/);assert.match(css,/@media\(max-width:860px\)\{\.proj-rail\{display:block\}\}/);
+  assert.match(html,/<\/ol>\n<div class="portal-rail proj-rail">(?:<button[^>]*data-portal-id="projects-(?:about|contact|room)"[^]*?<\/button>){3}<\/div>/);
+  const {c,geo,sc}=fixture('projetos'),hidden={getBoundingClientRect:()=>({left:0,top:0,right:0,bottom:0,width:0,height:0})};
+  const shown={getBoundingClientRect:()=>({left:300,top:500,right:340,bottom:530,width:40,height:30})};
+  sc.querySelector=()=>hidden;sc.querySelectorAll=()=>[hidden,shown];
+  assert.equal(c.portalEl(geo,'[data-portal-id="projects-about"]'),shown);
+  c._teleportArrival='projects-about';assert.deepEqual({...c.teleportSpot(geo)},{x:310,y:432});
+  sc.querySelectorAll=()=>[hidden];assert.deepEqual({...c.teleportSpot(geo)},{x:440,y:125},'nothing on screen: the default landing');
+});
+
+test('short passages (the coin slot, the dot of the ?) register where Hikaru parks on them',()=>{
+  const {c,geo}=fixture('contato'),slot={getBoundingClientRect:()=>({left:600,top:300,right:640,bottom:312,width:40,height:12})};
+  const [x,y]=c.portalPoint(slot,geo);Object.assign(c._wk,{x,y:y+3*geo.u});
+  assert.equal(c.portalHit(geo,c._wk,slot),slot);
+  Object.assign(c._wk,{x:x+40});assert.equal(c.portalHit(geo,c._wk,slot),null);
 });

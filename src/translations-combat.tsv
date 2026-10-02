@@ -14,7 +14,6 @@ Assistência 1	Assist 1	アシスト1
 Assistência 2	Assist 2	アシスト2
 Golpe executado	Move performed	技が出た！
 Escolha um lutador e experimente a lista	Choose a fighter and try the move list	キャラクターを選んで技を試そう
-20 s de espera · SELECT limpa · A2 A1 = B A	20 s idle window · SELECT clears · A2 A1 = B A	入力の猶予は20秒 · SELECTでリセット · A2 A1＝B A
 Seis ataques · duas assistências · quatro direções	Six attacks · two assists · four directions	攻撃6種 · アシスト2種 · 4方向
 Lutador	Fighter	キャラクター
 Lista de golpes	Move list	技リスト
@@ -22,7 +21,6 @@ Direções	Directions	方向
 Ataques	Attacks	攻撃
 Limpar combo	Clear combo	コマンドをリセット
 BLOCOS	BLOCKS	ブロック
-Pontos	Score	得点
 Linhas	Lines	ライン
 Girar	Rotate	回転
 Soltar	Drop	落下
@@ -49,9 +47,7 @@ Ataques e assistências	Attacks and assists	攻撃とアシスト
 Analógico	Analog stick	アナログスティック
 Analógico esquerdo: mudar de pista	Left stick: change lane	左スティック：車線変更
 Analógico direito: mudar de pista	Right stick: change lane	右スティック：車線変更
-Comandos adaptados para cliques, sem precisão de frames. As técnicas de Toph são homenagens originais.	Commands are adapted for clicks, without frame-accurate timing. Toph's techniques are original tributes.	クリック操作用に調整したコマンドで、フレーム単位の再現ではありません。トフの技は独自のオマージュです。
 B repete a melodia	B repeats the melody	Bでメロディーをもう一度聞く
-START joga ou pausa · SELECT troca cartucho	START plays or pauses · SELECT changes cartridge	STARTで開始・一時停止 · SELECTでカセット変更
 Ryu · Street Fighter	Ryu · Street Fighter	リュウ · ストリートファイター
 Ken · Street Fighter	Ken · Street Fighter	ケン · ストリートファイター
 Chun-Li · Street Fighter	Chun-Li · Street Fighter	春麗 · ストリートファイター
@@ -63,7 +59,6 @@ Raiden · Mortal Kombat	Raiden · Mortal Kombat	ライデン · モータルコ�
 Liu Kang · Mortal Kombat	Liu Kang · Mortal Kombat	リュウ・カン · モータルコンバット
 Filia · Skullgirls	Filia · Skullgirls	フィリア · スカルガールズ
 Robo-Fortune · Skullgirls	Robo-Fortune · Skullgirls	ロボフォーチュン · スカルガールズ
-Peacock · Skullgirls	Peacock · Skullgirls	ピーコック · スカルガールズ
 Cerebella · Skullgirls	Cerebella · Skullgirls	セレベラ · スカルガールズ
 Venom · Guilty Gear	Venom · Guilty Gear	ヴェノム · ギルティギア
 Dizzy · Guilty Gear	Dizzy · Guilty Gear	ディズィー · ギルティギア
@@ -86,9 +81,32 @@ Bicycle Kick	Bicycle Kick	バイシクルキック
 Updo	Updo	アップドゥ
 Hairball	Hairball	ヘアボール
 Theonite Beam	Theonite Beam	セオナイトビーム
-Bang!	Bang!	バン！
 Diamond Drop	Diamond Drop	ダイヤモンドドロップ
 Stinger Aim	Stinger Aim	スティンガーエイム
 Carcass Raid	Carcass Raid	カーカスライド
 I used this to catch fish	I used this to catch fish	魚をとる時に使ってたんです
 Ice Field	Ice Field	アイスフィールド
+Sequência exata · SELECT limpa · A2 A1 = B A	Exact sequence · SELECT clears · A2 A1 = B A	正確な入力 · SELECTでリセット · A2 A1＝B A
+Sequência inválida · SELECT limpa	Invalid sequence · SELECT clears	入力ミス · SELECTでリセット
+Comandos adaptados para cliques, sem precisão de frames. Só vale a sequência exata: um botão a mais anula a entrada até você limpar com SELECT. Cada golpe acerta um boneco de treino. As técnicas de Toph e Iroh são homenagens originais.	Commands are adapted for clicks, without frame-accurate timing. Only the exact sequence counts: one extra button cancels the input until you clear it with SELECT. Every move hits a training dummy. Toph’s and Iroh’s techniques are original tributes.	クリック操作用に調整したコマンドで、フレーム単位の再現ではありません。正確な入力だけが有効で、余分なボタンを1つでも押すとSELECTでリセットするまで無効になります。技はすべてトレーニング用の人形に当たります。トフとアイローの技は独自のオマージュです。
+Falke · Street Fighter	Falke · Street Fighter	ファルケ · ストリートファイター
+Squigly · Skullgirls	Squigly · Skullgirls	スクイグリー · スカルガールズ
+Big Band · Skullgirls	Big Band · Skullgirls	ビッグバンド · スカルガールズ
+Annie · Skullgirls	Annie · Skullgirls	アニー · スカルガールズ
+Ms. Fortune · Skullgirls	Ms. Fortune · Skullgirls	ミス・フォーチュン · スカルガールズ
+Iroh · Avatar	Iroh · Avatar	アイロー · アバター
+Psycho Kugel	Psycho Kugel	サイコクーゲル
+Psycho Schneide	Psycho Schneide	サイコシュナイデ
+Psycho Fluegel	Psycho Fluegel	サイコフリューゲル
+Draugen Punch	Draugen Punch	ドラウゲンパンチ
+Daisy Pusher	Daisy Pusher	デイジープッシャー
+Battle Opera	Battle Opera	バトルオペラ
+Take the 'A' Train	Take the 'A' Train	テイク・ジ・Aトレイン
+Giant Step	Giant Step	ジャイアントステップ
+Beat Extend	Beat Extend	ビートエクステンド
+Crescent Cut	Crescent Cut	クレセントカット
+Sagan Beam	Sagan Beam	セーガンビーム
+Fiber Upper	Fiber Upper	ファイバーアッパー
+Cat Scratch	Cat Scratch	キャットスクラッチ
+Sopro do Dragão do Oeste	Breath of the Dragon of the West	西の竜の息吹
+Redirecionar o relâmpago	Lightning redirection	稲妻返し

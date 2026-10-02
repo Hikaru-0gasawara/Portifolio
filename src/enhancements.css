@@ -1,4 +1,10 @@
 x-dc{display:none!important}
+.character-clean-target{position:absolute;left:0;top:0;z-index:2;padding:0;border:0;background:transparent;pointer-events:auto;cursor:pointer;border-radius:4px}
+.character-clean-target[hidden]{display:none}.character-clean-target:hover,.character-clean-target:focus-visible{outline:1px dashed var(--gold2);outline-offset:3px;background:#d8b24a0a}
+.character-care-hint{position:absolute;left:50%;bottom:66px;transform:translateX(-50%);z-index:12;max-width:calc(100% - 32px);width:max-content;display:flex;align-items:center;flex-wrap:wrap;justify-content:center;gap:8px 12px;padding:8px 12px;background:#0b150fe8;border:1px solid var(--ln2);font:10px/1.6 'JetBrains Mono','DotGothic16',monospace;color:var(--mut);text-align:center;pointer-events:none}
+.character-care-hint button{pointer-events:auto;min-height:32px;padding:5px 9px;border:1px solid var(--ln2);font:inherit;color:var(--gold2);cursor:pointer;white-space:nowrap}
+.character-care-hint button:disabled{opacity:.45;cursor:default}.character-care-hint button:focus-visible{outline:2px solid var(--gold2)}
+@media(max-width:700px){.character-care-hint{bottom:58px}.character-care-hint>span{flex-basis:100%}}
 html,body{margin:0;background:#070d09;color:#c3d4c5}
 #initial-loader{position:fixed;inset:0;display:grid;place-content:center;font:14px monospace;text-align:center}
 .okr{height:100vh!important;height:100dvh!important;min-height:0!important}
@@ -9,6 +15,9 @@ html,body{margin:0;background:#070d09;color:#c3d4c5}
 .bll.is-recovered .bll-t{color:var(--jade2)}.bll.is-recovered .bll-ts,.bll-recovery .bll-ts{display:none}
 .boot-recover-action{flex:none;margin-top:16px}.boot-recover-action button{background:var(--pn);border:1px solid var(--ln2);color:var(--tx);max-width:100%;height:auto;min-height:48px;padding-block:10px;white-space:normal}
 .bll{flex-shrink:0;min-height:20px}
+.boot-snd{display:inline-flex;align-items:center;gap:10px;min-height:36px;padding:0 2px;border:0;border-bottom:1px solid var(--ln2);background:none;color:var(--mut);font:inherit;letter-spacing:inherit;text-transform:inherit;cursor:pointer}
+.boot-snd-v{color:var(--gold)}.boot-snd[aria-pressed=false] .boot-snd-v{color:var(--dim)}
+.okr .boot-snd:hover{color:var(--gold);border-color:var(--gold)}
 .boot-error{max-width:min(300px,42%);overflow-wrap:anywhere}
 .blog.is-simulated-failure .bll{flex-wrap:wrap}.blog.is-simulated-failure .bll-t{flex:1 1 260px;min-width:0;white-space:normal;overflow-wrap:anywhere}.blog.is-simulated-failure .bll-n{white-space:normal;overflow-wrap:anywhere;max-width:45%}
 .world{z-index:8}
@@ -27,7 +36,11 @@ html,body{margin:0;background:#070d09;color:#c3d4c5}
 .gallery-zoom header{display:flex;gap:16px;align-items:center;justify-content:space-between}
 .gallery-zoom p{font-size:13px;margin:0}
 .gold-die{display:block;width:100%;height:100%}.d20-dice.is-rolling .d20-die{animation:none}.d20-die{width:156px;height:156px}.honour-badge{font-size:10px;color:var(--gold2);letter-spacing:.04em;text-align:center}
-.shooter{display:block;max-width:760px}.shooter-cv{width:100%;image-rendering:pixelated;border:1px solid var(--ln2);display:block;margin:15px 0}.shooter-help{font-size:11px;line-height:1.7}.shooter-controls{display:flex;flex-wrap:wrap;gap:8px}.shooter-controls button{touch-action:none;user-select:none;min-height:40px}
+.arcade-game .arc-mq{min-width:0}.arcade-game .arc-mq .x-b{flex:none;margin-left:auto}.arcade-game .arc-t{min-width:0;overflow-wrap:anywhere}
+.shooter-cv{aspect-ratio:64 / 30;height:auto;touch-action:none}.shooter-help{font-size:12px;line-height:1.7}.shooter-help .ah-c{grid-template-columns:max-content minmax(0,1fr)}.shooter-help .ah-c dd{overflow-wrap:anywhere}
+.shooter-controls{flex-wrap:wrap;justify-content:flex-start;gap:8px}.shooter-controls .ak{min-width:44px;height:44px;padding:0 10px;font-size:12px;letter-spacing:0}.shooter-controls .ak.fire{min-width:76px}.shooter-session{display:flex;flex-wrap:wrap;gap:8px;width:100%}
+.rm-dlg.is-arcade{grid-template-areas:'head actions' 'text actions';grid-template-rows:auto 1fr;align-items:start}.rm-dlg.is-arcade .rdlg-a{width:164px;max-width:100%;align-items:stretch;align-self:start}.rm-dlg.is-arcade .ra{width:100%;text-align:center;min-height:36px}.rm-dlg.is-arcade .rdlg-t{align-self:start}
+@media(max-width:560px){.rm-dlg.is-arcade{grid-template-columns:minmax(0,1fr);grid-template-areas:'head' 'text' 'actions'}.rm-dlg.is-arcade .rdlg-a{width:100%;max-width:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.rm-dlg.is-arcade .ra{min-width:0;min-height:44px;padding:6px}.shooter-help .ah-c{font-size:11px}}
 html[lang=ja] .okr{font-family:'JetBrains Mono','DotGothic16','Yu Gothic UI',Meiryo,sans-serif;line-height:1.75;line-break:strict;word-break:normal;overflow-wrap:break-word}
 html[lang=ja] :is(.lab-t,.nav-l,.kick,.pm-l,.rm-dlg,.dr-p,.dr-s,.rec){letter-spacing:0;word-break:normal;line-break:strict}
 html[lang=ja] :is(.q-t,.dr-t,.ct-t,.title,.pause-t){line-height:1.35;overflow-wrap:anywhere}
@@ -53,14 +66,53 @@ html[lang=ja] .d20-rule{line-height:1.8}html[lang=ja] .bll-t{overflow-wrap:anywh
 .portal-anchor:hover .portal-stone,.portal-anchor:focus-visible .portal-stone{color:var(--gold2);border-color:var(--gold2);box-shadow:0 5px 0 #132b20,0 6px 0 #a08748,0 0 18px #d8b24a30}
 .portal-anchor:focus-visible{outline:1px solid var(--gold);outline-offset:2px}
 .ct-acts{position:relative}.ct-acts>.ct-foot{margin-top:0;gap:6px 18px;line-height:1.65}
-.portal-secret{align-self:flex-start;opacity:.45;margin:2px 0 0 8px}.portal-secret:hover,.portal-secret:focus-visible{opacity:1}
-.home-portal-row{display:grid;place-items:center;padding:24px 0 12px}.home-portal-row>.portal-anchor{justify-self:center;align-self:center;margin:0}
-.kanji-w>.portal-hatch{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);width:44px;height:28px;margin:0;padding:0;opacity:.7}
+.ct-github{display:flex;align-items:center;gap:12px;min-width:0;max-width:100%}.ct-github>.lnk{min-width:0}.ct-github .ph-t{overflow-wrap:anywhere}
+.ct-github>.portal-secret{flex:none;align-self:center;opacity:.45;margin:0}.portal-secret:hover,.portal-secret:focus-visible{opacity:1}
+.home-actions{align-items:center;flex-wrap:nowrap}.home-actions>.btn{min-width:0;justify-content:center;text-align:center}.home-actions>.portal-anchor{flex:none;align-self:center;height:48px;margin:0}
+@media(max-width:600px){.home-actions{gap:6px}.home-actions>.btn{padding-inline:8px;font-size:11px;letter-spacing:.04em;gap:6px}}
+.kanji-w>.portal-hatch{position:absolute;bottom:100%;left:0;width:100%;height:28px;margin:0;padding:0;opacity:.7}
 .portal-hatch:hover,.portal-hatch:focus-visible,.portal-hatch.is-open{opacity:1}
-.hatch-slot{position:absolute;bottom:6px;width:30px;height:7px;background:#080e0a;border:1px solid #627263;box-shadow:0 2px 0 #293b2e;perspective:60px}
+.hatch-slot{position:absolute;bottom:6px;left:0;width:100%;height:7px;background:#080e0a;border:1px solid #627263;box-shadow:0 2px 0 #293b2e;perspective:60px}
 .hatch-lid{position:absolute;inset:-1px;background:#314535;border:1px solid #829078;transform-origin:center top;transition:transform .22s ease-out}
-.hatch-lid::after{content:'';position:absolute;bottom:1px;left:12px;width:4px;height:1px;background:#c0b879}
+.hatch-lid::after{content:'';position:absolute;bottom:1px;left:50%;transform:translateX(-50%);width:4px;height:1px;background:#c0b879}
 .portal-hatch.is-open .hatch-lid{transform:rotateX(105deg)}
+/* Hidden passages drawn on the panels' own lines, as plan symbols: a door in a left or right wall, a hatch in a
+   floor line. Closed, the leaf sits exactly on the border (the gap under it erases the border), so the panel
+   keeps its shape; only two small jambs give the door away. */
+.portal-anchor.portal-door{position:absolute;z-index:2;display:block;margin:0;padding:0;justify-self:auto;align-self:auto}
+.portal-anchor.portal-door-l,.portal-anchor.portal-door-r{width:24px;height:40px}
+.portal-anchor.portal-door-l{left:-12.5px}.portal-anchor.portal-door-r{right:-12.5px}
+.portal-anchor.portal-floor{bottom:-15.5px;width:40px;height:30px}
+.door-sym{position:absolute;inset:0;width:100%;height:100%;overflow:visible;fill:none}
+.door-gap{stroke:var(--bg);stroke-width:3}
+.door-jamb{stroke:var(--ln2);stroke-width:1;opacity:.75}
+.door-leaf{stroke:var(--ln2);stroke-width:1;transform-box:view-box;transform-origin:12px 6px;transition:transform .28s cubic-bezier(.3,.7,.2,1),stroke .2s}
+.portal-floor .door-leaf{transform-origin:5px 15px}
+.door-arc{stroke:var(--gold2);stroke-width:1;stroke-dasharray:2 3;opacity:0;transition:opacity .2s}
+.door-hole{fill:#030504;opacity:0;transition:opacity .2s}
+.portal-door:hover :is(.door-leaf,.door-jamb),.portal-door:focus-visible :is(.door-leaf,.door-jamb),.portal-door.is-open :is(.door-leaf,.door-jamb){stroke:var(--gold2);opacity:1}
+.portal-door-l:hover .door-leaf,.portal-door-l:focus-visible .door-leaf{transform:rotate(16deg)}
+.portal-door-r:hover .door-leaf,.portal-door-r:focus-visible .door-leaf{transform:rotate(-16deg)}
+.portal-floor:hover .door-leaf,.portal-floor:focus-visible .door-leaf{transform:rotate(14deg)}
+.portal-door-l.is-open .door-leaf{transform:rotate(60deg)}.portal-door-r.is-open .door-leaf{transform:rotate(-60deg)}.portal-floor.is-open .door-leaf{transform:rotate(55deg)}
+.portal-door.is-open :is(.door-arc,.door-hole),.portal-floor:hover .door-hole{opacity:1}
+.prev{position:relative}.prev>.portal-door-l{top:44%}.prev>.portal-door-r{top:62%}.prev>.portal-floor{left:68%}
+.portal-wall{position:relative}.portal-wall>.portal-door-l{top:34%}.portal-wall>.portal-door-r{top:58%}
+.portal-rail{position:relative;height:0}.portal-rail>.portal-anchor.portal-floor{top:-15.5px;bottom:auto;left:calc(50% - 20px)}
+/* Narrow screens hide the schematic: its three passages wait on the quest list's last line instead. */
+.proj-rail{display:none}.proj-rail .door-leaf{stroke:var(--ln)}
+.proj-rail>.portal-anchor.portal-floor:nth-child(1){left:calc(18% - 20px)}.proj-rail>.portal-anchor.portal-floor:nth-child(3){left:calc(82% - 20px)}
+@media(max-width:860px){.proj-rail{display:block}}
+.count-w{position:relative}.count-w>.portal-anchor.portal-slot{left:calc(50% - 20px);bottom:-14px}
+.bub-g{position:relative}.bub-g>.portal-door-r{top:30%}
+/* The dot of the "?" in CONTINUE? is a lid: the glyph slides aside and shows the passage under it. */
+.cont .q{position:relative;display:inline-block}
+.q-g{display:inline-block;pointer-events:none;transform-origin:20% 90%;transition:transform .35s cubic-bezier(.3,.7,.2,1)}
+.portal-anchor.portal-letter{position:absolute;left:0;bottom:4%;width:100%;height:44%;min-height:30px;margin:0;padding:0;display:block;z-index:0}
+.portal-letter::before{content:'';position:absolute;left:50%;bottom:8%;width:56%;height:26%;border-radius:50%;background:radial-gradient(closest-side,#030504 55%,#193025 82%,transparent);box-shadow:0 0 0 1px #79958566,0 0 16px #5fa07a40;opacity:0;transform:translateX(-50%) scale(.6);transition:opacity .25s,transform .25s}
+.portal-letter:hover+.q-g,.portal-letter:focus-visible+.q-g{transform:translateX(.08em) rotate(6deg)}
+.portal-letter.is-open+.q-g{transform:translateX(.32em) rotate(14deg)}
+.portal-letter:hover::before,.portal-letter:focus-visible::before,.portal-letter.is-open::before{opacity:1;transform:translateX(-50%) scale(1)}
 @media(max-width:860px){.name-row{flex-wrap:wrap;gap:28px 12px;margin-right:0}.name-row .kanji-w{display:block;margin:28px auto 0}.kanji-w .kanji{font-size:24px}}
 html[lang=ja] :is(.h1,.cont){font-family:'DotGothic16','Yu Gothic UI',Meiryo,sans-serif;font-weight:400;font-stretch:normal;line-height:1.3;letter-spacing:0}
 html[lang=ja] .h1{font-size:clamp(28px,3.2vw,52px)}
@@ -81,16 +133,6 @@ html[lang=ja] .attrs{grid-template-columns:minmax(72px,22%) minmax(0,1fr)}
 @media(max-width:760px){.rm-dlg{grid-template-columns:minmax(0,1fr);grid-template-areas:'art' 'head' 'text' 'actions'}.rm-dlg .rdlg-a{flex-direction:row;flex-wrap:wrap;max-width:none}}
 @media(max-width:700px){.hud-r{gap:3px}.locale-button{padding:6px}.gallery-image img{height:180px}.gallery-bar{flex-wrap:wrap}.gallery-bar p{flex-basis:100%}.blog .bll-ts{display:none}.blog-in{font-size:11px}}
 @media(prefers-reduced-motion:reduce){.blog.is-done{animation:none}}
-.desktop-overlay{position:absolute;inset:0;z-index:35;background:#030804db;display:grid;place-items:center;padding:20px}
-.desktop-shell{width:min(1040px,100%);height:min(720px,100%);background:#101c1c;border:1px solid #57818b;box-shadow:0 25px 90px #000a;display:grid;grid-template-rows:auto auto minmax(0,1fr) auto;animation:desktop-zoom .5s cubic-bezier(.2,.75,.25,1);transform-origin:85% 18%;min-height:0}
-@keyframes desktop-zoom{from{opacity:0;transform:scale(.1)}to{opacity:1;transform:scale(1)}}
-.desktop-bar{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:10px 16px;background:#152a2e;font-size:12px}.desktop-bar button{font-size:22px;min-width:32px}
-.desktop-dock{display:flex;gap:8px;padding:12px;border-bottom:1px solid #345157;overflow:auto}.desktop-dock button{flex:1;min-width:64px;display:grid;gap:5px;place-items:center;padding:8px;color:#bacdca}.desktop-dock button:hover,.desktop-dock button:focus-visible{background:#244347;outline:1px solid #77a3b1}.desktop-dock span{font-size:22px;color:#78b6ce}.desktop-dock small{font-size:11px;white-space:nowrap}
-.desktop-window{min-height:0;overflow:auto;background:#0b1515;margin:0 14px;border:1px solid #345157}.desktop-title{display:flex;gap:16px;align-items:center;padding:9px 16px;background:#1a3033;font-size:12px;position:sticky;top:0;z-index:2}.desktop-title button{width:28px}
-.desktop-welcome{padding:32px;text-align:center}.desktop-welcome pre,.desktop-profile pre{color:#78b6ce;text-align:left;display:inline-block;font:15px/1.3 monospace}.desktop-welcome h2{font-size:22px}.desktop-welcome p{font-size:13px;line-height:1.6}.desktop-note,.desktop-status{font-size:10px;color:#8baba6}.desktop-status{padding:8px 16px}
-.desktop-terminal{padding:20px;font:12px/1.65 'JetBrains Mono','DotGothic16',monospace}.desktop-output{white-space:pre-wrap;overflow-wrap:anywhere;font:inherit;min-height:130px}.desktop-prompt{display:flex;flex-wrap:wrap;gap:10px;border-top:1px solid #345157;padding-top:12px}.desktop-prompt input{background:none;color:inherit;border:0;border-bottom:1px solid #476a69;flex:1;min-width:80px;font:inherit}.desktop-prompt button{border:1px solid #476a69;padding:5px 12px}.desktop-terminal table{width:100%;text-align:left}.desktop-terminal td,.desktop-terminal th{padding:5px}
-.desktop-profile{display:flex;gap:30px;flex-wrap:wrap;padding:26px;font-size:12px}.desktop-profile p{margin:6px 0}.desktop-skills,.desktop-settings{padding:24px;font-size:13px}.desktop-skills svg{width:100%;min-width:360px}.desktop-resume{height:calc(100% - 38px);min-height:400px}.desktop-resume object{width:100%;height:100%;display:block}.desktop-lab>.screen{position:relative;inset:auto;overflow:visible;padding:22px;height:auto}.desktop-lab .lab{min-width:650px}.desktop-lab .h1{font-size:44px}.desktop-lab .rise{animation:none}
-@media(max-width:700px){.desktop-overlay{padding:7px}.desktop-dock{gap:2px;padding:6px}.desktop-window{margin:0 6px}.desktop-bar{padding:8px}.desktop-welcome{padding:22px}.desktop-profile{gap:12px;padding:18px}.desktop-shell{height:100%}}
 
 /* Leverless fighting board: four directions, six attacks and two assists. */
 .hitbox{padding:16px;border:1px solid var(--ln);background:#101812;outline-offset:4px}
@@ -117,3 +159,4 @@ html[lang=ja] .attrs{grid-template-columns:minmax(72px,22%) minmax(0,1fr)}
 .cv-language a:hover,.cv-language a:focus-visible{background:#203425;color:var(--gold2)}
 .lcd.is-hitbox .lcd-t{font-size:clamp(13px,1.1vw,18px);line-height:1.65;white-space:normal;overflow-wrap:anywhere}
 .lcd.is-hitbox .lcd-s{font-size:11px;line-height:1.7}
+.lcd.is-hitbox.is-invalid :is(.lcd-t,.lcd-s){color:#e8957f}

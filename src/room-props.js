@@ -50,12 +50,16 @@
       d.roomDeco=d.roomDeco.filter(t=>t[0]!==0||t[1]!==12);
       d.room.push({id:'colecao-pelucias',name:'Estante de personagens',t:[0,13,2,1],v:[0,203,32,19],face:'d',text:'Uma coletânea de alguns dos meus personagens favoritos. Cada um guarda uma história pela qual tenho muito carinho.',acts:collectibles.map(([key,name])=>[name,'prop:'+key])});
       d.room.push({id:'room-home',name:'Portal entre as folhas',portal:true,walk:true,t:[23,10,1,1],v:[368,160,16,16],text:'Um pequeno círculo escondido atrás da planta. A passagem leva ao alçapão acima do meu nome em kanji.',acts:[['Atravessar o portal','portal:home']]});
+      // The other hidden passages: each tile is where Hikaru stands to use it (see PortfolioScene.roomEnds).
+      d.room.push({id:'room-projects',name:'Alçapão sob o pinball',portal:true,walk:true,t:[14,6,1,1],v:[224,96,16,16],text:'O pinball desliza e revela um alçapão. Ele sai no chão do esquemático, em Projetos.',acts:[['Atravessar a passagem','portal:projects']]});
+      d.room.push({id:'room-about',name:'Passagem atrás da estante',portal:true,walk:true,t:[0,10,1,1],v:[0,160,16,16],text:'A estante sobe e mostra uma escada dentro da parede. Ela sai no alçapão sob o meu retrato, em Sobre.',acts:[['Atravessar a passagem','portal:about']]});
+      d.room.push({id:'room-contact',name:'Túnel debaixo da cama',portal:true,walk:true,t:[2,4,1,1],v:[32,64,16,16],text:'Debaixo da cama, perto do celular, começa um túnel. Ele sai atrás da interrogação de Contato.',acts:[['Atravessar a passagem','portal:contact']]});
       set('puff',{acts:[['Sentar no puff','puff']]});
       set('drone',{acts:[['Enviar para reconhecimento','drone']]});
       set('decks',{acts:[['Ver no Archidekt','decks:archidekt'],['Ver no Moxfield','decks:moxfield']]});
       d.room.find(o=>o.id==='pc').acts.push(['Configurar idioma','language']);
       for(const [id,[label,mode,action]] of Object.entries(arcade)){const o=d.room.find(o=>o.id===id);o.face='u';if(mode!=='arcade')o.acts=[[action,'cab:'+id]];}
-      d.room.find(o=>o.id==='fliperama-slug').acts.push(['Jogar Operação Circuito','shooter']);
+      d.room.find(o=>o.id==='fliperama-slug').acts.unshift(['Jogar','shooter']);
       d.room.find(o=>o.id==='fliperama').acts.push(['Testar os escudos','cab:fliperama']);
       return d;
     });
@@ -76,7 +80,9 @@
       return fn(code,e);
     });
     wrap('look',function(fn,i){this._propPreview=this.data().room[i].art||'';this.setState({propPreview:this._propPreview});return fn(i);});
-    wrap('renderVals',function(fn){const r=fn();r.propFrame=this.st().propFrame||0;r.propImage=svg(this.st().propPreview);r.propOn=!!art[this.st().propPreview];r.propName=Object.fromEntries(collectibles)[this.st().propPreview]||this.data().room.find(o=>o.art===this.st().propPreview)?.name||'Mimikyu';return r;});
+    wrap('renderVals',function(fn){const r=fn();r.propFrame=this.st().propFrame||0;r.propImage=svg(this.st().propPreview);r.propOn=!!art[this.st().propPreview];r.propName=Object.fromEntries(collectibles)[this.st().propPreview]||this.data().room.find(o=>o.art===this.st().propPreview)?.name||'Mimikyu';
+      if(!this.st().rmIntro&&['fliperama','fliperama-slug'].includes(this.data().room[this.st().roomObj]?.id)){r.rmDlgCls+=' is-arcade';r.propOn=false;}
+      return r;});
     p.drawLargePlush=function(ctx,x,y){
       const age=(this._rm?.clock||0)-(this._propClock||-9000),hug=this._propPreview==='bear'&&age<1200&&!this.calm();
       draw(ctx,'bear',x+2,y+(hug?Math.sin(age/70):0),23,27);

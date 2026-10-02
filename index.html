@@ -12,28 +12,32 @@
 <title>Portfólio — Hikaru Ogasawara</title>
 <link rel="stylesheet" href="./assets/fonts.css?v=6230fa5c4af8">
 <link rel="stylesheet" href="./assets/styles.css?v=85f1a83b4dbf">
-<link rel="stylesheet" href="./assets/enhancements.css?v=ffbaef832151">
-<link rel="stylesheet" href="./assets/display.css?v=5e2959d18e10">
+<link rel="stylesheet" href="./assets/enhancements.css?v=bcbee20f5ed7">
+<link rel="stylesheet" href="./assets/desktop.css?v=72f553193731">
+<link rel="stylesheet" href="./assets/display.css?v=057df4759d4b">
 <link rel="stylesheet" href="./assets/tv-game.css?v=65f755d41877">
 <script defer src="./vendor/react.production.min.js?v=d949f1c3687a"></script>
 <script defer src="./vendor/react-dom.production.min.js?v=35f4f974f4b2"></script>
-<script defer src="./assets/content.js?v=ce2bb2507b55"></script>
+<script defer src="./assets/content.js?v=4c1f9345f413"></script>
 <script defer src="./assets/i18n.js?v=592afcedb160"></script>
 <script defer src="./assets/boot.js?v=90a0294ecbc4"></script>
 <script defer src="./assets/boot-flow.js?v=f43d3b1b370f"></script>
 <script defer src="./assets/skill-tree.js?v=b28df15fb9bd"></script>
-<script defer src="./assets/character.js?v=8c6b4f2c40f3"></script>
-<script defer src="./assets/room-props.js?v=d977e5688ab3"></script>
+<script defer src="./assets/character.js?v=49d679664274"></script>
+<script defer src="./assets/character-care.js?v=836736c59e98"></script>
+<script defer src="./assets/room-props.js?v=cf5e0fe6aa3c"></script>
 <script defer src="./assets/dice.js?v=2d9630ef3ae6"></script>
-<script defer src="./assets/shooter.js?v=80900df8f677"></script>
-<script defer src="./assets/scene.js?v=e0b73f6427ae"></script>
-<script defer src="./assets/desktop.js?v=fa01faebe3d0"></script>
+<script defer src="./assets/shooter.js?v=1c8d08d0ecf5"></script>
+<script defer src="./assets/scene.js?v=3e087e610336"></script>
+<script defer src="./assets/desktop.js?v=cf5d48657899"></script>
 <script defer src="./assets/pocket-games.js?v=461e77227063"></script>
-<script defer src="./assets/hitbox.js?v=9a9b03203a74"></script>
+<script defer src="./assets/hitbox.js?v=9b8d623ff6a7"></script>
 <script defer src="./assets/achievements.js?v=e1fc49e000fe"></script>
-<script defer src="./assets/display.js?v=be9ae82641de"></script>
+<script defer src="./assets/tv3d.js?v=8a445a13e244"></script>
+<script defer src="./assets/display.js?v=6d77c841ce0e"></script>
 <script defer src="./assets/tv-game.js?v=4796594c94e1"></script>
-<script defer src="./assets/enhancements.js?v=1cfaf14fe3bd"></script>
+<script defer src="./assets/title-sound.js?v=9f7c7a30e63f"></script>
+<script defer src="./assets/enhancements.js?v=fcae12bf03d9"></script>
 <script defer src="./vendor/dc-runtime.js?v=5ccd20e83905"></script>
 </head>
 <body>
@@ -43,7 +47,8 @@
 
 <div class="okr {{rootCls}}" style="width: 100%; height: 100vh; min-height: 620px" tabindex="-1" ref="{{setRoot}}" sc-camel-on-animation-end="{{displayOpeningEnd}}" sc-camel-on-transition-end="{{displayCameraEnd}}" sc-camel-on-click="{{pulse}}" sc-camel-on-mouse-over="{{hoverSfx}}" sc-camel-on-mouse-move="{{rootMove}}" sc-camel-on-key-down="{{rootKey}}" sc-camel-on-key-up="{{rootKeyUp}}">
 <sc-if value="{{displayPowerGate}}">
-<section class="tv-power-gate {{displayTvClass}}" role="dialog" aria-modal="true" aria-label="Ligar a televisão" data-nopoke="true">
+<section class="tv-power-gate {{displayTvClass}}" role="dialog" aria-modal="true" aria-label="Televisão de entrada do portfólio" data-nopoke="true">
+<div class="tv-stage" ref="{{setDisplayStage}}"></div>
 <div class="tv-camera" style="{{displayCameraStyle}}">
 <div class="vintage-tv">
 <div class="vintage-shadow" aria-hidden="true"></div>
@@ -54,18 +59,27 @@
 <div class="vintage-front">
 <div class="vintage-bezel"><div class="vintage-screen" ref="{{setDisplayTvScreen}}" aria-hidden="true"><span class="vintage-reflection"></span></div></div>
 <div class="vintage-controls">
-<button class="vintage-power" disabled="{{displayTvBusy}}" sc-camel-on-click="{{displayPowerOn}}" aria-label="{{displayPowerLabel}}" title="{{displayPowerLabel}}"><svg sc-camel-view-box="0 0 32 32" aria-hidden="true"><path d="M16 4v12M9 8a11 11 0 1 0 14 0"></path></svg><span class="vintage-power-led" aria-hidden="true"></span></button>
+<button class="vintage-power" disabled="{{displayTvBusy}}" sc-camel-on-click="{{displayPower}}" aria-label="{{displayPowerLabel}}" title="{{displayPowerLabel}}"><svg sc-camel-view-box="0 0 32 32" aria-hidden="true"><path d="M16 4v12M9 8a11 11 0 1 0 14 0"></path></svg><span class="vintage-power-led" aria-hidden="true"></span></button>
 <div class="vintage-channel"><button class="vintage-knob" disabled="{{displayTvBusy}}" sc-camel-on-click="{{displayChannelClick}}" aria-label="Girar o seletor de canal" title="Girar o seletor de canal"><span class="vintage-knob-face" style="{{displayChannelStyle}}" aria-hidden="true"><i></i></span></button><span class="vintage-control-label">Canal <b>{{displayChannel}}</b></span></div>
-<div class="vintage-volume"><button class="vintage-knob" role="slider" aria-valuemin="0" aria-valuemax="10" aria-valuenow="{{displayVolume}}" disabled="{{displayTvBusy}}" aria-label="Volume cenográfico" title="Clique ou arraste para girar" sc-camel-on-click="{{displayVolumeClick}}" sc-camel-on-pointer-down="{{displayVolumeDown}}" sc-camel-on-pointer-move="{{displayVolumeMove}}" sc-camel-on-pointer-up="{{displayVolumeUp}}" sc-camel-on-pointer-cancel="{{displayVolumeUp}}" sc-camel-on-key-down="{{displayVolumeKey}}"><span class="vintage-knob-face" style="{{displayVolumeStyle}}" aria-hidden="true"><i></i></span></button><span class="vintage-control-label">Volume <b>{{displayVolume}}</b></span></div>
+<div class="vintage-volume"><button class="vintage-knob" role="slider" aria-valuemin="0" aria-valuemax="10" aria-valuenow="{{displayVolume}}" disabled="{{displayTvBusy}}" aria-label="Volume" title="Clique ou arraste para girar" sc-camel-on-click="{{displayVolumeClick}}" sc-camel-on-pointer-down="{{displayVolumeDown}}" sc-camel-on-pointer-move="{{displayVolumeMove}}" sc-camel-on-pointer-up="{{displayVolumeUp}}" sc-camel-on-pointer-cancel="{{displayVolumeUp}}" sc-camel-on-key-down="{{displayVolumeKey}}"><span class="vintage-knob-face" style="{{displayVolumeStyle}}" aria-hidden="true"><i></i></span></button><span class="vintage-control-label">Volume <b>{{displayVolume}}</b></span></div>
 <div class="vintage-speaker" aria-hidden="true"></div>
 </div>
 <span class="vintage-brand" aria-hidden="true">OKARU <i>光</i></span>
 </div></div></div></div>
+<div class="tv-dock" data-nopoke="true">
+<p class="tv-hint">{{displayHint}}</p>
+<div class="tv-buttons">
+<button class="tv-btn" disabled="{{displayTvBusy}}" sc-camel-on-click="{{displayPower}}" aria-pressed="{{displayPowered}}"><span aria-hidden="true">⏻</span> {{displayPowerLabel}}</button>
+<span class="tv-group"><button class="tv-btn" disabled="{{displayTvBusy}}" sc-camel-on-click="{{displayChannelPrev}}" aria-label="Canal anterior" title="Canal anterior">◀</button><span class="tv-readout" aria-live="polite">{{displayChannel}} · {{displayChannelName}}</span><button class="tv-btn" disabled="{{displayTvBusy}}" sc-camel-on-click="{{displayChannelNext}}" aria-label="Próximo canal" title="Próximo canal">▶</button></span>
+<span class="tv-group"><button class="tv-btn" disabled="{{displayTvBusy}}" sc-camel-on-click="{{displayVolLower}}" aria-label="Diminuir volume" title="Diminuir volume">−</button><span class="tv-readout" aria-live="polite">{{displayVolumeText}}</span><button class="tv-btn" disabled="{{displayTvBusy}}" sc-camel-on-click="{{displayVolRaise}}" aria-label="Aumentar volume" title="Aumentar volume">+</button></span>
+<button class="tv-btn tv-enter" disabled="{{displayTvBusy}}" sc-camel-on-click="{{displayEnter}}">{{displayEnterLabel}} <span aria-hidden="true">▸</span></button>
+</div>
+</div>
+<sc-if value="{{displayAnimating}}"><span class="sr" role="status">Entrando no portfólio · Entering the portfolio · ポートフォリオに入ります</span></sc-if>
 </section></sc-if>
-<sc-if value="{{displayAnimating}}"><div class="tv-power-on" role="status"><span class="tv-power-beam" aria-hidden="true"></span><span class="tv-power-bloom" aria-hidden="true"></span><span class="sr">Ligando a tela · Turning on the display · 画面を起動しています</span></div></sc-if>
 <sc-if value="{{displayStandby}}"><div class="tv-standby" aria-hidden="true"><span class="tv-standby-mark">OKARU</span><p>小笠原 光</p></div></sc-if>
 <div class="display-surface" aria-hidden="true"><div class="display-lines"></div><div class="display-vignette"></div></div>
-<sc-if value="{{galleryLarge}}"><section class="gallery-zoom" role="dialog" aria-modal="true" aria-label="Galeria ampliada" data-nopoke="true"><header><p>{{galleryCaption}}</p><button sc-camel-on-click="{{galleryClose}}" aria-label="Fechar imagem ampliada">Fechar ×</button></header><img src="{{galleryImage}}" alt="{{galleryAlt}}"><div class="gallery-bar"><button sc-camel-on-click="{{galleryPrev}}" aria-label="Imagem anterior">←</button><span aria-live="polite">{{galleryCount}}</span><button sc-camel-on-click="{{galleryNext}}" aria-label="Próxima imagem">→</button></div></section></sc-if><div class="bgdots" aria-hidden="true"></div>
+<sc-if value="{{galleryLarge}}"><section class="gallery-zoom" role="dialog" aria-modal="true" aria-label="Galeria ampliada" data-nopoke="true"><header><p>{{galleryCaption}}</p><button sc-camel-on-click="{{galleryClose}}" aria-label="Fechar imagem ampliada">Fechar ×</button></header><img sc-camel-src="{{galleryImage}}" alt="{{galleryAlt}}"><div class="gallery-bar"><button sc-camel-on-click="{{galleryPrev}}" aria-label="Imagem anterior">←</button><span aria-live="polite">{{galleryCount}}</span><button sc-camel-on-click="{{galleryNext}}" aria-label="Próxima imagem">→</button></div></section></sc-if><div class="bgdots" aria-hidden="true"></div>
 <svg class="grain" aria-hidden="true" focusable="false"><filter id="okr-grain"><feTurbulence type="fractalNoise" sc-camel-base-frequency="0.85" sc-camel-num-octaves="2" sc-camel-stitch-tiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter><rect width="100%" height="100%" filter="url(#okr-grain)"></rect></svg>
 <svg class="fx" aria-hidden="true" focusable="false"><filter id="okr-seis" x="0" y="0" width="1" height="1" style="color-interpolation-filters: sRGB"><feColorMatrix type="saturate" values="0" result="g"></feColorMatrix><feConvolveMatrix in="g" order="3" sc-camel-kernel-matrix="-1 -1 -1 -1 8 -1 -1 -1 -1" sc-camel-preserve-alpha="true" result="e"></feConvolveMatrix><feComponentTransfer in="e"><feFuncR type="linear" slope="3.4"></feFuncR><feFuncG type="linear" slope="3.3"></feFuncG><feFuncB type="linear" slope="3.1"></feFuncB></feComponentTransfer></filter></svg>
 
@@ -80,7 +94,7 @@
 <sc-if value="{{isBoot}}" hint-placeholder-val="{{true}}">
 <section class="boot" aria-label="Tela inicial">
 <sc-if value="{{bootMenuOn}}" hint-placeholder-val="{{true}}">
-<div class="boot-top"><span>Créditos {{credits}}</span><span class="pix">P1</span></div>
+<div class="boot-top"><span>Créditos {{credits}}</span><button class="boot-snd" sc-camel-on-click="{{toggleSnd}}" aria-pressed="{{sndPressed}}" title="tecla m"><span>Som 8-bit</span><span class="boot-snd-v">{{sndState}}</span></button><span class="pix">P1</span></div>
 <div class="boot-hd pix">OKARU BIOS · REV. 2027<span>© 小笠原 光 · São Paulo, BR</span></div>
 <div class="bl" style="animation-delay: 350ms"><span class="k">CPU</span><span class="v">ESP32-D0WD · 240 MHz</span><span class="ok"><i>0,4 ms</i>OK</span></div>
 <div class="bl" style="animation-delay: 620ms"><span class="k">SRAM</span><span class="v">520 KB</span><span class="ok"><i>2,1 ms</i>OK</span></div>
@@ -165,13 +179,13 @@
 <p class="stmt rise" style="animation-delay: 420ms">Hardware me ensinou a <span class="g">ouvir sinais</span>. Segurança me ensinou a <span class="j">desconfiar deles</span>.</p>
 <p class="lede rise" style="animation-delay: 520ms">Estudo Engenharia da Computação no Ibmec e já entreguei projetos para a Invivio Tecnologia, a CPTM e o próprio Ibmec, do firmware ao dashboard.</p>
 <div class="meta rise" style="animation-delay: 600ms"><span>Ibmec · 2023—2027</span><span>São Paulo, BR</span><span>PT · EN · JP · ES</span><span class="gold">Buscando estágio</span></div>
-<div class="ctas rise" style="animation-delay: 680ms">
+<div class="ctas home-actions rise" style="animation-delay: 680ms">
 <button class="btn btn-p" data-portal-to="projetos" sc-camel-on-click="{{goProjetos}}">Ver projetos <span class="arr" aria-hidden="true">→</span></button>
 <button class="btn btn-g" data-portal-to="sobre" sc-camel-on-click="{{goSobre}}">Ver sobre</button>
+<button class="portal-anchor" data-portal-id="home-contact" data-poke="twirl" sc-camel-on-click="{{portalContact}}" aria-label="Portal: ir para contato" title="Um atalho para contato"><span class="portal-stone" aria-hidden="true">⌂</span></button>
 </div>
 </div>
 <div class="home-r">
-<div class="home-portal-row"><button class="portal-anchor" data-portal-id="home-contact" data-poke="twirl" sc-camel-on-click="{{portalContact}}" aria-label="Portal: ir para contato" title="Um atalho para contato"><span class="portal-stone" aria-hidden="true">⌂</span></button></div>
 <div class="sel rise" style="animation-delay: 380ms">
 <div class="sel-h"><span class="sel-t pix">SELECIONE SEU MAIN</span><span class="lab-t">clique pra trocar<span class="sel-dr"> · arraste pra girar</span></span></div>
 <div class="sel-cards">
@@ -232,8 +246,8 @@
 </div>
 <div class="ticker rise" style="animation-delay: 760ms" aria-label="Inventário de tecnologias" sc-camel-on-mouse-enter="{{tkEnter}}" sc-camel-on-mouse-leave="{{tkLeave}}">
 <div class="tk" ref="{{setTk}}">
-<div class="tk-g"><span class="hl">Inventário</span><span class="dia">✦</span><sc-for list="{{tickerInv}}" as="ti" hint-placeholder-count="12"><button class="tk-i {{ti.cls}}" sc-camel-on-click="{{ti.open}}" title="Ver no Sobre"><span class="tk-k" aria-hidden="true"><svg class="tk-ic" sc-camel-view-box="0 0 24 24"><path d="{{ti.d}}" fill="{{ti.fill}}" stroke="{{ti.stroke}}" stroke-width="{{ti.sw}}" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="tk-n">{{ti.name}}</span><span class="dia">✦</span></button></sc-for></div>
-<div class="tk-g" aria-hidden="true"><span class="hl">Inventário</span><span class="dia">✦</span><sc-for list="{{tickerInv}}" as="tj" hint-placeholder-count="12"><button class="tk-i {{tj.cls}}" sc-camel-on-click="{{tj.open}}" tabindex="-1" title="Ver no Sobre"><span class="tk-k" aria-hidden="true"><svg class="tk-ic" sc-camel-view-box="0 0 24 24"><path d="{{tj.d}}" fill="{{tj.fill}}" stroke="{{tj.stroke}}" stroke-width="{{tj.sw}}" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="tk-n">{{tj.name}}</span><span class="dia">✦</span></button></sc-for></div>
+<div class="tk-g"><span class="hl">Inventário</span><span class="dia">✦</span><sc-for list="{{tickerInv}}" as="ti" hint-placeholder-count="12"><button class="tk-i {{ti.cls}}" sc-camel-on-click="{{ti.open}}" title="Ver no Sobre"><span class="tk-k" aria-hidden="true"><svg class="tk-ic" sc-camel-view-box="0 0 24 24"><path sc-camel-d="{{ti.d}}" sc-camel-fill="{{ti.fill}}" sc-camel-stroke="{{ti.stroke}}" stroke-width="{{ti.sw}}" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="tk-n">{{ti.name}}</span><span class="dia">✦</span></button></sc-for></div>
+<div class="tk-g" aria-hidden="true"><span class="hl">Inventário</span><span class="dia">✦</span><sc-for list="{{tickerInv}}" as="tj" hint-placeholder-count="12"><button class="tk-i {{tj.cls}}" sc-camel-on-click="{{tj.open}}" tabindex="-1" title="Ver no Sobre"><span class="tk-k" aria-hidden="true"><svg class="tk-ic" sc-camel-view-box="0 0 24 24"><path sc-camel-d="{{tj.d}}" sc-camel-fill="{{tj.fill}}" sc-camel-stroke="{{tj.stroke}}" stroke-width="{{tj.sw}}" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span class="tk-n">{{tj.name}}</span><span class="dia">✦</span></button></sc-for></div>
 </div>
 </div>
 </div>
@@ -247,7 +261,7 @@
 <p class="kick rise" style="animation-delay: 80ms">Quest log · 4 missões principais</p>
 <div class="page-heading">
 <h1 class="h1"><span class="ln"><span class="ln-in" style="animation-delay: 120ms" ref="{{decH1}}">Projetos</span></span></h1>
-<button class="portal-anchor" data-poke="twirl" sc-camel-on-click="{{portalHome}}" aria-label="Portal: voltar ao início" title="Interaja para voltar ao início"><span class="portal-stone" aria-hidden="true">⌂</span></button>
+<button class="portal-anchor" data-portal-id="projetos" data-poke="twirl" sc-camel-on-click="{{portalHome}}" aria-label="Portal: voltar ao início" title="Interaja para voltar ao início"><span class="portal-stone" aria-hidden="true">⌂</span></button>
 </div>
 <p class="lede rise" style="animation-delay: 240ms; margin-top: 16px">Cada um me obrigou a descer uma camada: do broker MQTT ao registrador, da regra de firewall ao log.</p>
 <ol class="qlist">
@@ -262,6 +276,7 @@
 </li>
 </sc-for>
 </ol>
+<div class="portal-rail proj-rail"><button class="portal-anchor portal-door portal-floor" data-portal-id="projects-about" data-poke="twirl" sc-camel-on-click="{{portalUse}}" aria-label="Alçapão escondido nas missões: ir para Sobre" title="Um alçapão na linha das missões"><svg class="door-sym" sc-camel-view-box="0 0 40 30" aria-hidden="true"><path class="door-gap" d="M5 15H35"></path><path class="door-hole" d="M6 16H34V22H6Z"></path><path class="door-jamb" d="M5 12V18M35 12V18"></path><path class="door-arc" d="M35 15A30 30 0 0 1 22.2 39.6"></path><path class="door-leaf" d="M5 15H35"></path></svg></button><button class="portal-anchor portal-door portal-floor" data-portal-id="projects-contact" data-poke="twirl" sc-camel-on-click="{{portalUse}}" aria-label="Alçapão escondido nas missões: ir para Contato" title="Um alçapão na linha das missões"><svg class="door-sym" sc-camel-view-box="0 0 40 30" aria-hidden="true"><path class="door-gap" d="M5 15H35"></path><path class="door-hole" d="M6 16H34V22H6Z"></path><path class="door-jamb" d="M5 12V18M35 12V18"></path><path class="door-arc" d="M35 15A30 30 0 0 1 22.2 39.6"></path><path class="door-leaf" d="M5 15H35"></path></svg></button><button class="portal-anchor portal-door portal-floor" data-portal-id="projects-room" data-poke="twirl" sc-camel-on-click="{{portalUse}}" aria-label="Alçapão escondido nas missões: ir para o quarto" title="Um alçapão na linha das missões"><svg class="door-sym" sc-camel-view-box="0 0 40 30" aria-hidden="true"><path class="door-gap" d="M5 15H35"></path><path class="door-hole" d="M6 16H34V22H6Z"></path><path class="door-jamb" d="M5 12V18M35 12V18"></path><path class="door-arc" d="M35 15A30 30 0 0 1 22.2 39.6"></path><path class="door-leaf" d="M5 15H35"></path></svg></button></div>
 <sc-if value="{{hasOpen}}" hint-placeholder-val="{{false}}">
 <article class="drawer" aria-label="{{op.title}}">
 <div class="dr-h"><span class="lab-t">Missão {{op.num}} · <span class="gold">{{op.status}}</span> · {{op.period}}</span><button class="x-b" sc-camel-on-click="{{closeProj}}" aria-label="Fechar missão"><svg sc-camel-view-box="0 0 16 16" class="ico" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9"></path></svg></button></div>
@@ -269,7 +284,7 @@
 <p class="dr-s">{{op.sub}}</p>
 <p class="dr-p">{{op.summary}}</p>
 <sc-if value="{{galleryOn}}"><section class="project-gallery" aria-label="Galeria do projeto" data-nopoke="true">
-<button class="gallery-image" sc-camel-on-click="{{galleryZoom}}" aria-label="Ampliar imagem"><img src="{{galleryImage}}" alt="{{galleryAlt}}" loading="lazy"></button>
+<button class="gallery-image" sc-camel-on-click="{{galleryZoom}}" aria-label="Ampliar imagem"><img sc-camel-src="{{galleryImage}}" alt="{{galleryAlt}}" loading="lazy"></button>
 <div class="gallery-bar"><p>{{galleryCaption}}</p><span aria-live="polite">{{galleryCount}}</span><sc-if value="{{galleryMany}}"><button sc-camel-on-click="{{galleryPrev}}" aria-label="Imagem anterior">←</button><button sc-camel-on-click="{{galleryNext}}" aria-label="Próxima imagem">→</button></sc-if><button sc-camel-on-click="{{galleryZoom}}">Ampliar</button></div>
 </section></sc-if><div class="dr-sec lab-t">Objetivos</div>
 <ul class="dr-ul">
@@ -448,6 +463,9 @@
 </sc-if>
 </div>
 <div class="prev-f"><span class="prev-tt">{{hvTitle}}</span><span class="lab-t">clique pra abrir a missão</span></div>
+<button class="portal-anchor portal-door portal-door-l" data-portal-id="projects-about" data-poke="twirl" sc-camel-on-click="{{portalUse}}" aria-label="Porta escondida no esquemático: ir para Sobre" title="Uma porta na parede do esquemático"><svg class="door-sym" sc-camel-view-box="0 0 24 40" aria-hidden="true"><path class="door-gap" d="M12 6V34"></path><path class="door-jamb" d="M9 6H15M9 34H15"></path><path class="door-arc" d="M12 34A28 28 0 0 1 -12.2 20"></path><path class="door-leaf" d="M12 6V34"></path></svg></button>
+<button class="portal-anchor portal-door portal-door-r" data-portal-id="projects-contact" data-poke="twirl" sc-camel-on-click="{{portalUse}}" aria-label="Porta escondida no esquemático: ir para Contato" title="Uma porta na parede do esquemático"><svg class="door-sym" sc-camel-view-box="0 0 24 40" aria-hidden="true"><path class="door-gap" d="M12 6V34"></path><path class="door-jamb" d="M9 6H15M9 34H15"></path><path class="door-arc" d="M12 34A28 28 0 0 0 36.2 20"></path><path class="door-leaf" d="M12 6V34"></path></svg></button>
+<button class="portal-anchor portal-door portal-floor" data-portal-id="projects-room" data-poke="twirl" sc-camel-on-click="{{portalUse}}" aria-label="Alçapão escondido no esquemático: ir para o quarto" title="Um alçapão na linha do esquemático"><svg class="door-sym" sc-camel-view-box="0 0 40 30" aria-hidden="true"><path class="door-gap" d="M5 15H35"></path><path class="door-hole" d="M6 16H34V22H6Z"></path><path class="door-jamb" d="M5 12V18M35 12V18"></path><path class="door-arc" d="M35 15A30 30 0 0 1 22.2 39.6"></path><path class="door-leaf" d="M5 15H35"></path></svg></button>
 </div>
 <div class="pnl">
 <div class="pnl-h"><span class="lab-t">Missões secundárias</span><span class="lab-t">03</span></div>
@@ -536,16 +554,17 @@
 <span class="det-bot"><span>ID: 00023</span><span>AMEAÇA 0.00</span></span>
 </div>
 </div>
+<div class="portal-rail"><button class="portal-anchor portal-door portal-floor" data-portal-id="about-room" data-poke="twirl" sc-camel-on-click="{{portalUse}}" aria-label="Alçapão sob o retrato: ir para o quarto" title="Um alçapão sob o retrato"><svg class="door-sym" sc-camel-view-box="0 0 40 30" aria-hidden="true"><path class="door-gap" d="M5 15H35"></path><path class="door-hole" d="M6 16H34V22H6Z"></path><path class="door-jamb" d="M5 12V18M35 12V18"></path><path class="door-arc" d="M35 15A30 30 0 0 1 22.2 39.6"></path><path class="door-leaf" d="M5 15H35"></path></svg></button></div>
 <div class="plate"><span class="plate-n">Hikaru Ogasawara</span><span class="plate-k pix">小笠原 光</span></div>
 <div class="plate-h">“Okaru” nos servidores</div>
 <div class="pnl eq">
 <div class="pnl-h"><span class="lab-t">Equipado</span><span class="lab-t gold">uso diário</span></div>
 <div class="eq-g">
-<sc-for list="{{equip}}" as="e" hint-placeholder-count="8"><button class="eq-s {{e.cls}}" sc-camel-on-mouse-enter="{{e.pick}}" sc-camel-on-focus="{{e.pick}}" sc-camel-on-click="{{e.pick}}" aria-label="{{e.aria}}"><svg class="eq-ic" sc-camel-view-box="0 0 24 24" aria-hidden="true"><path d="{{e.d}}" fill="{{e.fill}}" stroke="{{e.stroke}}" stroke-width="{{e.sw}}" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="eq-n">{{e.short}}</span></button></sc-for>
+<sc-for list="{{equip}}" as="e" hint-placeholder-count="8"><button class="eq-s {{e.cls}}" sc-camel-on-mouse-enter="{{e.pick}}" sc-camel-on-focus="{{e.pick}}" sc-camel-on-click="{{e.pick}}" aria-label="{{e.aria}}"><svg class="eq-ic" sc-camel-view-box="0 0 24 24" aria-hidden="true"><path sc-camel-d="{{e.d}}" sc-camel-fill="{{e.fill}}" sc-camel-stroke="{{e.stroke}}" stroke-width="{{e.sw}}" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="eq-n">{{e.short}}</span></button></sc-for>
 </div>
 <div class="pnl-h eq-h2"><span class="lab-t">Mochila</span><span class="lab-t">{{bagCount}}</span></div>
 <div class="bag">
-<sc-for list="{{bag}}" as="bg" hint-placeholder-count="18"><button class="bag-i {{bg.cls}}" style="grid-column: {{bg.gc}}; grid-row: {{bg.gr}}" sc-camel-on-mouse-enter="{{bg.pick}}" sc-camel-on-focus="{{bg.pick}}" sc-camel-on-click="{{bg.pick}}" aria-label="{{bg.aria}}"><svg class="bag-ic" sc-camel-view-box="0 0 24 24" aria-hidden="true"><path d="{{bg.d}}" fill="{{bg.fill}}" stroke="{{bg.stroke}}" stroke-width="{{bg.sw}}" stroke-linecap="round" stroke-linejoin="round"></path></svg></button></sc-for>
+<sc-for list="{{bag}}" as="bg" hint-placeholder-count="18"><button class="bag-i {{bg.cls}}" style="grid-column: {{bg.gc}}; grid-row: {{bg.gr}}" sc-camel-on-mouse-enter="{{bg.pick}}" sc-camel-on-focus="{{bg.pick}}" sc-camel-on-click="{{bg.pick}}" aria-label="{{bg.aria}}"><svg class="bag-ic" sc-camel-view-box="0 0 24 24" aria-hidden="true"><path sc-camel-d="{{bg.d}}" sc-camel-fill="{{bg.fill}}" sc-camel-stroke="{{bg.stroke}}" stroke-width="{{bg.sw}}" stroke-linecap="round" stroke-linejoin="round"></path></svg></button></sc-for>
 </div>
 <div class="eq-d">
 <sc-for list="{{eqAll}}" as="eqx" hint-placeholder-count="1"><div class="eq-dx {{eqx.cls}}">
@@ -561,7 +580,7 @@
 <p class="kick rise" style="animation-delay: 80ms">Ficha do personagem</p>
 <div class="page-heading">
 <h1 class="h1"><span class="ln"><span class="ln-in" style="animation-delay: 120ms" ref="{{decH1}}">Sobre</span></span></h1>
-<button class="portal-anchor" data-poke="twirl" sc-camel-on-click="{{portalHome}}" aria-label="Portal: voltar ao início" title="Interaja para voltar ao início"><span class="portal-stone" aria-hidden="true">⌂</span></button>
+<button class="portal-anchor" data-portal-id="sobre" data-poke="twirl" sc-camel-on-click="{{portalHome}}" aria-label="Portal: voltar ao início" title="Interaja para voltar ao início"><span class="portal-stone" aria-hidden="true">⌂</span></button>
 </div>
 <dl class="attrs rise" style="animation-delay: 300ms">
 <dt class="lab-t">Classe</dt><dd>Engenharia da Computação <span>· São Paulo, BR</span></dd>
@@ -591,15 +610,17 @@
 <div class="skt rise" style="animation-delay: 520ms">
 <div class="pnl-h"><span class="lab-t">Árvore de habilidades</span><span class="lab-t gold">{{skHint}}</span></div>
 <svg class="skt-svg" sc-camel-view-box="0 0 640 376" role="group" aria-label="Árvore de habilidades: hardware, infraestrutura, segurança e software">
-<sc-for list="{{skLinks}}" as="sl" hint-placeholder-count="8"><path class="skt-p {{sl.cls}}" d="{{sl.d}}"></path></sc-for>
-<sc-for list="{{skNodes}}" as="sn" hint-placeholder-count="10"><g class="skt-n {{sn.cls}}" transform="{{sn.tf}}" sc-camel-on-click="{{sn.pick}}" sc-camel-on-mouse-enter="{{sn.pick}}" sc-camel-on-focus="{{sn.pick}}" sc-camel-on-key-down="{{sn.key}}" role="button" tabindex="0" aria-label="{{sn.aria}}"><rect class="skt-r" x="-10" y="-10" width="20" height="20"></rect><rect class="skt-c" x="-4" y="-4" width="8" height="8"></rect><text class="skt-t" x="{{sn.tx}}" y="4" text-anchor="{{sn.ta}}">{{sn.label}}</text></g></sc-for>
-<sc-for list="{{skHeads}}" as="sh" hint-placeholder-count="4"><text class="skt-h" x="{{sh.x}}" y="{{sh.y}}" text-anchor="middle">{{sh.t}}</text></sc-for>
+<sc-for list="{{skLinks}}" as="sl" hint-placeholder-count="8"><path class="skt-p {{sl.cls}}" sc-camel-d="{{sl.d}}"></path></sc-for>
+<sc-for list="{{skNodes}}" as="sn" hint-placeholder-count="10"><g class="skt-n {{sn.cls}}" sc-camel-transform="{{sn.tf}}" sc-camel-on-click="{{sn.pick}}" sc-camel-on-mouse-enter="{{sn.pick}}" sc-camel-on-focus="{{sn.pick}}" sc-camel-on-key-down="{{sn.key}}" role="button" tabindex="0" aria-label="{{sn.aria}}"><rect class="skt-r" x="-10" y="-10" width="20" height="20"></rect><rect class="skt-c" x="-4" y="-4" width="8" height="8"></rect><text class="skt-t" sc-camel-x="{{sn.tx}}" y="4" text-anchor="{{sn.ta}}">{{sn.label}}</text></g></sc-for>
+<sc-for list="{{skHeads}}" as="sh" hint-placeholder-count="4"><text class="skt-h" sc-camel-x="{{sh.x}}" sc-camel-y="{{sh.y}}" text-anchor="middle">{{sh.t}}</text></sc-for>
 </svg>
 <p class="skt-d"><b>{{skName}}</b>{{skDesc}}</p>
 </div>
 </div>
 <div class="ab-x">
-<div class="pnl rise" style="animation-delay: 300ms">
+<div class="pnl rise portal-wall" style="animation-delay: 300ms">
+<button class="portal-anchor portal-door portal-door-l" data-portal-id="about-projects" data-poke="twirl" sc-camel-on-click="{{portalUse}}" aria-label="Porta escondida em Jogando agora: ir para Projetos" title="Uma porta na parede do painel"><svg class="door-sym" sc-camel-view-box="0 0 24 40" aria-hidden="true"><path class="door-gap" d="M12 6V34"></path><path class="door-jamb" d="M9 6H15M9 34H15"></path><path class="door-arc" d="M12 34A28 28 0 0 1 -12.2 20"></path><path class="door-leaf" d="M12 6V34"></path></svg></button>
+<button class="portal-anchor portal-door portal-door-r" data-portal-id="about-contact" data-poke="twirl" sc-camel-on-click="{{portalUse}}" aria-label="Porta escondida em Jogando agora: ir para Contato" title="Uma porta na parede do painel"><svg class="door-sym" sc-camel-view-box="0 0 24 40" aria-hidden="true"><path class="door-gap" d="M12 6V34"></path><path class="door-jamb" d="M9 6H15M9 34H15"></path><path class="door-arc" d="M12 34A28 28 0 0 0 36.2 20"></path><path class="door-leaf" d="M12 6V34"></path></svg></button>
 <div class="pnl-h"><span class="lab-t">Jogando agora</span><span class="lab-t gold">{{gamesHint}}</span></div>
 <ul class="now-l">
 <sc-for list="{{games}}" as="g" hint-placeholder-count="6">
@@ -638,7 +659,7 @@
 <label class="hit-select">Lutador <select value="{{hitFighter}}" sc-camel-on-change="{{hitChoose}}"><sc-for list="{{hitFighters}}" as="f"><option value="{{f.id}}">{{f.label}}</option></sc-for></select></label>
 <div class="hit-controls"><div class="hit-directions" role="group" aria-label="Direções"><sc-for list="{{hitDirections}}" as="b"><button class="hit-key hit-{{b.key}}" sc-camel-on-click="{{b.run}}" aria-label="{{b.name}}">{{b.label}}</button></sc-for></div><div class="hit-attacks" role="group" aria-label="Ataques e assistências"><sc-for list="{{hitAttacks}}" as="b"><button class="hit-key hit-{{b.key}}" sc-camel-on-click="{{b.run}}" aria-label="{{b.name}}">{{b.label}}</button></sc-for></div></div>
 <button class="sys-b" sc-camel-on-click="{{hitReset}}"><span class="sys-p pix">SELECT</span><span class="sys-t">Limpar sequência</span></button>
-<p class="hit-note">Comandos adaptados para cliques, sem precisão de frames. As técnicas de Toph são homenagens originais.</p>
+<p class="hit-note">Comandos adaptados para cliques, sem precisão de frames. Só vale a sequência exata: um botão a mais anula a entrada até você limpar com SELECT. Cada golpe acerta um boneco de treino. As técnicas de Toph e Iroh são homenagens originais.</p>
 <p class="hit-note">Foque a hitbox: WASD ou setas movem; J K L dão socos; U I O dão chutes; 1 e 2 chamam assistências. Esc limpa.</p>
 <ul class="hit-moves"><sc-for list="{{hitMoveList}}" as="m"><li><span>{{m.name}}</span><code>{{m.seq}}</code></li></sc-for></ul>
 </section>
@@ -729,7 +750,7 @@
 <sc-if value="{{rmDlgOn}}" hint-placeholder-val="{{false}}">
 <div class="rdlg rm-dlg {{rmDlgCls}}" sc-camel-on-click="{{dlgSkip}}">
 <div class="rdlg-w"><span class="rdlg-n pix">{{dlgWho}}</span><span class="rdlg-o">{{dlgObj}}</span></div>
-<sc-if value="{{propOn}}"><img class="prop-preview" key="{{propFrame}}" src="{{propImage}}" alt="{{propName}}"></sc-if>
+<sc-if value="{{propOn}}"><img class="prop-preview" key="{{propFrame}}" sc-camel-src="{{propImage}}" alt="{{propName}}"></sc-if>
 <p class="rdlg-t" ref="{{setDlgEl}}" aria-hidden="true"></p>
 <p class="rdlg-size" aria-hidden="true">{{dlgText}}</p>
 <p class="sr" aria-live="polite">{{dlgText}}</p>
@@ -750,7 +771,7 @@
 <div class="contact">
 <div class="ct-l">
 <p class="kick rise" style="animation-delay: 80ms">Save point</p>
-<h1 class="cont"><span class="ln"><span class="ln-in" style="animation-delay: 120ms" ref="{{decH1}}">Continue<span class="q">?</span></span></span></h1>
+<h1 class="cont" aria-label="Continue?"><span class="ln"><span class="ln-in" style="animation-delay: 120ms" ref="{{decH1}}">Continue<span class="q"><button class="portal-anchor portal-letter" data-portal-id="contact-room" data-poke="twirl" sc-camel-on-click="{{portalUse}}" aria-label="Passagem atrás da interrogação: ir para o quarto" title="Atrás da interrogação"></button><span class="q-g">?</span></span></span></span></h1>
 <p class="ct-t rise" style="animation-delay: 320ms">Estou procurando estágio em infraestrutura, segurança ou sistemas embarcados. Se você tem uma vaga, um projeto ou só uma dúvida sobre ESP32, insere a ficha.</p>
 <div class="ct-acts rise" style="animation-delay: 420ms">
 <div class="ctas ct-primary">
@@ -759,15 +780,17 @@
 </div>
 <div class="ctas ct-social">
 <a class="lnk" href="https://www.linkedin.com/in/hikaru-ogasawara" target="_blank" rel="noopener">LinkedIn <span class="ph-t">/in/hikaru-ogasawara</span> <span class="arr" aria-hidden="true">↗</span></a>
+<div class="ct-github">
 <a class="lnk" href="https://github.com/Hikaru-0gasawara" target="_blank" rel="noopener">GitHub <span class="ph-t">/Hikaru-0gasawara</span> <span class="arr" aria-hidden="true">↗</span></a>
+<button class="portal-anchor portal-secret" data-portal-id="contact-home" data-poke="twirl" sc-camel-on-click="{{portalHome}}" aria-label="Portal escondido: voltar ao início" title="Um caminho de volta"><span class="portal-stone" aria-hidden="true">⌂</span></button>
+</div>
 </div>
 <div class="ct-foot lab-t"><span>Hikaru Ogasawara · São Paulo, 2026</span><span>Respondo em PT · EN · JP · ES</span><span>Feito com solda, café e ctrl+z</span></div>
 </div>
-<button class="portal-anchor portal-secret" data-portal-id="contact-home" data-poke="twirl" sc-camel-on-click="{{portalHome}}" aria-label="Portal escondido: voltar ao início" title="Um caminho de volta"><span class="portal-stone" aria-hidden="true">⌂</span></button>
 </div>
 <div class="ct-r rise" style="animation-delay: 260ms">
 <span class="count-k lab-t" aria-hidden="true">Fichas</span>
-<div class="count pix {{countCls}}" aria-hidden="true"><div class="count-s" style="transform: {{countTf}}"><span>9</span><span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span><span>0</span></div></div>
+<div class="count-w"><div class="count pix {{countCls}}" aria-hidden="true"><div class="count-s" style="transform: {{countTf}}"><span>9</span><span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span><span>0</span></div></div><button class="portal-anchor portal-door portal-floor portal-slot" data-portal-id="contact-about" data-poke="twirl" sc-camel-on-click="{{portalUse}}" aria-label="Fenda das fichas: ir para Sobre" title="Uma fenda sob as fichas"><svg class="door-sym" sc-camel-view-box="0 0 40 30" aria-hidden="true"><path class="door-gap" d="M5 15H35"></path><path class="door-hole" d="M6 16H34V22H6Z"></path><path class="door-jamb" d="M5 12V18M35 12V18"></path><path class="door-arc" d="M35 15A30 30 0 0 1 22.2 39.6"></path><path class="door-leaf" d="M5 15H35"></path></svg></button></div>
 <p class="sr">{{fichasSr}}</p>
 <sc-if value="{{fichaHas}}" hint-placeholder-val="{{true}}"><div class="go pix" aria-hidden="true"><span class="go-a">Insira uma ficha</span><span class="go-b">1 ficha = 1 e-mail</span></div></sc-if>
 <sc-if value="{{fichaZero}}" hint-placeholder-val="{{false}}"><div class="go0"><span class="go0-t pix">Game over? Nunca.</span><span class="go0-h">Tem fichas escondidas pelo portfólio.</span><a class="go0-m" href="mailto:hogasawara2311@outlook.com">ou escreva direto</a></div></sc-if>
@@ -775,6 +798,7 @@
 <div class="bub-h"><span class="lab-t">Plástico-bolha</span><span class="lab-t gold">{{bubLeft}}</span></div>
 <div class="bub-g" role="group" aria-label="Plástico-bolha">
 <sc-for list="{{bubbles}}" as="bb" hint-placeholder-count="24"><button class="bb {{bb.cls}}" sc-camel-on-click="{{bb.pop}}" aria-label="{{bb.aria}}"></button></sc-for>
+<button class="portal-anchor portal-door portal-door-r" data-portal-id="contact-projects" data-poke="twirl" sc-camel-on-click="{{portalUse}}" aria-label="Porta escondida no plástico-bolha: ir para Projetos" title="Uma porta na moldura do plástico-bolha"><svg class="door-sym" sc-camel-view-box="0 0 24 40" aria-hidden="true"><path class="door-gap" d="M12 6V34"></path><path class="door-jamb" d="M9 6H15M9 34H15"></path><path class="door-arc" d="M12 34A28 28 0 0 0 36.2 20"></path><path class="door-leaf" d="M12 6V34"></path></svg></button>
 </div>
 <sc-if value="{{bubDone}}" hint-placeholder-val="{{false}}"><button class="bub-r" sc-camel-on-click="{{bubRefill}}">Nova folha</button></sc-if>
 <p class="bub-f">pra passar o tempo enquanto a resposta não chega</p>
@@ -788,6 +812,7 @@
 <div class="world {{worldCls}}" ref="{{setWorld}}">
 <img class="sdoor-img" src="./assets/images/portfolio-art.png" alt="" aria-hidden="true" ref="{{setDoorImg}}">
 <canvas class="world-cv" aria-hidden="true" ref="{{setWorldCv}}"></canvas>
+<button class="character-clean-target" hidden ref="{{setCharacterCleanTarget}}" data-nopoke="true" sc-camel-on-click="{{characterClean}}" aria-label="Limpar a poeira de Hikaru" title="Clique para limpar a poeira"></button>
 <button class="wdoor wd-l" ref="{{setWdL}}" sc-camel-on-click="{{wdL}}" sc-camel-on-mouse-enter="{{wdLHov}}" sc-camel-on-mouse-leave="{{wdOff}}" aria-label="{{wdLTip}}"><span class="sdoor-tip" aria-hidden="true">{{wdLTip}}</span></button>
 <sc-if value="{{wkHintOn}}" hint-placeholder-val="{{false}}"><span class="sdoor-tip wk-hint" ref="{{setWkHint}}">WASD pra andar · E pra usar</span></sc-if>
 <sc-if value="{{wdROn}}" hint-placeholder-val="{{true}}"><button class="wdoor wd-r" ref="{{setWdR}}" sc-camel-on-click="{{wdR}}" sc-camel-on-mouse-enter="{{wdRHov}}" sc-camel-on-mouse-leave="{{wdOff}}" aria-label="{{wdRTip}}"><span class="sdoor-tip" aria-hidden="true">{{wdRTip}}</span></button></sc-if>
@@ -795,6 +820,7 @@
 </sc-if>
 
 </main>
+<sc-if value="{{characterCareVisible}}"><aside class="character-care-hint" data-nopoke="true"><span role="status">Um pouco de poeira. Clique em Hikaru ou alterne A/D seis vezes.</span><button disabled="{{characterCleaning}}" sc-camel-on-click="{{characterCleanFace}}">Limpar o rosto</button><button disabled="{{characterCleaning}}" sc-camel-on-click="{{characterCleanBrush}}">Sacudir a roupa</button></aside></sc-if>
 
 <footer class="ground">
 <button class="ground-b {{groundCls}}" sc-camel-on-click="{{stomp}}" sc-camel-on-mouse-enter="{{groundEnter}}" sc-camel-on-mouse-leave="{{groundLeave}}" aria-label="Sismógrafo da estação SP-01" title="sinta o chão">
@@ -815,13 +841,13 @@
 <sc-if value="{{troNone}}" hint-placeholder-val="{{false}}"><p class="tro-e">Nenhuma ainda.</p></sc-if>
 <ul class="tro-l">
 <sc-for list="{{troRecent}}" as="tr" hint-placeholder-count="5">
-<li class="tro-i is-got"><span class="tro-ic"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path d="{{tr.ic}}"></path></svg></span><span><span class="tro-n pix">{{tr.name}}</span><span class="tro-d">{{tr.desc}}</span></span></li>
+<li class="tro-i is-got"><span class="tro-ic"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path sc-camel-d="{{tr.ic}}"></path></svg></span><span><span class="tro-n pix">{{tr.name}}</span><span class="tro-d">{{tr.desc}}</span></span></li>
 </sc-for>
 </ul>
 <sc-if value="{{troHasNext}}" hint-placeholder-val="{{true}}"><p class="tro-k lab-t">Próximas</p></sc-if>
 <ul class="tro-l">
 <sc-for list="{{troNext}}" as="tn" hint-placeholder-count="3">
-<li class="tro-i"><span class="tro-ic"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path d="{{tn.ic}}"></path></svg></span><span><span class="tro-n pix">{{tn.name}}</span><span class="tro-d">{{tn.desc}}</span></span></li>
+<li class="tro-i"><span class="tro-ic"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path sc-camel-d="{{tn.ic}}"></path></svg></span><span><span class="tro-n pix">{{tn.name}}</span><span class="tro-d">{{tn.desc}}</span></span></li>
 </sc-for>
 </ul>
 <sc-if value="{{troNoteOn}}" hint-placeholder-val="{{false}}"><p class="tro-e">Só faltam as secretas. Boa caçada.</p></sc-if>
@@ -836,10 +862,10 @@
 </sc-if>
 
 <sc-if value="{{toastA}}" hint-placeholder-val="{{false}}">
-<div class="toast" role="status"><span class="toast-ic"><sc-if value="{{toastTro}}" hint-placeholder-val="{{true}}"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path d="{{toastIc}}"></path></svg></sc-if><sc-if value="{{toastInf}}" hint-placeholder-val="{{false}}"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></sc-if></span><span><span class="toast-k {{toastKCls}}">{{toastKick}}</span><span class="toast-n pix">{{toastName}}</span></span></div>
+<div class="toast" role="status"><span class="toast-ic"><sc-if value="{{toastTro}}" hint-placeholder-val="{{true}}"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path sc-camel-d="{{toastIc}}"></path></svg></sc-if><sc-if value="{{toastInf}}" hint-placeholder-val="{{false}}"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></sc-if></span><span><span class="toast-k {{toastKCls}}">{{toastKick}}</span><span class="toast-n pix">{{toastName}}</span></span></div>
 </sc-if>
 <sc-if value="{{toastB}}" hint-placeholder-val="{{false}}">
-<div class="toast" role="status"><span class="toast-ic"><sc-if value="{{toastTro}}" hint-placeholder-val="{{true}}"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path d="{{toastIc}}"></path></svg></sc-if><sc-if value="{{toastInf}}" hint-placeholder-val="{{false}}"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></sc-if></span><span><span class="toast-k {{toastKCls}}">{{toastKick}}</span><span class="toast-n pix">{{toastName}}</span></span></div>
+<div class="toast" role="status"><span class="toast-ic"><sc-if value="{{toastTro}}" hint-placeholder-val="{{true}}"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path sc-camel-d="{{toastIc}}"></path></svg></sc-if><sc-if value="{{toastInf}}" hint-placeholder-val="{{false}}"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></sc-if></span><span><span class="toast-k {{toastKCls}}">{{toastKick}}</span><span class="toast-n pix">{{toastName}}</span></span></div>
 </sc-if>
 </div>
 </sc-if>
@@ -866,10 +892,10 @@
 <div class="ach-p"><div class="tro-bar ach-bar"><i style="width: {{trophyPct}}%"></i></div><span class="lab-t">{{achStats}}</span></div>
 <div class="ach-b">
 <div class="ach-g" ref="{{setAchGrid}}" sc-camel-on-key-down="{{achKey}}">
-<sc-for list="{{achList}}" as="ac" hint-placeholder-count="31"><button class="ach-s {{ac.cls}}" sc-camel-on-click="{{ac.pick}}" sc-camel-on-focus="{{ac.pick}}" aria-label="{{ac.aria}}" aria-pressed="{{ac.on}}" title="{{ac.tip}}"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path d="{{ac.ic}}"></path></svg></button></sc-for>
+<sc-for list="{{achList}}" as="ac" hint-placeholder-count="31"><button class="ach-s {{ac.cls}}" sc-camel-on-click="{{ac.pick}}" sc-camel-on-focus="{{ac.pick}}" aria-label="{{ac.aria}}" aria-pressed="{{ac.on}}" title="{{ac.tip}}"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path sc-camel-d="{{ac.ic}}"></path></svg></button></sc-for>
 </div>
 <div class="ach-d" aria-live="polite">
-<div class="ach-dt"><span class="ach-di {{achDCls}}"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path d="{{achDIc}}"></path></svg></span><span class="ach-dw"><span class="ach-dn pix">{{achDName}}</span><span class="ach-st lab-t {{achDCls}}">{{achDSt}}</span></span></div>
+<div class="ach-dt"><span class="ach-di {{achDCls}}"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path sc-camel-d="{{achDIc}}"></path></svg></span><span class="ach-dw"><span class="ach-dn pix">{{achDName}}</span><span class="ach-st lab-t {{achDCls}}">{{achDSt}}</span></span></div>
 <p class="ach-dd">{{achDDesc}}</p>
 <sc-if value="{{achDHintBtn}}" hint-placeholder-val="{{false}}"><button class="ach-hb" sc-camel-on-click="{{achShowHint}}">Pedir uma dica</button></sc-if>
 <sc-if value="{{achDHintOn}}" hint-placeholder-val="{{false}}"><p class="ach-hint"><span class="lab-t">Dica</span>{{achDHint}}</p></sc-if>
@@ -1000,7 +1026,7 @@
 
 <sc-if value="{{arcOpen}}" hint-placeholder-val="{{false}}">
 <div class="arc-l" sc-camel-on-click="{{arcBackdrop}}">
-<div class="arc" role="dialog" aria-modal="true" aria-label="Fliperama: Packet Invaders" tabindex="0" ref="{{setArcWrap}}" sc-camel-on-key-down="{{arcKey}}" sc-camel-on-key-up="{{arcKeyUp}}">
+<div class="arc arcade-game" role="dialog" aria-modal="true" aria-label="Fliperama: Packet Invaders" tabindex="0" ref="{{setArcWrap}}" sc-camel-on-key-down="{{arcKey}}" sc-camel-on-key-up="{{arcKeyUp}}">
 <div class="arc-mq"><span class="arc-t pix">PACKET INVADERS</span><button class="x-b" sc-camel-on-click="{{closeArcade}}" aria-label="Sair do fliperama"><svg sc-camel-view-box="0 0 16 16" class="ico" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9"></path></svg></button></div>
 <div class="arc-b">
 <div class="arc-sc">
@@ -1041,16 +1067,29 @@
 </sc-if>
 
 <sc-if value="{{deOpen}}">
-<div class="desktop-overlay" data-nopoke="true"><section class="desktop-shell" role="dialog" aria-modal="true" aria-label="Computador de Okaru">
-<header class="desktop-bar"><span>△ Okaru / Arch</span><span>{{deTime}}</span><button sc-camel-on-click="{{deClose}}" aria-label="Levantar da cadeira">×</button></header>
-<nav class="desktop-dock" aria-label="Aplicativos"><sc-for list="{{deApps}}" as="app"><button sc-camel-on-click="{{app.open}}"><span aria-hidden="true">{{app.icon}}</span><small>{{app.label}}</small></button></sc-for></nav>
-<main class="desktop-window"><header class="desktop-title"><button sc-camel-on-click="{{deBack}}" aria-label="Voltar ao desktop">←</button><span>{{deTitle}}</span></header>
-<sc-if value="{{deHome}}"><div class="desktop-welcome"><pre aria-hidden="true">{{deAscii}}</pre><h2>Bem-vindo, Okaru.</h2><p>Um pequeno desktop para explorar projetos, habilidades e ideias.</p><p class="desktop-note">Ambiente demonstrativo. O terminal e os recursos de hardware são fictícios.</p></div></sc-if>
-<sc-if value="{{deTerminal}}"><div class="desktop-terminal"><pre class="desktop-output" aria-live="polite">{{deOutput}}</pre><sc-if value="{{deMonitor}}"><table><thead><tr><th>PID</th><th>Processo</th><th>CPU</th><th>RAM</th></tr></thead><tbody><sc-for list="{{deProcesses}}" as="pr"><tr><td>{{pr.pid}}</td><td>{{pr.name}}</td><td>{{pr.cpu}}</td><td>{{pr.ram}}</td></tr></sc-for></tbody></table><p>Dados fictícios · atualização a cada segundo</p></sc-if><div class="desktop-prompt"><label for="desktop-command">okaru@arch:~$</label><input id="desktop-command" value="{{deInput}}" maxlength="128" autocomplete="off" spellcheck="false" sc-camel-on-change="{{deInputChange}}" sc-camel-on-key-down="{{deInputKey}}" aria-label="Comando do desktop"><button sc-camel-on-click="{{deSubmit}}">Executar</button></div></div></sc-if>
-<sc-if value="{{deProfile}}"><div class="desktop-profile"><pre aria-hidden="true">{{deAscii}}</pre><div><sc-for list="{{deProfileLines}}" as="pl"><p>{{pl.t}}</p></sc-for></div></div></sc-if>
-<sc-if value="{{deSkills}}"><div class="desktop-skills"><h2>Árvore de habilidades</h2><svg class="skt-svg" sc-camel-view-box="0 0 640 376" role="group" aria-label="Árvore de habilidades"><sc-for list="{{skLinks}}" as="link"><path d="{{link.d}}" fill="none" stroke="#668977"></path></sc-for><sc-for list="{{skNodes}}" as="sn"><g class="skt-n {{sn.cls}}" transform="{{sn.tf}}" role="button" tabindex="0" aria-label="{{sn.aria}}" sc-camel-on-click="{{sn.pick}}" sc-camel-on-key-down="{{sn.key}}"><rect x="-10" y="-10" width="20" height="20"></rect><text class="skt-t" x="{{sn.tx}}" y="4" text-anchor="{{sn.ta}}">{{sn.label}}</text></g></sc-for></svg><h3>{{skName}}</h3><p>{{skDesc}}</p></div></sc-if>
-<sc-if value="{{deResume}}"><div class="desktop-resume"><object data="{{dePdf}}" type="application/pdf" aria-label="Prévia do currículo"><p>O navegador não oferece prévia de PDF.</p><a href="{{dePdf}}" target="_blank" rel="noopener">Abrir currículo PDF</a></object></div></sc-if>
-<sc-if value="{{deLab}}"><div class="desktop-lab">
+<div class="desktop-overlay {{dePhaseClass}}" role="dialog" aria-modal="true" aria-label="Computador de Okaru" tabindex="-1" ref="{{setDeShell}}" data-nopoke="true">
+<sc-if value="{{deEntering}}"><div class="desktop-entry">
+<sc-if value="{{deHasCamera}}"><div class="desktop-camera" style="{{deCameraStyle}}" ref="{{setDeCamera}}"><canvas style="{{deSnapshotStyle}}" ref="{{setDeSnapshot}}" aria-hidden="true"></canvas></div></sc-if>
+</div></sc-if>
+<section class="desktop-shell" inert="{{deSurfaceInert}}" style="{{deCameraStyle}}" ref="{{setDeSurface}}">
+<header class="desktop-bar"><span>△ Okaru / Arch</span><span>{{deTime}}</span><button sc-camel-on-click="{{deClose}}" aria-label="Desligar o computador" title="Desligar o computador"><svg class="desktop-power" sc-camel-view-box="0 0 24 24" aria-hidden="true"><path d="M12 3v9 M6.4 6.4a8 8 0 1 0 11.2 0"></path></svg></button></header>
+<div class="desktop-workspace" ref="{{setDeWorkspace}}">
+<div class="desktop-welcome"><pre aria-hidden="true">{{deAscii}}</pre><h2>Bem-vindo, Okaru.</h2><p>Um pequeno desktop para explorar projetos, habilidades e ideias.</p><p class="desktop-note">Abra um aplicativo na barra inferior.</p></div>
+<sc-for list="{{deWindows}}" as="win">
+<sc-if value="{{win.opened}}">
+<section class="desktop-window" key="{{win.id}}" data-app="{{win.id}}" data-active="{{win.active}}" style="{{win.style}}" hidden="{{win.hidden}}" role="region" aria-label="{{win.title}}" sc-camel-on-pointer-down="{{win.raise}}" sc-camel-on-focus-capture="{{win.raise}}">
+<header class="desktop-title" tabindex="0" aria-label="Arraste para mover. Setas movem; Shift + setas redimensionam." title="Arraste para mover. Setas movem; Shift + setas redimensionam." sc-camel-on-pointer-down="{{win.drag}}" sc-camel-on-pointer-move="{{win.move}}" sc-camel-on-pointer-up="{{win.end}}" sc-camel-on-pointer-cancel="{{win.end}}" sc-camel-on-lost-pointer-capture="{{win.end}}" sc-camel-on-key-down="{{win.key}}"><svg sc-camel-view-box="0 0 24 24" aria-hidden="true"><path sc-camel-d="{{win.icon}}"></path></svg><h2>{{win.title}}</h2><button sc-camel-on-click="{{win.minimize}}" aria-label="Minimizar janela" title="Minimizar janela">−</button><button sc-camel-on-click="{{win.close}}" aria-label="Fechar janela" title="Fechar janela">×</button></header>
+<div class="desktop-window-body">
+<sc-if value="{{win.terminal}}"><div class="desktop-terminal"><pre class="desktop-output" aria-live="polite">{{deOutput}}</pre><sc-if value="{{deMonitor}}"><table><thead><tr><th>PID</th><th>Processo</th><th>CPU</th><th>RAM</th></tr></thead><tbody><sc-for list="{{deProcesses}}" as="pr"><tr><td>{{pr.pid}}</td><td>{{pr.name}}</td><td>{{pr.cpu}}</td><td>{{pr.ram}}</td></tr></sc-for></tbody></table><p>Atualização a cada segundo</p></sc-if><div class="desktop-prompt"><label for="desktop-command">okaru@arch:~$</label><input id="desktop-command" value="{{deInput}}" maxlength="128" autocomplete="off" spellcheck="false" sc-camel-on-change="{{deInputChange}}" sc-camel-on-key-down="{{deInputKey}}" aria-label="Comando do desktop"><button sc-camel-on-click="{{deSubmit}}">Executar</button></div></div></sc-if>
+<sc-if value="{{win.profile}}"><div class="desktop-profile"><pre aria-hidden="true">{{deAscii}}</pre><div><sc-for list="{{deProfileLines}}" as="pl"><p>{{pl.t}}</p></sc-for></div></div></sc-if>
+<sc-if value="{{win.skills}}"><div class="desktop-skills"><h3>Árvore de habilidades</h3><p>Explore os ramos ou selecione uma habilidade para ver como eu a uso.</p><div class="desktop-tree-scroll"><svg class="skt-svg" sc-camel-view-box="0 0 640 376" role="group" aria-label="Árvore de habilidades">
+<sc-for list="{{skLinks}}" as="link"><path class="skt-p {{link.cls}}" sc-camel-d="{{link.d}}"></path></sc-for>
+<sc-for list="{{skNodes}}" as="sn"><g class="skt-n {{sn.cls}}" sc-camel-transform="{{sn.tf}}" role="button" tabindex="0" aria-label="{{sn.aria}}" sc-camel-on-click="{{sn.pick}}" sc-camel-on-key-down="{{sn.key}}"><rect class="skt-r" x="-10" y="-10" width="20" height="20"></rect><rect class="skt-c" x="-4" y="-4" width="8" height="8"></rect><text class="skt-t" sc-camel-x="{{sn.tx}}" y="4" text-anchor="{{sn.ta}}">{{sn.label}}</text></g></sc-for>
+<sc-for list="{{skHeads}}" as="sh"><text class="skt-h" sc-camel-x="{{sh.x}}" sc-camel-y="{{sh.y}}" text-anchor="middle">{{sh.t}}</text></sc-for>
+</svg></div><div class="desktop-skill-detail" aria-live="polite"><h3>{{skName}}</h3><p>{{skDesc}}</p></div>
+<div class="desktop-skill-groups"><sc-for list="{{deSkillGroups}}" as="group"><section><h3>{{group.name}}</h3><sc-for list="{{group.nodes}}" as="skill"><button sc-camel-on-click="{{skill.pick}}" aria-pressed="{{skill.active}}">{{skill.label}}</button></sc-for></section></sc-for></div></div></sc-if>
+<sc-if value="{{win.resume}}"><div class="desktop-resume"><object sc-camel-data="{{dePdf}}" type="application/pdf" aria-label="Prévia do currículo"><p>O navegador não oferece prévia de PDF.</p><a href="{{dePdf}}" target="_blank" rel="noopener">Abrir currículo PDF</a></object></div></sc-if>
+<sc-if value="{{win.lab}}"><div class="desktop-lab">
 <section class="screen" aria-label="Lab">
 <div class="lab">
 <div class="lab-i">
@@ -1110,10 +1149,20 @@
 </div>
 </section>
 </div></sc-if>
-<sc-if value="{{deSettings}}"><div class="desktop-settings"><h2>Idioma do sistema</h2><p>A escolha também é aplicada ao portfólio.</p><div class="language-options"><sc-for list="{{languageChoices}}" as="language"><button sc-camel-on-click="{{language.choose}}" lang="{{language.lang}}">{{language.name}}</button></sc-for></div></div></sc-if>
-<sc-if value="{{deClock}}"><div class="desktop-welcome"><h2>{{deTime}}</h2><p>{{deDate}}</p><p>Horário local do visitante</p></div></sc-if>
-</main><footer class="desktop-status">Hikaru Ogasawara · <span>Ambiente demonstrativo</span></footer>
-</section></div></sc-if>
+<sc-if value="{{win.settings}}"><div class="desktop-settings"><h3>Idioma do sistema</h3><p>A escolha também é aplicada ao portfólio.</p><div class="language-options"><sc-for list="{{languageChoices}}" as="language"><button sc-camel-on-click="{{language.choose}}" lang="{{language.lang}}">{{language.name}}</button></sc-for></div></div></sc-if>
+<sc-if value="{{win.clock}}"><div class="desktop-clock"><h3>{{deTime}}</h3><p>{{deDate}}</p><p>Horário local do visitante</p></div></sc-if>
+<sc-if value="{{win.game}}"><div class="desktop-game" tabindex="0" ref="{{setPcWrap}}" sc-camel-on-key-down="{{deGameKey}}" sc-camel-on-key-up="{{pcKeyUp}}" aria-label="Computador: jogo offline Sem Conexão">
+<h3>SEM CONEXÃO</h3><canvas class="pcg-cv" ref="{{setPcCanvas}}" sc-camel-on-pointer-down="{{pcCvDown}}" sc-camel-on-pointer-up="{{pcCvUp}}" sc-camel-on-pointer-leave="{{pcCvUp}}" sc-camel-on-pointer-cancel="{{pcCvUp}}" width="720" height="240" aria-label="Tela do jogo: o robozinho corre pela placa de circuito"></canvas>
+<p>Espaço ou ↑: pular · ↓: abaixar · P: pausar · Esc: fechar a janela.</p><p>Segure o salto para ir mais alto. Trocar de aplicativo suspende a partida.</p>
+<div class="desktop-game-controls"><button sc-camel-on-key-down="{{deJumpKeyDown}}" sc-camel-on-key-up="{{deJumpKeyUp}}" sc-camel-on-pointer-down="{{pcJumpDn}}" sc-camel-on-pointer-up="{{pcJumpUp}}" sc-camel-on-pointer-leave="{{pcJumpUp}}" sc-camel-on-pointer-cancel="{{pcJumpUp}}">PULAR</button><button sc-camel-on-key-down="{{deDuckKeyDown}}" sc-camel-on-key-up="{{deDuckKeyUp}}" sc-camel-on-pointer-down="{{pcDuckDn}}" sc-camel-on-pointer-up="{{pcDuckUp}}" sc-camel-on-pointer-leave="{{pcDuckUp}}" sc-camel-on-pointer-cancel="{{pcDuckUp}}">ABAIXAR</button><button sc-camel-on-click="{{deGamePause}}">Pausar / continuar</button><button sc-camel-on-click="{{deGameRestart}}">Reiniciar partida</button></div>
+</div></sc-if>
+</div><button class="desktop-resize" aria-label="Redimensionar janela" title="Redimensionar janela" sc-camel-on-pointer-down="{{win.resize}}" sc-camel-on-pointer-move="{{win.move}}" sc-camel-on-pointer-up="{{win.end}}" sc-camel-on-pointer-cancel="{{win.end}}" sc-camel-on-lost-pointer-capture="{{win.end}}" sc-camel-on-key-down="{{win.resizeKey}}">◢</button></section></sc-if>
+</sc-for>
+</div>
+<nav class="desktop-dock" aria-label="Aplicativos"><sc-for list="{{deApps}}" as="app"><button class="{{app.cls}}" data-app="{{app.id}}" sc-camel-on-click="{{app.open}}" aria-pressed="{{app.active}}" title="{{app.label}}"><svg sc-camel-view-box="0 0 24 24" aria-hidden="true"><path sc-camel-d="{{app.icon}}"></path></svg><span>{{app.label}}</span></button></sc-for></nav>
+<footer class="desktop-status">Hikaru Ogasawara · Okaru Desktop</footer>
+</section>
+</div></sc-if>
 
 <sc-if value="{{pcOpen}}" hint-placeholder-val="{{false}}">
 <div class="arc-l" sc-camel-on-click="{{pcBackdrop}}">
@@ -1133,9 +1182,9 @@
 <div class="arc skov" role="dialog" aria-modal="true" aria-label="Árvore de habilidades" tabindex="0" ref="{{setSkWrap}}">
 <div class="arc-mq"><span class="arc-t pix">ÁRVORE DE HABILIDADES</span><button class="x-b" sc-camel-on-click="{{skClose}}" aria-label="Fechar"><svg sc-camel-view-box="0 0 16 16" class="ico" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9"></path></svg></button></div>
 <svg class="skt-svg" sc-camel-view-box="0 0 640 376" role="group" aria-label="Árvore de habilidades: hardware, infraestrutura, segurança e software">
-<sc-for list="{{skLinks}}" as="sl" hint-placeholder-count="8"><path class="skt-p {{sl.cls}}" d="{{sl.d}}"></path></sc-for>
-<sc-for list="{{skNodes}}" as="sn" hint-placeholder-count="10"><g class="skt-n {{sn.cls}}" transform="{{sn.tf}}" sc-camel-on-click="{{sn.pick}}" sc-camel-on-mouse-enter="{{sn.pick}}" sc-camel-on-focus="{{sn.pick}}" sc-camel-on-key-down="{{sn.key}}" role="button" tabindex="0" aria-label="{{sn.aria}}"><rect class="skt-r" x="-10" y="-10" width="20" height="20"></rect><rect class="skt-c" x="-4" y="-4" width="8" height="8"></rect><text class="skt-t" x="{{sn.tx}}" y="4" text-anchor="{{sn.ta}}">{{sn.label}}</text></g></sc-for>
-<sc-for list="{{skHeads}}" as="sh" hint-placeholder-count="4"><text class="skt-h" x="{{sh.x}}" y="{{sh.y}}" text-anchor="middle">{{sh.t}}</text></sc-for>
+<sc-for list="{{skLinks}}" as="sl" hint-placeholder-count="8"><path class="skt-p {{sl.cls}}" sc-camel-d="{{sl.d}}"></path></sc-for>
+<sc-for list="{{skNodes}}" as="sn" hint-placeholder-count="10"><g class="skt-n {{sn.cls}}" sc-camel-transform="{{sn.tf}}" sc-camel-on-click="{{sn.pick}}" sc-camel-on-mouse-enter="{{sn.pick}}" sc-camel-on-focus="{{sn.pick}}" sc-camel-on-key-down="{{sn.key}}" role="button" tabindex="0" aria-label="{{sn.aria}}"><rect class="skt-r" x="-10" y="-10" width="20" height="20"></rect><rect class="skt-c" x="-4" y="-4" width="8" height="8"></rect><text class="skt-t" sc-camel-x="{{sn.tx}}" y="4" text-anchor="{{sn.ta}}">{{sn.label}}</text></g></sc-for>
+<sc-for list="{{skHeads}}" as="sh" hint-placeholder-count="4"><text class="skt-h" sc-camel-x="{{sh.x}}" sc-camel-y="{{sh.y}}" text-anchor="middle">{{sh.t}}</text></sc-for>
 </svg>
 <p class="skt-d"><b>{{skName}}</b>{{skDesc}}</p>
 <p class="skt-lg lab-t"><span class="skt-k is-on"></span>aprendido<span class="skt-k"></span>próximo · {{skHint}}</p>
@@ -1184,11 +1233,29 @@
 <div class="tv-game-help" id="tv-game-help"><p>Limpe os blocos de três fases com três vidas. Cada fase concluída recupera uma vida, até o máximo de três.</p><p>Mova o mouse, arraste na tela ou use ←/→ e A/D. Acerte com as pontas da raquete para mudar a direção da bola.</p><p>Clique na tela ou aperte Espaço/Enter para lançar. P pausa ou continua; R reinicia; Esc volta ao puff.</p><p>O recorde fica salvo neste navegador.</p></div>
 </section></div></sc-if>
 
-<sc-if value="{{shooterOpen}}"><div class="arc-l"><section class="arc shooter" role="dialog" aria-modal="true" aria-label="Operação Circuito">
-<header class="arc-h"><span class="pix">OPERAÇÃO CIRCUITO</span><button class="x-b" sc-camel-on-click="{{shooterClose}}" aria-label="Fechar">×</button></header>
-<canvas class="shooter-cv" ref="{{setShooter}}" sc-camel-on-pointer-move="{{shooterAim}}" sc-camel-on-pointer-down="{{shooterFireDown}}" sc-camel-on-pointer-up="{{shooterFireUp}}" sc-camel-on-pointer-cancel="{{shooterFireUp}}" aria-label="Jogo de tiro lateral com robôs e um tanque"></canvas>
-<div class="shooter-help"><p>Mova com A/D ou ←/→. Aponte o mouse para mirar em qualquer direção e segure o clique, Espaço ou J para atirar.</p><p>Pule com W ou K. Sem mouse, use ↑/↓ para mirar para cima ou para baixo; combine com ←/→ para diagonais.</p><p>T chama um tanque por 8 segundos, uma vez por partida. P pausa ou continua. Enter inicia ou reinicia; durante a pausa, Enter continua. Esc fecha.</p><p>No celular, use os botões abaixo. Objetivo: 2.400 pontos. A cada 600 pontos você recupera uma vida.</p></div>
-<div class="shooter-controls" data-nopoke="true"><button class="btn" sc-camel-on-click="{{shooterStart}}">Jogar / reiniciar</button><button class="btn" sc-camel-on-click="{{shooterPause}}">Pausar / continuar</button><sc-for list="{{shooterControls}}" as="sh"><button class="btn" sc-camel-on-pointer-down="{{sh.down}}" sc-camel-on-pointer-up="{{sh.up}}" sc-camel-on-pointer-cancel="{{sh.up}}">{{sh.label}}</button></sc-for></div>
+<sc-if value="{{shooterOpen}}"><div class="arc-l" sc-camel-on-click="{{shooterBackdrop}}"><section class="arc arcade-game shooter" role="dialog" aria-modal="true" aria-label="Operação Circuito" tabindex="0" ref="{{setShooterWrap}}">
+<header class="arc-mq"><span class="arc-t pix">OPERAÇÃO CIRCUITO</span><button class="x-b" sc-camel-on-click="{{shooterClose}}" aria-label="Sair do fliperama"><svg sc-camel-view-box="0 0 16 16" class="ico" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9"></path></svg></button></header>
+<div class="arc-b">
+<div class="arc-sc"><canvas class="arc-cv shooter-cv" ref="{{setShooter}}" sc-camel-on-pointer-move="{{shooterAim}}" sc-camel-on-pointer-down="{{shooterFireDown}}" sc-camel-on-pointer-up="{{shooterFireUp}}" sc-camel-on-pointer-cancel="{{shooterFireUp}}" sc-camel-on-lost-pointer-capture="{{shooterFireUp}}" aria-label="Jogo de tiro lateral com robôs e um tanque"></canvas></div>
+<div class="arc-p shooter-controls" data-nopoke="true">
+<sc-for list="{{shooterControls}}" as="sh"><button class="ak {{sh.cls}}" aria-label="{{sh.aria}}" sc-camel-on-pointer-down="{{sh.down}}" sc-camel-on-pointer-up="{{sh.up}}" sc-camel-on-pointer-cancel="{{sh.up}}" sc-camel-on-lost-pointer-capture="{{sh.up}}" sc-camel-on-key-down="{{sh.keyDown}}" sc-camel-on-key-up="{{sh.keyUp}}" sc-camel-on-blur="{{sh.up}}">{{sh.label}}</button></sc-for>
+<div class="shooter-session"><button class="ak" sc-camel-on-click="{{shooterStart}}">Jogar / reiniciar</button><button class="ak" sc-camel-on-click="{{shooterPause}}">Pausar / continuar</button></div>
+</div>
+<aside class="arc-how shooter-help" aria-label="Como jogar">
+<p class="ah-t pix">COMO JOGAR</p><p class="ah-lead">Avance pela placa e derrube os robôs. Objetivo: 2.400 pontos; a cada 600, você recupera uma vida.</p>
+<p class="ah-ct lab-t">Controles</p>
+<dl class="ah-c">
+<dt><kbd>A</kbd><kbd>D</kbd></dt><dd>mover (ou ← e →)</dd>
+<dt><kbd>W</kbd><kbd>K</kbd></dt><dd>pular</dd>
+<dt><kbd>Mouse</kbd></dt><dd>mirar em qualquer direção; segure o clique para atirar</dd>
+<dt><kbd>↑</kbd><kbd>↓</kbd></dt><dd>mirar sem mouse; combine com ← e → para diagonais</dd>
+<dt><kbd>espaço</kbd><kbd>J</kbd></dt><dd>atirar</dd>
+<dt><kbd>T</kbd></dt><dd>chamar o tanque por 8 segundos, uma vez por partida</dd>
+<dt><kbd>enter</kbd></dt><dd>jogar ou reiniciar; durante a pausa, continuar</dd>
+<dt><kbd>P</kbd></dt><dd>pausar ou continuar</dd>
+<dt><kbd>esc</kbd></dt><dd>sair</dd>
+</dl><p class="ah-m">No celular, use os controles abaixo da tela do jogo.</p>
+</aside></div>
 </section></div></sc-if>
 <sc-if value="{{debug}}" hint-placeholder-val="{{false}}">
 <div class="dbg" aria-hidden="true"><pre class="dbg-t" ref="{{setDbgEl}}"></pre><canvas class="dbg-g" width="360" height="80" ref="{{setDbgCv}}"></canvas></div>
@@ -1229,7 +1296,7 @@
 <sc-if value="{{shatter}}" hint-placeholder-val="{{false}}">
 <div class="shat" aria-hidden="true">
 <div class="shat-f"></div>
-<svg class="shat-c"><path d="{{shPath}}"></path></svg>
+<svg class="shat-c"><path sc-camel-d="{{shPath}}"></path></svg>
 <sc-for list="{{shards}}" as="sd" hint-placeholder-count="14"><span class="shard" style="left: {{sd.x}}px; top: {{sd.y}}px; width: {{sd.w}}px; height: {{sd.h}}px; clip-path: {{sd.clip}}; --dx: {{sd.dx}}px; --dy: {{sd.dy}}px; --rot: {{sd.rot}}deg; animation-delay: {{sd.d}}ms"></span></sc-for>
 </div>
 </sc-if>
@@ -1278,9 +1345,10 @@ class Component extends DCLogic {
     this._bubCoin = Math.floor(Math.random() * 24);
     this.loadSave();
     this.measureLoad();
+    this.rmImg();
     this._tick = setInterval(() => {
       const s = this.state || {};
-      if (!s.seis) this.setState({ now: Date.now() });
+      if (!s.seis || s.deOpen) this.setState({ now: Date.now() });
       this.checkOwl();
       this._tickN = (this._tickN || 0) + 1;
       if (this._tickN % 30 === 0 && this.curPage() !== 'boot') this.persist(false);
@@ -1367,6 +1435,8 @@ class Component extends DCLogic {
     this._gamesRead = obj(sv.games);
     this._recipes = obj(sv.recipes);
     this._roomSeen = obj(sv.room);
+    // Older saves inferred the tutorial from explored objects; new saves record it explicitly.
+    this._rmIntroShown = sv.roomIntro === true || (sv.roomIntro === undefined && this.roomSeenN() > 2);
     this._plushMeet = obj(sv.plush);
     this._galleryRead = obj(sv.gallery);
     this._spun = obj(sv.spun);
@@ -1419,6 +1489,7 @@ class Component extends DCLogic {
       games: this._gamesRead || {},
       recipes: this._recipes || {},
       room: this._roomSeen || {},
+      roomIntro: !!this._rmIntroShown,
       plush: this._plushMeet || {},
       gallery: this._galleryRead || {},
       spun: this._spun || {},
@@ -3749,16 +3820,18 @@ class Component extends DCLogic {
     wrap.style.height = Math.floor(vh * sc) + 'px';
   }
 
+  // Preloaded at mount; a failed request is retried instead of leaving the room without its atlas.
   rmImg() {
-    if (this._rmAtlas !== undefined) return this._rmAtlas;
-    this._rmAtlas = null;
+    if (this._rmAtlas) return this._rmAtlas;
+    if (this._rmAtlasReq || typeof Image === 'undefined' || Date.now() < (this._rmAtlasRetry || 0)) return null;
     try {
-      if (typeof Image === 'undefined') return null;
       const img = new Image();
-      img.onload = () => { this._rmAtlas = img; };
+      this._rmAtlasReq = img;
+      img.onload = () => { this._rmAtlas = img; this._rmAtlasReq = null; };
+      img.onerror = () => { this._rmAtlasReq = null; this._rmAtlasRetry = Date.now() + 1500; };
       img.src = this.blob(this.data().roomAtlas);
     } catch (err) {
-      this._rmAtlas = null;
+      this._rmAtlasReq = null;
     }
     return null;
   }
@@ -3800,15 +3873,11 @@ class Component extends DCLogic {
     const cyw = focusO ? (focusO.t[1] + focusO.t[3] / 2) * 16 : fy * 16 + 8;
     rm.camX = Math.round(Math.max(0, Math.min(384 - vw, cxw - vw / 2)));
     rm.camY = Math.round(Math.max(0, Math.min(224 - vh, cyw - vh / 2)));
+    // Without the atlas there is nothing to paint; keep the previous frame until the retry lands.
+    if (!img) return;
     ctx.imageSmoothingEnabled = false;
     ctx.fillStyle = '#050706';
     ctx.fillRect(0, 0, vw, vh);
-    if (!img) {
-      ctx.fillStyle = '#8FD3A6';
-      ctx.font = '8px monospace';
-      this.canvasText(ctx, 'carregando o quarto...', 8, 16);
-      return;
-    }
     ctx.drawImage(img, rm.camX, rm.camY, vw, vh, 0, 0, vw, vh);
     const X = (x) => x - rm.camX;
     const Y = (y) => y - rm.camY;
@@ -3827,8 +3896,8 @@ class Component extends DCLogic {
     }
     ctx.fillStyle = '#F0CE6A';
     if (Math.floor(tt / 530) % 2) ctx.fillRect(X(335), Y(24), 3, 1);
-    if (rm.sit) {
-      // he is playing: the monitor shows the offline runner
+    if (rm.sit && rm.sit.kind !== 'puff' && !this._desktopSession) {
+      // Standalone runner fallback; the desktop session paints its live DOM on this glass.
       ctx.fillStyle = '#0E2A1C';
       ctx.fillRect(X(327), Y(14), 22, 14);
       ctx.fillStyle = '#D8B24A';
@@ -4231,7 +4300,7 @@ class Component extends DCLogic {
     if (behind) teddy();
     // "!" above the head when something interesting is right in front
     const over = !!(s.paused || s.palOpen || s.achOpen || s.recOpen || s.arcOpen || s.pcOpen || s.deOpen || s.tvGameOpen || s.dOpen || s.skOpen || s.credOpen);
-    if (!rm.moving && !rm.sit && !s.rmDlg && !over) {
+    if (!rm.moving && !rm.sit && !rm.portalTravel && !s.rmDlg && !over) {
       const f = this.rmFront(rm);
       const onDoor = rm.dir === 'd' && f[1] >= G.H && G.obj[rm.y * G.W + rm.x] === G.door;
       const oi = f[0] >= 0 && f[1] >= 0 && f[0] < G.W && f[1] < G.H ? G.obj[f[1] * G.W + f[0]] : -1;
@@ -5212,6 +5281,7 @@ class Component extends DCLogic {
       }
       if (pose.sx !== 1 || pose.sy !== 1) ctx.scale(pose.sx, pose.sy);
       ctx.drawImage(img, 48 + fr * 16, 224, 16, 24, Math.round(-w / 2), Math.round(-h), Math.round(w), Math.round(h));
+      this.drawCharacterCare?.(ctx, u * dpr, pose.dir || wk.dir);
       ctx.restore();
     }
     if (wk.bang || (hitEl && !wk.anim && !this._wPoke)) {
@@ -5428,9 +5498,10 @@ class Component extends DCLogic {
   }
 
   roomIntro() {
-    if (this._rmIntroShown || this.roomSeenN() > 2) return;
+    if (this._rmIntroShown) return;
     this._rmIntroShown = true;
     this.rmIntroStep(0);
+    this.persistSoon();
   }
 
   rmIntroStep(i) {

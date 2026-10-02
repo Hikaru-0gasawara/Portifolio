@@ -47,11 +47,12 @@
   g.PortfolioShooter={fresh,step,draw,install(C){
     const p=C.prototype,render=p.renderVals,act=p.roomAct,rootKey=p.rootKey,rootUp=p.rootKeyUp,mount=p.componentDidMount,unmount=p.componentWillUnmount;
     p.shooterOpen=function(){this._shooter=fresh();this._shooterTankUsed=false;this._wKeys={};if(this._rm){this._rm.held=[];this._rm.path=[];}this.setState({shooterOpen:true,rmDlg:false,paused:false});this.startLoop();};
-    p.shooterClose=function(){this._shooter=null;this.setState({shooterOpen:false});this.focusRoot();};
+    p.shooterClose=function(){this._shooter=null;this._shooterCv=null;this._shooterWrap=null;this.setState({shooterOpen:false});this.focusRoot();};
     p.shooterStart=function(){if(this._shooter?.mode==='pause'){this._shooter.mode='play';return;}this._shooter=fresh();this._shooter.mode='play';this._shooterTankUsed=false;this.unlock('circuit-start');};
     p.shooterInput=function(key,on){const s=this._shooter;if(!s)return;if(key==='tank'&&on&&s.mode==='play'&&!this._shooterTankUsed){s.tank=8000;this._shooterTankUsed=true;this.sfx('special');this.unlock('tank-call');}else s.keys[key]=on;};
     p.shooterKey=function(e,on){
-      const k=e.key.toLowerCase();const key={arrowleft:'left',a:'left',arrowright:'right',d:'right',arrowup:'up',arrowdown:'down',w:'jump',k:'jump',' ':'fire',j:'fire',t:'tank'}[k];
+      const k=e.key.toLowerCase();if((k==='enter'||k===' ')&&e.target?.closest?.('button'))return;
+      const key={arrowleft:'left',a:'left',arrowright:'right',d:'right',arrowup:'up',arrowdown:'down',w:'jump',k:'jump',' ':'fire',j:'fire',t:'tank'}[k];
       if(key&&this._shooter&&['left','right','up','down'].includes(key))this._shooter.pointerAim=null;
       if(key){e.preventDefault();this.shooterInput(key,on);}if(on&&!e.repeat){if(k==='escape'){e.preventDefault();this.shooterClose();}if(k==='enter'){e.preventDefault();this.shooterStart();}if(k==='p'&&this._shooter)this._shooter.mode=this._shooter.mode==='pause'?'play':this._shooter.mode==='play'?'pause':this._shooter.mode;}
     };
@@ -61,6 +62,16 @@
     p.componentDidMount=function(){mount.call(this);this._shooterBlur=()=>{if(this._shooter){this._shooter.keys={};if(this._shooter.mode==='play')this._shooter.mode='pause';}};window.addEventListener('blur',this._shooterBlur);};
     p.componentWillUnmount=function(){window.removeEventListener('blur',this._shooterBlur);unmount.call(this);};
     p.loopShooter=function(dt){const s=this._shooter;if(!this.st().shooterOpen||!s||!this._shooterCv)return;const hp=s.hp,score=s.score;step(s,Math.min(40,dt));if(s.hp<hp)this.sfx('bump');if(s.score>score)this.sfx('key');if(s.mode==='win')this.unlock('circuit-win');draw(this._shooterCv.getContext('2d'),s,g.PortfolioI18n.t);};
-    p.renderVals=function(){const r=render.call(this);return {...r,shooterOpen:!!this.st().shooterOpen,setShooter:el=>{this._shooterCv=el;if(el){el.width=640;el.height=300;}},shooterAim:e=>{if(e.pointerType==='touch'||!this._shooter)return;const box=e.currentTarget.getBoundingClientRect();this._shooter.pointerAim={x:(e.clientX-box.left)/box.width*640,y:(e.clientY-box.top)/box.height*300};},shooterClose:()=>this.shooterClose(),shooterStart:()=>this.shooterStart(),shooterControls:[['left','←'],['right','→'],['up','Mirar ↑'],['down','Mirar ↓'],['jump','Pular'],['fire','Atirar'],['tank','Tanque']].map(([key,label])=>({label,down:e=>{e.preventDefault();e.currentTarget.setPointerCapture?.(e.pointerId);if(this._shooter)this._shooter.pointerAim=null;this.shooterInput(key,true);},up:()=>this.shooterInput(key,false)}))};};
+    p.renderVals=function(){const r=render.call(this);return {...r,shooterOpen:!!this.st().shooterOpen,
+      setShooterWrap:this._shooterWrapRef||(this._shooterWrapRef=el=>{this._shooterWrap=el;el?.focus?.({preventScroll:true});}),
+      shooterBackdrop:e=>{if(e.target===e.currentTarget)this.shooterClose();},
+      setShooter:this._shooterCanvasRef||(this._shooterCanvasRef=el=>{this._shooterCv=el;if(el){el.width=640;el.height=300;}}),
+      shooterAim:e=>{if(e.pointerType==='touch'||!this._shooter)return;const box=e.currentTarget.getBoundingClientRect();this._shooter.pointerAim={x:(e.clientX-box.left)/box.width*640,y:(e.clientY-box.top)/box.height*300};},
+      shooterClose:()=>this.shooterClose(),shooterStart:()=>this.shooterStart(),
+      shooterControls:[['left','←','Esquerda'],['right','→','Direita'],['up','Mirar ↑','Mirar ↑'],['down','Mirar ↓','Mirar ↓'],['jump','Pular','Pular'],['fire','Atirar','Atirar'],['tank','Tanque','Chamar o tanque']].map(([key,label,aria])=>{
+        const press=on=>{if(on&&this._shooter)this._shooter.pointerAim=null;this.shooterInput(key,on);};
+        const keyboard=(e,on)=>{if(!['Enter',' '].includes(e.key))return;e.preventDefault();e.stopPropagation();if(!on||!e.repeat)press(on);};
+        return {label,aria,cls:key==='fire'?'fire pix':'',down:e=>{e.preventDefault();e.currentTarget.setPointerCapture?.(e.pointerId);press(true);},up:()=>press(false),keyDown:e=>keyboard(e,true),keyUp:e=>keyboard(e,false)};
+      })};};
   }};
 })(window);
