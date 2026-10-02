@@ -45,7 +45,7 @@ SELECIONE SEU MAIN	SELECT YOUR MAIN	メインを選択
 clique pra trocar	click to switch	クリックで切り替え
 · arraste pra girar	· drag to rotate	· ドラッグで回転
 arraste	drag	ドラッグ
-Embarcados · IoT · firmware	Embedded · IoT · firmware	組込み · IoT · ファームウェア
+Embarcados · IoT · firmware	Embedded · IoT · firmware	組み込み · IoT · ファームウェア
 segurança no meio: é ela que fecha o combo	security in the middle: it completes the combo	セキュリティがコンボを完成させる
 APIs · web · automação	APIs · web · automation	API · Web · 自動化
 Lista de golpes	Move list	技リスト
@@ -123,7 +123,7 @@ Classe	Class	クラス
 Engenharia da Computação	Computer Engineering	コンピュータ工学
 Formação	Education	学歴
 · bacharelado, 2023–2027 (previsto)	· bachelor's degree, 2023–2027 (expected)	· 学士課程、2023〜2027年（卒業予定）
-· ensino médio, 2010–2022	· school education, 2010–2022	· 学校教育、2010〜2022年
+· ensino médio, 2010–2022	· high school, 2010–2022	· 高校、2010〜2022年
 Idiomas	Languages	言語
 Português	Portuguese	ポルトガル語
 nativo	native	母語
@@ -136,7 +136,7 @@ intermediário	intermediate	中級
 Passivas	Passive skills	パッシブスキル
 Calma sob pressão · proatividade · automotivação · trabalho em equipe · responsabilidade com prazos	Calm under pressure · initiative · self-motivation · teamwork · respect for deadlines	プレッシャーに強い · 積極性 · 自発性 · チームワーク · 納期への責任感
 Procurando	Seeking	希望
-Estágio em infraestrutura, segurança ou sistemas embarcados	An internship in infrastructure, security or embedded systems	インフラ、セキュリティ、組込みシステム分野のインターンシップ
+Estágio em infraestrutura, segurança ou sistemas embarcados	An internship in infrastructure, security or embedded systems	インフラ、セキュリティ、組み込みシステム分野のインターンシップ
 Desde criança eu gosto de construir coisas, consertar o que quebra e descobrir como tudo funciona por dentro. Essa curiosidade não passou, só trocou de ferramenta: a chave de fenda virou multímetro, terminal e firmware.	Since childhood I've enjoyed building things, fixing what breaks and discovering how things work inside. That curiosity remains; only the tools have changed: the screwdriver became a multimeter, terminal and firmware.	子どもの頃から、ものを作り、壊れたものを直し、仕組みを知るのが好きでした。その好奇心は今も変わりません。ドライバーがテスター、ターミナル、ファームウェアに変わっただけです。
 Pra mim, essa é a essência de um engenheiro: entender a fundo como uma coisa funciona antes de mexer nela e, só então, buscar a solução. Não a primeira que funciona, mas a mais eficiente que eu conseguir encontrar. Entender o porquê antes de aceitar o como.	To me, engineering means understanding how something works before changing it, then finding the most efficient solution I can. Understand why before accepting how.	私にとってエンジニアリングとは、手を加える前に仕組みを深く理解し、できる限り効率の良い解決策を探すこと。「どうやるか」を受け入れる前に「なぜか」を理解したいと思っています。
 Sou de aprender fazendo, com a mão na massa: montar, testar, medir, quebrar e montar de novo até ficar do jeito certo. Mantenho a calma quando algo dá errado, porque é aí que mais se aprende. O que eu quero agora é um time onde dê pra pôr a mão em sistema de verdade e aprender com quem já sabe.	I learn by doing: assemble, test, measure, break and rebuild until it works properly. I stay calm when things go wrong because that's when I learn most. I'm looking for a team where I can work on real systems and learn from experienced people.	組み立て、試し、測り、壊し、納得できるまで作り直すことで学びます。失敗したときこそ学びが多いので、冷静さを大切にしています。実際のシステムに触れ、経験豊かな人から学べるチームを探しています。
@@ -154,7 +154,7 @@ Em jogo de luta eu sou	In fighting games I'm a	格闘ゲームでは
 : controlo o espaço, leio o oponente e puno o erro. No fundo, é defesa em profundidade.	: I control space, read my opponent and punish mistakes. In a way, it's defense in depth.	。間合いを制御し、相手を読み、ミスを狙う。ある意味、多層防御です。
 Controle	Controller	コントローラー
 objetos	objects	オブジェクト
-Estou procurando estágio em infraestrutura, segurança ou sistemas embarcados. Se você tem uma vaga, um projeto ou só uma dúvida sobre ESP32, insere a ficha.	I'm seeking an internship in infrastructure, security or embedded systems. If you have an opening, a project or just an ESP32 question, insert a coin.	インフラ、セキュリティ、組込みシステムのインターンシップを探しています。募集、プロジェクト、ESP32の質問でも、気軽にコインを入れてください。
+Estou procurando estágio em infraestrutura, segurança ou sistemas embarcados. Se você tem uma vaga, um projeto ou só uma dúvida sobre ESP32, insere a ficha.	I'm seeking an internship in infrastructure, security or embedded systems. If you have an opening, a project or just an ESP32 question, insert a coin.	インフラ、セキュリティ、組み込みシステムのインターンシップを探しています。募集、プロジェクト、ESP32の質問でも、気軽にコインを入れてください。
 Currículo	Résumé	履歴書
 Baixar PDF	Download PDF	PDFをダウンロード
 Respondo em PT · EN · JP · ES	I reply in PT · EN · JP · ES	PT · EN · JP · ESで対応
@@ -199,7 +199,7 @@ Atalhos: esc pausa · ctrl+k ou / abre a paleta · m liga e desliga o som · F3 
 Buscar comando	Search commands	コマンドを検索
 Nenhum comando com esse nome. Tente “quarto”, “som” ou “cv”.	No matching command. Try “room”, “sound” or “cv”.	該当するコマンドがありません。「部屋」「音」「cv」を試してください。
 ↑↓ navega · enter executa · esc fecha	↑↓ navigate · enter runs · esc closes	↑↓で選択 · Enterで実行 · Escで閉じる
-Site comum	Standard site	通常のサイト
+Site comum	Main site	メインサイト
 Início, Projetos, Sobre e Contato. Direto ao ponto.	Home, Projects, About and Contact. Straight to the point.	ホーム、プロジェクト、プロフィール、連絡先。必要な情報へすぐに。
 O portfólio como jogo: anda pelo quarto e mexe nas coisas.	A portfolio as a game: walk around the room and interact with objects.	ゲームとしてのポートフォリオ。部屋を歩き回り、物を調べられます。
 Perfil	Profile	プロフィール
@@ -234,7 +234,7 @@ pausar	pause	一時停止
 sair	exit	終了
 mover	move	移動
 atirar (e começar)	fire (and start)	発射・開始
-SEM CONEXÃO	OFFLINE	オフライン
+SEM CONEXÃO	NO CONNECTION	接続なし
 pula (segure pra ir mais alto)	jump (hold to jump higher)	ジャンプ（長押しで高く）
 abaixa	duck	しゃがむ
 pausa	pause	一時停止
@@ -249,12 +249,12 @@ Fechar	Close	閉じる
 Salvando	Saving	保存中
 Pular · esc	Skip · esc	スキップ · Esc
 Portfólio	Portfolio	ポートフォリオ
-de Hikaru	by Hikaru	制作：光
+de Hikaru	by Hikaru	制作：Hikaru
 um jogo de exploração em 6 telas	an exploration game across 6 screens	6つの画面を巡る探索ゲーム
 Fim	The end	おしまい
 Obrigado por jogar.	Thanks for playing.	遊んでくれてありがとう。
 Continuar explorando	Keep exploring	探索を続ける
-Pressione qualquer tecla ou clique pra reiniciar.	Press any key or click to restart.	キー入力またはクリックで再開。
+Pressione qualquer tecla ou clique pra reiniciar.	Press any key or click to reboot.	キー入力またはクリックで再起動。
 ligado	on	オン
 desligado	off	オフ
 passe o mouse pelos nós	hover or focus a node	ノードにカーソルまたはフォーカスを合わせる

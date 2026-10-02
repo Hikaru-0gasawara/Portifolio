@@ -26,3 +26,23 @@ Alçapão escondido nas missões: ir para Contato	Hidden hatch in the quest log:
 Alçapão escondido nas missões: ir para o quarto	Hidden hatch in the quest log: go to the bedroom	ミッション一覧の隠し床扉：部屋へ
 Um alçapão na linha das missões	A hatch in the quest log's line	ミッション一覧の線にある床扉
 Tela de título	Title screen	タイトル画面
+Tirar da bancada:	Remove from the workbench:	作業台から外す：
+toque pra começar	Tap to start	タップで開始
+espaço ou clique pra começar	Space or click to start	スペースかクリックで開始
+toque pra tentar de novo	Tap to try again	タップで再挑戦
+espaço ou clique pra tentar de novo	Space or click to try again	スペースかクリックで再挑戦
+Ir pra Início	Go to Home	ホームへ移動
+Ir pra Projetos	Go to Projects	プロジェクトへ移動
+Ir pra Sobre	Go to About	プロフィールへ移動
+Ir pra Contato	Go to Contact	連絡先へ移動
+qualidade média · fps baixo	medium quality · low fps	画質：中・fps低下
+qualidade economia · fps baixo	low-power quality · low fps	画質：省電力・fps低下
+auto	auto	自動
+trilha	track	曲
+zoner	zoner	遠距離型
+okaru: ir pro Início	okaru: go to Home	okaru：ホームへ
+Levar à bancada:	Take to the workbench:	作業台へ：
+clique pra levar à bancada	click to take it to the workbench	クリックで作業台へ
+no offset	at offset	オフセット
+Abrir a missão	Open mission	ミッションを開く：
+ESP32, Arduino e Pi Pico na bancada; Proxmox, Linux e Windows Server no lab.	ESP32, Arduino and Pi Pico on the bench; Proxmox, Linux and Windows Server in the lab.	作業台ではESP32、Arduino、Pi Pico。ラボではProxmox、Linux、Windows Server。

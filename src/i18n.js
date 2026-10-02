@@ -5,19 +5,23 @@
   const escape = text => text.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
   const phrases=Object.keys(catalogs).filter(k=>k.length>2).sort((a,b)=>b.length-a.length);
   const fragments=new RegExp('(?<![\\p{L}\\p{N}_])(?:'+phrases.map(escape).join('|')+')(?![\\p{L}\\p{N}_])','gu');
-  function t(value) {
+  function translate(value, to) {
     if (typeof value !== 'string' || !value.trim()) return value;
     const entry = catalogs[normalize(value)];
-    if(entry?.[locale])return value.replace(value.trim(), entry[locale]);
-    return value.replace(fragments,part=>catalogs[part]?.[locale]||part);
+    if(entry?.[to])return value.replace(value.trim(), entry[to]);
+    return value.replace(fragments,part=>catalogs[part]?.[to]||part);
   }
-  function set(next) {
+  const t = value => translate(value, locale);
+  // A specific language, whatever the current one is (the language picker speaks to every visitor).
+  const tIn = (value, to) => translate(value, ['pt','en','ja'].includes(to) ? to : locale);
+  // keep=false shows a language without choosing it, e.g. the recruiter view opened before the picker.
+  function set(next, keep=true) {
     if (!['pt','en','ja'].includes(next)) return;
     locale = next;
     document.documentElement.lang = {pt:'pt-BR',en:'en',ja:'ja'}[next];
     document.documentElement.dir='ltr';
     document.title = {pt:'Portfólio',en:'Portfolio',ja:'ポートフォリオ'}[next] + ' — Hikaru Ogasawara';
-    try { localStorage.setItem('okaru-language', next); } catch { /* Storage may be disabled. */ }
+    if (keep) try { localStorage.setItem('okaru-language', next); } catch { /* Storage may be disabled. */ }
   }
   function preferred() {
     try { const saved = localStorage.getItem('okaru-language'); if (['pt','en','ja'].includes(saved)) return saved; } catch {}
@@ -37,5 +41,5 @@
     const translate = child => Array.isArray(child) ? child.map(translate) : t(child);
     return create(type, props, ...children.map(translate));
   };
-  g.PortfolioI18n = {t,set,preferred,saved,nativeText,get locale(){ return locale; }};
+  g.PortfolioI18n = {t,tIn,set,preferred,saved,nativeText,get locale(){ return locale; }};
 })(window);

@@ -27,7 +27,7 @@ Tentou virar root. Foi reportado.	You tried becoming root. This incident was rep
 Speedrun any%	Any% speedrun	Any%スピードラン
 Do Press Start ao contato em até 15 s.	Reach Contact within 15 seconds of pressing Start.	スタートから15秒以内に連絡先へ到着する。
 Chegou no save point voando.	You flew straight to the save point.	セーブポイントまで一直線でした。
-Rage quit	Rage quit	怒りの終了	Saiu de raiva
+Rage quit	Rage quit	レイジクイット	Saiu de raiva
 Desligue o sistema no botão de energia.	Shut down using the power button.	電源ボタンでシステムを終了する。
 Desligou no meio da partida.	You switched off mid-game.	ゲームの途中で電源を切りました。
 Save point	Save point	セーブポイント	Ponto de salvamento
@@ -63,18 +63,18 @@ Cresceu sem morder o próprio rabo.	You grew without biting your own tail.	自�
 Blind Bandit	Blind Bandit	盲目の盗賊	Bandida Cega
 Sinta o chão.	Feel the ground.	地面を感じる。
 Enxergou sem usar os olhos.	You saw without using your eyes.	目を使わずに見えました。
-Metalbender	Metalbender	金属の技の使い手	Dobrador de metal
+Metalbender	Metalbender	金属使い	Dobrador de metal
 Nenhum metal é puro.	No metal is pure.	純粋な金属などない。
 Achou a impureza no metal.	You found the impurity in the metal.	金属の中の不純物を見つけました。
 Capture the Flag	Capture the Flag	フラグを獲得	Capture a bandeira
 Toda flag precisa ser entregue em algum lugar.	Every flag needs somewhere to be submitted.	見つけたフラグには提出先があります。
 Entregou a flag no terminal.	You submitted the flag in the terminal.	ターミナルでフラグを提出しました。
-Twinkle Toes	Twinkle Toes	きらきらつま先	Pé Leve
+Twinkle Toes	Twinkle Toes	忍び足	Pé Leve
 Tem gente que anda sem fazer barulho.	Some people walk without a sound.	音を立てずに歩く人もいます。
 Pisou tão leve que o sismógrafo nem sentiu.	Your steps were too light for the seismograph.	足音が軽すぎて地震計にも気づかれませんでした。
 Coruja	Night owl	夜ふかし
 Volte quando o sol for embora.	Come back after the sun goes down.	日が沈んでから戻ってくる。
-Apareceu de madrugada. Boa noite.	You arrived in the small hours. Good evening.	深夜にようこそ。こんばんは。
+Apareceu de madrugada. Boa noite.	You showed up in the small hours. Hello, night owl.	深夜にようこそ。こんばんは。
 Senha de fábrica	Factory password	初期パスワード
 Tem um cofre que nunca trocou a senha.	There's a safe whose password was never changed.	パスワードを変えていない金庫があります。
 Abriu o cofre com a senha padrão. Troque sempre a sua.	You opened the safe with its default password. Always change yours.	初期パスワードで金庫が開きました。自分のものは必ず変更しましょう。
@@ -108,7 +108,7 @@ combine dois itens na bancada daqui do Lab. tente ESP32 + MQTT.	combine two work
 abra a paleta com ctrl+k (ou o botão >_ lá em cima) e execute um comando.	open the palette with Ctrl+K (or the >_ button above) and run a command.	Ctrl+Kまたは上の>_ボタンでパレットを開き、コマンドを実行してください。
 no Contato tem plástico-bolha. estoure tudo.	there's bubble wrap on Contact. Pop it all.	連絡先には緩衝材があります。全部つぶしましょう。
 tem uma cama no quarto. deite nela.	there's a bed in the room. Lie down.	部屋のベッドで横になってください。
-tem um vidro de emergência no Press Start e no menu de pausa. segure até quebrar.	there's emergency glass on Start and Pause. Hold until it breaks.	スタート画面とポーズメニューの緊急用ガラスを、割れるまで長押ししてください。
+tem um vidro de emergência na escolha de idioma e no menu de pausa. segure até quebrar.	there's emergency glass on the language screen and in Pause. Hold until it breaks.	言語選択画面とポーズメニューの緊急用ガラスを、割れるまで長押ししてください。
 o fliperama do quarto funciona. chegue a 3.000 pontos.	the room arcade works. Reach 3,000 points.	部屋のアーケードで3,000点を目指してください。
 no menu de pausa, troque a trilha até ouvir as três.	change the track in Pause until you've heard all three.	ポーズメニューで曲を切り替えて3曲とも聴いてください。
 o controle do Sobre tem uma tela. aperte START.	the About controller has a screen. Press START.	プロフィールのコントローラーには画面があります。STARTを押してください。
@@ -121,10 +121,10 @@ pare o mouse em cima do sismógrafo, sem clicar.	keep the pointer over the seism
 volte entre meia-noite e cinco da manhã.	come back between midnight and 5 a.m.	午前0時から5時の間に戻ってきてください。
 a missão 03 tem um cofre. a senha de fábrica é a revisão do BIOS.	mission 03 has a safe. Its factory password is the BIOS revision.	ミッション03に金庫があります。初期パスワードはBIOSのリビジョンです。
 Montei um compendium interativo em HTML pra acompanhar as personas. E Makouha > Mahama: prefiro dano confiável a instakill no cara ou coroa.	I built an interactive HTML compendium to track personas. And Makouha > Mahama: I prefer reliable damage to a coin-flip instant kill.	ペルソナを管理するHTMLの対話型全書を作りました。マハコウハ派です。確率で即死を狙うより、確実にダメージを与えたい。
-zerado no Honour Mode	completed on Honour Mode	名誉モードでクリア
-Zerado no Honour Mode: um save só, chefes com ações lendárias e nenhuma chance de recarregar. Cada teste de dado valia de verdade.	Completed on Honour Mode: one save, bosses with legendary actions and no reloading. Every dice check mattered.	名誉モードでクリア。セーブは1つ、ボスは伝説的アクションを使い、やり直しもできません。すべてのダイス判定が真剣勝負でした。
+zerado no Honour Mode	completed on Honour Mode	オナーモードでクリア
+Zerado no Honour Mode: um save só, chefes com ações lendárias e nenhuma chance de recarregar. Cada teste de dado valia de verdade.	Completed on Honour Mode: one save, bosses with legendary actions and no reloading. Every dice check mattered.	オナーモードでクリア。セーブは1つ、ボスは伝説的アクションを使い、やり直しもできません。すべてのダイス判定が真剣勝負でした。
 main: Robo-Fortune	main: Robo-Fortune	メイン：ロボフォーチュン
-Time em montagem com a Squigly. Favorita: Robo-Fortune, com a Annie logo atrás.	Building a team with Squigly. Favorite: Robo-Fortune, closely followed by Annie.	スクィグリーを入れてチームを編成中。お気に入りはロボフォーチュン、次はアニー。
+Time em montagem com a Squigly. Favorita: Robo-Fortune, com a Annie logo atrás.	Building a team with Squigly. Favorite: Robo-Fortune, closely followed by Annie.	スクイグリーを入れてチームを編成中。お気に入りはロボフォーチュン、次はアニー。
 favorita: Falke	favorite: Falke	お気に入り：ファルケ
 Personagem favorita: Falke. Estilo: zoner, como sempre.	Favorite character: Falke. Playstyle: zoner, as always.	好きなキャラはファルケ。いつも通り遠距離戦が得意です。
 Commander com quatro decks: Toph, the First Metalbender; The Emperor of Palamecia; Sokka, Tenacious Tactician; e Imskir Iron-Eater. No Standard, mono-red aggro.	Four Commander decks: Toph, the First Metalbender; The Emperor of Palamecia; Sokka, Tenacious Tactician; and Imskir Iron-Eater. In Standard, mono-red aggro.	統率者デッキはToph, the First Metalbender、The Emperor of Palamecia、Sokka, Tenacious Tactician、Imskir Iron-Eaterの4つ。スタンダードでは赤単アグロ。

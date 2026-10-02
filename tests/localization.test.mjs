@@ -76,3 +76,11 @@ test('every source translation row contains three languages and valid direction'
     }
   }
 });
+
+test('skip and jump are different words: the tutorial and the walk chip skip, the games jump',()=>{
+  const {context,I}=fixture(),app=read('src/app.js'),c=new context.TestComponent();
+  assert.ok(app.includes("['Pular o tutorial', 'close']"));assert.ok(app.includes("'PULAR A CAMINHADA'"));
+  c.state={page:'quarto',rmIntro:true,rmStep:0};assert.deepEqual(Array.from(c.rmActs().map(a=>a[0])),['Próxima','Pular o tutorial']);
+  const expect={pt:['Pular','PULAR','Pular','PULAR'],en:['Skip','SKIP','Jump','JUMP'],ja:['スキップ','スキップ','ジャンプ','ジャンプ']};
+  for(const [locale,words] of Object.entries(expect)){I.set(locale);assert.deepEqual(['Pular o tutorial','PULAR A CAMINHADA','Pular','PULAR'].map(I.t),words,locale);}
+});

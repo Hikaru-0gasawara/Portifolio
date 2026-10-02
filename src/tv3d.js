@@ -7,7 +7,8 @@
   const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x)),ease=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2,easeIn=x=>x*x;
   const FOV=35*Math.PI/180,TAN=Math.tan(FOV/2);
   const POWER_ON=2200,POWER_OFF=700,CALM_ON=700,TUNE=350,ALIGN=900,DOLLY=1400;
-  const channels=[{id:'fight',name:'Luta'},{id:'monsters',name:'Monstros de bolso'},{id:'show',name:'Show ao vivo'},{id:'rpg',name:'RPG'},{id:'western',name:'Faroeste'}];
+  // score: the channel plays its own music, so the set's theme stays quiet there.
+  const channels=[{id:'fight',name:'Luta'},{id:'monsters',name:'Monstros de bolso'},{id:'show',name:'Show ao vivo',score:true},{id:'rpg',name:'RPG',score:true},{id:'western',name:'Faroeste'}];
   // Front panel layout in model units (the cabinet front is the z=0.25 plane, x to the right, y up).
   const layout={
     screen:{x0:-.66,x1:.26,y0:-.345,y1:.345,z:.255,bulge:.03},
@@ -480,8 +481,29 @@
   }
 
   // ---------- sound ----------
+  // The set's own theme, in the portfolio's track format (MIDI notes, lengths in sixteenths): a slow late-night
+  // groove over Fmaj7, Em7, Dm7 and G7, with an A7 turnaround. The lead stays between G4 and G5.
+  function theme(){
+    const ev=Array.from({length:128},()=>[]),put=(step,v)=>ev[step].push(v);
+    const bars=[[41,[57,60,64]],[40,[55,59,62]],[38,[53,57,60]],[43,[59,62,65]],[41,[57,60,64]],[40,[55,59,62],45,[61,64,67]],[38,[53,57,60]],[43,[59,62,65]]];
+    bars.forEach(([root,chord,root2,chord2],bar)=>{
+      const at=bar*16,late=root2??root,fifth=r=>r+7;
+      [[0,root,4],[6,fifth(root),2],[8,late,3],[14,late+12,2]].forEach(([s,m,len])=>put(at+s,{m,len,type:'triangle',vol:.12}));
+      [[3,chord,2],[6,chord,2],[11,chord2||chord,3]].forEach(([s,notes,len])=>notes.forEach(m=>put(at+s,{m,len,type:'triangle',vol:.028})));
+      [0,8].forEach(s=>put(at+s,{drum:'kick',vol:.2}));
+      [4,12].forEach(s=>put(at+s,{drum:'rim',vol:.04}));
+      [2,6,10,14].forEach(s=>put(at+s,{drum:'hat',vol:.025}));
+    });
+    [[0,69,3],[3,72,3],[6,76,4],[12,74,2],[14,72,2],[16,74,3],[19,71,3],[22,67,6],[30,69,2],
+      [32,69,3],[35,72,3],[38,77,4],[44,76,2],[46,74,2],[48,74,4],[52,71,2],[54,67,2],[56,69,4],[60,71,4],
+      [64,72,3],[67,76,3],[70,79,2],[72,76,4],[76,72,4],[80,71,3],[83,74,3],[86,67,2],[88,73,3],[91,76,3],[94,79,2],
+      [96,77,4],[100,76,2],[102,74,2],[104,72,4],[108,69,4],[112,71,3],[115,74,3],[118,77,2],[120,74,4],[124,71,4]]
+      .forEach(([step,m,len])=>put(step,{m,len,type:'square',vol:.045}));
+    return {name:'TV',bpm:96,len:128,ev};
+  }
+  const tvTheme=theme();
   function createAudio(host){
-    let bus=null,mech=null,buf=null;
+    let bus=null,mech=null,buf=null,song=null;
     const ctx=()=>{const ac=host.ac?.();return ac&&ac.state==='running'&&host.mix?.()&&host.soundOn?.()?ac:null;};
     const ensure=ac=>{if(!bus||bus.context!==ac){bus=ac.createGain();bus.connect(host.mix());mech=ac.createGain();mech.gain.value=1;mech.connect(host.mix());bus.gain.value=gainFor(host.volume?.()??4);}return bus;};
     const tone=(out,f,dur,type,vol,at=0,to)=>{const ac=ctx();if(!ac)return;ensure(ac);const t0=ac.currentTime+at,o=ac.createOscillator(),gn=ac.createGain();o.type=type;o.frequency.setValueAtTime(f,t0);if(to)o.frequency.exponentialRampToValueAtTime(to,t0+dur);gn.gain.setValueAtTime(.0001,t0);gn.gain.exponentialRampToValueAtTime(vol,t0+.008);gn.gain.exponentialRampToValueAtTime(.0001,t0+dur);o.connect(gn);gn.connect(out==='mech'?mech:bus);o.start(t0);o.stop(t0+dur+.03);};
@@ -514,7 +536,26 @@
         else if(e.chord)e.chord.forEach((f,i)=>tone('bus',f,1.2,'triangle',.03,i*.04));
       }
     }
-    return {play,setVolume(v){const ac=host.ac?.();if(bus&&ac)bus.gain.setTargetAtTime(gainFor(v),ac.currentTime,.05);},destroy(){try{bus?.disconnect();mech?.disconnect();}catch{}bus=mech=null;}};
+    // The theme is scheduled a little ahead on the set's bus, so the volume knob and the power switch control it.
+    // It starts over whenever the set comes back on, and stops for the entry and on channels with their own music.
+    function music(state){
+      const ac=ctx();
+      if(!ac||state.power!=='on'||state.enter||channels[state.channel].score){song=null;return;}
+      const spb=60/tvTheme.bpm/4;
+      if(!song)song={next:ac.currentTime+.08,step:0};
+      if(song.next<ac.currentTime-.3)song.next=ac.currentTime+.05;
+      for(let guard=0;song.next<ac.currentTime+.15&&guard<16;guard++){
+        const at=Math.max(0,song.next-ac.currentTime);
+        for(const e of tvTheme.ev[song.step]){
+          if(e.drum==='kick')tone('bus',140,.16,'sine',e.vol,at,42);
+          else if(e.drum==='rim')noise('bus',.03,e.vol,at,2600,'bandpass');
+          else if(e.drum==='hat')noise('bus',.04,e.vol,at,7000,'highpass');
+          else tone('bus',440*Math.pow(2,(e.m-69)/12),e.len*spb,e.type,e.vol,at);
+        }
+        song.next+=spb;song.step=(song.step+1)%tvTheme.len;
+      }
+    }
+    return {play,music,setVolume(v){const ac=host.ac?.();if(bus&&ac)bus.gain.setTargetAtTime(gainFor(v),ac.currentTime,.05);},destroy(){try{bus?.disconnect();mech?.disconnect();}catch{}bus=mech=song=null;}};
   }
   const gainFor=v=>v<=0?0:Math.pow(v/10,1.6)*.9;
 
@@ -538,7 +579,7 @@
       const dt=last?Math.min(64,now-last):16;last=now;
       if(renderer){const r=glCanvas.getBoundingClientRect(),aspect=(r.width||1)/(r.height||1);if(Math.abs(aspect-state.aspect)>1e-3){const ratio=state.cam.dist/state.fit;state.aspect=aspect;state.fit=fitDistance(aspect);if(!state.enter)state.cam.dist=state.fit*ratio;}}
       const prev=state.t;step(state,dt);
-      const ev=state.events.splice(0);paintScreen(octx,sctx,scene,state,prev,ev);audio.play(ev);
+      const ev=state.events.splice(0);paintScreen(octx,sctx,scene,state,prev,ev);audio.play(ev);audio.music(state);
       if(renderer){renderer.render(state,hover,refresh);refresh=false;}
       if(state.enter?.stage==='done'&&!entered){entered=true;host.onEntered?.();}
       raf=g.requestAnimationFrame(frame);
@@ -584,5 +625,5 @@
       destroy(){dead=true;g.cancelAnimationFrame(raf);for(const [type,fn] of listeners)glCanvas.removeEventListener(type,fn);audio.destroy();renderer?.destroy();glCanvas.remove();screen.remove?.();}
     };
   }
-  g.PortfolioTV={channels,layout,createState,step,press,beginEnter,pick,pickPoint,controlAction,hitControl,orbitEye,fitDistance,finalDistance,knobTargets,gainFor,create,durations:{POWER_ON,POWER_OFF,CALM_ON,TUNE,ALIGN,DOLLY}};
+  g.PortfolioTV={channels,layout,createState,step,press,beginEnter,pick,pickPoint,controlAction,hitControl,orbitEye,fitDistance,finalDistance,knobTargets,gainFor,theme:tvTheme,createAudio,create,durations:{POWER_ON,POWER_OFF,CALM_ON,TUNE,ALIGN,DOLLY}};
 })(window);

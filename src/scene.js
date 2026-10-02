@@ -57,12 +57,17 @@
   // The two home buttons have their own passages instead of the spin: a trapdoor that splits open and drops
   // Hikaru onto the Projetos pedestal, and a secret staircase that takes him down to Sobre. Times are in ms;
   // poses and drawings are in sprite pixels with his feet at (0,0).
-  const passages={fall:{out:1000,in:1150},stairs:{out:1500,in:1500}};
+  // The hidden ends have passages of their own too: he walks through a door in a wall (door-l / door-r, by the
+  // wall the door is in) or drops into a floor hatch, and comes out of the other end the same way. Those doors
+  // and hatches are HTML, so these passages only move and clip Hikaru.
+  const passages={fall:{out:1000,in:1150},stairs:{out:1500,in:1500},'door-l':{out:900,in:900},'door-r':{out:900,in:900},hatch:{out:1000,in:900}};
   const clamp=x=>Math.max(0,Math.min(1,x)),easeIn=x=>x*x,easeOut=x=>1-(1-x)*(1-x),easeInOut=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;
   const passageCues={
     fall:{out:[[0,'crack'],[120,'door'],[480,'whoosh'],[800,'doorShut']],in:[[0,'whoosh'],[720,'stomp']]},
-    stairs:{out:[[0,'creak'],[430,'land'],[520,'land'],[660,'land'],[800,'land'],[940,'land'],[1080,'land'],[1440,'doorShut']],in:[[0,'creak'],[430,'land'],[520,'land'],[660,'land'],[800,'land'],[940,'land'],[1080,'land'],[1440,'doorShut']]}
+    stairs:{out:[[0,'creak'],[430,'land'],[520,'land'],[660,'land'],[800,'land'],[940,'land'],[1080,'land'],[1440,'doorShut']],in:[[0,'creak'],[430,'land'],[520,'land'],[660,'land'],[800,'land'],[940,'land'],[1080,'land'],[1440,'doorShut']]},
+    hatch:{out:[[0,'door'],[480,'whoosh'],[820,'doorShut']],in:[[0,'door'],[160,'jump'],[560,'land'],[780,'doorShut']]}
   };
+  passageCues['door-l']=passageCues['door-r']={out:[[0,'door'],[300,'land'],[460,'land'],[620,'land'],[800,'doorShut']],in:[[0,'door'],[240,'land'],[400,'land'],[560,'land'],[780,'doorShut']]};
   // How far the trapdoor leaves or the stair slabs are open: 0 closed, 1 open.
   function passageOpen(style,out,t){
     const d=passages[style][out?'out':'in'];
@@ -72,7 +77,27 @@
   // The floor features appear from nothing and vanish again once closed.
   function passageFade(style,out,t){return clamp(t/100)*clamp((passages[style][out?'out':'in']-t)/120);}
   function passagePose(style,out,t,drop=60){
-    const p={dy:0,lift:0,rot:0,sx:1,sy:1,dir:'d',alpha:1,walk:false,mark:false,clip:null};
+    const p={dx:0,dy:0,lift:0,rot:0,sx:1,sy:1,dir:'d',alpha:1,walk:false,mark:false,clip:null};
+    if(style==='door-l'||style==='door-r'){
+      // A door in a left wall opens onto him from his right: he steps back while it swings, walks through and is
+      // cut off by the wall line (x = 0). The arrival walks out of the wall and ends on the outside.
+      const s=style==='door-l'?1:-1,wall=s>0?[-200,-80,200,160]:[0,-80,200,160];
+      if(out){
+        p.dir=s>0?'r':'l';
+        if(t<200)p.dx=-10*s*easeOut(t/200);
+        else{const k=clamp((t-200)/600);Object.assign(p,{dx:s*(-10+22*easeInOut(k)),walk:k<1,clip:wall,alpha:k<1?1:0});}
+      }else if(t<150)Object.assign(p,{dx:12*s,alpha:0,clip:wall});
+      else{const k=clamp((t-150)/600);Object.assign(p,{dir:k<1?(s>0?'l':'r'):'d',dx:s*(12-24*easeInOut(k)),walk:k<1,clip:k<1?wall:null});}
+      return p;
+    }
+    if(style==='hatch'){
+      // The hatch, the coin slot and the dot of the "?" open under him: the trapdoor drop, then he pops back up.
+      if(out)return {...passagePose('fall',true,t),dx:0};
+      if(t<150)p.alpha=0;
+      else if(t<550){const k=clamp((t-150)/400);Object.assign(p,{lift:10*Math.sin(Math.PI*k),rot:-.7*(1-k),alpha:Math.min(1,k*3),dir:['d','r','u','l'][Math.floor(t/70)%4]});p.sx=p.sy=.2+.8*easeOut(k);}
+      else if(t<750){const b=Math.sin(Math.PI*(t-550)/200);p.sy=1-.25*b;p.sx=1+.2*b;}
+      return p;
+    }
     if(style==='fall'&&out){
       if(t<320){if(t>120)p.sy=1-.1*Math.sin(Math.PI*(t-120)/200);}
       else if(t<480){p.lift=2*Math.sin(Math.PI*(t-320)/160);p.mark=true;}
@@ -96,7 +121,7 @@
     const fr={d:0,u:3,l:6,r:9}[p.dir]+(p.walk?[0,1,0,2][Math.floor(t/130)%4]:0);
     ctx.save();ctx.globalAlpha=p.alpha;
     if(p.clip){ctx.beginPath();ctx.rect(...p.clip);ctx.clip();}
-    ctx.translate(0,p.dy-p.lift);ctx.translate(0,-12);ctx.rotate(p.rot);ctx.translate(0,12);ctx.scale(p.sx,p.sy);
+    ctx.translate(p.dx||0,p.dy-p.lift);ctx.translate(0,-12);ctx.rotate(p.rot);ctx.translate(0,12);ctx.scale(p.sx,p.sy);
     ctx.drawImage(img,48+fr*16,224,16,24,-8,-24,16,24);
     ctx.restore();
   }
@@ -117,7 +142,7 @@
     }else if(style==='fall'){
       const k=Math.min(1,t/720),sw=4+8*k;R(-sw/2,-1,sw,1,'#000000',.12+.25*k);
       const b=(t-720)/320;if(b>=0&&b<1)for(let i=0;i<8;i++)R((i-3.5)*3*(1+b*1.5),-1-b*3*(i%2),2,2,'#b8aa90',.75*(1-b));
-    }else{
+    }else if(style==='stairs'){
       const steps=['#3d372b','#2e291f','#211d16','#16130e','#0c0a07'];
       R(-10,-19,20,22,'#2f2b22',fade);
       steps.forEach((c,i)=>{const y=2-(i+1)*4;R(-9,y,18,4,c,fade);R(-9,y,18,1,'#5a5443',fade*(.6-i*.1));});
@@ -307,8 +332,9 @@
         const el=this.teleportAnchor(geo),spot=this.teleportSpot(geo);wk.x=spot.x;wk.y=spot.y;
         // Scroll the landing into view before the spin begins, including on small screens.
         geo.sc.scrollTop=Math.max(0,Math.min(geo.CH-geo.H,wk.y-geo.H*.45));geo.top=geo.sc.scrollTop;
-        const style=this._teleportStyle||'spin';
-        wk.anim=this.calm()?null:{kind:'teleport-in',t:0,hatch:el,style,drop:(wk.y-geo.top)/geo.u+14};this.portalHatch(el,!this.calm()&&style==='spin');
+        // The home buttons' trapdoor and staircase arrive the way they left; every other end by its own kind.
+        const style=this._teleportStyle||this.endStyle(el);
+        wk.anim=this.calm()?null:{kind:'teleport-in',t:0,hatch:el,style,drop:(wk.y-geo.top)/geo.u+14};this.portalHatch(el,!this.calm()&&!this._teleportStyle);
         this._teleportDestination=null;this._teleportArrival=null;this._teleportStyle=null;
       }
       return wk;
@@ -372,14 +398,20 @@
       const prior=this._rmOutGo;this._rmOutGo=this.curPage()==='quarto'||prior;
       try{this.go(to,then);}finally{this._rmOutGo=prior;}
     };
+    // Which passage an end uses: hidden doors are walked through, hatches (the coin slot and the "?" too) are
+    // dropped into, pedestals and the kanji hatch spin.
+    p.endStyle=function(el){const has=k=>!!el?.classList?.contains?.(k);return has('portal-door-l')?'door-l':has('portal-door-r')?'door-r':has('portal-floor')||has('portal-letter')?'hatch':'spin';};
     p.teleport=function(to,arrival=null,source=null,then,style='spin'){
       const wk=this._wk;
       if(wk?.anim?.kind==='teleport-out')return;
-      this._teleportArrival=arrival;this._teleportStyle=passages[style]?style:null;
+      // fall and stairs belong to the home buttons and shape both ends; the rest depends on each end.
+      const shared=style==='fall'||style==='stairs';
+      this._teleportArrival=arrival;this._teleportStyle=shared?style:null;
       this.worldPokeCancel();this.setTrip(null);this._wKeys={};if(wk){wk.auto=null;wk.flo=null;}
       if(!this.worldOn()||!wk||this.calm()){this._teleportStyle=null;this.teleportGo(to,then);return;}
-      wk.anim={kind:'teleport-out',t:0,to,hatch:source,then,style:this._teleportStyle||'spin'};
-      if(!this._teleportStyle){this.portalHatch(source,true);this.sfx('poof');}
+      const leave=shared?style:this.endStyle(source);
+      wk.anim={kind:'teleport-out',t:0,to,hatch:source,then,style:leave};
+      if(!shared){this.portalHatch(source,true);if(leave==='spin')this.sfx('poof');}
     };
     p.passageCue=function(a,from,to){
       const out=a.kind==='teleport-out';
@@ -400,6 +432,8 @@
         if(a.t>=duration){
           this.portalHatch(a.hatch,false);
           if(out){this.teleportGo(a.to,a.then);wk.hidden=true;}
+          // walking out of a door ends outside it: keep him where the last frame left him
+          else if(passage){const q=passagePose(a.style,false,duration,a.drop);if(q.dx)wk.x+=q.dx*geo.u;}
           if(!passage)this.sfx('poof');else wk.dir='d';
           return false;
         }

@@ -1091,7 +1091,6 @@ a{color:#D8B24A}a:hover{color:#F0CE6A}
 .press-r .press-m{margin-top:0;animation:none}
 .press-d{color:var(--dim)}
 .okr .press-m.is-warn{color:#E07A6E;border-color:#E07A6E}
-.glass-w{display:flex;flex-direction:column;align-items:flex-start;gap:7px;margin-top:34px;animation:fadeIn .6s 2.2s both}
 .glass-t{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:#E07A6E}
 .glass-s{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
 .glass{position:relative;display:grid;place-items:center;width:176px;height:78px;border:3px solid #B3261E;background:#1A0B0A;box-shadow:inset 0 0 0 4px #0A0F0B,0 0 24px rgba(179,38,30,.25);overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none;transition:border-color .2s}
@@ -1261,7 +1260,6 @@ a{color:#D8B24A}a:hover{color:#F0CE6A}
 .pause-s{grid-template-columns:1fr}
 .bub-g{grid-template-columns:repeat(6,30px)}
 .bb{width:30px;height:30px}
-.glass-w{margin-top:26px}
 .seis-hud{top:74px;gap:12px;padding:0 6px 0 14px}
 .seis-tip{display:none}
 .seis-find{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%)}

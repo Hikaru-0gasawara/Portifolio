@@ -42,6 +42,8 @@
     };
     p.displayAction=function(name){
       if(!this._displayStarting||this._displayPhase!=='idle'||this._dead)return;
+      // The dock buttons are a gesture too: they unlock the set's sound and its theme.
+      if(this._sndPref!==false&&this._snd!==false)this.audio();
       if(this._tv){this._tv.press(name);return;}
       // Without a television object (tests, very old browsers) the controls still keep their state.
       const s=this.st();
@@ -87,6 +89,15 @@
       });
       // Do not consume a boot, persist its marker or run any log timers behind the opening.
       if(this._languageReady)this.bootLogStart();
+    };
+    // Holding the power button turns the portfolio off back to this television, on and explorable again;
+    // Enter boots it once more. The language stays chosen, so the boot follows straight after the entry.
+    p.reopenDisplay=function(){
+      if(this._displayStarting||this._dead)return;
+      this.clearDisplayTimers();this._tv?.destroy();this._tv=null;this.stopMusic();
+      this._displayStarting=true;this._displayAnimating=false;this._displayPhase='idle';this._displayCamera='';this._displayReturned=true;
+      this._displayReduced=this.calm();
+      this.setState({displayStarting:true,displayAnimating:false,displayPhase:'idle',displayPower:'on',displayChannel:0},()=>this.focusRoot());
     };
     wrap('componentDidMount',function(fn){
       this._displayStarting=true;this._displayAnimating=false;this._displayPhase='idle';
@@ -167,7 +178,7 @@
       const power=s.displayPower||'on',on=power!=='off'&&power!=='cooling',channel=g.PortfolioTV?.channels?.[s.displayChannel??0];
       r.displayStarting=starting;r.displayStandby=starting&&!r.languageOpen;
       r.displayAnimating=animating;r.displayPowerGate=starting;r.displayTvBusy=phase!=='idle';
-      r.displayTvClass='tv-phase-'+phase+(s.displayGl?' has-gl':'')+(on?'':' is-tv-off');
+      r.displayTvClass='tv-phase-'+phase+(s.displayGl?' has-gl':'')+(on?'':' is-tv-off')+(this._displayReturned&&phase==='idle'?' is-tv-return':'');
       r.displayHint=this.coarse?.()?'Arraste para girar a TV':'Arraste para girar a TV · role para aproximar';r.displayPowered=on;r.displayPowerLabel=on?'Desligar TV':'Ligar TV';r.displayEnterLabel='Entrar no portfólio';
       r.displayChannel='CH '+String((s.displayChannel??0)+1).padStart(2,'0');r.displayChannelName=channel?t(channel.name):'';
       r.displayVolume=s.displayVolume??4;r.displayVolumeText=t('VOLUME')+' '+r.displayVolume;

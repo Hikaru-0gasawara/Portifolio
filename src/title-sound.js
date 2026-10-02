@@ -1,4 +1,4 @@
-/* Sound before Novo jogo: the title screen, the recruiter glass and the recruiter's shortcut to the pages. */
+/* Sound before Novo jogo: the title screen, the language picker with its recruiter glass and the recruiter's shortcut to the pages. */
 (function(g){
   // The title theme, in the same event format as the room tracks: 64 sixteenth notes over Am, F, C and G.
   // The lead stays between E4 and G5, so nothing whistles.
@@ -24,7 +24,7 @@
     const p=C.prototype;
     const wrap=(name,fn)=>{const prior=p[name];p[name]=function(...args){return fn.call(this,prior.bind(this),...args);};};
     p.titleTrack=function(){return this._titleTrack||(this._titleTrack=titleTrack());};
-    // The menu that waits for Novo jogo / Continuar, with the recruiter glass in front of it.
+    // The menu that waits for Novo jogo / Continuar.
     p.titleScreenOn=function(){const s=this.st();return this.curPage()==='boot'&&!this._displayStarting&&!s.bootLog&&!s.languageOpen&&!s.transitioning&&!s.powering;};
     p.titlePlaying=function(){return !!this._mus&&!!this._titleTrack&&this._mTrack===this._titleTrack;};
     p.startTitleMusic=function(){

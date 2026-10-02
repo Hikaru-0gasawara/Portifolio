@@ -36,7 +36,8 @@
     });
     p.activeDialog=function(){
       const visible=[...(this._rootEl?.querySelectorAll('[role="dialog"][aria-modal="true"]')||[])].filter(el=>el.getClientRects().length);
-      return visible.find(el=>el.classList.contains('gallery-zoom'))||visible.find(el=>el.classList.contains('language-screen'))||visible.at(-1);
+      // The recruiter view opens from the language picker and covers it until closed.
+      return visible.find(el=>el.classList.contains('gallery-zoom'))||visible.find(el=>el.classList.contains('rec'))||visible.find(el=>el.classList.contains('language-screen'))||visible.at(-1);
     };
     wrap('componentDidUpdate', function(base,...args) {
       base(...args);
@@ -55,17 +56,30 @@
       base();
     });
     wrap('bootLogStart',function(base){if(this._languageReady)base();});
-    p.chooseLanguage=function(locale){
+    // boot=false: the recruiter view already took the visitor past the boot, straight to a page.
+    p.chooseLanguage=function(locale,boot=true){
       const first=!this._languageReady;
       I.set(locale);this._languageReady=true;
       for(const decode of this._decs||[])if(decode.node)decode.node.nodeValue=decode.final;
       this._decs=[];this._decSeen=new WeakSet();
       this.setState({languageOpen:false,locale,paused:false,palOpen:false});
       if(this._dialogSource)this.say(this._dialogSource.text,this._dialogSource.who);
-      if(first)this.bootLogStart();
+      if(first&&boot)this.bootLogStart();
     };
+    // The recruiter glass sits on the first language choice. Before a language is chosen, breaking it shows the
+    // recruiter view in the browser's language without saving it; leaving through one of its links keeps it.
+    p.languageRushOn=function(){return !!this.st().languageOpen&&!this._languageReady;};
+    wrap('openRec',function(base,...args){
+      const pick=I.preferred();
+      if(this.languageRushOn()&&pick!==I.locale){I.set(pick,false);this.setState({locale:pick});}
+      return base(...args);
+    });
+    wrap('recGo',function(base,...args){
+      if(this.languageRushOn())this.chooseLanguage(I.locale,false);
+      return base(...args);
+    });
     wrap('rootKey',function(base,e){
-      if(this.st().languageOpen)return;
+      if(this.st().languageOpen&&!this.st().recOpen)return;
       if(this.st().bootLog)return;
       if(this.st().galleryLarge)return;
       return base(e);
@@ -96,6 +110,13 @@
       r.languageOtherQuestions=[I.nativeText(others[0].question,others[0].lang),g.React.createElement('br',{key:'separator'}),I.nativeText(others[1].question,others[1].lang)];
       r.languageChoices=languages.map(item=>({lang:item.lang,code:item.code,name:I.nativeText(item.name,item.lang),action:I.nativeText(item.action,item.lang),choose:()=>this.chooseLanguage(item.locale)}));
       r.languageChange=()=>this.setState({languageOpen:true});
+      // The glass speaks the language its recruiter view will open in.
+      const rushLocale=I.preferred(),rushLang=languages.find(item=>item.locale===rushLocale).lang,rush=text=>I.nativeText(I.tIn(text,rushLocale),rushLang);
+      r.languageRush=open&&!this._languageReady;r.rushLang=rushLang;
+      if(r.languageRush){
+        r.rushTitle=rush('Em caso de pressa');r.rushLabel=rush('MODO RECRUTADOR');r.glassHint=rush(r.glassHint);
+        const down=r.glassDown;r.glassDown=e=>{if(!this._displayStarting)down(e);};
+      }
       r.skNodes=r.skNodes.map(n=>({...n,aria:n.label,key:e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();n.pick();}}}));
       const project=this.data().projects[typeof s.openProj==='number'?s.openProj:0]||this.data().projects[0];
       r.op={...r.op,repositoryUrl:project.repositoryUrl,hasRepository:!!project.repositoryUrl};

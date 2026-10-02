@@ -81,10 +81,10 @@ Uma ficha enterrada no chão do quarto: passe por cima pra pegar	A coin buried i
 Uma ficha enterrada: pegar	A buried coin: collect	埋まったコインを拾う
 Alterar idioma	Change language	言語を変更
 Currículos em atualização	Résumés being updated	履歴書を更新中
-Dado dourado · Honour Mode concluído	Gold die · Honour Mode completed	金色のダイス・名誉モードクリア
+Dado dourado · Honour Mode concluído	Gold die · Honour Mode completed	金色のダイス・オナーモードクリア
 OPERAÇÃO CIRCUITO	OPERATION CIRCUIT	オペレーション・サーキット
 Operação Circuito	Operation Circuit	オペレーション・サーキット
-Jogar / reiniciar	Play / restart	プレイ・再開
+Jogar / reiniciar	Play / restart	プレイ・やり直し
 Pontos	Score	スコア
 Onda	Wave	ウェーブ
 MISSÃO CUMPRIDA	MISSION COMPLETE	ミッション完了
@@ -101,7 +101,7 @@ Paleta de comandos (Ctrl+K)	Command palette (Ctrl+K)	コマンドパレット（
 Comandos · ctrl+k	Commands · Ctrl+K	コマンド・Ctrl+K
 Pausar (Esc)	Pause (Esc)	ポーズ（Esc）
 Pausa · esc	Pause · Esc	ポーズ・Esc
-Energia: segure para desligar e voltar ao Press Start	Power: hold to shut down and return to Start	電源：長押しで終了し、スタートへ戻る
+Energia: segure para desligar e voltar à TV	Power: hold to shut down and return to the TV	電源：長押しで終了し、テレビへ戻る
 Segure pra desligar	Hold to power off	長押しで電源オフ
 Como se lê meu nome	How to read my name	名前の読み方
 Segurança: o que junta hardware e software	Security: connecting hardware and software	セキュリティ：ハードウェアとソフトウェアをつなぐもの
@@ -144,7 +144,7 @@ Fliperama: Packet Invaders	Arcade: Packet Invaders	アーケード：Packet Inva
 Sair do fliperama	Exit arcade	アーケードを終了
 Tela do jogo	Game screen	ゲーム画面
 Como jogar	How to play	遊び方
-Computador: jogo offline Sem Conexão	Computer: offline game No Connection	パソコン：オフラインゲーム「接続なし」
+Computador: jogo offline Sem Conexão	Computer: No Connection, the offline game	パソコン：オフラインゲーム「接続なし」
 Levantar da cadeira	Get up from the chair	椅子から立つ
 Tela do jogo: o robozinho corre pela placa de circuito	Game screen: a little robot runs across a circuit board	ゲーム画面：小さなロボットが基板を走ります
 Teste de habilidade com o d20	D20 skill check	D20のスキル判定

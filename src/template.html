@@ -90,7 +90,12 @@
 <h1 lang="{{languageQuestionLang}}">{{languageQuestion}}</h1><p class="language-question">{{languageOtherQuestions}}</p>
 <div class="language-options" data-nopoke="true">
 <sc-for list="{{languageChoices}}" as="language"><button lang="{{language.lang}}" disabled="{{displayStarting}}" sc-camel-on-click="{{language.choose}}"><span class="language-choice"><span class="language-code" aria-hidden="true">{{language.code}}</span>{{language.name}}</span><small>{{language.action}}</small></button></sc-for>
-</div><footer class="language-foot"><span>Idioma / Language / 言語</span><span class="language-calibration" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span></footer></div></section></sc-if>
+</div>
+<sc-if value="{{languageRush}}" hint-placeholder-val="{{true}}"><div class="language-rush" lang="{{rushLang}}" data-nopoke="true">
+<div class="language-rush-t"><span class="glass-t">{{rushTitle}}</span><span class="glass-s" id="language-rush-hint">{{glassHint}}</span></div>
+<button class="glass {{glassCls}}" disabled="{{displayStarting}}" aria-describedby="language-rush-hint" sc-camel-on-pointer-down="{{glassDown}}" sc-camel-on-pointer-up="{{holdEnd}}" sc-camel-on-pointer-leave="{{holdEnd}}" sc-camel-on-pointer-cancel="{{holdEnd}}" sc-camel-on-key-down="{{glassKey}}" sc-camel-on-click="{{glassClick}}"><span class="glass-in pix">{{rushLabel}}</span><span class="glass-pane" aria-hidden="true"></span><svg class="glass-cr" sc-camel-view-box="0 0 188 88" sc-camel-preserve-aspect-ratio="none" aria-hidden="true"><path d="M96 44l-22-9-18-15-14-14M96 44l30-12 22-20 20-6M96 44l-26 14-24 22M96 44l24 18 30 20M96 44l8-30 4-12M96 44l-6 28-2 14M74 35l-10 16M126 32l8 20M70 58l18-2M120 62l-4-16"></path></svg><svg class="glass-rim" sc-camel-view-box="0 0 170 72" sc-camel-preserve-aspect-ratio="none" aria-hidden="true"><path d="M85 1.5H168.5V70.5H1.5V1.5Z" sc-camel-path-length="100"></path></svg></button>
+</div></sc-if>
+<footer class="language-foot"><span>Idioma / Language / 言語</span><span class="language-calibration" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span></footer></div></section></sc-if>
 <sc-if value="{{isBoot}}" hint-placeholder-val="{{true}}">
 <section class="boot" aria-label="Tela inicial">
 <sc-if value="{{bootMenuOn}}" hint-placeholder-val="{{true}}">
@@ -103,11 +108,6 @@
 <div class="bl" style="animation-delay: 1430ms"><span class="k">FIREWALL</span><span class="v">regras carregadas</span><span class="ok"><i>38 ms</i>OK</span></div>
 <div class="bl" style="animation-delay: 1700ms"><span class="k">SOLO</span><span class="v">sensor sísmico calibrado</span><span class="ok"><i>212 ms</i>OK</span></div>
 <sc-if value="{{hasSave}}" hint-placeholder-val="{{false}}"><div class="bl" style="animation-delay: 1970ms"><span class="k">SAVE</span><span class="v">{{saveTxt}}</span><span class="ok"><i>4 ms</i>OK</span></div></sc-if>
-<div class="glass-w">
-<span class="glass-t">Em caso de pressa</span>
-<button class="glass {{glassCls}}" sc-camel-on-pointer-down="{{glassDown}}" sc-camel-on-pointer-up="{{holdEnd}}" sc-camel-on-pointer-leave="{{holdEnd}}" sc-camel-on-pointer-cancel="{{holdEnd}}" sc-camel-on-key-down="{{glassKey}}" sc-camel-on-click="{{glassClick}}" aria-label="Modo recrutador: segure para quebrar o vidro, ou aperte Enter"><span class="glass-in pix">MODO<br>RECRUTADOR</span><span class="glass-pane"></span><svg class="glass-cr" sc-camel-view-box="0 0 188 88" sc-camel-preserve-aspect-ratio="none" aria-hidden="true"><path d="M96 44l-22-9-18-15-14-14M96 44l30-12 22-20 20-6M96 44l-26 14-24 22M96 44l24 18 30 20M96 44l8-30 4-12M96 44l-6 28-2 14M74 35l-10 16M126 32l8 20M70 58l18-2M120 62l-4-16"></path></svg><svg class="glass-rim" sc-camel-view-box="0 0 170 72" sc-camel-preserve-aspect-ratio="none" aria-hidden="true"><path d="M85 1.5H168.5V70.5H1.5V1.5Z" sc-camel-path-length="100"></path></svg></button>
-<span class="glass-s">{{glassHint}}</span>
-</div>
 <sc-if value="{{canContinue}}" hint-placeholder-val="{{false}}">
 <button class="press pix" sc-camel-on-click="{{continueGame}}" aria-label="Continuar, com som">CONTINUAR</button>
 <div class="press-r"><button class="press-m {{newCls}}" sc-camel-on-click="{{newGame}}">{{newLabel}}</button><span class="press-d" aria-hidden="true">·</span><button class="press-m" sc-camel-on-click="{{continueMute}}">continuar sem som</button></div>
@@ -150,10 +150,10 @@
 </nav>
 </sc-if>
 <div class="hud-r">
-<button class="tro-b {{troBtnCls}}" sc-camel-on-click="{{toggleTro}}" aria-label="Conquistas: {{gotCount}} de {{trophyTotal}}" aria-expanded="{{troExpanded}}"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0z"></path><path d="M8 6H5.5v1.2A3 3 0 0 0 8 10.2M16 6h2.5v1.2A3 3 0 0 1 16 10.2M12 13v4M9 20h6M10 17h4"></path></svg><span class="tro-c pix">{{gotCount}}/{{trophyTotal}}</span></button>
+<button class="tro-b {{troBtnCls}}" sc-camel-on-click="{{toggleTro}}" aria-label="Conquistas: {{gotCount}}/{{trophyTotal}}" aria-expanded="{{troExpanded}}"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0z"></path><path d="M8 6H5.5v1.2A3 3 0 0 0 8 10.2M16 6h2.5v1.2A3 3 0 0 1 16 10.2M12 13v4M9 20h6M10 17h4"></path></svg><span class="tro-c pix">{{gotCount}}/{{trophyTotal}}</span></button>
 <button class="hb hb-pal {{palBtnCls}}" sc-camel-on-click="{{openPal}}" aria-label="Paleta de comandos (Ctrl+K)" title="Comandos · ctrl+k"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path d="M5 7.5l4.5 4.5L5 16.5M12 16.5h7"></path></svg></button>
 <button class="hb {{pauseBtnCls}}" sc-camel-on-click="{{openPause}}" aria-label="Pausar (Esc)" title="Pausa · esc"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path d="M9 6v12M15 6v12"></path></svg></button>
-<button class="hb pwr" sc-camel-on-pointer-down="{{pwrDown}}" sc-camel-on-pointer-up="{{holdEnd}}" sc-camel-on-pointer-leave="{{holdEnd}}" sc-camel-on-pointer-cancel="{{holdEnd}}" sc-camel-on-key-down="{{pwrKey}}" sc-camel-on-key-up="{{holdEnd}}" sc-camel-on-click="{{pwrClick}}" aria-label="Energia: segure para desligar e voltar ao Press Start" title="Segure pra desligar"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path d="M12 3.5v8"></path><path d="M6.7 7.1a7.5 7.5 0 1 0 10.6 0"></path></svg><sc-if value="{{pwrHint}}" hint-placeholder-val="{{false}}"><span class="pwr-h" role="status">segure pra desligar</span></sc-if></button>
+<button class="hb pwr" sc-camel-on-pointer-down="{{pwrDown}}" sc-camel-on-pointer-up="{{holdEnd}}" sc-camel-on-pointer-leave="{{holdEnd}}" sc-camel-on-pointer-cancel="{{holdEnd}}" sc-camel-on-key-down="{{pwrKey}}" sc-camel-on-key-up="{{holdEnd}}" sc-camel-on-click="{{pwrClick}}" aria-label="Energia: segure para desligar e voltar à TV" title="Segure pra desligar"><svg sc-camel-view-box="0 0 24 24" class="ico" aria-hidden="true"><path d="M12 3.5v8"></path><path d="M6.7 7.1a7.5 7.5 0 1 0 10.6 0"></path></svg><sc-if value="{{pwrHint}}" hint-placeholder-val="{{false}}"><span class="pwr-h" role="status">segure pra desligar</span></sc-if></button>
 </div>
 </header>
 

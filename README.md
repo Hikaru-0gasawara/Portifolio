@@ -49,14 +49,14 @@ No portfólio, cada projeto tem descrição, galeria com diagramas e os detalhes
 
 O próprio site é a demonstração: em vez de apenas listar habilidades, ele é um pequeno jogo que mostra o que eu sei fazer.
 
-- **Entrada pela TV:** uma televisão 3D que você pode girar com o mouse e ver por trás, por cima e por baixo. Ela já começa ligada, passando um jogo de luta, e tem cinco canais (luta, batalha de monstrinhos, show ao vivo, RPG e faroeste), volume e botão de energia. O botão **Entrar** mergulha a câmera dentro da tela e começa o boot.
+- **Entrada pela TV:** uma televisão 3D que você pode girar com o mouse e ver por trás, por cima e por baixo. Ela já começa ligada, passando um jogo de luta, e tem cinco canais (luta, batalha de monstrinhos, show ao vivo, RPG e faroeste), volume e botão de energia, e uma trilha própria que sai pelo alto-falante dela. O botão **Entrar** mergulha a câmera dentro da tela e começa o boot. Segurar o botão de energia do portfólio desliga tudo e volta para a TV.
 - **Boot:** um console de inicialização com diagnósticos e, de vez em quando, uma falha fictícia com recuperação.
 - **Páginas:** Início, Projetos, Sobre e Contato, percorridas pelo próprio Hikaru em pixel art. Ele anda entre as portas, tropeça de vez em quando e às vezes pega um atalho pelos portais. Todas as páginas e o quarto se ligam por passagens escondidas: pedestais, portas e alçapões desenhados na linha do esquemático e dos painéis, uma passagem atrás do “?” de CONTINUE? e, no quarto, um alçapão sob o pinball, uma escada atrás da estante e um túnel debaixo da cama. Os botões da home têm passagens próprias: um alçapão até Projetos e uma escada secreta até Sobre.
 - **Quarto:** estante, coleção de decks de Magic, pelúcias, fliperamas, TV de tubo com estilos de imagem, puff com um jogo de quebrar blocos e um computador com desktop próprio (terminal, perfil, árvore de habilidades, currículo, Lab e um jogo offline).
 - **Hitbox:** um controle de jogo de luta em Sobre, com 42 golpes de 22 lutadores de Street Fighter, Mortal Kombat, Skullgirls, Guilty Gear e Avatar, mais os golpes de tecnologia do Okaru. Cada golpe acerta um boneco de treino.
 - **Minijogos:** cartuchos para Game Boy, Atari, Master System, N64 e controle moderno, além dos fliperamas Packet Invaders e Operação Circuito.
 - **Conquistas:** 51 conquistas espalhadas pelo site.
-- **Modo recrutador:** um caminho rápido para projetos e currículos, para quem tem pouco tempo, com o mesmo som do portfólio.
+- **Modo recrutador:** um caminho rápido para projetos e currículos, para quem tem pouco tempo, com o mesmo som do portfólio. O vidro de emergência fica na escolha de idioma, antes do boot, e no menu de pausa.
 - **Tela de título:** trilha própria em 8 bits, sons de hover e um botão (ou a tecla `M`) para desligar o som.
 
 ### Controles principais

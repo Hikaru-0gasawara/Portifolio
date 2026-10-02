@@ -438,7 +438,7 @@ class Component extends DCLogic {
       palette: 'abra a paleta com ctrl+k (ou o botão >_ lá em cima) e execute um comando.',
       bubbles: 'no Contato tem plástico-bolha. estoure tudo.',
       rest: 'tem uma cama no quarto. deite nela.',
-      glass: 'tem um vidro de emergência no Press Start e no menu de pausa. segure até quebrar.',
+      glass: 'tem um vidro de emergência na escolha de idioma e no menu de pausa. segure até quebrar.',
       arcade: 'o fliperama do quarto funciona. chegue a 3.000 pontos.',
       dj: 'no menu de pausa, troque a trilha até ouvir as três.',
       snake: 'o controle do Sobre tem uma tela. aperte START.',
@@ -1170,7 +1170,8 @@ class Component extends DCLogic {
     }
   }
 
-  reboot() {
+  // toTv: the power button turns everything off back to the opening television; other reboots go to the boot.
+  reboot(toTv) {
     const s = this.st();
     if (s.powering || s.transitioning || this.curPage() === 'boot') return;
     this._desktopSession = false;
@@ -1187,7 +1188,8 @@ class Component extends DCLogic {
     this._t3 = setTimeout(() => {
       this._reboots = (this._reboots || 0) + 1;
       this.setState({ page: 'boot', powering: false, reboots: this._reboots });
-      this.bootLogStart();
+      if (toTv === true && this.reopenDisplay) this.reopenDisplay();
+      else this.bootLogStart();
     }, 760);
   }
 
@@ -1340,7 +1342,7 @@ class Component extends DCLogic {
   holdDone(h) {
     this.setHoldVar(h, 0);
     if (h.kind === 'pwr') {
-      this.reboot();
+      this.reboot(true);
       return;
     }
     let x = 720;
@@ -1885,7 +1887,7 @@ class Component extends DCLogic {
     L.push({ k: 'QRT', name: 'Voltar pro quarto', hint: 'jogo', kw: 'quarto room casa jogo porta', act: () => this.toRoom() });
     d.projects.forEach((p, i) => L.push({ k: p.num, name: 'Missão ' + p.num + ' · ' + p.title, hint: p.tags, kw: 'missao projeto ' + p.stack.join(' '), act: () => this.go('projetos', () => this.openProj(i)) }));
     const fN = this.fichaN();
-    L.push({ k: '@', name: 'Copiar e-mail', hint: fN > 0 ? 'você tem ' + fN + (fN === 1 ? ' ficha' : ' fichas') : 'sem fichas', kw: 'email mail contato ficha', act: () => this.mailCoin() });
+    L.push({ k: '@', name: 'Copiar e-mail', hint: fN > 0 ? 'fichas: ' + fN : 'sem fichas', kw: 'email mail contato ficha', act: () => this.mailCoin() });
     L.push({ k: 'PT', name: 'Currículo em português', hint: 'PDF', kw: 'cv curriculo resume pdf', href: this.blob('edd22477d30dbb43e2be37a46311d7f0') });
     L.push({ k: 'EN', name: 'Currículo em inglês', hint: 'PDF', kw: 'cv curriculo resume pdf english', href: this.blob('b56625947d33ef537f96fff29a580728') });
     L.push({ k: 'JP', name: 'Currículo em japonês', hint: 'PDF', kw: 'cv curriculo resume pdf japones', href: this.blob('e886952da59a2b1bb49133f618541672') });
@@ -2310,7 +2312,7 @@ class Component extends DCLogic {
   rmActs() {
     const s = this.st();
     if (s.rmIntro) {
-      if ((s.rmStep || 0) < this.rmIntroLines().length - 1) return [['Próxima', 'next'], ['Pular', 'close']];
+      if ((s.rmStep || 0) < this.rmIntroLines().length - 1) return [['Próxima', 'next'], ['Pular o tutorial', 'close']];
       return [['Explorar o quarto', 'close'], ['Ir pro site comum', 'site']];
     }
     const o = typeof s.roomObj === 'number' ? this.data().room[s.roomObj] : null;
@@ -7198,7 +7200,7 @@ class Component extends DCLogic {
       return {
         k: it ? it[0] : '',
         cls: it ? 'is-full' + (it[4] ? ' k-' + it[4] : '') : '',
-        aria: it ? 'Tirar ' + it[1] + ' da bancada' : 'Espaço vazio da bancada',
+        aria: it ? 'Tirar da bancada: ' + it[1] : 'Espaço vazio da bancada',
         take: () => this.benchTake(slot)
       };
     };
@@ -7353,7 +7355,7 @@ class Component extends DCLogic {
       tripOn: !!s.trip,
       tripCls: s.trip === 2 ? 'is-run' : '',
       tripArr: s.trip === 2 ? '»»' : '»',
-      tripLabel: s.trip === 2 ? 'PULAR' : 'ACELERAR',
+      tripLabel: s.trip === 2 ? 'PULAR A CAMINHADA' : 'ACELERAR',
       tripKey: this.coarse() ? '' : 'ou qualquer tecla',
       tripPush: () => this.tripPush(),
       pcOpen: !!s.pcOpen,
@@ -7787,7 +7789,7 @@ class Component extends DCLogic {
       dumpCls: s.bent ? 'is-bent' : '',
       dumpMsg: s.bent ? 'Impureza em 0x005a. Todo metal tem um pouco de terra.' : 'checksum ok · pureza do metal: 99%',
       inv: d.inv.map((it, i) => ({
-        k: it[0], name: it[1], aria: it[1] + ': levar à bancada',
+        k: it[0], name: it[1], aria: 'Levar à bancada: ' + it[1],
         cls: (it[4] ? 'k-' + it[4] : '') + (invI === i ? ' is-on' : '') + (bench[0] === i || bench[1] === i ? ' in-b' : ''),
         pick: () => this.pickInv(i),
         use: () => this.benchUse(i)

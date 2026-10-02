@@ -415,3 +415,28 @@ test('short passages (the coin slot, the dot of the ?) register where Hikaru par
   assert.equal(c.portalHit(geo,c._wk,slot),slot);
   Object.assign(c._wk,{x:x+40});assert.equal(c.portalHit(geo,c._wk,slot),null);
 });
+
+test('hidden doors are walked through and hatches dropped into, at both ends of the passage',()=>{
+  const {c,geo,el,context,finishNavigation}=fixture('projetos'),api=context.PortfolioScene,sounds=[];c.sfx=name=>sounds.push(name);
+  const kind=cls=>c.endStyle({classList:{contains:k=>k===cls}});
+  assert.equal(kind('portal-door-l'),'door-l');assert.equal(kind('portal-door-r'),'door-r');assert.equal(kind('portal-floor'),'hatch');assert.equal(kind('portal-letter'),'hatch');
+  assert.equal(kind('portal-hatch'),'spin','the kanji hatch keeps its spin');assert.equal(c.endStyle(null),'spin');
+  // leaving: he steps back while the door swings open, then the wall line cuts him off as he walks through
+  const first=api.passagePose('door-l',true,0),back=api.passagePose('door-l',true,200),gone=api.passagePose('door-l',true,850);
+  assert.equal(first.clip,null,'whole while the door opens');assert.equal(first.dir,'r');assert.ok(back.dx<0,'a step back');
+  assert.deepEqual(Array.from(back.clip),[-200,-80,200,160],'everything right of the wall is hidden');assert.equal(gone.alpha,0);
+  el.classList.add('portal-door');el.classList.add('portal-door-l');
+  c._teleportArrival='projects-about';Object.assign(c._wk,c.teleportSpot(geo));c._teleportArrival=null;
+  c.usePortal('projects-about');assert.equal(c._wk.anim.style,'door-l');assert.equal(el.classList.contains('is-open'),true);assert.equal(c._teleportStyle,null);
+  c.worldAnim(c._wk,899,geo);assert.equal(c.curPage(),'projetos');c.worldAnim(c._wk,1,geo);
+  assert.equal(el.classList.contains('is-open'),false,'the door shuts behind him');finishNavigation();assert.equal(c.curPage(),'sobre');
+  assert.ok(sounds.includes('door')&&sounds.includes('doorShut')&&sounds.filter(s=>s==='land').length>=3,'door, steps and the door closing');
+  // arriving: the door at the other end opens, he walks out of its wall and stays outside
+  el.classList.remove('portal-door-l');el.classList.add('portal-door-r');
+  const wk=c.worldSpawn('sobre',geo),x0=wk.x;assert.equal(wk.anim.style,'door-r');assert.equal(el.classList.contains('is-open'),true);
+  assert.equal(api.passagePose('door-r',false,0).alpha,0,'he starts inside the wall');
+  assert.equal(c.worldAnim(wk,900,geo),false);assert.equal(wk.x,x0+12*geo.u,'and ends outside it');assert.equal(el.classList.contains('is-open'),false);
+  // hatches: the trapdoor drop on one side, a pop back up on the other
+  const drop=api.passagePose('hatch',true,700),up=api.passagePose('hatch',false,350),done=api.passagePose('hatch',false,899);
+  assert.ok(drop.clip&&drop.sx<1,'drops into the hatch');assert.ok(up.lift>0&&up.alpha>0,'pops back up');assert.equal(done.sx,1);assert.equal(done.alpha,1);
+});

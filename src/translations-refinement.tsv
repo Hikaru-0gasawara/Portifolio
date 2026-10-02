@@ -4,7 +4,7 @@ Portal escondido: voltar ao início	Hidden portal: return home	隠しポータ�
 Um caminho de volta	A way back	帰り道
 Toph · Avatar	Toph · Avatar	トフ · アバター
 Uma pequena Toph de coque, faixa verde e olhos claros. Sentada no tapete, parece escutar cada passo do quarto.	A tiny Toph with a bun, green headband and pale eyes. Sitting on the rug, she seems to hear every footstep in the room.	お団子ヘアと緑のヘアバンド、淡い瞳の小さなトフ。敷物に座り、部屋の足音をすべて聞いているようだ。
-Toph dá uma batidinha no tapete. «Eu ouvi você chegando.» A pequena dobradora de terra sorri, confiante.	Toph taps the rug. “I heard you coming.” The little earthbender smiles confidently.	トフが敷物を軽くたたく。「来るのが聞こえたよ。」小さな土の技の使い手は自信たっぷりにほほえむ。
+Toph dá uma batidinha no tapete. «Eu ouvi você chegando.» A pequena dobradora de terra sorri, confiante.	Toph taps the rug. “I heard you coming.” The little earthbender smiles confidently.	トフが敷物を軽くたたく。「来るのが聞こえたよ。」小さな土使いは自信たっぷりにほほえむ。
 Inicialização simulada interrompida	Simulated startup interrupted	起動シミュレーションが中断されました
 Falha em:	Failed:	失敗：
 Serviço indisponível	Service unavailable	サービスが利用できません
@@ -14,7 +14,7 @@ Memória de faz de conta esgotada	Pretend memory exhausted	架空のメモリが
 A recuperação está sendo preparada	Preparing recovery	復旧の準備中
 Simulação do portfólio · nenhum arquivo foi afetado.	Portfolio simulation · no files were affected.	ポートフォリオの演出です。ファイルへの影響はありません。
 Pressione Enter para reiniciar	Press Enter to reboot	Enterキーで再起動
-Clique aqui para reiniciar	Press here to reboot	ここを押して再起動
+Clique aqui para reiniciar	Click here to reboot	ここを押して再起動
 Novo jogo, com som	New game, with sound	サウンドありでニューゲーム
 NOVO JOGO	NEW GAME	ニューゲーム
 Explore o portfólio para criar um save	Explore the portfolio to create a save	探索するとセーブデータが作成されます
@@ -30,7 +30,7 @@ Terminal	Terminal	ターミナル
 Host: Okaru Workstation	Host: Okaru Workstation	ホスト：Okaru Workstation
 Kernel: portfolio 1.0	Kernel: portfolio 1.0	カーネル：portfolio 1.0
 DE: Okaru Desktop	DE: Okaru Desktop	デスクトップ：Okaru Desktop
-START joga ou pausa · SELECT troca cartucho	START plays or pauses · SELECT switches cartridges	START：開始・一時停止 · SELECT：カートリッジ切替
+START joga ou pausa · SELECT troca cartucho	START plays or pauses · SELECT switches cartridges	START：開始・一時停止 · SELECT：カセット切替
 Escute e repita com C · A começa ou pausa · B repete	Listen and repeat with C · A starts or pauses · B replays	聞いてCボタンで再現 · A：開始・一時停止 · B：もう一度聞く
 Hitbox: treino de golpes	Hitbox: move practice	ヒットボックス：技の練習
 Lutador	Fighter	キャラクター

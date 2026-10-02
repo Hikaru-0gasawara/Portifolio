@@ -24,6 +24,10 @@
 /* After the zoom, the gate fades onto the identical full-screen standby; finishing it starts the boot. */
 .tv-power-gate.tv-phase-reveal{animation:tv-gate-reveal 320ms cubic-bezier(.23,1,.32,1) both}
 @keyframes tv-gate-reveal{to{opacity:0}}
+/* Back from the power button: the room comes out of the dark around the television that is already on. */
+.tv-power-gate.is-tv-return{animation:tv-gate-return 600ms cubic-bezier(.23,1,.32,1) both}
+@keyframes tv-gate-return{from{opacity:0}}
+.is-tv-calm .tv-power-gate.is-tv-return{animation-duration:160ms}
 .tv-power-gate{position:absolute;inset:0;z-index:950;overflow:hidden;background:#0a100c;--tv-depth:clamp(28px,5vw,52px)}
 .tv-camera{position:absolute;inset:0;display:grid;place-items:center;transform-origin:center;transition:transform 1400ms cubic-bezier(.77,0,.175,1);will-change:transform}
 .vintage-tv{position:relative;width:min(620px,80vw,105vh);aspect-ratio:1.52;perspective:1200px}
@@ -102,8 +106,20 @@
 .language-code{font-size:10px;width:34px;color:var(--gold);letter-spacing:.04em;flex:none}
 .language-options small{font-size:11px;white-space:nowrap;color:var(--mut)}
 .language-options button:disabled{cursor:default}
+/* The recruiter glass waits under the choices, in red, apart from the gold language buttons. */
+.language-rush{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:22px;padding:16px 0 2px;border-top:1px dashed #b3261e66}
+.language-rush-t{display:grid;gap:6px;min-width:0}
+.language-rush .glass{flex:none;width:168px;height:70px}
+.language-rush .glass-in{font-size:14px;padding:0 12px}
+.language-rush .glass:disabled{cursor:default}
+.language-rush .glass:focus-visible{outline:2px solid #E04A3A;outline-offset:3px}
+/* Opened from the picker, the recruiter view, its red hold and the flying shards all go above it. */
+.language-screen~.redx{z-index:91}
+.language-screen~.rec-l{z-index:92}
+.language-screen~.shat{z-index:93}
 .language-foot{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:24px;padding-top:18px;border-top:1px solid var(--ln);font-size:10px;color:var(--dim)}
 .language-calibration{display:flex;gap:3px;align-items:center}.language-calibration i{width:12px;height:5px;background:#68806a}.language-calibration i:nth-child(2){background:#94a584}.language-calibration i:nth-child(3){background:#d4caa5}.language-calibration i:nth-child(4){background:#b49853}.language-calibration i:nth-child(5){background:#62553a}
 @media(max-width:700px){.language-card{padding:22px}}
+@media(max-width:440px){.language-rush{flex-direction:column;align-items:flex-start;gap:12px}}
 @media(max-width:440px){.language-screen{padding:18px}.language-card{padding:22px 18px}.language-choice{gap:8px}.language-options button{padding:12px}.language-options small{font-size:10px}.language-code{width:30px}.language-foot{gap:8px;font-size:9px}}
 @media(max-height:640px){.language-screen{place-items:start center;padding:18px}.language-top{padding-bottom:12px}.language-card h1{margin-top:18px}.language-options{margin-top:18px}.language-options button{min-height:50px}.language-foot{margin-top:18px;padding-top:12px}}

@@ -37,7 +37,7 @@ no Lab	in the Lab	ラボで
 daqui do Lab	from this Lab	このラボから
 do Lab	of the Lab	ラボの
 aqui no terminal	here in the terminal	このターミナルで
-Ir pra	Go to	移動先
+Ir pra	Go to	移動：
 Copiar e-mail	Copy email	メールアドレスをコピー
 você tem	you have	所持数
 sem fichas	no coins	コインなし
@@ -58,7 +58,7 @@ Qualidade de vídeo	Video quality	画質
 Fechar o modo debug	Close debug mode	デバッグモードを閉じる
 Modo debug	Debug mode	デバッグモード
 Créditos	Credits	クレジット
-fim de jogo	game over	ゲーム終了
+fim de jogo	the end	エンディング
 Sentir o chão	Feel the ground	地面を感じる
 sentir o chao	feel the ground	地面を感じる
 ONDA 1	WAVE 1	ウェーブ1
@@ -76,7 +76,7 @@ ENTER ou ATIRAR confirma	ENTER or FIRE confirms	ENTERまたは発射で決定
 Joystick clássico	Classic joystick	クラシックジョイスティック
 stick anda · botão começa	stick moves · button starts	レバーで移動・ボタンで開始
 Pad 8-bit	8-bit pad	8ビットパッド
-direcional empurra · 1 reinicia · 2 avança	directions push · 1 restarts · 2 advances	方向キーで押す・1で再開・2で次へ
+direcional empurra · 1 reinicia · 2 avança	directions push · 1 restarts · 2 advances	方向キーで押す・1でやり直し・2で次へ
 Analógico (estilo N64)	Analog stick (N64 style)	アナログスティック（N64風）
 C que acende, C que aperta · A começa	press the C button that lights up · A starts	光ったCを押す・Aで開始
 Pad moderno	Modern pad	現代のゲームパッド
@@ -90,7 +90,7 @@ MELHOR NÍVEL	BEST LEVEL	最高レベル
 · ERROS	· MISTAKES	・ミス
 · SUA VEZ	· YOUR TURN	・あなたの番
 · OLHA	· WATCH	・よく見て
-FIM DE JOGO	GAME OVER	ゲーム終了
+FIM DE JOGO	GAME OVER	ゲームオーバー
 todos os níveis · 2 recomeça	all levels · 2 restarts	全レベル完了・2でやり直し
 2 vai pro próximo	2 goes to the next level	2で次のレベルへ
 botão	button	ボタン
@@ -188,7 +188,7 @@ abrindo /dev/okaru	opening /dev/okaru	/dev/okaruを開いています
 : diretório não encontrado. tente "ls".	: directory not found. Try "ls".	：ディレクトリが見つかりません。「ls」を試してください。
 okaru is not in the sudoers file. This incident will be reported.	okaru is not in the sudoers file. This incident will be reported.	okaruはsudoersに登録されていません。この操作は報告されます。	okaru não está no arquivo sudoers. Este incidente será reportado.
 sem autorização por escrito, sem scan. regra número um.	no written authorization, no scan. Rule number one.	書面の許可なしにスキャンしない。それが第一のルール。
-boa tentativa.	nice try.	惜しかったね。
+boa tentativa.	nice try.	残念でした。
 abrindo o modo recrutador...	opening recruiter mode…	採用担当者モードを開いています…
 ligando o fliperama...	starting the arcade…	アーケードを起動中…
 alternando o modo debug (F3).	toggling debug mode (F3).	デバッグモードを切り替えます（F3）。

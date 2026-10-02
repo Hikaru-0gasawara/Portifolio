@@ -1,6 +1,6 @@
 Jogar	Play	プレイ
 JOGAR	PLAY	プレイ
-ABERTO	OPEN	開く
+ABERTO	OPEN	解錠
 ACELERAR	ACCELERATE	加速
 ACERTOS	HITS	命中
 ATRAVESSOU!	CROSSED!	横断成功！
@@ -23,7 +23,7 @@ Cartola	Top hat	シルクハット
 Cobrinha	Snake	スネーク
 Colecionador	Collector	コレクター
 Confirmar	Confirm	決定
-Continue	Continue	つづきから
+Continue	Continue	つづける
 Continue?	Continue?	つづけますか？
 Craftar	Craft	作成
 Desbloqueada	Unlocked	解除済み
@@ -95,8 +95,8 @@ economia	low power	省電力
 fecha	close	閉じる
 fechada	closed	閉じている
 fechar	close	閉じる
-ficha	token	トークン
-fichas	tokens	トークン
+ficha	coin	コイン
+fichas	coins	コイン
 golpe	move	技
 golpes	moves	技
 idiomas	languages	言語
@@ -124,3 +124,4 @@ desbloqueada	unlocked	解除済み
 bloqueada	locked	未解除
 aqui no Lab	here in the Lab	このラボで
 14 rotas	14 routes	14ルート
+PULAR A CAMINHADA	SKIP	スキップ	PULAR

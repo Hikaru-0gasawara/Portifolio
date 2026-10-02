@@ -295,7 +295,7 @@
     "cartuchos": {
       "name": [
         "Pokémon cartridges",
-        "ポケモンのカートリッジ"
+        "ポケモンのソフト"
       ],
       "text": [
         "All the DS and 3DS Pokémon games: Diamond, Pearl, Platinum, HeartGold, SoulSilver, Black, White, Black 2, White 2, X, Y, Omega Ruby, Alpha Sapphire, Sun, Moon, Ultra Sun and Ultra Moon.",
@@ -357,7 +357,7 @@
     "jogos-snes": {
       "name": [
         "SNES cartridges",
-        "スーパーファミコンのカートリッジ"
+        "スーパーファミコンのカセット"
       ],
       "text": [
         "SNES classics: Super Mario World, Donkey Kong Country, A Link to the Past, Super Metroid, Chrono Trigger, Street Fighter II, Mega Man X and Super Mario Kart.",

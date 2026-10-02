@@ -71,11 +71,11 @@ const wrap = (name, fn) => { const prior = p[name]; p[name] = function (...args)
 - **Modelo:** malhas montadas em código (caixas, troncos, cilindros, esferas, tela curva), materiais por vértice (madeira procedural, plástico, metal, emissivo), quatro luzes e sombra no chão.
 - **Interação:** arrastar gira a câmera em torno da TV com inércia; a roda aproxima; um raio contra o plano do painel encontra o seletor ou botão clicado (metade esquerda volta, direita avança).
 - **Tela:** cinco canais desenhados em 160×120 e ampliados, sobreposições nítidas em 480×360 (placar, textos, número do canal, barra de volume), aquecimento, desligamento e estática.
-- **Som:** um barramento próprio, controlado pelo volume da TV, e um barramento para os cliques mecânicos, ambos ligados ao mixer do site.
+- **Som:** um barramento próprio, controlado pelo volume da TV, e um barramento para os cliques mecânicos, ambos ligados ao mixer do site. A trilha da TV (`theme`) é agendada um pouco à frente nesse barramento a cada quadro; só toca com a TV ligada, fora da entrada e em canais sem música própria (`score`).
 - **Entrada:** o cartão OKARU é desenhado na escala exata em que a câmera termina o mergulho, para o portão esmaecer sobre a mesma imagem em tela cheia.
 - **Reserva:** sem WebGL, a TV em CSS do template recebe o mesmo canvas da tela e mantém o zoom antigo.
 
-`src/display.js` coordena o portão: `idle` → `entering` → (`zoom`, só na reserva) → `reveal` → `done`, com tempos-limite de segurança. O boot só começa em `done`.
+`src/display.js` coordena o portão: `idle` → `entering` → (`zoom`, só na reserva) → `reveal` → `done`, com tempos-limite de segurança. O boot só começa em `done`. Segurar o botão de energia do HUD chama `reboot(true)`, que reabre o portão (`reopenDisplay`) com uma TV nova, em vez de iniciar o boot; os demais reboots continuam indo direto ao boot.
 
 ## Idiomas
 
