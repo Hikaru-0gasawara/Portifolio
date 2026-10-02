@@ -14,7 +14,7 @@
   const t = value => translate(value, locale);
   // A specific language, whatever the current one is (the language picker speaks to every visitor).
   const tIn = (value, to) => translate(value, ['pt','en','ja'].includes(to) ? to : locale);
-  // keep=false shows a language without choosing it, e.g. the recruiter view opened before the picker.
+  // keep=false shows a language without choosing it, e.g. a first visit greeted in the browser's language.
   function set(next, keep=true) {
     if (!['pt','en','ja'].includes(next)) return;
     locale = next;

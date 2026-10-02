@@ -84,42 +84,98 @@
 @media(prefers-reduced-motion:reduce){.okr>.grain{animation:none!important}}
 @media(forced-colors:active){.okr>.grain,.display-surface{display:none}}
 
-/* The channel selector shares the portfolio's gold / green palette and modest scale. */
-.language-screen{position:absolute;inset:0;z-index:90;display:grid;place-items:center;padding:24px;overflow:auto;background:radial-gradient(ellipse at 50% 40%,#17231a 0,#080e0a 68%)}
-.language-card{position:relative;max-width:660px;width:100%;padding:clamp(20px,5vw,48px);border:1px solid var(--ln2);background:#0d150fed;box-shadow:0 20px 90px #0006,inset 0 0 0 5px #ffffff02}
+/* The language screen comes first: an 8-bit menu under a pixel night sky, with an equalizer that plays its music.
+   Its cursor follows the pointer, focus and arrows; the music, the greeting and the glow follow the cursor. */
+@property --lv{syntax:'<number>';inherits:true;initial-value:.1}
+@property --pk{syntax:'<number>';inherits:true;initial-value:.14}
+.language-screen{position:absolute;inset:0;z-index:90;display:grid;place-items:center;padding:24px;overflow:auto;background:radial-gradient(ellipse 85% 65% at 50% 36%,#17241a 0,#0b130e 55%,#050906 100%);--tint:#62b37f}
+.language-screen.is-cursor-en{--tint:#7fb2da}.language-screen.is-cursor-ja{--tint:#e0606e}
+.language-sky{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.language-sky::before,.language-sky::after{content:'';position:absolute;left:0;top:0;width:2px;height:2px}
+.language-sky::before{box-shadow:4vw 8vh #d8b24acc,11vw 27vh #d8b24a99,18vw 14vh 0 1px #d8b24a88,23vw 44vh #d8b24a88,31vw 6vh #d8b24acc,37vw 31vh #d8b24a77,44vw 17vh #d8b24aaa,52vw 9vh 0 1px #d8b24a99,58vw 38vh #d8b24a88,63vw 21vh #d8b24acc,71vw 5vh #d8b24a99,77vw 29vh 0 1px #d8b24a88,83vw 13vh #d8b24acc,88vw 41vh #d8b24a77,94vw 19vh #d8b24aaa,8vw 52vh #d8b24a66,47vw 49vh #d8b24a66,97vw 55vh #d8b24a66;animation:lang-twinkle 3.2s steps(2,end) infinite}
+.language-sky::after{box-shadow:2vw 33vh #e8e4d488,9vw 15vh #e8e4d466,15vw 38vh #e8e4d455,27vw 22vh 0 1px #e8e4d455,34vw 47vh #e8e4d466,40vw 4vh #e8e4d488,49vw 29vh #e8e4d455,55vw 18vh #e8e4d488,61vw 51vh #e8e4d455,67vw 11vh 0 1px #e8e4d466,74vw 45vh #e8e4d455,80vw 24vh #e8e4d488,86vw 3vh #e8e4d466,91vw 33vh #e8e4d455,99vw 10vh #e8e4d488,20vw 58vh #e8e4d444,69vw 60vh #e8e4d444,42vw 62vh #e8e4d444;animation:lang-twinkle 4.4s steps(2,end) -1.6s infinite}
+@keyframes lang-twinkle{50%{opacity:.35}}
+/* The equalizer: pixel blocks from jade to red, clipped to each bar's level, with a falling peak on top. */
+.language-eq{position:absolute;left:0;right:0;bottom:0;height:clamp(84px,22vh,190px);display:flex;align-items:stretch;gap:4px;padding:0 12px;pointer-events:none}
+.language-eq::before{content:'';position:absolute;left:0;right:0;bottom:0;height:240%;background-color:var(--tint);-webkit-mask:radial-gradient(ellipse 60% 70% at 50% 100%,#000,transparent 72%);mask:radial-gradient(ellipse 60% 70% at 50% 100%,#000,transparent 72%);opacity:.14;transition:background-color .6s ease}
+.language-bar{position:relative;flex:1;--lv:.1;--pk:.14}
+.language-bar::before{content:'';position:absolute;inset:0;background:linear-gradient(to top,#3f8a5c,#62b37f 42%,#d8b24a 72%,#e04a3a);-webkit-mask:repeating-linear-gradient(to top,#000 0 6px,transparent 6px 9px);mask:repeating-linear-gradient(to top,#000 0 6px,transparent 6px 9px);clip-path:inset(calc((1 - var(--lv)) * 100%) 0 0 0);opacity:.42}
+.language-bar::after{content:'';position:absolute;left:0;right:0;bottom:calc(var(--pk) * 100%);height:3px;background:var(--gold2);opacity:.55}
+.language-eq:not([data-live="1"]) .language-bar{animation:lang-idle 2.6s steps(6,end) calc(var(--i) * -.37s) infinite alternate}
+@keyframes lang-idle{from{--lv:.06;--pk:.1}to{--lv:.3;--pk:.36}}
+.language-note{position:absolute;left:var(--x,50%);bottom:45%;font-size:18px;line-height:1;color:var(--gold2);opacity:0}
+.language-note[data-up="a"]{animation:lang-note-a 1.6s steps(10,end) forwards}
+.language-note[data-up="b"]{animation:lang-note-b 1.6s steps(10,end) forwards}
+@keyframes lang-note-a{0%{opacity:0;transform:translate(-50%,0)}12%{opacity:.9}100%{opacity:0;transform:translate(calc(-50% + 14px),-130px)}}
+@keyframes lang-note-b{0%{opacity:0;transform:translate(-50%,0)}12%{opacity:.9}100%{opacity:0;transform:translate(calc(-50% - 12px),-130px)}}
+/* The card is the cartridge's options screen. */
+.language-card{position:relative;z-index:1;max-width:660px;width:100%;padding:clamp(20px,5vw,44px);border:1px solid var(--ln2);background:#0d150ff2;box-shadow:0 0 0 4px #0a0f0b,0 0 0 5px #d8b24a33,0 24px 90px #000a}
 .language-card::before,.language-card::after{content:'';position:absolute;width:18px;height:18px;pointer-events:none;border-color:var(--gold);opacity:.55}
 .language-card::before{left:-1px;top:-1px;border-left:2px solid var(--gold);border-top:2px solid var(--gold)}
 .language-card::after{right:-1px;bottom:-1px;border-right:2px solid var(--gold);border-bottom:2px solid var(--gold)}
-.language-top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-bottom:20px;border-bottom:1px solid var(--ln)}
-.language-brand{display:flex;align-items:center;gap:12px}
-.language-emblem{display:grid;place-items:center;width:36px;height:36px;border:1px solid #8e783b;color:var(--gold);font-size:21px}
+.language-top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-bottom:18px;border-bottom:1px solid var(--ln)}
+.language-brand{display:flex;align-items:center;gap:12px;min-width:0}
+.language-emblem{display:grid;place-items:center;width:36px;height:36px;flex:none;border:1px solid #8e783b;color:var(--gold);font-size:21px}
 .language-brand .lab-t{color:var(--mut);letter-spacing:.12em}
-.language-signal{display:flex;align-items:flex-end;gap:3px;height:16px;color:var(--jade);opacity:.75}
-.language-signal i{width:3px;background:currentColor;height:4px}.language-signal i:nth-child(2){height:8px}.language-signal i:nth-child(3){height:12px}.language-signal i:nth-child(4){height:16px}
-.language-card h1{font-family:'JetBrains Mono',monospace;font-size:clamp(22px,3.5vw,32px);font-weight:500;letter-spacing:-.045em;line-height:1.35;margin:26px 0 12px;text-wrap:balance}
-.language-card h1[lang="ja"]{letter-spacing:0;line-height:1.6;word-break:normal;overflow-wrap:anywhere}
+.language-snd{display:inline-flex;align-items:center;gap:10px;flex:none;min-height:36px;padding:6px 12px;border:1px solid var(--ln2);background:#080e0a;color:var(--mut);font:11px/1.2 'JetBrains Mono','DotGothic16',monospace;cursor:pointer;transition:border-color .2s,color .2s}
+@media(hover:hover) and (pointer:fine){.language-snd:hover{border-color:var(--gold);color:var(--tx)}}
+.language-snd[aria-pressed=true]{border-color:#62b37f80;color:var(--jade2)}
+.language-snd-eq{display:flex;align-items:flex-end;gap:2px;height:14px}
+.language-snd-eq i{width:3px;height:4px;background:currentColor}
+.language-snd-eq i:nth-child(2){height:8px}.language-snd-eq i:nth-child(3){height:6px}.language-snd-eq i:nth-child(4){height:10px}
+.language-screen.is-playing .language-snd-eq i{animation:lang-snd .5s steps(3,end) infinite alternate}
+.language-screen.is-playing .language-snd-eq i:nth-child(2){animation-delay:-.2s}.language-screen.is-playing .language-snd-eq i:nth-child(3){animation-delay:-.35s}.language-screen.is-playing .language-snd-eq i:nth-child(4){animation-delay:-.1s}
+@keyframes lang-snd{from{height:3px}to{height:14px}}
+.language-card h1{font-family:'JetBrains Mono',monospace;font-size:clamp(22px,3.5vw,32px);font-weight:500;letter-spacing:-.045em;line-height:1.35;margin:24px 0 12px;text-wrap:balance}
+/* The three questions stack in one cell, as tall as the longest; the one under the cursor types itself in. */
+.language-ask{display:grid}
+.language-q{grid-area:1/1;align-self:end;visibility:hidden}
+.language-q.is-on{visibility:visible;animation:lang-ask .32s steps(10,end)}
+.language-q[lang="ja"]{letter-spacing:0;line-height:1.6;word-break:normal;overflow-wrap:anywhere}
+@keyframes lang-ask{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
 .language-question{font-size:13px;line-height:1.9;margin-bottom:0;letter-spacing:0;color:var(--mut)}
+.language-question>span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .language-options{display:grid;gap:9px;margin-top:24px}
 .language-options button{position:relative;display:flex;justify-content:space-between;align-items:center;text-align:left;min-height:62px;gap:12px;padding:14px 16px;border:1px solid var(--ln2);background:#080e0a;color:var(--tx);font:inherit;cursor:pointer;transition:border-color .2s,background .2s}
-.language-options button:hover,.language-options button:focus-visible{background:#182118;border-color:var(--gold);outline:2px solid var(--gold);outline-offset:3px}
+.language-options button:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.language-screen .language-options button{padding-left:40px}
+.language-screen .language-options button.is-cur{background:#141f16;border-color:var(--gold)}
+.language-cursor{position:absolute;left:15px;top:50%;font-size:13px;line-height:1;color:var(--gold);opacity:0;transform:translateY(-50%)}
+.language-options button.is-cur .language-cursor{opacity:1;animation:lang-cursor 1s steps(1,end) infinite}
+@keyframes lang-cursor{50%{opacity:.2}}
 .language-choice{display:flex;align-items:center;gap:14px;min-width:0}
-.language-code{font-size:10px;width:34px;color:var(--gold);letter-spacing:.04em;flex:none}
+.language-code{font-size:10px;width:34px;color:var(--gold);letter-spacing:.04em;white-space:nowrap;flex:none}
+.language-hello{font-size:13px;color:var(--jade2);white-space:nowrap;opacity:0;transform:translateX(-6px);transition:opacity .2s cubic-bezier(.23,1,.32,1),transform .2s cubic-bezier(.23,1,.32,1)}
+.language-options button.is-cur .language-hello{opacity:1;transform:none}
 .language-options small{font-size:11px;white-space:nowrap;color:var(--mut)}
-.language-options button:disabled{cursor:default}
-/* The recruiter glass waits under the choices, in red, apart from the gold language buttons. */
-.language-rush{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:22px;padding:16px 0 2px;border-top:1px dashed #b3261e66}
-.language-rush-t{display:grid;gap:6px;min-width:0}
-.language-rush .glass{flex:none;width:168px;height:70px}
-.language-rush .glass-in{font-size:14px;padding:0 12px}
-.language-rush .glass:disabled{cursor:default}
-.language-rush .glass:focus-visible{outline:2px solid #E04A3A;outline-offset:3px}
-/* Opened from the picker, the recruiter view, its red hold and the flying shards all go above it. */
-.language-screen~.redx{z-index:91}
-.language-screen~.rec-l{z-index:92}
-.language-screen~.shat{z-index:93}
-.language-foot{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:24px;padding-top:18px;border-top:1px solid var(--ln);font-size:10px;color:var(--dim)}
-.language-calibration{display:flex;gap:3px;align-items:center}.language-calibration i{width:12px;height:5px;background:#68806a}.language-calibration i:nth-child(2){background:#94a584}.language-calibration i:nth-child(3){background:#d4caa5}.language-calibration i:nth-child(4){background:#b49853}.language-calibration i:nth-child(5){background:#62553a}
+.language-options button.is-cur small{color:var(--gold2)}
+/* The deck shows what is playing, in the language under the cursor, and the bar being played. */
+.language-deck{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:16px;padding:10px 12px;border:1px dashed var(--ln2);background:#080e0a}
+.language-now{display:flex;align-items:center;gap:8px;min-width:0;font-size:13px;color:var(--gold2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.language-now-ic{flex:none;color:var(--jade2)}
+.language-steps{display:grid;grid-template-columns:repeat(16,minmax(0,1fr));gap:3px;flex:none;width:min(212px,46%)}
+.language-step{height:10px;background:#18241b;border-bottom:2px solid transparent}
+.language-step.is-beat{background:#213025}
+.language-step[data-hit="1"]{border-bottom-color:#62b37f}
+.language-step[data-on="1"]{background:var(--gold)}
+.language-screen:not(.is-entry) :is(.language-deck,.language-snd){display:none}
+.language-foot{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:20px;padding-top:16px;border-top:1px solid var(--ln);font-size:10px;color:var(--dim)}
+.language-keys{display:flex;gap:4px}
+.language-keys kbd{display:inline-grid;place-items:center;min-width:22px;height:20px;padding:0 5px;border:1px solid var(--ln2);border-bottom-width:2px;background:#0b130e;font:10px/1 'JetBrains Mono',monospace;color:var(--mut)}
+@media(hover:none){.language-keys{display:none}}
 @media(max-width:700px){.language-card{padding:22px}}
-@media(max-width:440px){.language-rush{flex-direction:column;align-items:flex-start;gap:12px}}
-@media(max-width:440px){.language-screen{padding:18px}.language-card{padding:22px 18px}.language-choice{gap:8px}.language-options button{padding:12px}.language-options small{font-size:10px}.language-code{width:30px}.language-foot{gap:8px;font-size:9px}}
-@media(max-height:640px){.language-screen{place-items:start center;padding:18px}.language-top{padding-bottom:12px}.language-card h1{margin-top:18px}.language-options{margin-top:18px}.language-options button{min-height:50px}.language-foot{margin-top:18px;padding-top:12px}}
+@media(max-width:520px){.language-deck{flex-direction:column;align-items:stretch;gap:10px}.language-steps{width:100%}}
+@media(max-width:440px){.language-screen{padding:18px 16px}.language-card{padding:22px 16px}.language-choice{gap:8px}.language-screen .language-options button{padding:12px 12px 12px 34px}.language-cursor{left:12px}.language-options small{font-size:10px}.language-hello{display:none}.language-foot{gap:8px;font-size:9px}.language-snd{padding:6px 9px}.language-brand .lab-t{display:none}}
+@media(max-height:640px){.language-screen{place-items:start center;padding:18px}.language-top{padding-bottom:12px}.language-card h1{margin-top:16px}.language-options{margin-top:16px}.language-options button{min-height:50px}.language-foot{margin-top:14px;padding-top:12px}}
+@media(max-height:560px){.language-eq{display:none}}
+/* The red dock button on the recruiter channel; the recruiter view and its shards open over the television. */
+.tv-knock{background:#3a0c09;border-color:#b3261e;color:#f4d6cf}
+@media(hover:hover) and (pointer:fine){.tv-knock:hover{background:#5a1410;border-color:#e04a3a}}
+.tv-knock:focus-visible{outline-color:#e04a3a}
+.tv-power-gate~.rec-l{z-index:960}
+.tv-power-gate~.shat{z-index:970}
+/* Choosing the language turns the television on like a tube: a bright line opens into the picture. */
+.tv-power-gate.is-tv-arrive{animation:tv-gate-arrive 900ms cubic-bezier(.23,1,.32,1) both}
+.tv-power-gate.is-tv-arrive~.tv-standby{visibility:hidden}
+@keyframes tv-gate-arrive{0%{clip-path:inset(50% 0 50% 0);filter:brightness(3)}28%{clip-path:inset(49.6% 0 49.6% 0);filter:brightness(3)}62%{clip-path:inset(0 0 0 0);filter:brightness(1.5)}100%{clip-path:inset(0 0 0 0);filter:none}}
+.is-tv-calm .tv-power-gate.is-tv-arrive{animation:tv-gate-return 160ms linear both}

@@ -438,7 +438,7 @@ class Component extends DCLogic {
       palette: 'abra a paleta com ctrl+k (ou o botão >_ lá em cima) e execute um comando.',
       bubbles: 'no Contato tem plástico-bolha. estoure tudo.',
       rest: 'tem uma cama no quarto. deite nela.',
-      glass: 'tem um vidro de emergência na escolha de idioma e no menu de pausa. segure até quebrar.',
+      glass: 'o primeiro canal da TV de entrada tem um vidro de emergência, e o menu de pausa também. quebre um deles.',
       arcade: 'o fliperama do quarto funciona. chegue a 3.000 pontos.',
       dj: 'no menu de pausa, troque a trilha até ouvir as três.',
       snake: 'o controle do Sobre tem uma tela. aperte START.',

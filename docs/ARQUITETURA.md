@@ -46,7 +46,7 @@ Antes de o runtime iniciar, o navegador lê o conteúdo de `<x-dc>` como HTML co
 const wrap = (name, fn) => { const prior = p[name]; p[name] = function (...args) { return fn.call(this, prior.bind(this), ...args); }; };
 ```
 
-`src/enhancements.js` instala a integração (idioma, foco, galeria) e, em seguida, os módulos na ordem da lista `Portfolio.modules`: personagem, quarto, dado, tiro, cena, limpeza, boot, desktop, cartuchos, hitbox, conquistas, jogo da TV, TV de entrada e som da tela de título. Cada módulo envolve o que os anteriores deixaram, então a ordem faz parte do comportamento. Um módulo ausente é registrado no console e o restante continua.
+`src/enhancements.js` instala a integração (idioma, foco, galeria) e, em seguida, os módulos na ordem da lista `Portfolio.modules`: personagem, quarto, dado, tiro, cena, limpeza, boot, desktop, cartuchos, hitbox, conquistas, jogo da TV, TV de entrada e som (escolha de idioma, com sua trilha e equalizador, e tela de título). Cada módulo envolve o que os anteriores deixaram, então a ordem faz parte do comportamento. Um módulo ausente é registrado no console e o restante continua.
 
 `renderVals()` é a ponte com o template: cada módulo acrescenta os valores e handlers de que suas telas precisam. Handlers usados como `ref` são memorizados no componente para não serem recriados a cada render.
 
@@ -67,15 +67,15 @@ const wrap = (name, fn) => { const prior = p[name]; p[name] = function (...args)
 
 ## Televisão 3D (`src/tv3d.js`)
 
-- **Estado puro** (`createState`, `step`, `press`, `beginEnter`): energia (`on`, `cooling`, `off`, `warming`), canal, volume, câmera orbital, entrada (`warm`/`tune` → `align` → `dolly` → `done`). Testável sem WebGL.
+- **Estado puro** (`createState`, `step`, `press`, `beginEnter`, `knock`): energia (`on`, `cooling`, `off`, `warming`), canal, volume, câmera orbital, vidro (batidas, rachaduras, quebrado) e entrada (`warm`/`tune` → `align` → `dolly` → `done`). Testável sem WebGL.
 - **Modelo:** malhas montadas em código (caixas, troncos, cilindros, esferas, tela curva), materiais por vértice (madeira procedural, plástico, metal, emissivo), quatro luzes e sombra no chão.
-- **Interação:** arrastar gira a câmera em torno da TV com inércia; a roda aproxima; um raio contra o plano do painel encontra o seletor ou botão clicado (metade esquerda volta, direita avança).
-- **Tela:** cinco canais desenhados em 160×120 e ampliados, sobreposições nítidas em 480×360 (placar, textos, número do canal, barra de volume), aquecimento, desligamento e estática.
+- **Interação:** arrastar gira a câmera em torno da TV com inércia; a roda aproxima; um raio contra o plano do painel encontra o seletor ou botão clicado (metade esquerda volta, direita avança), e outro contra o vidro (`screenPoint`) dá o ponto da batida no primeiro canal.
+- **Tela:** seis canais desenhados em 160×120 e ampliados (o primeiro é o do modo recrutador: três batidas retornam `crack`, `crack` e `break`, e depois `open`), sobreposições nítidas em 480×360 (placar, textos, número do canal, barra de volume), aquecimento, desligamento e estática. As rachaduras ficam numa camada própria, por cima de qualquer canal, e esmaecem com o mergulho da câmera.
 - **Som:** um barramento próprio, controlado pelo volume da TV, e um barramento para os cliques mecânicos, ambos ligados ao mixer do site. A trilha da TV (`theme`) é agendada um pouco à frente nesse barramento a cada quadro; só toca com a TV ligada, fora da entrada e em canais sem música própria (`score`).
 - **Entrada:** o cartão OKARU é desenhado na escala exata em que a câmera termina o mergulho, para o portão esmaecer sobre a mesma imagem em tela cheia.
 - **Reserva:** sem WebGL, a TV em CSS do template recebe o mesmo canvas da tela e mantém o zoom antigo.
 
-`src/display.js` coordena o portão: `idle` → `entering` → (`zoom`, só na reserva) → `reveal` → `done`, com tempos-limite de segurança. O boot só começa em `done`. Segurar o botão de energia do HUD chama `reboot(true)`, que reabre o portão (`reopenDisplay`) com uma TV nova, em vez de iniciar o boot; os demais reboots continuam indo direto ao boot.
+Na primeira visita, a escolha de idioma vem antes: o portão só aparece depois dela (`displayPowerGate` exige o idioma) e entra com a animação de tubo `is-tv-arrive`. A terceira batida chama `breakGlass` com o ponto da página, que abre o modo recrutador por cima do portão; um link dele chama `leaveDisplay`, que desmonta a TV sem boot. O botão de energia reabre o portão na fase `exit`: a TV é criada com `host.exit` e roda `beginExit` (`hold` → `pull` → `swing` → `done`, o inverso de `align` e `dolly`), chamando `onExited` no fim; a reserva em CSS anima `.tv-camera` do zoom até a posição normal, e um tempo-limite garante a saída. `src/display.js` coordena o portão: (`exit`, ao voltar pelo botão de energia) → `idle` → `entering` → (`zoom`, só na reserva) → `reveal` → `done`, com tempos-limite de segurança. O boot só começa em `done`. Segurar o botão de energia do HUD chama `reboot(true)`, que reabre o portão (`reopenDisplay`) com uma TV nova, em vez de iniciar o boot; os demais reboots continuam indo direto ao boot.
 
 ## Idiomas
 
@@ -86,7 +86,7 @@ const wrap = (name, fn) => { const prior = p[name]; p[name] = function (...args)
 | Chave | Conteúdo |
 | --- | --- |
 | `okaru-save-v1` | Progresso: conquistas, objetos explorados, recordes, tutorial do quarto e outros marcadores |
-| `okaru-language` | Idioma escolhido |
+| `okaru-language` | Idioma escolhido (a primeira visita mostra o do navegador sem salvá-lo até a escolha) |
 | `okaru-boot-seen` | Marca de que o boot já aconteceu (primeira visita em pânico) |
 | `okaru-display` | Estilo de imagem da TV do quarto |
 | `okaru-motion` | Ajuste Movimento do menu (completo ou reduzido) |

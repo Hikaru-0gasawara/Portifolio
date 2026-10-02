@@ -135,6 +135,25 @@
 - [x] Módulos ausentes avisados no console; `npm test` gera o build antes; listeners da TV 3D removidos; referência do desktop memorizada; configurações locais ignoradas.
 - [x] Documentação: índice, arquitetura, auditoria e componentes de terceiros. Detalhes e recomendações em [AUDITORIA.md](AUDITORIA.md).
 
+## Idioma antes da TV e modo recrutador dentro dela — 02/10/2026
+
+- [x] A escolha de idioma vem antes da TV; quem já tem idioma salvo começa direto na TV. A TV liga como um tubo (linha que se abre) ao escolher.
+- [x] Tela de idioma decorada: céu de pixels, equalizador com picos, notas que sobem, cursor de menu, saudação e deck de passos; teclado (setas, Enter, M) e foco seguindo o cursor.
+- [x] Trilha própria da tela de idioma em três estilos que o cursor troca sem perder o compasso (samba, rock e matsuri pentatônico), com blips por opção.
+- [x] Primeiro canal da TV é o do modo recrutador: “Está com pressa?” e “Quebre aqui” no idioma escolhido; três batidas racham e quebram o vidro, os estilhaços voam e o modo recrutador abre por cima da TV. Os outros cinco canais seguem iguais.
+- [x] Esc volta à TV com o vidro quebrado; os links do modo recrutador saem da TV direto para a página, sem boot. Botão no painel para teclado e toque; reserva em CSS também aceita batidas.
+- [x] Traduções PT/EN/JA, testes do novo fluxo, das batidas e da trilha; quadros conferidos no navegador, no desktop e no celular.
+
+## Saída pela TV ao contrário da entrada — 02/10/2026
+
+- [x] Segurar o botão de energia apaga o portfólio num ponto e a câmera recua de dentro do vidro até a TV inteira, gira de volta à vista inicial e a TV religa no canal do modo recrutador.
+- [x] Controles e painel esperam a câmera; sopro de ar e sons de religar; rachaduras reaparecem com a saída; reserva em CSS com zoom ao contrário; Movimento reduzido mantém o esmaecimento.
+- [x] Testes do estado de saída e do fluxo do botão de energia; quadros conferidos no navegador, com e sem WebGL.
+
+## Pergunta principal segue o cursor — 02/10/2026
+
+- [x] “Qual idioma você fala?” em destaque no idioma sob o cursor (mouse, foco ou setas), com as outras duas versões menores abaixo e entrada “digitada”; as opções não se movem com a troca, no desktop e no celular.
+
 ## Verificação
 
 - [x] Telas, estados e console conferidos no navegador, no desktop e no celular, quadro a quadro.

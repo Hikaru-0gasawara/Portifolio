@@ -57,7 +57,7 @@
 <div class="vintage-aerial" aria-hidden="true"><i></i><i></i></div>
 <div class="vintage-foot vintage-foot-left" aria-hidden="true"></div><div class="vintage-foot vintage-foot-right" aria-hidden="true"></div>
 <div class="vintage-front">
-<div class="vintage-bezel"><div class="vintage-screen" ref="{{setDisplayTvScreen}}" aria-hidden="true"><span class="vintage-reflection"></span></div></div>
+<div class="vintage-bezel"><div class="vintage-screen" ref="{{setDisplayTvScreen}}" aria-hidden="true" sc-camel-on-click="{{displayScreenClick}}"><span class="vintage-reflection"></span></div></div>
 <div class="vintage-controls">
 <button class="vintage-power" disabled="{{displayTvBusy}}" sc-camel-on-click="{{displayPower}}" aria-label="{{displayPowerLabel}}" title="{{displayPowerLabel}}"><svg sc-camel-view-box="0 0 32 32" aria-hidden="true"><path d="M16 4v12M9 8a11 11 0 1 0 14 0"></path></svg><span class="vintage-power-led" aria-hidden="true"></span></button>
 <div class="vintage-channel"><button class="vintage-knob" disabled="{{displayTvBusy}}" sc-camel-on-click="{{displayChannelClick}}" aria-label="Girar o seletor de canal" title="Girar o seletor de canal"><span class="vintage-knob-face" style="{{displayChannelStyle}}" aria-hidden="true"><i></i></span></button><span class="vintage-control-label">Canal <b>{{displayChannel}}</b></span></div>
@@ -72,10 +72,11 @@
 <button class="tv-btn" disabled="{{displayTvBusy}}" sc-camel-on-click="{{displayPower}}" aria-pressed="{{displayPowered}}"><span aria-hidden="true">⏻</span> {{displayPowerLabel}}</button>
 <span class="tv-group"><button class="tv-btn" disabled="{{displayTvBusy}}" sc-camel-on-click="{{displayChannelPrev}}" aria-label="Canal anterior" title="Canal anterior">◀</button><span class="tv-readout" aria-live="polite">{{displayChannel}} · {{displayChannelName}}</span><button class="tv-btn" disabled="{{displayTvBusy}}" sc-camel-on-click="{{displayChannelNext}}" aria-label="Próximo canal" title="Próximo canal">▶</button></span>
 <span class="tv-group"><button class="tv-btn" disabled="{{displayTvBusy}}" sc-camel-on-click="{{displayVolLower}}" aria-label="Diminuir volume" title="Diminuir volume">−</button><span class="tv-readout" aria-live="polite">{{displayVolumeText}}</span><button class="tv-btn" disabled="{{displayTvBusy}}" sc-camel-on-click="{{displayVolRaise}}" aria-label="Aumentar volume" title="Aumentar volume">+</button></span>
+<sc-if value="{{displayRush}}"><button class="tv-btn tv-knock" disabled="{{displayTvBusy}}" sc-camel-on-click="{{displayKnock}}"><span aria-hidden="true">⚠</span> {{displayKnockLabel}}</button></sc-if>
 <button class="tv-btn tv-enter" disabled="{{displayTvBusy}}" sc-camel-on-click="{{displayEnter}}">{{displayEnterLabel}} <span aria-hidden="true">▸</span></button>
 </div>
 </div>
-<sc-if value="{{displayAnimating}}"><span class="sr" role="status">Entrando no portfólio · Entering the portfolio · ポートフォリオに入ります</span></sc-if>
+<sc-if value="{{displayAnimating}}"><span class="sr" role="status">{{displayStatus}}</span></sc-if>
 </section></sc-if>
 <sc-if value="{{displayStandby}}"><div class="tv-standby" aria-hidden="true"><span class="tv-standby-mark">OKARU</span><p>小笠原 光</p></div></sc-if>
 <div class="display-surface" aria-hidden="true"><div class="display-lines"></div><div class="display-vignette"></div></div>
@@ -84,18 +85,17 @@
 <svg class="fx" aria-hidden="true" focusable="false"><filter id="okr-seis" x="0" y="0" width="1" height="1" style="color-interpolation-filters: sRGB"><feColorMatrix type="saturate" values="0" result="g"></feColorMatrix><feConvolveMatrix in="g" order="3" sc-camel-kernel-matrix="-1 -1 -1 -1 8 -1 -1 -1 -1" sc-camel-preserve-alpha="true" result="e"></feConvolveMatrix><feComponentTransfer in="e"><feFuncR type="linear" slope="3.4"></feFuncR><feFuncG type="linear" slope="3.3"></feFuncG><feFuncB type="linear" slope="3.1"></feFuncB></feComponentTransfer></filter></svg>
 
 <sc-if value="{{languageOpen}}">
-<section class="language-screen" role="dialog" aria-modal="true" aria-label="Choose your language">
+<section class="language-screen {{languageScreenCls}}" role="dialog" aria-modal="true" aria-label="Choose your language" sc-camel-on-pointer-down="{{languageWake}}">
+<div class="language-sky" aria-hidden="true"></div>
+<div class="language-eq" aria-hidden="true" ref="{{setLanguageViz}}"><sc-for list="{{languageBars}}" as="bar"><i class="language-bar" style="{{bar.style}}"></i></sc-for><sc-for list="{{languageNotes}}" as="note"><b class="language-note pix" style="{{note.style}}">♪</b></sc-for></div>
 <div class="language-card">
-<header class="language-top"><div class="language-brand"><span class="language-emblem pix" aria-hidden="true">光</span><span class="lab-t">OKARU / PORTFOLIO</span></div><span class="language-signal" aria-hidden="true"><i></i><i></i><i></i><i></i></span></header>
-<h1 lang="{{languageQuestionLang}}">{{languageQuestion}}</h1><p class="language-question">{{languageOtherQuestions}}</p>
+<header class="language-top"><div class="language-brand"><span class="language-emblem pix" aria-hidden="true">光</span><span class="lab-t">OKARU / PORTFOLIO</span></div><button class="language-snd" aria-pressed="{{languageSndPressed}}" sc-camel-on-click="{{languageSound}}"><span class="language-snd-eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="language-snd-t">{{languageSndLabel}}</span></button></header>
+<h1 class="language-ask" lang="{{languageQuestionLang}}"><sc-for list="{{languageQuestions}}" as="ask"><span class="language-q {{ask.cls}}" lang="{{ask.lang}}" aria-hidden="{{ask.hidden}}">{{ask.text}}</span></sc-for></h1><p class="language-question">{{languageOtherQuestions}}</p>
 <div class="language-options" data-nopoke="true">
-<sc-for list="{{languageChoices}}" as="language"><button lang="{{language.lang}}" disabled="{{displayStarting}}" sc-camel-on-click="{{language.choose}}"><span class="language-choice"><span class="language-code" aria-hidden="true">{{language.code}}</span>{{language.name}}</span><small>{{language.action}}</small></button></sc-for>
+<sc-for list="{{languageChoices}}" as="language"><button class="{{language.cls}}" lang="{{language.lang}}" sc-camel-on-click="{{language.choose}}" sc-camel-on-pointer-enter="{{language.point}}" sc-camel-on-focus="{{language.point}}"><span class="language-cursor pix" aria-hidden="true">▶</span><span class="language-choice"><span class="language-code" aria-hidden="true">{{language.code}}</span><span class="language-name">{{language.name}}</span><span class="language-hello pix" aria-hidden="true">{{language.hello}}</span></span><small>{{language.action}}</small></button></sc-for>
 </div>
-<sc-if value="{{languageRush}}" hint-placeholder-val="{{true}}"><div class="language-rush" lang="{{rushLang}}" data-nopoke="true">
-<div class="language-rush-t"><span class="glass-t">{{rushTitle}}</span><span class="glass-s" id="language-rush-hint">{{glassHint}}</span></div>
-<button class="glass {{glassCls}}" disabled="{{displayStarting}}" aria-describedby="language-rush-hint" sc-camel-on-pointer-down="{{glassDown}}" sc-camel-on-pointer-up="{{holdEnd}}" sc-camel-on-pointer-leave="{{holdEnd}}" sc-camel-on-pointer-cancel="{{holdEnd}}" sc-camel-on-key-down="{{glassKey}}" sc-camel-on-click="{{glassClick}}"><span class="glass-in pix">{{rushLabel}}</span><span class="glass-pane" aria-hidden="true"></span><svg class="glass-cr" sc-camel-view-box="0 0 188 88" sc-camel-preserve-aspect-ratio="none" aria-hidden="true"><path d="M96 44l-22-9-18-15-14-14M96 44l30-12 22-20 20-6M96 44l-26 14-24 22M96 44l24 18 30 20M96 44l8-30 4-12M96 44l-6 28-2 14M74 35l-10 16M126 32l8 20M70 58l18-2M120 62l-4-16"></path></svg><svg class="glass-rim" sc-camel-view-box="0 0 170 72" sc-camel-preserve-aspect-ratio="none" aria-hidden="true"><path d="M85 1.5H168.5V70.5H1.5V1.5Z" sc-camel-path-length="100"></path></svg></button>
-</div></sc-if>
-<footer class="language-foot"><span>Idioma / Language / 言語</span><span class="language-calibration" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span></footer></div></section></sc-if>
+<div class="language-deck" aria-hidden="true" ref="{{setLanguageDeck}}"><span class="language-now pix" lang="{{languageNowLang}}"><span class="language-now-ic">♪</span>{{languageNow}}</span><span class="language-steps"><sc-for list="{{languageSteps}}" as="step"><i class="language-step {{step.cls}}"></i></sc-for></span></div>
+<footer class="language-foot"><span>{{languageFoot}}</span><span class="language-keys" aria-hidden="true"><kbd>↑</kbd><kbd>↓</kbd><kbd>Enter</kbd><kbd>M ♪</kbd></span></footer></div></section></sc-if>
 <sc-if value="{{isBoot}}" hint-placeholder-val="{{true}}">
 <section class="boot" aria-label="Tela inicial">
 <sc-if value="{{bootMenuOn}}" hint-placeholder-val="{{true}}">

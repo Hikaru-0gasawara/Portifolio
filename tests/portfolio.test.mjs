@@ -792,22 +792,28 @@ test('partial collection and gallery progress survive saves and reset with new g
   c.wipeProgress();assert.equal(c.canContinue(),false);assert.equal(Object.keys(c._plushMeet).length,0);assert.equal(Object.keys(c._galleryRead).length,0);
 });
 
-test('every entry finishes its TV opening before language selection or saved-language boot',()=>{
+test('a first visit chooses its language before the television, a saved language starts on it, and the boot waits for the entry',()=>{
   for(const saved of [null,'ja']){
     const writes=new Map(),timers=new Map();let id=0;
     const {c,context}=controller({localStorage:{getItem:k=>k==='okaru-language'?saved:null,setItem:(k,v)=>writes.set(k,v)},document:{documentElement:{},getElementById:()=>null,addEventListener(){}},setInterval:()=>1,setTimeout:(fn,delay)=>{timers.set(++id,{fn,delay});return id;},clearTimeout:i=>timers.delete(i)});
     context.addEventListener=()=>{};c.state={page:'boot'};c.startLoop=()=>{};c.componentDidMount();
-    assert.equal(c.state.languageOpen,!saved);assert.equal(c.state.displayStarting,true);assert.equal(!!c.state.bootLog,false);
-    assert.equal(c.renderVals().isBoot,false);assert.equal(c.renderVals().notBoot,false);assert.equal(c.renderVals().displayStandby,!!saved);
+    let r=c.renderVals();
+    assert.equal(r.languageOpen,!saved);assert.equal(r.displayPowerGate,!!saved,'the television waits for the first choice');assert.equal(c.state.displayStarting,true);
+    assert.equal(r.isBoot,false);assert.equal(r.notBoot,false);assert.equal(r.displayStandby,!!saved);
     assert.equal(writes.has('okaru-boot-seen'),false);assert.equal(c._blT,undefined);
-    c.bootLogStart();c.chooseLanguage('en');assert.equal(writes.has('okaru-boot-seen'),false);assert.equal(writes.get('okaru-language'),saved||undefined);
-    assert.equal(c._displayOpenT,undefined);assert.equal(c.renderVals().displayPowerGate,true);
-    c.enterDisplay();assert.equal(c._displayPhase,'zoom');assert.equal(!!c.state.bootLog,false);timers.get(c._displayZoomT).fn();
+    if(!saved){
+      c.bootLogStart();assert.equal(!!c.state.bootLog,false);
+      c.chooseLanguage('en');r=c.renderVals();
+      assert.equal(writes.get('okaru-language'),'en');assert.equal(r.languageOpen,false);assert.equal(r.displayPowerGate,true);assert.match(r.displayTvClass,/is-tv-arrive/,'the set turns on like a tube');
+      assert.equal(!!c.state.bootLog,false,'nothing boots behind the television');assert.equal(writes.has('okaru-boot-seen'),false);
+    }else assert.doesNotMatch(r.displayTvClass,/is-tv-arrive/);
+    assert.equal(c._displayOpenT,undefined);
+    c.enterDisplay();assert.equal(c._displayPhase,'zoom');assert.equal(!!c.state.bootLog,false);assert.doesNotMatch(c.renderVals().displayTvClass,/is-tv-arrive/);timers.get(c._displayZoomT).fn();
     assert.equal(c._displayPhase,'reveal');assert.equal(!!c.state.bootLog,false);
     const openingTimer=c._displayOpenT;assert.equal(timers.get(openingTimer).delay,520);
     c.finishDisplayOpening();assert.equal(timers.has(openingTimer),false);assert.equal(c.state.displayStarting,false);
-    assert.equal(!!c.state.bootLog,!!saved);if(saved)assert.equal(context.PortfolioI18n.locale,saved);assert.equal(c.canContinue(),false);
-    if(!saved){c.chooseLanguage('ja');assert.equal(c.state.bootFault,true);assert.equal(c.state.bootLog,true);}
+    assert.equal(c.state.bootLog,true);assert.equal(context.PortfolioI18n.locale,saved||'en');assert.equal(c.canContinue(),false);
+    if(!saved)assert.equal(c.state.bootFault,true,'a first visit still panics, after the entry');
     const bootTimer=c._blT;c.finishDisplayOpening();assert.equal(c._blT,bootTimer);
   }
 });
@@ -818,6 +824,7 @@ test('only the gate fade releases startup; WebGL entry and the Movimento setting
     // The system asks for reduced motion in both runs: only the portfolio setting decides.
     const {c,context}=controller({matchMedia:()=>({matches:true}),document:{documentElement:{},getElementById:()=>null,addEventListener(){}},setInterval:()=>1,setTimeout:(fn,delay)=>{timers.set(++id,{fn,delay});return id;},clearTimeout:i=>timers.delete(i)});
     context.addEventListener=()=>{};c.startLoop=()=>{};c.state={motionReduced:reduce};c.componentDidMount();
+    c.chooseLanguage('en');assert.equal(c.state.bootLog,undefined);
     assert.equal(c.renderVals().rootCls.includes('is-tv-calm'),reduce);
     assert.equal(c._displayPhase,'idle');assert.equal(c.renderVals().displayAnimating,false,'the television can be explored first');
     const tv=fakeTv(c,{gl:true});c.enterDisplay();
@@ -829,8 +836,8 @@ test('only the gate fade releases startup; WebGL entry and the Movimento setting
     const opening=c._displayOpenT;assert.equal(timers.get(opening).delay,reduce?360:520);
     let blocked=0;c.rootKey({key:'Enter',preventDefault(){blocked++;}});assert.equal(blocked,1);assert.equal(c.state.displayStarting,true);
     if(reduce)timers.get(opening).fn();else end({target:gate,animationName:'tv-gate-reveal'});
-    assert.equal(c.state.displayStarting,false);assert.equal(c.state.languageOpen,true);assert.equal(timers.has(opening),false);assert.ok(tv.calls.includes('destroy'));
-    c.chooseLanguage('en');assert.equal(c.state.bootLog,true);assert.equal(c.state.bootFault,true);
+    assert.equal(c.state.displayStarting,false);assert.equal(c.state.languageOpen,false);assert.equal(timers.has(opening),false);assert.ok(tv.calls.includes('destroy'));
+    assert.equal(c.state.bootLog,true);assert.equal(c.state.bootFault,true);
   }
 });
 
@@ -872,7 +879,9 @@ test('screen effects and TV copy are localized and presentation never intercepts
   const {c,context}=controller(),api=context.PortfolioDisplay,css=read('src/display.css'),html=read('src/template.html');
   for(const lang of ['en','ja']){
     context.PortfolioI18n.set(lang);
-    for(const text of [...api.modes.flatMap(m=>[m.label,m.action,m.text]),c.data().room.find(o=>o.id==='tv').text,'Alternar estilo de tela','Ligar a televisão','Ligar TV','Girar o seletor de canal','Volume cenográfico','Clique ou arraste para girar','Canal'])assert.notEqual(context.PortfolioI18n.t(text),text,lang+': '+text);
+    for(const text of [...api.modes.flatMap(m=>[m.label,m.action,m.text]),c.data().room.find(o=>o.id==='tv').text,'Alternar estilo de tela','Ligar a televisão','Ligar TV','Girar o seletor de canal','Volume cenográfico','Clique ou arraste para girar','Canal',
+      'Modo recrutador','ESTÁ COM PRESSA?','QUEBRE AQUI','DE NOVO!','MAIS UMA!','VIDRO QUEBRADO','MODO RECRUTADOR','Quebre a tela para abrir o modo recrutador','Clique na tela para abrir o modo recrutador','Toque na tela para abrir o modo recrutador',
+      'Quebrar a tela','Abrir modo recrutador','Clique na tela para quebrar o vidro · arraste para girar a TV','Toque na tela para quebrar o vidro · arraste para girar a TV','Clique na tela para abrir o modo recrutador · arraste para girar a TV','Toque na tela para abrir o modo recrutador · arraste para girar a TV'])assert.notEqual(context.PortfolioI18n.t(text),text,lang+': '+text);
   }
   assert.match(css,/\.display-surface\{[^}]*pointer-events:none/);
   assert.match(css,/\.display-lines,\.display-vignette\{[^}]*pointer-events:none/);
@@ -880,7 +889,7 @@ test('screen effects and TV copy are localized and presentation never intercepts
   assert.match(css,/@media\(prefers-reduced-motion:reduce\)/);
   assert.match(html,/sc-camel-on-animation-end="\{\{displayOpeningEnd\}\}"/);
   assert.equal(c.renderVals().languageChoices.length,3);
-  assert.match(html,/<sc-for list="\{\{languageChoices\}\}" as="language"><button[^>]+disabled="\{\{displayStarting\}\}"/);
+  assert.doesNotMatch(html,/<sc-for list="\{\{languageChoices\}\}" as="language"><button[^>]+disabled=/,'the language screen comes before the television, so its options are live');
 });
 
 function fakeTv(c,{gl=true}={}){
@@ -899,11 +908,15 @@ function television(state='suspended',extra={}){
 
 test('the opening television starts on and explorable, and its dock and keys drive the set until Enter',()=>{
   const {c,timers}=television();c.componentDidMount();
-  let r=c.renderVals();assert.equal(r.displayPowerGate,true);assert.equal(r.languageOpen,false);assert.equal(r.displayAnimating,false);assert.equal(r.isBoot,false);
+  let r=c.renderVals();assert.equal(r.languageOpen,true);assert.equal(r.displayPowerGate,false,'the language comes first');
+  c.chooseLanguage('pt');r=c.renderVals();
+  assert.equal(r.displayPowerGate,true);assert.equal(r.languageOpen,false);assert.equal(r.displayAnimating,false);assert.equal(r.isBoot,false);
   assert.equal(r.displayPowered,true);assert.equal(r.displayPowerLabel,'Desligar TV');assert.equal(r.displayChannel,'CH 01');assert.equal(r.displayVolume,4);
+  assert.equal(r.displayRush,true);assert.equal(r.displayChannelName,'Modo recrutador');assert.match(r.displayHint,/quebrar o vidro/);
   c.finishDisplayOpening();assert.equal(c.state.displayStarting,true);
   r.displayChannelNext();r.displayVolRaise();r.displayPower();r=c.renderVals();
   assert.equal(r.displayChannel,'CH 02');assert.equal(r.displayVolume,5);assert.equal(r.displayPowered,false);assert.equal(r.displayPowerLabel,'Ligar TV');
+  assert.equal(r.displayRush,false,'the break button belongs to the first channel');
   const tv=fakeTv(c,{gl:false}),free={closest:()=>null};
   for(const [key,action] of [['PageUp','channel+'],[']','channel+'],['PageDown','channel-'],['+','volume+'],['-','volume-'],['p','power']]){c.rootKey({key,target:free,preventDefault(){}});assert.equal(tv.calls.at(-1),action,key);}
   c.rootKey({key:'ArrowLeft',target:free,preventDefault(){}});assert.equal(tv.calls.at(-1)[0],'orbit');
@@ -913,7 +926,7 @@ test('the opening television starts on and explorable, and its dock and keys dri
   c.displayEntered();assert.equal(c._displayPhase,'zoom','the CSS fallback still zooms into the glass');assert.equal(timers.get(c._displayZoomT).delay,1560);
   const transition=(cls,propertyName='transform')=>c.renderVals().displayCameraEnd({target:{classList:{contains:k=>k===cls}},propertyName});
   transition('tv-camera','border-color');assert.equal(c._displayPhase,'zoom');transition('tv-camera');assert.equal(c._displayPhase,'reveal');
-  c.finishDisplayOpening();assert.equal(c.renderVals().displayPowerGate,false);assert.equal(c.state.languageOpen,true);
+  c.finishDisplayOpening();assert.equal(c.renderVals().displayPowerGate,false);assert.equal(c.state.languageOpen,false);assert.equal(c.state.bootLog,true);
 });
 
 test('the television host unlocks audio only from a gesture and respects the stored mute',()=>{
@@ -932,37 +945,94 @@ test('holding the power button turns the portfolio off back to the opening TV, a
   c._bootSafe=true;c.enterDisplay();timers.get(c._displayZoomT).fn();c.finishDisplayOpening();assert.equal(c.state.bootLog,true);
   Object.assign(c.state,{page:'quarto',bootLog:false});
   c.holdDone({kind:'pwr'});assert.equal(c.state.powering,true);assert.equal(timers.get(c._t3).delay,760);timers.get(c._t3).fn();
-  const r=c.renderVals();
+  let r=c.renderVals();
   assert.equal(c.state.page,'boot');assert.equal(r.displayPowerGate,true);assert.equal(r.isBoot,false);assert.equal(r.languageOpen,false);
-  assert.equal(!!c.state.bootLog,false,'nothing boots behind the television');assert.equal(c._displayPhase,'idle');
-  assert.equal(r.displayPowered,true,'the set is back on and explorable');assert.match(r.displayTvClass,/is-tv-return/);
+  assert.equal(!!c.state.bootLog,false,'nothing boots behind the television');
+  assert.equal(c._displayPhase,'exit','the camera comes back out of the glass');assert.equal(r.displayAnimating,true);assert.equal(r.displayTvBusy,true);assert.match(r.displayStatus,/Voltando à TV/);
+  assert.doesNotMatch(r.displayTvClass,/is-tv-return/,'no fade: it starts inside the glass');assert.match(r.rootCls,/is-tv-starting/);
+  assert.equal(c.tvHost().exit,true);
+  let blocked=0;c.rootKey({key:'Enter',preventDefault(){blocked++;}});c.enterDisplay();assert.equal(blocked,1);assert.equal(c._displayPhase,'exit','nothing interrupts the pull back');
+  assert.equal(timers.get(c._displayExitT).delay,context.PortfolioDisplay.exitTimeout);
+  c.tvHost().onExited();r=c.renderVals();
+  assert.equal(c._displayPhase,'idle');assert.equal(timers.has(c._displayExitT),false);assert.equal(r.displayAnimating,false);
+  assert.equal(r.displayPowered,true,'the set is back on and explorable');assert.doesNotMatch(r.displayTvClass,/is-tv-return|is-tv-arrive/);
   c._bootSafe=true;c.enterDisplay();timers.get(c._displayZoomT).fn();c.finishDisplayOpening();
   assert.equal(c.state.displayStarting,false);assert.equal(c.state.bootLog,true,'the language is kept, so the boot follows the entry');
   assert.doesNotMatch(c.renderVals().displayTvClass,/is-tv-return/);
   Object.assign(c.state,{page:'quarto',bootLog:false});c.renderVals().pauseReboot();timers.get(c._t3).fn();
   assert.equal(c.state.displayStarting,false,'Voltar ao Press Start still goes straight to the boot');assert.equal(c.state.bootLog,true);
   assert.match(read('src/template.html'),/class="hb pwr"[^>]+aria-label="Energia: segure para desligar e voltar à TV"/);
+  // With Movimento reduzido the set just fades in, already on and explorable.
+  Object.assign(c.state,{page:'quarto',bootLog:false,motionReduced:true});c.calm=()=>true;
+  c.holdDone({kind:'pwr'});timers.get(c._t3).fn();r=c.renderVals();
+  assert.equal(c._displayPhase,'idle');assert.match(r.displayTvClass,/is-tv-return/);assert.equal(c.tvHost().exit,false);assert.equal(c._displayExitT,null);
 });
 
-test('the recruiter glass lives only on the first language choice and opens in the browser language without saving it',()=>{
+test('the way back out of the portfolio runs the entry backwards: inside the glass, pull back, swing round, warm up',()=>{
+  const {context}=controller(),TV=context.PortfolioTV,D=TV.durations,s=TV.createState({aspect:16/10}),home={...s.cam};
+  assert.equal(TV.beginExit(s),true);assert.equal(TV.beginExit(s),false,'once at a time');
+  assert.ok(Math.abs(s.cam.dist-TV.finalDistance(16/10))<1e-9,'it starts where the entry ends');assert.equal(s.cam.yaw,0);assert.equal(s.fx,0);
+  assert.equal(s.power,'cooling','the dot the portfolio collapsed into fades out');
+  assert.equal(TV.press(s,'channel+'),false);assert.equal(TV.beginEnter(s,false),false);assert.equal(TV.knock(s,.5,.5),null,'nothing works on the way out');
+  s.cam.vy=.01;TV.step(s,16);assert.ok(Math.abs(s.cam.yaw)<1e-9,'no leftover spin');
+  for(let t=16;t<D.EXIT_HOLD;t+=20)TV.step(s,20);
+  TV.step(s,20);assert.equal(s.exit.stage,'pull');assert.equal(s.power,'off');assert.ok(s.events.includes('pull'));
+  let last=s.cam.dist;
+  for(let t=0;t<D.DOLLY-40;t+=40){TV.step(s,40);assert.ok(s.cam.dist>=last-1e-9,'it only pulls back');last=s.cam.dist;}
+  assert.ok(s.fx>0&&s.fx<=1);
+  TV.step(s,80);assert.equal(s.exit.stage,'swing');assert.equal(s.fx,1);assert.equal(s.power,'warming','the set turns back on as the camera swings round');assert.ok(s.events.includes('degauss'));
+  for(let t=0;t<D.ALIGN+40;t+=40)TV.step(s,40);
+  assert.equal(s.exit.stage,'done');for(const k of ['yaw','pitch','dist','tx','ty','tz'])assert.ok(Math.abs(s.cam[k]-home[k])<1e-6,k+' is back at the first view');
+  s.exit=null;for(let t=0;t<D.POWER_ON;t+=50)TV.step(s,50);assert.equal(s.power,'on');assert.equal(TV.channels[s.channel].id,'rush');
+  const flat=TV.createState();TV.beginExit(flat,{flat:true});for(let t=0;t<D.EXIT_HOLD+D.DOLLY+80;t+=40)TV.step(flat,40);
+  assert.equal(flat.exit.stage,'done','the CSS fallback has no camera to swing');assert.equal(flat.power,'warming');
+  const css=read('src/display.css');assert.ok(css.includes('.tv-power-gate:not(.tv-phase-idle) .tv-dock{opacity:0;pointer-events:none}'),'the dock waits for the camera');
+});
+
+test('the recruiter glass is the television’s first channel: three knocks open the recruiter view over it and its links skip the boot',()=>{
   const writes=new Map(),timers=new Map();let id=0;
   const {c,context}=controller({navigator:{language:'ja-JP'},localStorage:{getItem:k=>writes.get(k)??null,setItem:(k,v)=>writes.set(k,v)},document:{documentElement:{},getElementById:()=>null,addEventListener(){}},setInterval:()=>1,setTimeout:(fn,delay)=>{timers.set(++id,{fn,delay});return id;},clearTimeout:i=>timers.delete(i)});
   context.addEventListener=()=>{};c.startLoop=()=>{};c.sfx=()=>{};c.focusRoot=()=>{};c.state={page:'boot'};c.componentDidMount();
-  c._displayStarting=false;c._displayPhase='done';c.state.displayStarting=false;
-  const I=context.PortfolioI18n,r=c.renderVals();
-  assert.equal(r.languageOpen,true);assert.equal(r.languageRush,true);assert.equal(r.rushLang,'ja');
-  assert.equal(r.rushLabel.children[0],'採用担当者モード');assert.equal(r.rushTitle.props.lang,'ja');assert.equal(r.glassHint.props.lang,'ja');
-  assert.equal(I.locale,'pt','showing the glass changes nothing');
-  r.glassKey({key:'Enter',preventDefault(){}});
-  assert.equal(c.state.recOpen,true);assert.equal(I.locale,'ja');assert.equal(c.state.locale,'ja');assert.equal(writes.has('okaru-language'),false,'not chosen yet');
-  c.rootKey({key:'Escape',target:{},preventDefault(){}});assert.equal(c.state.recOpen,false);assert.equal(c.state.languageOpen,true,'closing returns to the picker');
-  c.openRec();c.renderVals().recSite();
-  assert.equal(writes.get('okaru-language'),'ja');assert.equal(c.state.languageOpen,false);assert.equal(!!c.state.bootLog,false,'no boot behind the shortcut');
+  const I=context.PortfolioI18n;
+  assert.equal(I.locale,'ja','a first visit is greeted in the browser language');assert.equal(writes.has('okaru-language'),false,'shown, not saved');
+  let r=c.renderVals();assert.equal(r.languageOpen,true);assert.equal(r.languageQuestionLang,'ja');assert.equal(r.languageChoices.find(x=>x.cls==='is-cur').lang,'ja','the cursor starts on it');
+  r.languageChoices[0].choose();assert.equal(writes.get('okaru-language'),'pt');assert.equal(I.locale,'pt');
+  r=c.renderVals();assert.equal(r.displayPowerGate,true);assert.equal(r.displayRush,true,'the set starts on the recruiter channel');assert.equal(r.displayKnockLabel,'Quebrar a tela');
+  r.displayKnock();r.displayKnock();assert.equal(!!c.state.recOpen,false,'two knocks only crack it');assert.equal(!!c.state.broke,false);
+  r.displayKnock();assert.equal(c.state.broke,true);assert.equal(c.state.shatter,true,'the shards fly out of the set');
+  timers.get(c._recT).fn();assert.equal(c.state.recOpen,true);assert.equal(c.state.displayStarting,true,'over the television');assert.equal(c.state.got.glass,true);
+  assert.equal(c.renderVals().displayKnockLabel,'Abrir modo recrutador');
+  c.rootKey({key:'Escape',target:{},preventDefault(){}});assert.equal(c.state.recOpen,false);assert.equal(c.state.displayStarting,true,'closing returns to the set');
+  c.renderVals().displayKnock();assert.equal(c.state.recOpen,true,'a broken glass opens the view at once');
+  c.renderVals().recSite();
+  assert.equal(c.state.displayStarting,false);assert.equal(c._displayPhase,'done');assert.equal(!!c.state.bootLog,false,'no boot behind the shortcut');
   assert.equal(c.state.transitioning,true);assert.equal(c.state.nextPage,'inicio');
-  c.state.languageOpen=true;assert.equal(c.renderVals().languageRush,false,'later language changes have no glass');
   const html=read('src/template.html'),at=html.indexOf('<section class="language-screen"');
+  assert.ok(!html.slice(at,html.indexOf('</section>',at)).includes('glass'),'the language screen has no glass any more');
   assert.ok(!html.slice(html.indexOf('<section class="boot"'),html.indexOf('<sc-if value="{{notBoot}}"')).includes('glassDown'),'Press Start has no glass');
-  assert.match(html.slice(at,html.indexOf('</section>',at)),/<sc-if value="\{\{languageRush\}\}"[^]*class="glass \{\{glassCls\}\}" disabled="\{\{displayStarting\}\}"/);
+  assert.match(html,/<sc-if value="\{\{displayRush\}\}"><button class="tv-btn tv-knock" disabled="\{\{displayTvBusy\}\}" sc-camel-on-click="\{\{displayKnock\}\}">/);
+  assert.ok(html.includes('class="vintage-screen" ref="{{setDisplayTvScreen}}" aria-hidden="true" sc-camel-on-click="{{displayScreenClick}}"'),'the CSS fallback glass takes knocks too');
+  const css=read('src/display.css');assert.ok(css.includes('.tv-power-gate~.rec-l{z-index:960}'));assert.ok(css.includes('.tv-power-gate~.shat{z-index:970}'));
+});
+
+test('the recruiter channel cracks on the first two knocks, breaks on the third and then opens with one',()=>{
+  const {context}=controller(),TV=context.PortfolioTV,s=TV.createState({aspect:1.6});
+  assert.equal(TV.channels[0].id,'rush');assert.equal(TV.channels[0].score,undefined,'the set’s theme plays on it');assert.equal(TV.knocks,3);
+  const off=TV.createState();off.channel=1;assert.equal(TV.knock(off,.5,.5),null,'only the first channel takes knocks');
+  off.channel=0;off.power='off';assert.equal(TV.knock(off,.5,.5),null,'nor a set that is off');
+  const tuning=TV.createState();tuning.tuneT=100;assert.equal(TV.knock(tuning,.5,.5),null);
+  assert.equal(TV.knock(s,.4,.5),'crack');assert.equal(s.glass.hits.length,1);assert.ok(s.glass.cracks.length>=5);assert.ok(s.events.includes('knock')&&s.events.includes('crack'));
+  assert.ok(s.glass.knockT>0);TV.step(s,1000);assert.equal(s.glass.knockT,0,'the shake settles');
+  assert.equal(TV.knock(s,.6,.45),'crack');s.events.length=0;
+  assert.equal(TV.knock(s,.5,.5),'break');assert.equal(s.glass.broken,true);assert.equal(s.glass.holes.length,1);assert.ok(s.events.includes('shatter'));
+  for(const line of s.glass.cracks)for(const [x,y] of line)assert.ok(Number.isFinite(x)&&Number.isFinite(y));
+  const cracks=s.glass.cracks.length;assert.equal(TV.knock(s,.2,.2),'open');assert.equal(s.glass.cracks.length,cracks,'a broken glass does not crack further');
+  const again=TV.createState({broken:true});assert.equal(again.glass.broken,true);assert.ok(again.glass.cracks.length>0,'a set that comes back keeps its broken glass');
+  const entering=TV.createState();TV.beginEnter(entering,false);assert.equal(TV.knock(entering,.5,.5),null,'nothing to knock while entering');
+  const front={yaw:0,pitch:0,dist:2,tx:-.2,ty:0,tz:0},hit=TV.screenPoint(front,1.6,0,0);
+  assert.ok(Math.abs(hit.u-.5)<.02&&Math.abs(hit.v-.5)<.02,'the middle of the view lands on the middle of the glass');
+  assert.equal(TV.screenPoint({...front,tx:.54,ty:.24},1.6,0,0),null,'the dials are not glass');
+  assert.equal(TV.screenPoint({...front,yaw:Math.PI},1.6,0,0),null,'nor is the back of the set');
 });
 
 test('the opening television plays its own theme through its volume, only while on and on channels without music',()=>{
@@ -978,15 +1048,15 @@ test('the opening television plays its own theme through its volume, only while 
   audio.music(s);const first=started.length;assert.ok(first>0,'the theme starts as soon as audio runs');assert.ok(started.every(t=>t>=0&&t<=.2));
   audio.music(s);assert.equal(started.length,first,'nothing is scheduled twice');
   for(let t=.05;t<=2;t+=.05){ac.currentTime=t;audio.music(s);}assert.ok(started.length>first+15,'and it keeps going');
-  for(const quiet of [()=>{s.power='off';},()=>{s.power='on';s.channel=2;},()=>{s.channel=3;},()=>{s.channel=0;sound=false;},()=>{sound=true;s.enter={stage:'tune'};}]){
+  for(const quiet of [()=>{s.power='off';},()=>{s.power='on';s.channel=3;},()=>{s.channel=4;},()=>{s.channel=0;sound=false;},()=>{sound=true;s.enter={stage:'tune'};}]){
     quiet();const n=started.length;for(let i=0;i<10;i++){ac.currentTime+=.05;audio.music(s);}assert.equal(started.length,n);
   }
 });
 
 test('television state: power cycles, tuning, volume, knobs and the flight into the glass',()=>{
   const {context}=controller(),TV=context.PortfolioTV,D=TV.durations,s=TV.createState({aspect:16/10});
-  assert.equal(s.power,'on');assert.equal(TV.channels[s.channel].id,'fight','idle shows the fighting game');
-  assert.deepEqual(Array.from(TV.channels,c=>c.id),['fight','monsters','show','rpg','western']);
+  assert.equal(s.power,'on');assert.equal(TV.channels[s.channel].id,'rush','idle shows the recruiter channel');
+  assert.deepEqual(Array.from(TV.channels,c=>c.id),['rush','fight','monsters','show','rpg','western']);
   TV.press(s,'channel+');assert.equal(s.channel,1);assert.ok(s.tuneT>0);assert.ok(s.events.includes('tune'));TV.step(s,D.TUNE);assert.equal(s.tuneT,0);
   TV.press(s,'channel-');TV.press(s,'channel-');assert.equal(s.channel,TV.channels.length-1);
   s.events.length=0;for(let i=0;i<20;i++)TV.press(s,'volume+');assert.equal(s.volume,10);for(let i=0;i<20;i++)TV.press(s,'volume-');assert.equal(s.volume,0);
@@ -1240,4 +1310,51 @@ test('the portfolio stays quiet behind the opening TV, never starts audio before
   const {c:fresh}=controller({navigator:{language:'en',userActivation:gesture},AudioContext:function(){made++;this.state='running';this.destination={};this.createGain=()=>({gain:{},connect(){}});}});
   assert.equal(fresh.audio(),null);assert.equal(made,0);
   gesture.hasBeenActive=true;assert.ok(fresh.audio());assert.equal(made,1);
+});
+
+test('the language screen plays one loop in three styles that its cursor swaps, only before the television',()=>{
+  const {context}=controller(),api=context.PortfolioTitleSound,tracks=['pt','en','ja'].map(api.languageTrack);
+  for(const tr of tracks){
+    assert.equal(tr.len,64);assert.equal(tr.bpm,120);assert.equal(tr.ev.length,64);
+    const lead=tr.ev.flat().filter(e=>e.lead).map(e=>e.m);
+    assert.ok(lead.length>=20);assert.ok(Math.min(...lead)>=65&&Math.max(...lead)<=79,tr.language+': the lead stays between F4 and G5');
+    assert.ok(tr.ev.flat().some(e=>e.drum==='kick'));
+  }
+  assert.deepEqual(tracks.map(t=>t.language),['pt','en','ja']);
+  assert.notEqual(JSON.stringify(tracks[0].ev),JSON.stringify(tracks[2].ev),'each language has its own groove');
+  assert.ok(tracks[2].ev.flat().filter(e=>e.lead).every(e=>[0,2,4,7,9].includes(e.m%12)),'the matsuri lead is pentatonic');
+
+  const {c,ac,context:ctx}=television('running');
+  const bus=()=>({gain:{value:1,setValueAtTime(){},exponentialRampToValueAtTime(){},cancelScheduledValues(){}},connect(){},disconnect(){}});
+  Object.assign(ac,{currentTime:0,createGain:bus});c._mix={};c.tone=()=>{};c.noise=()=>{};c.calm=()=>false;
+  c.componentDidMount();assert.equal(c.state.languageOpen,true);
+  c.languageMusicSync();assert.equal(c.languagePlaying(),true);assert.equal(c._mTrack.language,'en','it starts in the style under the cursor');assert.equal(c.languageMusicState(),'on');
+  c._mStep=21;c.languagePoint(0);assert.equal(c.state.langCursor,0);assert.equal(c._mTrack.language,'pt');assert.equal(c._mStep,21,'the groove keeps its place');
+  const key=(k,target={})=>c.languageKey({key:k,preventDefault(){},target});
+  key('ArrowUp');assert.equal(c.state.langCursor,2,'the cursor wraps');assert.equal(c._mTrack.language,'ja');
+  // The big question follows the cursor; the other two stay small, and all three keep one cell so nothing moves.
+  let ask=c.renderVals();assert.equal(ask.languageQuestionLang,'ja');assert.equal(ask.languageQuestion.children[0],'どの言語を話しますか？');
+  assert.deepEqual(Array.from(ask.languageOtherQuestions,n=>n.children[0]),['Qual idioma você fala?','What language do you speak?']);
+  assert.deepEqual(Array.from(ask.languageQuestions,q=>[q.cls,q.hidden]),[['',true],['',true],['is-on',false]]);
+  assert.equal(ctx.PortfolioI18n.locale,'en','pointing at a language does not choose it');
+  key('ArrowDown');assert.equal(c.state.langCursor,0);
+  let r=c.renderVals();assert.equal(r.languageNowLang,'pt-BR');assert.equal(r.languageNow.children[0],'Tocando agora · samba 8-bit');assert.equal(r.languageSndPressed,true);
+  assert.equal(r.languageChoices[0].cls,'is-cur');assert.equal(r.languageChoices[0].hello.children[0],'Olá!');
+  key('m');assert.equal(c._snd,false);assert.equal(c.languagePlaying(),false);assert.equal(c.languageMusicState(),'off');
+  key('M');assert.equal(c._snd,true);assert.equal(c.languagePlaying(),true);
+  // The equalizer follows the sixteenth that is sounding.
+  const props=[],make=()=>({dataset:{},style:{setProperty:(k,v)=>props.push([k,v])}});
+  const bars=Array.from({length:api.vizBars},make),notes=Array.from({length:6},make),cells=Array.from({length:16},make);
+  c.renderVals().setLanguageViz({isConnected:true,dataset:{},querySelectorAll:sel=>sel==='.language-bar'?bars:notes});c.renderVals().setLanguageDeck({querySelectorAll:()=>cells});
+  ac.currentTime=.3;c.languageVizFrame();
+  assert.equal(c._langViz.dataset.live,'1');assert.ok(props.some(([k])=>k==='--lv'));assert.equal(cells.filter(cell=>cell.dataset.on==='1').length,1);
+  c.calm=()=>true;c.languageVizFrame();assert.equal(c._langViz.dataset.live,'0','Movimento reduzido keeps it still');
+  key('Enter',{closest:()=>null});assert.equal(c.state.languageOpen,false);assert.equal(ctx.PortfolioI18n.locale,'pt');
+  c.languageMusicSync();assert.equal(c.languagePlaying(),false,'the television takes over');
+  c._displayStarting=false;c.state.languageOpen=true;c.languageMusicSync();assert.equal(c.languagePlaying(),false,'later language changes have no music');
+  const html=read('src/template.html');
+  for(const ref of ['setLanguageViz','setLanguageDeck','languageSound','languageWake'])assert.ok(html.includes('{{'+ref+'}}'),ref);
+  assert.match(html,/<h1 class="language-ask" lang="\{\{languageQuestionLang\}\}"><sc-for list="\{\{languageQuestions\}\}" as="ask"><span class="language-q \{\{ask\.cls\}\}"/);
+  assert.ok(read('src/display.css').includes('.language-q{grid-area:1/1;'),'the questions share one cell');
+  assert.match(html,/<button class="\{\{language\.cls\}\}" lang="\{\{language\.lang\}\}" sc-camel-on-click="\{\{language\.choose\}\}" sc-camel-on-pointer-enter="\{\{language\.point\}\}" sc-camel-on-focus="\{\{language\.point\}\}">/);
 });

@@ -6,9 +6,10 @@
   const T=text=>g.PortfolioI18n?.t?g.PortfolioI18n.t(text):text;
   const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x)),ease=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2,easeIn=x=>x*x;
   const FOV=35*Math.PI/180,TAN=Math.tan(FOV/2);
-  const POWER_ON=2200,POWER_OFF=700,CALM_ON=700,TUNE=350,ALIGN=900,DOLLY=1400;
+  const POWER_ON=2200,POWER_OFF=700,CALM_ON=700,TUNE=350,ALIGN=900,DOLLY=1400,EXIT_HOLD=300,KNOCKS=3,KNOCK=260;
   // score: the channel plays its own music, so the set's theme stays quiet there.
-  const channels=[{id:'fight',name:'Luta'},{id:'monsters',name:'Monstros de bolso'},{id:'show',name:'Show ao vivo',score:true},{id:'rpg',name:'RPG',score:true},{id:'western',name:'Faroeste'}];
+  // The first channel is the recruiter's shortcut: its glass breaks after three knocks and opens the recruiter view.
+  const channels=[{id:'rush',name:'Modo recrutador'},{id:'fight',name:'Luta'},{id:'monsters',name:'Monstros de bolso'},{id:'show',name:'Show ao vivo',score:true},{id:'rpg',name:'RPG',score:true},{id:'western',name:'Faroeste'}];
   // Front panel layout in model units (the cabinet front is the z=0.25 plane, x to the right, y up).
   const layout={
     screen:{x0:-.66,x1:.26,y0:-.345,y1:.345,z:.255,bulge:.03},
@@ -27,15 +28,50 @@
   function fitDistance(aspect){return Math.max(1.12/TAN,1.0/(TAN*Math.max(.2,aspect||1)));}
   // The distance at which the glass covers the whole viewport, like the CSS zoom used to.
   function finalDistance(aspect){return Math.min(screenH/(2*TAN),screenW/(2*TAN*Math.max(.2,aspect||1)))/1.04;}
+  // The first view of the set, and the view from inside the glass where the entry ends.
+  const home=fit=>({yaw:-.34,pitch:.1,dist:fit,tx:0,ty:.15,tz:0});
+  const front=()=>({yaw:0,pitch:0,tx:screenCenter[0],ty:screenCenter[1],tz:screenCenter[2]});
   function createState(o={}){
     const aspect=o.aspect||16/10,fit=fitDistance(aspect);
-    return {t:0,power:o.power||'on',powerT:0,channel:o.channel||0,tuneT:0,volume:o.volume??4,volShown:o.volume??4,osdT:1800,volT:0,
-      cam:{yaw:-.34,pitch:.1,dist:fit,tx:0,ty:.15,tz:0,vy:0,vp:0},aspect,fit,zoom:1,dragging:false,
-      knob:{channel:0,volume:0},pressed:{},enter:null,card:false,events:[],cardPx:48,fx:1};
+    const s={t:0,power:o.power||'on',powerT:0,channel:o.channel||0,tuneT:0,volume:o.volume??4,volShown:o.volume??4,osdT:1800,volT:0,
+      cam:{...home(fit),vy:0,vp:0},aspect,fit,zoom:1,dragging:false,
+      knob:{channel:0,volume:0},pressed:{},enter:null,exit:null,card:false,events:[],cardPx:48,fx:1,touch:!!o.touch,
+      glass:{hits:[],cracks:[],holes:[],broken:!!o.broken,knockT:0}};
+    // A set that comes back after the glass was broken keeps it broken.
+    if(o.broken){s.glass.cracks=[...crackAt(352,246,1,false),...crackAt(352,246,2,true)];s.glass.holes=[holeAt(352,246,3)];}
+    return s;
+  }
+  // Crack lines in screen texels (480×360): spokes from the hit, with a ring between them from the second knock on.
+  function crackAt(x,y,seed,big){
+    const r=rnd(seed),lines=[],spokes=big?11:5+Math.floor(r()*3),reach=big?260:70+r()*60,ends=[];
+    for(let i=0;i<spokes;i++){
+      let a=i/spokes*Math.PI*2+(r()-.5)*.5,px=x,py=y;const line=[[px,py]],segs=big?6:3+Math.floor(r()*2);
+      for(let k=0;k<segs;k++){const len=reach/segs*(.6+r()*.8);a+=(r()-.5)*.5;px+=Math.cos(a)*len;py+=Math.sin(a)*len;line.push([Math.round(px),Math.round(py)]);}
+      lines.push(line);ends.push(line[Math.min(1,line.length-1)]);
+    }
+    if(seed%3||big)for(let i=0;i<ends.length;i++){const a=ends[i],b=ends[(i+1)%ends.length];lines.push([a,[Math.round((a[0]+b[0])/2+(r()-.5)*10),Math.round((a[1]+b[1])/2+(r()-.5)*10)],b]);}
+    return lines;
+  }
+  function holeAt(x,y,seed){
+    const r=rnd(seed),n=7,pts=[];
+    for(let i=0;i<n;i++){const a=i/n*Math.PI*2+(r()-.5)*.6,d=18+r()*26;pts.push([Math.round(x+Math.cos(a)*d),Math.round(y+Math.sin(a)*d)]);}
+    return pts;
+  }
+  // A knock on the glass at texture coordinates u, v (0..1, v from the top). Only the recruiter channel takes it.
+  // Returns 'crack', 'break' (the third knock) or 'open' (an already broken glass), or null when it does not apply.
+  function knock(s,u,v){
+    if(s.enter||s.exit||s.power!=='on'||s.tuneT>0||channels[s.channel].id!=='rush')return null;
+    const gl=s.glass;
+    if(gl.broken){s.events.push('tap');return 'open';}
+    const x=Math.round(clamp(u)*480),y=Math.round(clamp(v)*360),seed=(gl.hits.length+1)*7919+x*31+y;
+    gl.hits.push({x,y});gl.knockT=KNOCK;gl.cracks.push(...crackAt(x,y,seed,false));
+    if(gl.hits.length<KNOCKS){s.events.push('knock','crack');return 'crack';}
+    gl.broken=true;gl.cracks.push(...crackAt(x,y,seed+1,true));gl.holes.push(holeAt(x,y,seed+2));s.events.push('knock','shatter');
+    return 'break';
   }
   function knobTargets(s){return {channel:-s.channel*2*Math.PI/channels.length,volume:(135-s.volume*27)*Math.PI/180};}
   function press(s,name){
-    if(s.enter)return false;
+    if(s.enter||s.exit)return false;
     s.pressed[name]=160;
     if(name==='power'){
       if(s.power==='on'||s.power==='warming'){s.power='cooling';s.powerT=0;s.events.push('switch','off');}
@@ -54,10 +90,20 @@
     return false;
   }
   function beginEnter(s,reduced){
-    if(s.enter)return false;
+    if(s.enter||s.exit)return false;
     s.enter={stage:s.power==='on'?'tune':'warm',t:0,reduced:!!reduced,from:null};s.card=true;s.osdT=0;s.volT=0;s.dragging=false;s.cam.vy=s.cam.vp=0;
     if(s.power==='on'){s.tuneT=TUNE;s.events.push('tune');}
     else{s.power='warming';s.powerT=0;s.events.push('switch','degauss');}
+    return true;
+  }
+  // Coming back out of the portfolio, the entry runs backwards: the camera starts inside the glass, where the entry
+  // left it, while the picture that just collapsed into a dot fades out; it pulls back out of the screen, swings back
+  // to the first view and the set warms up again. flat: no camera to move (the CSS fallback zooms itself).
+  function beginExit(s,o={}){
+    if(s.enter||s.exit)return false;
+    s.exit={stage:'hold',t:0,from:null,flat:!!o.flat};
+    Object.assign(s.cam,front(),{dist:finalDistance(s.aspect),vy:0,vp:0});
+    s.fx=0;s.osdT=0;s.volT=0;s.tuneT=0;s.dragging=false;s.power='cooling';s.powerT=POWER_OFF*.7;
     return true;
   }
   const wrapAngle=a=>Math.atan2(Math.sin(a),Math.cos(a));
@@ -74,13 +120,29 @@
       if(cross(.25))s.events.push('dot');if(cross(.45))s.events.push('crackle');if(cross(.55))s.events.push('snow');if(cross(.78))s.events.push('blup');
       if(s.powerT>=dur){s.power='on';s.powerT=0;if(!s.enter)s.osdT=2200;}
     }else if(s.power==='cooling'){s.powerT+=dt;if(s.powerT>=POWER_OFF){s.power='off';s.powerT=0;}}
-    s.tuneT=Math.max(0,s.tuneT-dt);s.osdT=Math.max(0,s.osdT-dt);s.volT=Math.max(0,s.volT-dt);
+    s.tuneT=Math.max(0,s.tuneT-dt);s.osdT=Math.max(0,s.osdT-dt);s.volT=Math.max(0,s.volT-dt);s.glass.knockT=Math.max(0,s.glass.knockT-dt);
     s.volShown+=(s.volume-s.volShown)*Math.min(1,dt/90);
     const target=knobTargets(s);for(const k of ['channel','volume'])s.knob[k]+=(target[k]-s.knob[k])*Math.min(1,dt/70);
     const cam=s.cam;
-    if(!s.enter&&!s.dragging&&(cam.vy||cam.vp)){
+    if(!s.enter&&!s.exit&&!s.dragging&&(cam.vy||cam.vp)){
       cam.yaw+=cam.vy*dt;cam.pitch=clamp(cam.pitch+cam.vp*dt,-1.45,1.45);
       const decay=Math.exp(-dt/260);cam.vy*=decay;cam.vp*=decay;if(Math.abs(cam.vy)+Math.abs(cam.vp)<1e-5)cam.vy=cam.vp=0;
+    }
+    const x=s.exit;
+    if(x){
+      x.t+=dt;
+      if(x.stage==='hold'&&x.t>=EXIT_HOLD){x.stage='pull';x.t=0;s.events.push('pull');}
+      if(x.stage==='pull'){
+        x.from=x.from||{...cam};const k=clamp(x.t/DOLLY);
+        Object.assign(cam,cameraLerp(x.from,{...front(),dist:Math.max(finalDistance(s.aspect)*2.6,s.fit*.8)},ease(k),true));
+        s.fx=1-(1-k)*(1-k);
+        if(x.t>=DOLLY){s.fx=1;x.stage=x.flat?'done':'swing';x.t=0;x.from=null;s.power='warming';s.powerT=0;s.events.push('switch','degauss');}
+      }else if(x.stage==='swing'){
+        x.from=x.from||{...cam};
+        Object.assign(cam,cameraLerp(x.from,home(s.fit),ease(clamp(x.t/ALIGN))));
+        if(x.t>=ALIGN)x.stage='done';
+      }
+      return s;
     }
     const e=s.enter;if(!e)return s;
     e.t+=dt;
@@ -89,12 +151,11 @@
     else if(e.stage==='tune'&&e.t>=TUNE)next(e.reduced?'done':'align');
     if(e.stage==='align'||e.stage==='dolly'){
       e.from=e.from||{...cam};
-      const front={yaw:0,pitch:0,tx:screenCenter[0],ty:screenCenter[1],tz:screenCenter[2]};
       if(e.stage==='align'){
-        Object.assign(cam,cameraLerp(e.from,{...front,dist:Math.max(finalDistance(s.aspect)*2.6,s.fit*.8)},ease(clamp(e.t/ALIGN))));
+        Object.assign(cam,cameraLerp(e.from,{...front(),dist:Math.max(finalDistance(s.aspect)*2.6,s.fit*.8)},ease(clamp(e.t/ALIGN))));
         if(e.t>=ALIGN)next('dolly');
       }else{
-        const k=clamp(e.t/DOLLY);Object.assign(cam,cameraLerp(e.from,{...front,dist:finalDistance(s.aspect)},ease(k),true));
+        const k=clamp(e.t/DOLLY);Object.assign(cam,cameraLerp(e.from,{...front(),dist:finalDistance(s.aspect)},ease(k),true));
         s.fx=1-easeIn(k);if(e.t>=DOLLY){s.fx=0;next('done');}
       }
     }
@@ -111,6 +172,14 @@
     if(eye[2]<=layout.pickZ||d[2]>=0)return null;
     const t=(layout.pickZ-eye[2])/d[2],x=eye[0]+d[0]*t,y=eye[1]+d[1]*t;
     const name=hitControl(x,y);return name?{name,x,y}:null;
+  }
+  // Where a pointer meets the glass, as texture coordinates (u right, v down), or null off the screen.
+  function screenPoint(cam,aspect,nx,ny){
+    const eye=orbitEye(cam),f=norm([cam.tx-eye[0],cam.ty-eye[1],cam.tz-eye[2]]),r=norm(cross(f,[0,1,0])),u=cross(r,f),s=layout.screen,z=s.z+s.bulge*.7;
+    const d=norm([f[0]+r[0]*nx*TAN*aspect+u[0]*ny*TAN,f[1]+r[1]*nx*TAN*aspect+u[1]*ny*TAN,f[2]+r[2]*nx*TAN*aspect+u[2]*ny*TAN]);
+    if(eye[2]<=z||d[2]>=0)return null;
+    const t=(z-eye[2])/d[2],x=eye[0]+d[0]*t,y=eye[1]+d[1]*t,su=(x-s.x0)/screenW,sv=(s.y1-y)/screenH;
+    return su>=0&&su<=1&&sv>=0&&sv<=1?{u:su,v:sv}:null;
   }
   function hitControl(x,y){
     for(const [name,c] of Object.entries(layout.controls)){
@@ -272,7 +341,9 @@
       const dpr=Math.min(2,g.devicePixelRatio||1),w=Math.max(1,Math.round(canvas.clientWidth*dpr)),h=Math.max(1,Math.round(canvas.clientHeight*dpr));
       if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}
       gl.viewport(0,0,w,h);gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.enable(gl.DEPTH_TEST);gl.disable(gl.CULL_FACE);
-      const eye=orbitEye(s.cam),vp=mul(persp(w/h,.03,40),lookAt(eye,[s.cam.tx,s.cam.ty,s.cam.tz]));
+      // A knock on the glass jolts the view a little.
+      const jolt=s.glass.knockT/KNOCK,cam=jolt>0?{...s.cam,yaw:s.cam.yaw+(Math.random()-.5)*.014*jolt,pitch:s.cam.pitch+(Math.random()-.5)*.01*jolt}:s.cam;
+      const eye=orbitEye(cam),vp=mul(persp(w/h,.03,40),lookAt(eye,[s.cam.tx,s.cam.ty,s.cam.tz]));
       gl.bindTexture(gl.TEXTURE_2D,tex.screen);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,screenCanvas);
       if(refresh)for(const k of ['panel','brand','back']){gl.bindTexture(gl.TEXTURE_2D,tex[k]);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,textures[k]);}
       gl.useProgram(lit.p);gl.uniformMatrix4fv(lit.loc.uVP,false,vp);gl.uniform3fv(lit.loc.uEye,eye);
@@ -337,6 +408,44 @@
     else{R(2+lean,-20,3,6,c.gi);R(3+lean,-15,3,2,skin);}
   }
   const CH={
+    // An emergency box behind the glass, between hazard stripes and two alarm lamps, with a hammer on a chain.
+    rush(s,o,t,prev,ev,state){
+      const gl=state.glass,lit=Math.floor(t*2)%2;
+      sky(s,[[0,'#2a0907'],[.55,'#1a0605'],[1,'#110404']]);
+      const band=(y0,h)=>{s.fillStyle='#0A0F0B';s.fillRect(0,y0,160,h);s.fillStyle='#B3261E';const off=Math.floor(t*8)%12;for(let x=-24;x<184;x+=12){s.beginPath();s.moveTo(x+off,y0);s.lineTo(x+off+6,y0);s.lineTo(x+off+6-h,y0+h);s.lineTo(x+off-h,y0+h);s.fill();}};
+      band(0,9);band(111,9);
+      for(const [x,on] of [[13,lit],[147,1-lit]]){
+        if(on){const glow=s.createRadialGradient(x,19,0,x,19,24);glow.addColorStop(0,'rgba(255,96,64,.5)');glow.addColorStop(1,'rgba(255,96,64,0)');s.fillStyle=glow;s.fillRect(x-24,9,48,36);}
+        s.fillStyle=on?'#ff6a48':'#5a1410';s.fillRect(x-4,13,8,6);s.fillStyle=on?'#ffd2c0':'#7a2018';s.fillRect(x-2,14,3,2);s.fillStyle='#0A0F0B';s.fillRect(x-5,19,10,3);
+      }
+      const bx=34,by=28,bw=92,bh=66;
+      s.fillStyle='#0A0F0B';s.fillRect(bx-2,by-2,bw+4,bh+4);s.fillStyle='#B3261E';s.fillRect(bx,by,bw,bh);s.fillStyle='#d8473a';s.fillRect(bx,by,bw,2);
+      s.fillStyle='#2a0807';s.fillRect(bx+5,by+5,bw-10,bh-10);
+      if(!gl.broken){
+        s.fillStyle='rgba(190,220,226,.13)';s.fillRect(bx+5,by+5,bw-10,bh-10);
+        const sweep=bx-40+((t*26)%(bw+80));s.fillStyle='rgba(255,255,255,.16)';s.beginPath();s.moveTo(sweep,by+5);s.lineTo(sweep+10,by+5);s.lineTo(sweep-14,by+bh-5);s.lineTo(sweep-24,by+bh-5);s.fill();
+      }
+      s.fillStyle='#f2d0c4';for(const [x,y] of [[bx+2,by+2],[bx+bw-4,by+2],[bx+2,by+bh-4],[bx+bw-4,by+bh-4]])s.fillRect(x,y,2,2);
+      // The hammer swings gently on its chain beside the box.
+      const a=Math.sin(t*1.7)*.2,hx=bx+bw+11,hy=by+2,len=30,ex=hx+Math.sin(a)*len,ey=hy+Math.cos(a)*len;
+      s.fillStyle='#8a8f86';for(let i=0;i<6;i++)s.fillRect(Math.round(hx+(ex-hx)*i/6),Math.round(hy+(ey-hy)*i/6),1,2);
+      s.save();s.translate(Math.round(ex),Math.round(ey));s.rotate(-a);s.fillStyle='#6b4a2c';s.fillRect(-1,0,3,14);s.fillStyle='#B3261E';s.fillRect(-6,13,13,6);s.fillStyle='#e8e4d4';s.fillRect(-6,13,13,1);s.restore();
+      return ()=>{
+        const hits=gl.hits.length,pulse=.5+.5*Math.sin(t*5),cx=240,cy=181;
+        o.textAlign='center';o.textBaseline='middle';
+        o.font="30px 'DotGothic16',monospace";o.fillStyle='#F4D6CF';o.fillText(T('ESTÁ COM PRESSA?'),cx,55,440);
+        if(!gl.broken){
+          o.save();o.strokeStyle='rgba(240,206,106,'+(.25+.3*pulse)+')';o.lineWidth=3;o.beginPath();o.arc(cx,cy,58+pulse*6,0,7);o.stroke();
+          for(let i=0;i<4;i++){const q=i*Math.PI/2,r0=46+pulse*6,r1=74+pulse*6;o.beginPath();o.moveTo(cx+Math.cos(q)*r0,cy+Math.sin(q)*r0);o.lineTo(cx+Math.cos(q)*r1,cy+Math.sin(q)*r1);o.stroke();}
+          o.restore();
+        }
+        const word=gl.broken?'VIDRO QUEBRADO':['QUEBRE AQUI','DE NOVO!','MAIS UMA!'][Math.min(hits,2)];
+        o.font="40px 'DotGothic16',monospace";o.fillStyle='#0A0F0B';o.fillText(T(word),cx+3,cy+3,236);o.fillStyle=gl.broken?'#F4D6CF':'#F0CE6A';o.fillText(T(word),cx,cy,236);
+        o.font="18px 'DotGothic16',monospace";o.fillStyle='rgba(244,214,207,.85)';o.fillText(T('MODO RECRUTADOR'),cx,cy+46,236);
+        o.font="20px 'DotGothic16',monospace";o.fillStyle='#F4D6CF';
+        o.fillText(T(gl.broken?(state.touch?'Toque na tela para abrir o modo recrutador':'Clique na tela para abrir o modo recrutador'):'Quebre a tela para abrir o modo recrutador'),cx,306,440);
+      };
+    },
     fight(s,o,t,prev,ev){
       const cyc=9,k=t%cyc,round=Math.floor(t/cyc),r=rnd(round*977+13),acts=[];
       for(let i=0;i<9;i++)acts.push({at:1.4+i*.65,actor:r()<.55?0:1,type:['punch','kick','fire'][Math.floor(r()*3)],hit:r()<.75});
@@ -441,15 +550,38 @@
     o.textAlign='center';o.textBaseline='middle';o.fillStyle='#d8b24a';o.font=Math.round(px)+"px 'DotGothic16',monospace";o.fillText('OKARU',W/2,H/2-px*.25);
     o.fillStyle='#8f9e8f';o.font=Math.max(6,Math.round(px*11/48))+"px 'DotGothic16',monospace";o.fillText('小笠原 光',W/2,H/2+px*.55);
   }
+  // Cracks belong to the glass, so they stay over every channel and even with the set off. They fade out as the
+  // camera dives through the glass, so the entry still lands on the clean card.
+  function drawGlass(o,state){
+    const gl=state.glass,alpha=(state.power==='off'?.5:1)*(state.enter?(state.enter.reduced?0:state.fx):state.exit?state.fx:1);
+    if(alpha<=0||(!gl.cracks.length&&!gl.holes.length))return;
+    o.save();o.globalAlpha=alpha;o.lineJoin='round';o.lineCap='round';
+    for(const hole of gl.holes){o.beginPath();hole.forEach(([x,y],i)=>i?o.lineTo(x,y):o.moveTo(x,y));o.closePath();o.fillStyle='rgba(2,4,3,.9)';o.fill();o.strokeStyle='rgba(235,245,240,.75)';o.lineWidth=1.5;o.stroke();}
+    for(const [width,color] of [[3.4,'rgba(0,0,0,.5)'],[1.3,'rgba(232,244,238,.85)']]){
+      o.strokeStyle=color;o.lineWidth=width;o.beginPath();
+      for(const line of gl.cracks)line.forEach(([x,y],i)=>i?o.lineTo(x,y):o.moveTo(x,y));
+      o.stroke();
+    }
+    const last=gl.hits.at(-1);
+    if(gl.knockT>0&&last){const k=gl.knockT/KNOCK,flash=o.createRadialGradient(last.x,last.y,0,last.x,last.y,90);flash.addColorStop(0,'rgba(255,250,240,'+(.7*k)+')');flash.addColorStop(1,'rgba(255,250,240,0)');o.globalAlpha=1;o.fillStyle=flash;o.fillRect(0,0,o.canvas.width,o.canvas.height);}
+    o.restore();
+  }
   // Paints the glass: channel or card, plus warm-up, switch-off, tuning snow and on-screen displays.
   function paintScreen(o,s,scene,state,prevT,ev){
+    o.imageSmoothingEnabled=false;o.globalAlpha=1;o.fillStyle='#030504';o.fillRect(0,0,o.canvas.width,o.canvas.height);
+    // A knock shakes the picture for a moment.
+    const shake=state.glass.knockT/KNOCK*6;
+    o.save();if(shake>0)o.translate(Math.round((Math.random()-.5)*shake),Math.round((Math.random()-.5)*shake));
+    paintPicture(o,s,scene,state,prevT,ev);
+    o.restore();drawGlass(o,state);
+  }
+  function paintPicture(o,s,scene,state,prevT,ev){
     const W=o.canvas.width,H=o.canvas.height,t=state.t/1000,prev=prevT/1000;
-    o.imageSmoothingEnabled=false;o.globalAlpha=1;o.fillStyle='#030504';o.fillRect(0,0,W,H);
     if(state.power==='off')return;
     const picture=()=>{
       if(state.tuneT>0){snow(s);o.drawImage(scene,0,0,W,H);return;}
       if(state.card){card(o,state.cardPx,W,H);return;}
-      const ch=channels[state.channel],overlay=CH[ch.id](s,o,t,prev,ev);o.drawImage(scene,0,0,W,H);overlay?.();
+      const ch=channels[state.channel],overlay=CH[ch.id](s,o,t,prev,ev,state);o.drawImage(scene,0,0,W,H);overlay?.();
     };
     if(state.power==='cooling'){
       const p=state.powerT/POWER_OFF;
@@ -524,6 +656,13 @@
       hit:()=>{noise('bus',.08,.09,0,900);tone('bus',110,.08,'square',.04,0,70);},
       fire:()=>{noise('bus',.35,.05,0,700,'bandpass');tone('bus',300,.3,'triangle',.03,0,150);},
       ko:()=>{[392,330,262].forEach((f,i)=>tone('bus',f,.16,'square',.03,i*.15));},
+      // The glass is struck, not broadcast: knocks, cracks and the shatter skip the volume knob, like the dials.
+      // The camera leaving the glass: a soft rush of air.
+      pull:()=>{noise('mech',.9,.022,0,420,'bandpass');noise('mech',.7,.016,.3,900,'bandpass');},
+      knock:()=>{noise('mech',.06,.14,0,520);tone('mech',120,.1,'sine',.1,0,60);},
+      crack:()=>{noise('mech',.07,.1,.02,5200,'highpass');tone('mech',2400+Math.random()*700,.035,'triangle',.012,.02);},
+      shatter:()=>{noise('mech',.55,.16,0,4200,'highpass');noise('mech',.3,.09,.02,1500,'bandpass');[2800,3400,4100,3100,3700,2500].forEach((f,i)=>tone('mech',f+Math.random()*300,.12,'triangle',.009,.03+i*.05));},
+      tap:()=>{noise('mech',.03,.05,0,3000,'bandpass');tone('mech',1800,.03,'triangle',.008);},
       blip:()=>tone('bus',660,.03,'square',.02),
       zap:()=>{noise('bus',.25,.06,0,2000,'bandpass');tone('bus',600,.2,'square',.025,0,200);},
       faint:()=>tone('bus',440,.4,'triangle',.04,0,110)
@@ -567,34 +706,40 @@
     if(!sctx||!octx)return null;
     const glCanvas=doc.createElement('canvas');glCanvas.className='tv-gl';glCanvas.setAttribute('role','img');glCanvas.setAttribute('aria-label',T('Televisão 3D: arraste para girar a câmera'));
     container.appendChild(glCanvas);
-    const textures=paintTextures({}),state=createState({aspect:(container.clientWidth||16)/(container.clientHeight||10),volume:host.initialVolume??4,channel:0});
+    const textures=paintTextures({}),state=createState({aspect:(container.clientWidth||16)/(container.clientHeight||10),volume:host.initialVolume??4,channel:0,broken:host.broken,touch:host.touch});
     state.cam.dist=state.fit;
     let renderer=createRenderer(glCanvas,screen,textures),refresh=false,hover=null,raf=0,last=0,prevT=0,drag=null,entered=false,dead=false;
     if(!renderer)glCanvas.remove();
+    if(host.exit)beginExit(state,{flat:!renderer});
     doc.fonts?.load?.("16px 'DotGothic16'").then(()=>{if(!dead){paintTextures(textures);refresh=true;}},()=>{});
     const audio=createAudio({...host,volume:()=>state.volume});
     const changed=()=>host.onChange?.({power:state.power,channel:state.channel,volume:state.volume,channelName:channels[state.channel].name});
     function frame(now){
       if(dead)return;
       const dt=last?Math.min(64,now-last):16;last=now;
-      if(renderer){const r=glCanvas.getBoundingClientRect(),aspect=(r.width||1)/(r.height||1);if(Math.abs(aspect-state.aspect)>1e-3){const ratio=state.cam.dist/state.fit;state.aspect=aspect;state.fit=fitDistance(aspect);if(!state.enter)state.cam.dist=state.fit*ratio;}}
+      if(renderer){const r=glCanvas.getBoundingClientRect(),aspect=(r.width||1)/(r.height||1);if(Math.abs(aspect-state.aspect)>1e-3){const ratio=state.cam.dist/state.fit;state.aspect=aspect;state.fit=fitDistance(aspect);if(!state.enter&&!state.exit)state.cam.dist=state.fit*ratio;}}
       const prev=state.t;step(state,dt);
       const ev=state.events.splice(0);paintScreen(octx,sctx,scene,state,prev,ev);audio.play(ev);audio.music(state);
       if(renderer){renderer.render(state,hover,refresh);refresh=false;}
       if(state.enter?.stage==='done'&&!entered){entered=true;host.onEntered?.();}
+      if(state.exit?.stage==='done'){state.exit=null;changed();host.onExited?.();}
       raf=g.requestAnimationFrame(frame);
     }
     raf=g.requestAnimationFrame(frame);
     const ndc=e=>{const r=glCanvas.getBoundingClientRect();return [((e.clientX-r.left)/r.width)*2-1,1-((e.clientY-r.top)/r.height)*2,r.width/r.height];};
     const act=name=>{if(press(state,name)){changed();if(name.startsWith('volume'))audio.setVolume(state.volume);if(name==='enter')host.onEnterRequest?.();}};
+    // x, y: where the knock landed on the page, for the shards that fly out of the glass.
+    const strike=(u,v,x,y)=>{const r=knock(state,u,v);if(r)host.onKnock?.(r,x,y);return r;};
+    const breakable=()=>!state.enter&&!state.exit&&state.power==='on'&&channels[state.channel].id==='rush';
     const onDown=e=>{
-      host.unlock?.();if(state.enter||e.button>0)return;
-      const [x,y,aspect]=ndc(e);drag={id:e.pointerId,x:e.clientX,y:e.clientY,moved:false,control:controlAction(pickPoint(state.cam,aspect,x,y)),t:performance.now()};
+      host.unlock?.();if(state.enter||state.exit||e.button>0)return;
+      const [x,y,aspect]=ndc(e),control=controlAction(pickPoint(state.cam,aspect,x,y));
+      drag={id:e.pointerId,x:e.clientX,y:e.clientY,moved:false,control,glass:!control&&breakable()?screenPoint(state.cam,aspect,x,y):null,t:performance.now()};
       glCanvas.setPointerCapture?.(e.pointerId);state.cam.vy=state.cam.vp=0;
     };
     const onMove=e=>{
       const [x,y,aspect]=ndc(e);
-      if(!drag||drag.id!==e.pointerId){const h=state.enter?null:pick(state.cam,aspect,x,y);if(h!==hover){hover=h;glCanvas.style.cursor=h?'pointer':'grab';}return;}
+      if(!drag||drag.id!==e.pointerId){const h=state.enter||state.exit?null:pick(state.cam,aspect,x,y)||(breakable()&&screenPoint(state.cam,aspect,x,y)?'glass':null);if(h!==hover){hover=h;glCanvas.style.cursor=h?'pointer':'grab';}return;}
       const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(!drag.moved&&Math.hypot(dx,dy)<5)return;
       drag.moved=true;state.dragging=true;glCanvas.style.cursor='grabbing';
       const now=performance.now(),dtm=Math.max(1,now-drag.t),ky=dx*.008,kp=dy*.006;
@@ -604,17 +749,20 @@
     const onUp=e=>{
       if(!drag||drag.id!==e.pointerId)return;
       if(!drag.moved&&drag.control)act(drag.control);
+      else if(!drag.moved&&drag.glass)strike(drag.glass.u,drag.glass.v,e.clientX,e.clientY);
       if(drag.moved&&performance.now()-drag.t>80)state.cam.vy=state.cam.vp=0;
       state.dragging=false;drag=null;glCanvas.style.cursor=hover?'pointer':'grab';
     };
-    const onWheel=e=>{if(state.enter)return;e.preventDefault();state.cam.dist=clamp(state.cam.dist*Math.exp(e.deltaY*.0012),state.fit*.55,state.fit*1.6);};
+    const onWheel=e=>{if(state.enter||state.exit)return;e.preventDefault();state.cam.dist=clamp(state.cam.dist*Math.exp(e.deltaY*.0012),state.fit*.55,state.fit*1.6);};
     const listeners=[['pointerdown',onDown],['pointermove',onMove],['pointerup',onUp],['pointercancel',onUp],['wheel',onWheel,{passive:false}]];
     if(renderer)for(const [type,fn,opts] of listeners)glCanvas.addEventListener(type,fn,opts);
     changed();
     return {
       gl:!!renderer,screen,state,
       press:act,
-      orbit(dyaw,dpitch){if(state.enter)return;state.cam.yaw+=dyaw;state.cam.pitch=clamp(state.cam.pitch+dpitch,-1.45,1.45);},
+      // From the dock or the CSS fallback: without a point, the knock lands near the middle of the glass.
+      knock(u,v,x,y){return strike(u??.5+(Math.random()-.5)*.24,v??.5+(Math.random()-.5)*.2,x,y);},
+      orbit(dyaw,dpitch){if(state.enter||state.exit)return;state.cam.yaw+=dyaw;state.cam.pitch=clamp(state.cam.pitch+dpitch,-1.45,1.45);},
       enter(opts={}){
         if(!beginEnter(state,opts.reduced||!renderer))return false;
         if(opts.cardPx)state.cardPx=opts.cardPx;
@@ -625,5 +773,5 @@
       destroy(){dead=true;g.cancelAnimationFrame(raf);for(const [type,fn] of listeners)glCanvas.removeEventListener(type,fn);audio.destroy();renderer?.destroy();glCanvas.remove();screen.remove?.();}
     };
   }
-  g.PortfolioTV={channels,layout,createState,step,press,beginEnter,pick,pickPoint,controlAction,hitControl,orbitEye,fitDistance,finalDistance,knobTargets,gainFor,theme:tvTheme,createAudio,create,durations:{POWER_ON,POWER_OFF,CALM_ON,TUNE,ALIGN,DOLLY}};
+  g.PortfolioTV={channels,layout,createState,step,press,beginEnter,beginExit,knock,knocks:KNOCKS,pick,pickPoint,screenPoint,controlAction,hitControl,orbitEye,fitDistance,finalDistance,knobTargets,gainFor,theme:tvTheme,createAudio,create,durations:{POWER_ON,POWER_OFF,CALM_ON,TUNE,ALIGN,DOLLY,EXIT_HOLD}};
 })(window);

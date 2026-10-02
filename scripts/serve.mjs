@@ -4,6 +4,7 @@ import { readFile, realpath } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 const root = fileURLToPath(new URL('../dist/', import.meta.url));
+const port = Number(process.env.PORT) || 4173;
 const canonicalRoot = await realpath(root);
 const insideRoot = file => {
   const relative = path.relative(canonicalRoot, file);
@@ -22,4 +23,4 @@ http.createServer(async (req, res) => {
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.end(await readFile(file));
   } catch { res.writeHead(404); res.end('Not found'); }
-}).listen(4173, '127.0.0.1', () => console.log('Preview: http://127.0.0.1:4173'));
+}).listen(port, '127.0.0.1', () => console.log('Preview: http://127.0.0.1:' + port));
