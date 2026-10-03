@@ -197,6 +197,11 @@
 - [x] O endereço do broker público e o namespace MQTT foram pixelados nas três telas que os mostravam, para não expor os tópicos de comando do dispositivo; os originais ficam fora do repositório.
 - [x] A captura da planilha CSV no Excel ficou de fora; legendas traduzidas em PT/EN/JA.
 
+## README em três idiomas — 03/10/2026
+
+- [x] `README.md` em inglês (principal), `README.pt-BR.md` e `README.ja.md`, com uma barra de idiomas no topo de cada um, no lugar de abas (o GitHub não tem abas em Markdown).
+- [x] Mesmo conteúdo nos três, com os termos já usados pelo site em cada idioma; atualizados os botões da home como passagens, os pop-ups da falha do boot e o menu dentro da logo no celular.
+
 ## Verificação
 
 - [x] Telas, estados e console conferidos no navegador, no desktop e no celular, quadro a quadro.

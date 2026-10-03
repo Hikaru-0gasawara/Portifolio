@@ -1,77 +1,80 @@
-# Portfólio — Hikaru Ogasawara
+# Portfolio — Hikaru Ogasawara
 
-Portfólio interativo em pixel art: um quarto explorável, com projetos, laboratório, árvore de habilidades, minijogos, currículos e um modo rápido para recrutadores. Disponível em português, inglês e japonês.
+**English** · [Português](README.pt-BR.md) · [日本語](README.ja.md)
 
-**Acesse:** [hikaru-0gasawara.github.io/Portifolio](https://hikaru-0gasawara.github.io/Portifolio/)
+An interactive pixel-art portfolio: an explorable room with projects, a lab, a skill tree, minigames, résumés and a fast lane for recruiters. Available in English, Portuguese and Japanese.
 
-## Sobre mim
+**Visit:** [hikaru-0gasawara.github.io/Portifolio](https://hikaru-0gasawara.github.io/Portifolio/)
 
-Muito prazer! Meu nome é Hikaru Ogasawara (小笠原 光). Tenho 21 anos, moro em São Paulo e estudo Engenharia da Computação no Ibmec, com formatura prevista para 2027. Gosto de hardware, infraestrutura e segurança, e passo boa parte do tempo montando laboratórios e projetos por conta própria.
+## About me
 
-Desde criança eu gosto de construir coisas, consertar o que quebra e descobrir como tudo funciona por dentro. A chave de fenda virou multímetro, terminal e firmware. Sou de aprender fazendo: montar, testar, medir, quebrar e montar de novo até ficar do jeito certo, entendendo o porquê antes de aceitar o como.
+Nice to meet you! I'm Hikaru Ogasawara (小笠原 光), 21, based in São Paulo and studying Computer Engineering at Ibmec, with graduation expected in 2027. I enjoy hardware, infrastructure and security, and spend much of my time building labs and personal projects.
 
-Fora da faculdade, sou vice-presidente da Ycare, uma organização voluntária que todo segundo sábado do mês leva cestas com alimentos e itens de higiene a uma comunidade. Cuido da arrecadação, da montagem das cestas e da mobilização dos voluntários. Nas horas vagas, jogo de tudo um pouco.
+Since childhood I've enjoyed building things, fixing what breaks and discovering how things work inside. That curiosity remains; only the tools have changed: the screwdriver became a multimeter, a terminal and firmware. I learn by doing: build, test, measure, break it and build it again until it's right, understanding the why before accepting the how.
+
+Outside university, I'm vice president of Ycare, a volunteer organization that delivers food and hygiene baskets to a community on the second Saturday of each month. I handle fundraising, packing the baskets and coordinating volunteers. In my spare time, I play a bit of everything.
 
 | | |
 | --- | --- |
-| **Formação** | Engenharia da Computação no Ibmec (bacharelado, 2023–2027, previsto) · Instituto Sidarta (ensino médio, 2010–2022) |
-| **Idiomas** | Português nativo · inglês fluente na leitura e semifluente na fala · japonês intermediário-avançado · espanhol intermediário |
-| **Pontos fortes** | Calma sob pressão · proatividade · automotivação · trabalho em equipe · responsabilidade com prazos |
-| **Procurando** | Estágio em infraestrutura, segurança ou sistemas embarcados |
+| **Education** | Computer Engineering at Ibmec (bachelor's, 2023–2027, expected) · Instituto Sidarta (high school, 2010–2022) |
+| **Languages** | Native Portuguese · English: fluent reading, conversational speaking · upper-intermediate Japanese · intermediate Spanish |
+| **Strengths** | Calm under pressure · initiative · self-motivation · teamwork · respect for deadlines |
+| **Seeking** | An internship in infrastructure, security or embedded systems |
 
-## Contato e currículos
+## Contact and résumés
 
-- **E-mail:** [hogasawara2311@outlook.com](mailto:hogasawara2311@outlook.com)
+- **Email:** [hogasawara2311@outlook.com](mailto:hogasawara2311@outlook.com)
 - **LinkedIn:** [/in/hikaru-ogasawara](https://www.linkedin.com/in/hikaru-ogasawara)
 - **GitHub:** [Hikaru-0gasawara](https://github.com/Hikaru-0gasawara)
-- **Currículo:** [português](public/resume/hikaru-pt.pdf) · [English](public/resume/hikaru-en.pdf) · [日本語](public/resume/hikaru-ja.pdf)
+- **Résumé:** [English](public/resume/hikaru-en.pdf) · [Português](public/resume/hikaru-pt.pdf) · [日本語](public/resume/hikaru-ja.pdf)
 
-## Projetos
+## Projects
 
-| Projeto | Área | Resumo | Código |
+| Project | Area | Summary | Code |
 | --- | --- | --- | --- |
-| **AquaSense IoT** | IoT · firmware · web | Firmware ESP32 para 7 parâmetros da água, MQTT/TLS e dashboard (fev–jun 2026) | [repositório](https://github.com/Hikaru-0gasawara/IoT-PoolHardWareTest) |
-| **Lab de infraestrutura** | Infra · segurança | AD/DC, firewall IPFire e SIEM do zero, virtualizados no Proxmox (acadêmico) | — |
-| **Cofre eletrônico** | Embarcados · C++ | O mesmo cofre portado para Arduino UNO, Raspberry Pi Pico e ESP32 (pessoal) | [repositório](https://github.com/Hikaru-0gasawara/IoT-SafeSistem) |
-| **Ativos da CPTM** | Back-end · Java | API REST com 14 endpoints para trens, estações e linhas (fev–jul 2024) | [repositório](https://github.com/0tavio-Pires/Projeto_Back-End) |
+| **AquaSense IoT** | IoT · firmware · web | ESP32 firmware for 7 water parameters, MQTT/TLS and a dashboard (Feb–Jun 2026) | [repository](https://github.com/Hikaru-0gasawara/IoT-PoolHardWareTest) |
+| **Infrastructure lab** | Infrastructure · security | AD/DC, IPFire firewall and SIEM built from scratch, virtualized on Proxmox (academic) | — |
+| **Electronic safe** | Embedded · C++ | The same safe ported to Arduino UNO, Raspberry Pi Pico and ESP32 (personal) | [repository](https://github.com/Hikaru-0gasawara/IoT-SafeSistem) |
+| **CPTM assets** | Back end · Java | REST API with 14 endpoints for trains, stations and lines (Feb–Jul 2024) | [repository](https://github.com/0tavio-Pires/Projeto_Back-End) |
 
-No portfólio, cada projeto tem descrição, galeria com diagramas (no AquaSense, também capturas do painel) e os detalhes técnicos.
+In the portfolio, each project has a description, a gallery of diagrams (plus screenshots of the dashboard for AquaSense) and the technical details.
 
-## Tecnologias
+## Technologies
 
-- **Hardware e firmware:** ESP32, Arduino UNO, Raspberry Pi Pico, C/C++, MicroPython, I²C, UART, PWM, MQTT sobre TLS, LogiSim
-- **Infraestrutura e segurança:** Proxmox, Windows Server com AD/DC, Linux, DNS, DHCP, IPFire, iptables, ufw, SIEM, Kali Linux
-- **Software:** Python, Java com Spring Boot, TypeScript com React, HTML e CSS, SQL
-- **Dados e nuvem:** Jupyter, NumPy, pandas, Excel, Power BI, AWS Lambda, Alexa Skills Kit
-- **Ferramentas e testes:** Git, GitHub Actions, Vitest, Playwright, JUnit, Postman
+- **Hardware and firmware:** ESP32, Arduino UNO, Raspberry Pi Pico, C/C++, MicroPython, I²C, UART, PWM, MQTT over TLS, LogiSim
+- **Infrastructure and security:** Proxmox, Windows Server with AD/DC, Linux, DNS, DHCP, IPFire, iptables, ufw, SIEM, Kali Linux
+- **Software:** Python, Java with Spring Boot, TypeScript with React, HTML and CSS, SQL
+- **Data and cloud:** Jupyter, NumPy, pandas, Excel, Power BI, AWS Lambda, Alexa Skills Kit
+- **Tools and testing:** Git, GitHub Actions, Vitest, Playwright, JUnit, Postman
 
-## O portfólio
+## The portfolio
 
-O próprio site é a demonstração: em vez de apenas listar habilidades, ele é um pequeno jogo que mostra o que eu sei fazer.
+The site itself is the demo: instead of just listing skills, it's a small game that shows what I can do.
 
-- **Escolha de idioma:** a primeira tela, um menu em 8 bits sob um céu de pixels, com cursor, equalizador e uma trilha própria que muda de estilo conforme o idioma sob o cursor: samba para o português, rock para o inglês e matsuri para o japonês.
-- **Entrada pela TV:** depois do idioma, uma televisão 3D que você pode girar com o mouse e ver por trás, por cima e por baixo, falando o idioma escolhido. Ela já começa ligada, no canal do modo recrutador (**“Está com pressa? Quebre aqui”**), e tem mais cinco canais (luta, batalha de monstrinhos, show ao vivo, RPG e faroeste), volume e botão de energia, e uma trilha própria que sai pelo alto-falante dela. O botão **Entrar** mergulha a câmera dentro da tela e começa o boot. Segurar o botão de energia do portfólio desliga tudo e sai pela TV: a câmera recua de dentro da tela, o contrário da entrada, e a TV liga de novo.
-- **Boot:** um console de inicialização com diagnósticos e, de vez em quando, uma falha fictícia com recuperação.
-- **Páginas:** Início, Projetos, Sobre e Contato, percorridas pelo próprio Hikaru em pixel art. Ele anda entre as portas, tropeça de vez em quando e às vezes pega um atalho pelos portais. Todas as páginas e o quarto se ligam por passagens escondidas: um pedestal, portas e alçapões desenhados na linha do esquemático e dos painéis, uma porta ao lado do título de Sobre, dois orelhões ligando Início e Contato, uma passagem atrás do “?” de CONTINUE? e, no quarto, um alçapão sob o pinball, uma escada atrás da estante e um túnel debaixo da cama. Os botões da home têm passagens próprias: um alçapão até Projetos e uma escada secreta até Sobre.
-- **Quarto:** estante, coleção de decks de Magic, pelúcias, fliperamas, TV de tubo com estilos de imagem, puff com um jogo de quebrar blocos e um computador com desktop próprio (terminal, perfil, árvore de habilidades, currículo, Lab e um jogo offline).
-- **Hitbox:** um controle de jogo de luta em Sobre, com 42 golpes de 22 lutadores de Street Fighter, Mortal Kombat, Skullgirls, Guilty Gear e Avatar, mais os golpes de tecnologia do Okaru. Cada golpe acerta um boneco de treino.
-- **Minijogos:** cartuchos para Game Boy, Atari, Master System, N64 e controle moderno, além dos fliperamas Packet Invaders e Operação Circuito.
-- **Conquistas:** 51 conquistas espalhadas pelo site.
-- **Modo recrutador:** um caminho rápido para projetos e currículos, para quem tem pouco tempo, com o mesmo som do portfólio. Para abrir, quebre a tela da TV de entrada (três batidas no vidro do primeiro canal) ou o vidro de emergência do menu de pausa.
-- **Tela de título:** trilha própria em 8 bits, sons de hover e um botão (ou a tecla `M`) para desligar o som.
+- **Language select:** the first screen, an 8-bit menu under a pixel sky, with a cursor, an equalizer and its own soundtrack that changes style with the language under the cursor: samba for Portuguese, rock for English and matsuri for Japanese.
+- **TV entrance:** after the language, a 3D television you can spin with the mouse and look at from behind, above and below, speaking the chosen language. It starts switched on, on the recruiter-mode channel (**“In a hurry? Break here”**), and has five more channels (fighting, monster battle, live show, RPG and western), volume, a power button and its own soundtrack playing through its speaker. **Enter** dives the camera into the screen and starts the boot. Holding the portfolio's power button turns everything off and leaves through the TV: the camera pulls back out of the screen, the reverse of the entrance, and the TV turns on again.
+- **Boot:** a startup console with diagnostics and, every now and then, a fake crash buried under made-up error pop-ups, followed by a recovery.
+- **Pages:** Home, Projects, About and Contact, walked by Hikaru himself in pixel art. He walks between the doors, trips now and then and sometimes takes a shortcut through the portals. Every page and the room are linked by hidden passages: a pedestal, doors and hatches drawn on the lines of the schematic and the panels, a door by the About title, two payphones linking Home and Contact, a passage behind the “?” of CONTINUE? and, in the room, a hatch under the pinball, stairs behind the shelf and a tunnel under the bed. The home buttons are passages themselves: **View projects** splits open like a trapdoor and drops him onto Projects, and **About me** slides aside over a secret staircase down to About.
+- **Room:** a shelf, a Magic deck collection, plushies, arcade cabinets, a CRT TV with picture styles, a beanbag with a brick-breaker game and a computer with its own desktop (terminal, profile, skill tree, résumé, Lab and an offline game).
+- **Hitbox:** a fighting-game controller on About, with 42 moves from 22 fighters from Street Fighter, Mortal Kombat, Skullgirls, Guilty Gear and Avatar, plus Okaru's tech moves. Every move hits a training dummy.
+- **Minigames:** cartridges for Game Boy, Atari, Master System, N64 and a modern controller, plus the Packet Invaders and Operation Circuit arcade cabinets.
+- **Achievements:** 51 achievements spread across the site.
+- **Recruiter mode:** a fast lane to projects and résumés for those short on time, with the same sound as the portfolio. To open it, break the entrance TV's screen (three knocks on the glass of the first channel) or the emergency glass in the pause menu.
+- **Title screen:** its own 8-bit soundtrack, hover sounds and a button (or the `M` key) to mute.
+- **On phones:** a touch joystick with **A** and **B**, and the section buttons fold into the logo, which opens them as a menu.
 
-### Controles principais
+### Main controls
 
-| Ação | Como |
+| Action | How |
 | --- | --- |
-| Andar | `WASD` ou setas (no celular, o joystick na tela; **A** usa e **B** corre) |
-| Interagir | `E`, espaço ou clique |
-| Pausa e menu | `Esc` |
-| Paleta e console | `Ctrl+K` |
-| Idioma e movimento reduzido | Menu de pausa |
+| Walk | `WASD` or arrow keys (on phones, the on-screen joystick; **A** uses and **B** runs) |
+| Interact | `E`, space or click |
+| Pause and menu | `Esc` |
+| Command palette and console | `Ctrl+K` |
+| Language and reduced motion | Pause menu |
 
-Tudo roda no navegador, sem cadastro, rastreamento ou servidor: progresso, idioma e conquistas ficam salvos só no seu navegador.
+Everything runs in the browser, with no sign-up, tracking or server: progress, language and achievements are saved only in your browser.
 
-## Código
+## Code
 
-Feito com HTML, CSS e JavaScript, com React e fontes servidos localmente, sem bibliotecas de jogo ou 3D: a televisão da entrada é renderizada em WebGL próprio. As notas técnicas (execução local, publicação, arquitetura, currículos e testes) ficam em [docs/](docs/).
+Built with HTML, CSS and JavaScript, with React and fonts served locally, and no game or 3D libraries: the entrance television is rendered with hand-written WebGL. The technical notes (running locally, publishing, architecture, résumés and tests) are in [docs/](docs/), in Portuguese.
