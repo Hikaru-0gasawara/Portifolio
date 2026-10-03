@@ -11,4 +11,4 @@
 | [REVISAO.md](REVISAO.md) | Revisão anterior do portfólio e avaliação dos currículos |
 | [../PRODUCT.md](../PRODUCT.md) | Público, propósito, princípios e restrições do produto |
 
-A apresentação do portfólio e do autor fica no [README principal](../README.md), em inglês, com versões em [português](../README.pt-BR.md) e [japonês](../README.ja.md).
+A apresentação do portfólio e do autor fica no [README principal](../README.md), em inglês, português e japonês: cada idioma num bloco que abre com um clique, com o inglês já aberto.

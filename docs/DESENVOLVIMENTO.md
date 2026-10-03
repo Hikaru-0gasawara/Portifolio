@@ -79,7 +79,7 @@ O workflow `.github/workflows/pages.yml` gera o site, executa os testes e public
 Exemplo no terminal, após revisar `git status`:
 
 ```powershell
-git add README.md README.pt-BR.md README.ja.md package.json .gitignore .github/workflows src scripts tests public docs
+git add README.md package.json .gitignore .github/workflows src scripts tests public docs
 git commit -m "Refatora portfolio e prepara GitHub Pages"
 git push origin main
 ```

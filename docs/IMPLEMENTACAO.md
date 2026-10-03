@@ -199,7 +199,8 @@
 
 ## README em três idiomas — 03/10/2026
 
-- [x] `README.md` em inglês (principal), `README.pt-BR.md` e `README.ja.md`, com uma barra de idiomas no topo de cada um, no lugar de abas (o GitHub não tem abas em Markdown).
+- [x] Os três idiomas num só `README.md`, cada um num bloco que abre e fecha com um clique (`<details>`), com o inglês aberto: o mais próximo de abas que o GitHub permite (as abas ao lado de README são só para License, Code of conduct, Contributing e Security).
+- [x] A tabela de formação, idiomas, pontos fortes e objetivo virou lista, sem a linha vazia que o cabeçalho em branco criava.
 - [x] Mesmo conteúdo nos três, com os termos já usados pelo site em cada idioma; atualizados os botões da home como passagens, os pop-ups da falha do boot e o menu dentro da logo no celular.
 
 ## Verificação
