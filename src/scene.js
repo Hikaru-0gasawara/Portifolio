@@ -54,9 +54,9 @@
       return {x:Math.max(12*u,Math.min(geo.W-12*u,from.x+(to.x-from.x)*k)),y:Math.max(28*u,Math.min(geo.CH-6*u,from.y+(to.y-from.y)*k+sign*(i%2?-1:1)*amplitude))};
     });
   }
-  // The two home buttons have their own passages instead of the spin: a trapdoor that splits open and drops
-  // Hikaru onto the Projetos pedestal, and a secret staircase that takes him down to Sobre. Times are in ms;
-  // poses and drawings are in sprite pixels with his feet at (0,0).
+  // The two home buttons are passages themselves instead of the spin: "Ver projetos" splits open as a trapdoor
+  // and drops Hikaru onto the Projetos pedestal, and "Ver sobre" slides aside off a secret staircase that takes
+  // him down to Sobre. Times are in ms; poses and drawings are in sprite pixels with his feet at (0,0).
   // The hidden ends have passages of their own too: he walks through a door in a wall (door-l / door-r, by the
   // wall the door is in) or drops into a floor hatch, and comes out of the other end the same way. Those doors
   // and hatches are HTML, so these passages only move and clip Hikaru. Sobre's title has a door seen from the
@@ -72,16 +72,17 @@
   passageCues.door={out:[[0,'door'],[260,'land'],[430,'land'],[600,'land'],[820,'doorShut']],in:[[0,'door'],[300,'land'],[470,'land'],[640,'land'],[820,'doorShut']]};
   passageCues.phone={out:[[0,'ring'],[420,'ring'],[700,'dial']],in:[[0,'ring'],[640,'land']]};
   passageCues['door-l']=passageCues['door-r']={out:[[0,'door'],[300,'land'],[460,'land'],[620,'land'],[800,'doorShut']],in:[[0,'door'],[240,'land'],[400,'land'],[560,'land'],[780,'doorShut']]};
-  // How far the trapdoor leaves or the stair slabs are open: 0 closed, 1 open.
+  // How far the trapdoor's leaves or the slab are open: 0 closed, 1 open. Popping back out of the trapdoor
+  // (hatch, on "Ver projetos"), the leaves open at once and are shut again before he lands on them.
   function passageOpen(style,out,t){
     const d=passages[style][out?'out':'in'];
     if(style==='fall')return !out?0:t<120?0:t<320?easeOut((t-120)/200):t<780?1:1-easeInOut(clamp((t-780)/200));
+    if(style==='hatch')return out?0:t<150?easeOut(t/150):t<400?1:1-easeInOut(clamp((t-400)/160));
     return t<450?easeOut(t/450):t<d-350?1:1-easeInOut(clamp((t-(d-350))/300));
   }
-  // The floor features appear from nothing and vanish again once closed.
-  function passageFade(style,out,t){return clamp(t/100)*clamp((passages[style][out?'out':'in']-t)/120);}
-  function passagePose(style,out,t,drop=60){
-    const p={dx:0,dy:0,lift:0,rot:0,sx:1,sy:1,dir:'d',alpha:1,walk:false,mark:false,clip:null};
+  // hole: the opening's rectangle (sprite px from his feet) when the passage is a button; he is clipped into it.
+  function passagePose(style,out,t,drop=60,hole=null){
+    const p={dx:0,dy:0,lift:0,rot:0,sx:1,sy:1,dir:'d',alpha:1,walk:false,mark:false,clip:null,dark:0};
     if(style==='door-l'||style==='door-r'){
       // A door in a left wall opens onto him from his right: he steps back while it swings, walks through and is
       // cut off by the wall line (x = 0). The arrival walks out of the wall and ends on the outside.
@@ -127,62 +128,56 @@
     if(style==='fall'&&out){
       if(t<320){if(t>120)p.sy=1-.1*Math.sin(Math.PI*(t-120)/200);}
       else if(t<480){p.lift=2*Math.sin(Math.PI*(t-320)/160);p.mark=true;}
-      else if(t<780){const k=easeIn((t-480)/300);p.sx=p.sy=1-.82*k;p.dy=6*k;p.rot=.7*k;p.alpha=1-.75*k;p.clip=[-11,-30+26*k,22,34-26*k];}
-      else p.alpha=0;
+      else if(t<780){
+        const k=easeIn((t-480)/300),s=1-.82*k;p.sx=p.sy=s;p.rot=.7*k;p.alpha=1-.75*k;
+        // into the button's pit he shrinks towards its depth, darkening; a small hatch takes him through its rim
+        if(hole)Object.assign(p,{dy:2*k-12*(1-s),dark:.7*k,clip:hole});
+        else{p.dy=6*k;p.clip=[-11,-30+26*k,22,34-26*k];}
+      }else p.alpha=0;
     }else if(style==='fall'){
       const T=720;
       if(t<T){const k=t/T;p.lift=drop*(1-k*k);p.rot=Math.PI*4*k;p.dir=['d','l','u','r'][Math.floor(t/70)%4];}
       else if(t<900){const b=Math.sin(Math.PI*(t-T)/180);p.sy=1-.35*b;p.sx=1+.3*b;}
       else p.lift=3*Math.sin(Math.PI*clamp((t-900)/250));
     }else{
-      // He walks into the opening and sinks behind its near lip; the arrival plays the same steps in reverse.
+      // He turns to the steps the slab uncovered and walks down them into the dark, smaller and darker with
+      // every step, until the far end takes him; the arrival climbs out of the dark the same way, towards us.
       const q=out?clamp((t-450)/700):1-clamp((t-450)/700);
-      p.dir=out&&t>=300?'u':'d';p.walk=t>=450&&t<1150;
-      p.dy=24*easeInOut(q)-(p.walk?Math.abs(Math.sin(t/70)):0);p.alpha=q>=1?0:1-.6*q;p.clip=[-12,-60,24,62];
+      p.dir=out&&t>=300?'u':'d';p.walk=t>=450&&t<1150;p.sx=p.sy=1-.3*q;p.dark=.8*q;
+      p.dy=(p.walk?-Math.abs(Math.sin(t/70)):0)-16*easeInOut(q);p.alpha=q>=1?0:1-clamp((q-.7)/.3);p.clip=hole||[-12,-60,24,62];
     }
     return p;
   }
   function drawHikaru(ctx,img,p,t){
     if(!img||p.alpha<=0)return;
     const fr={d:0,u:3,l:6,r:9}[p.dir]+(p.walk?[0,1,0,2][Math.floor(t/130)%4]:0);
-    ctx.save();ctx.globalAlpha=p.alpha;
+    ctx.save();ctx.globalAlpha=p.alpha;if(p.dark)ctx.filter='brightness('+(1-p.dark)+')';
     if(p.clip){ctx.beginPath();ctx.rect(...p.clip);ctx.clip();}
     ctx.translate(p.dx||0,p.dy-p.lift);ctx.translate(0,-12);ctx.rotate(p.rot);ctx.translate(0,12);ctx.scale(p.sx,p.sy);
     ctx.drawImage(img,48+fr*16,224,16,24,-8,-24,16,24);
     ctx.restore();
   }
-  // Floor, Hikaru, then the near edge on top, so he disappears into the floor instead of behind a sticker.
-  function drawPassage(ctx,style,out,t,img,drop,clock){
+  // The openings are HTML (the home buttons, the hatches and doors on the panels): this draws Hikaru clipped
+  // into them, the landing's shadow and dust, the grit of the button's seam and of the slab's trailing edge.
+  function drawPassage(ctx,style,out,t,img,drop,clock,hole){
     const R=(x,y,w,h,c,a=1)=>{ctx.globalAlpha=a;ctx.fillStyle=c;ctx.fillRect(x,y,w,h);};
-    const open=passageOpen(style,out,t),fade=passageFade(style,out,t),pose=passagePose(style,out,t,drop);
-    if(style==='fall'&&out){
-      R(-13,-5,26,10,'#2a2118',fade);R(-11,-4,22,8,'#030504',fade);R(-11,-4,22,1,'#1d1812',fade);
-      const w=11*(1-open);
-      for(const [x0,sign] of [[-11,1],[11,-1]]){
-        if(w<=.2)continue;const x=sign>0?x0:x0-w;
-        R(x,-4,w,8,'#6b5236',fade);for(let i=3;i<w;i+=4)R(sign>0?x0+i:x0-i-1,-4,1,8,'#4a3826',fade);R(x,-4,w,8,'#000000',fade*.45*open);
-      }
-      if(open<.05)R(-.5,-4,1,8,'#1a140e',fade);
-      if(t>=120&&t<420)for(let i=0;i<6;i++){const k=(t-120)/300;R(-8+i*3,-3+k*6*(1+i%2),1,1,'#9c8f78',1-k);}
-      if(t>=780&&t<1000)for(let i=0;i<8;i++){const k=(t-780)/220;R((i-3.5)*3.6*(1+k),-1-k*4*(i%2),2,2,'#b8aa90',.7*(1-k));}
-    }else if(style==='fall'){
+    const pose=passagePose(style,out,t,drop,hole);
+    if(style==='fall'&&!out){
       const k=Math.min(1,t/720),sw=4+8*k;R(-sw/2,-1,sw,1,'#000000',.12+.25*k);
       const b=(t-720)/320;if(b>=0&&b<1)for(let i=0;i<8;i++)R((i-3.5)*3*(1+b*1.5),-1-b*3*(i%2),2,2,'#b8aa90',.75*(1-b));
-    }else if(style==='stairs'){
-      const steps=['#3d372b','#2e291f','#211d16','#16130e','#0c0a07'];
-      R(-10,-19,20,22,'#2f2b22',fade);
-      steps.forEach((c,i)=>{const y=2-(i+1)*4;R(-9,y,18,4,c,fade);R(-9,y,18,1,'#5a5443',fade*(.6-i*.1));});
-      for(const [x0,sign] of [[-9,-1],[0,1]]){
-        const x=x0+sign*10*open,shake=open>0&&open<1?Math.sin(clock/20)*.4:0;
-        R(x+shake,-18,9,20,'#5d5a4c',fade);R(x+shake,-18,9,1,'#7a7765',fade);R(x+shake+3,-12,1,6,'#3b3a31',fade);R(x+shake+1,-5,4,1,'#3b3a31',fade);
-      }
-      if(open>0&&open<1)for(let i=0;i<6;i++)R(-10+i*4,-19+((clock/40+i*5)%22),1,1,'#9c8f78',.6*fade);
     }
     drawHikaru(ctx,img,pose,t);
+    if(hole){
+      const [hx,hy,hw,hh]=hole,cx=hx+hw/2;
+      // the seam cracking down the middle of "Ver projetos", and the dust its leaves puff out as they shut
+      if(style==='fall'&&out&&t<420)for(let i=0;i<6;i++){const k=t/420;R(cx-1+(i%2)*2,hy+hh*(i+2*k)/8,1,1,'#9c8f78',1-k);}
+      if(style==='fall'&&out&&t>=780&&t<1000)for(let i=0;i<10;i++){const k=(t-780)/220;R(cx+(i-4.5)*hw/14*(.5+k),hy+hh/2-k*4*(i%2),2,2,'#b8aa90',.7*(1-k));}
+      // grit trickling off the slab's trailing edge while it grinds aside or back
+      const open=passageOpen(style,out,t);
+      if(style==='stairs'&&open>0&&open<1)for(let i=0;i<5;i++)R(hx+open*hw-1,hy+(clock/30+i*hh/5)%hh,1,1,'#9c8f78',.6);
+    }
     // the line carries him as a few gold bits rising out of (or falling into) the payphone
     if(style==='phone'){const from=out?500:100,to=out?1100:600;if(t>=from&&t<to)for(let i=0;i<6;i++){const k=((t-from)/6+i*9)%34;R((i-2.5)*3,out?-24-k:-58+k,1,1,'#F0CE6A',.8*(1-k/34));}}
-    if(style==='fall'&&out){R(-13,4,26,1,'#2a2118',fade);R(-13,-5,2,10,'#2a2118',fade);R(11,-5,2,10,'#2a2118',fade);}
-    if(style==='stairs')R(-10,2,20,1,'#2f2b22',fade);
     if(pose.mark){const by=-34-pose.lift-(Math.floor(clock/300)%2);R(-3,by,7,8,'#050706');R(-2,by+1,5,6,'#F0CE6A');R(0,by+2,1,2,'#050706');R(0,by+5,1,1,'#050706');}
     ctx.globalAlpha=1;
   }
@@ -392,7 +387,42 @@
       return elements.find(el=>{if(!el)return false;const r=el.getBoundingClientRect(),top=Math.min(r.top,r.bottom-8-6*geo.u-1);return r.width>0&&r.height>0&&x>=r.left&&x<=r.right&&y>=top&&y<=r.bottom;})||null;
     };
     // Hatches, doors, the letter and the hidden pedestals show that they are open while he goes through.
-    p.portalHatch=function(el,open){if(['portal-hatch','portal-door','portal-letter','portal-secret','portal-front','portal-phone'].some(k=>el?.classList?.contains(k)))el.classList[open?'add':'remove']('is-open');};
+    p.portalHatch=function(el,open){
+      if(['portal-hatch','portal-door','portal-letter','portal-secret','portal-front','portal-phone'].some(k=>el?.classList?.contains(k)))el.classList[open?'add':'remove']('is-open');
+      if(!open&&el&&this._btnFx?.el===el)this.buttonFxEnd();
+    };
+    // "Ver projetos" and "Ver sobre" open themselves. The button stays where it is as the opening (CSS swaps its
+    // face for the pit or the steps) and what moves are copies of it laid over it: the trapdoor's two halves,
+    // dropping into the dark, or the slab, sliding aside. They are set every frame from Hikaru's clock.
+    p.passageButton=function(el){return el?.matches?.('.btn[data-portal-to]')?el:null;};
+    p.buttonFx=function(el,style,out,t){
+      let fx=this._btnFx;
+      if(fx&&fx.el!==el){this.buttonFxEnd();fx=null;}
+      if(!fx){
+        const cs=g.getComputedStyle(el),arrow=el.querySelector('.arr'),nudge=arrow&&g.getComputedStyle(arrow).transform,kind=style==='stairs'?'slab':'trap';
+        // exactly where it is (fractions included, or a label that just fits would wrap), as it looks right now:
+        // a hovered button is lighter and its arrow nudged
+        const box=el.parentNode,r=el.getBoundingClientRect(),br=box.getBoundingClientRect();
+        const copy=cls=>{
+          const c=el.cloneNode(true);c.removeAttribute('data-portal-to');c.classList.remove('wk-poke');c.classList.add('pass-copy',cls);
+          c.setAttribute('aria-hidden','true');c.tabIndex=-1;c.inert=true;
+          Object.assign(c.style,{left:r.left-br.left-box.clientLeft+'px',top:r.top-br.top-box.clientTop+'px',width:r.width+'px',height:r.height+'px',color:cs.color,borderColor:cs.borderColor});
+          if(kind==='trap')c.style.backgroundColor=cs.backgroundColor;
+          if(nudge&&nudge!=='none')c.querySelector('.arr').style.transform=nudge;
+          c.style.setProperty('--w',r.width+'px');box.appendChild(c);return c;
+        };
+        fx=this._btnFx={el,copies:kind==='trap'?[copy('pass-l'),copy('pass-r')]:[copy('pass-slab')]};
+        el.classList.add('pass-hole',kind==='trap'?'pass-pit':'pass-steps');
+      }
+      const open=passageOpen(style,out,t),seam=style==='fall'&&out?clamp(t/120):1,shake=open>0&&open<1&&style==='stairs'?Math.sin(t/16)*.6:0;
+      for(const c of fx.copies){c.style.setProperty('--open',open.toFixed(3));c.style.setProperty('--seam',seam.toFixed(2));c.style.setProperty('--shake',shake.toFixed(2)+'px');}
+    };
+    p.buttonFxEnd=function(){
+      const fx=this._btnFx;if(!fx)return;this._btnFx=null;
+      for(const c of fx.copies)c.remove();
+      // its own face comes back at once, without the gold fading in over the pit
+      const el=fx.el;el.style.transition='none';el.classList.remove('pass-hole','pass-pit','pass-steps');void el.offsetWidth;el.style.transition='';
+    };
     // Resolve the actual button geometry, so scrolling, translations and seismic overlays
     // cannot move the visual pedestal away from its walking/keyboard interaction.
     p.portalPoint=function(el,geo){const r=el.getBoundingClientRect(),sr=geo.sc.getBoundingClientRect();return [r.left-sr.left+r.width/2,r.bottom-sr.top+geo.top-8-3*geo.u];};
@@ -427,11 +457,17 @@
       try{this.go(to,then);}finally{this._rmOutGo=prior;}
     };
     // Which passage an end uses: hidden doors are walked through, hatches (the coin slot and the "?" too) are
-    // dropped into, Sobre's door and the payphones have their own, "Ver sobre" is its staircase, and the
-    // pedestal and the kanji hatch spin.
+    // dropped into, Sobre's door and the payphones have their own, "Ver sobre" is its staircase, "Ver projetos"
+    // a trapdoor he pops back out of, and the pedestal and the kanji hatch spin.
     p.endStyle=function(el){
-      const has=k=>!!el?.classList?.contains?.(k);
-      return has('portal-door-l')?'door-l':has('portal-door-r')?'door-r':has('portal-floor')||has('portal-letter')?'hatch':has('portal-front')?'door':has('portal-phone')?'phone':el?.getAttribute?.('data-portal-to')==='sobre'?'stairs':'spin';
+      const has=k=>!!el?.classList?.contains?.(k),to=el?.getAttribute?.('data-portal-to');
+      return has('portal-door-l')?'door-l':has('portal-door-r')?'door-r':has('portal-floor')||has('portal-letter')||to==='projetos'?'hatch':has('portal-front')?'door':has('portal-phone')?'phone':to==='sobre'?'stairs':'spin';
+    };
+    // The home buttons are passages: like any other end, he walks onto the button before it opens.
+    p.homePassage=function(id){
+      const link=portals[id];
+      if(this.portalEl(this.worldGeo(),link.selector))this.usePortal(id);
+      else this.teleport(link.to,link.arrival,null,undefined,link.style);
     };
     p.teleport=function(to,arrival=null,source=null,then,style='spin'){
       const wk=this._wk;
@@ -443,6 +479,9 @@
       this.worldPokeCancel();this.setTrip(null);this._wKeys={};if(wk){wk.auto=null;wk.flo=null;}
       if(!this.worldOn()||!wk||this.calm()){this._teleportStyle=null;this.teleportGo(to,then);return;}
       const leave=style!=='spin'?style:this.endStyle(source);
+      // a button opens under him, so he has to be on it (he is hidden on a tap, and may be anywhere then)
+      const geo=this.passageButton(source)&&this.worldGeo();
+      if(geo&&!this.portalHit(geo,wk,source)){const [x,y]=this.portalPoint(source,geo);wk.x=x;wk.y=y+3*geo.u;}
       wk.anim={kind:'teleport-out',t:0,to,hatch:source,then,style:leave};
       if(!shared){this.portalHatch(source,true);if(leave==='spin')this.sfx('poof');}
     };
@@ -484,15 +523,20 @@
       }
       return pose;
     });
-    // Passages draw their own floor and clip Hikaru into it, so the regular sprite is skipped for that frame.
+    // Passages clip Hikaru into their opening, so the regular sprite is skipped for that frame. A home button
+    // opens with him, and is the hole he goes through (popping out of the trapdoor, he leaves it unclipped).
     wrap('worldDraw',function(fn,cv,geo,wk){
-      const a=wk?.anim,style=a?.kind?.startsWith('teleport-')&&passages[a.style]?a.style:null;
+      const a=wk?.anim,style=a?.kind?.startsWith('teleport-')&&passages[a.style]?a.style:null,out=a?.kind==='teleport-out';
+      const button=style&&this.passageButton(a.hatch);
+      if(button)this.buttonFx(button,style,out,a.t);else if(this._btnFx)this.buttonFxEnd();
       if(!style||wk.hidden)return fn(cv,geo,wk);
       wk.hidden=true;try{fn(cv,geo,wk);}finally{wk.hidden=false;}
       const ctx=cv.getContext?.('2d');if(!ctx)return;
+      let hole=null;
+      if(button&&style!=='hatch'){const r=button.getBoundingClientRect(),sr=geo.sc.getBoundingClientRect();hole=[(r.left-sr.left-wk.x)/geo.u,(r.top-sr.top-wk.y+geo.top)/geo.u,r.width/geo.u,r.height/geo.u];}
       const dpr=Math.min(2,g.devicePixelRatio||1),u=geo.u*dpr;
       ctx.save();ctx.translate(Math.round(wk.x*dpr),Math.round((wk.y-geo.top)*dpr));ctx.scale(u,u);ctx.imageSmoothingEnabled=false;
-      drawPassage(ctx,style,a.kind==='teleport-out',a.t,this.worldImg(),a.drop,this._wClock||a.t);
+      drawPassage(ctx,style,out,a.t,this.worldImg(),a.drop,this._wClock||a.t,hole);
       ctx.restore();
     });
     // ---- the bedroom ends ----
@@ -656,6 +700,6 @@
       if(this._deckGrab){const a=this._deckGrab;a.t+=dt;if(a.t>=700){this._deckGrab=null;if(a.tab&&!a.tab.closed)a.tab.location.replace(a.url);else g.location.assign(a.url);}}
     };
     wrap('componentWillUnmount',function(fn){this.portalHatch(this._wk?.anim?.hatch,false);if(this._deckGrab?.tab&&!this._deckGrab.tab.closed)this._deckGrab.tab.close();return fn();});
-    wrap('renderVals',function(fn){const r=fn();r.rootCls+=' '+(this.calm()?'motion-reduced':'motion-full');r.toggleMotion=()=>this.toggleMotion();r.motionLabel=this.calm()?'Reduzido':'Completo';r.goProjetos=()=>this.teleport('projetos',null,null,undefined,'fall');r.goSobre=()=>this.teleport('sobre',null,null,undefined,'stairs');r.portalHome=()=>this.teleportHome();r.portalContact=()=>this.usePortal('home-contact');r.portalRoom=()=>this.usePortal('home-room');r.portalUse=e=>this.usePortal(e?.currentTarget?.getAttribute?.('data-portal-id'));r.seisCoinTake=()=>this.requestCoin();return r;});
+    wrap('renderVals',function(fn){const r=fn();r.rootCls+=' '+(this.calm()?'motion-reduced':'motion-full');r.toggleMotion=()=>this.toggleMotion();r.motionLabel=this.calm()?'Reduzido':'Completo';r.goProjetos=()=>this.homePassage('projects-button');r.goSobre=()=>this.homePassage('about-button');r.portalHome=()=>this.teleportHome();r.portalContact=()=>this.usePortal('home-contact');r.portalRoom=()=>this.usePortal('home-room');r.portalUse=e=>this.usePortal(e?.currentTarget?.getAttribute?.('data-portal-id'));r.seisCoinTake=()=>this.requestCoin();return r;});
   }};
 })(window);

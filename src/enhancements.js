@@ -36,8 +36,17 @@
       document.addEventListener('keydown',this._modalKey,true);
       // A first visit is greeted in the browser's language, shown but not saved until a choice is made.
       if(!saved)I.set(I.preferred(),false);
-      this.setState({languageOpen:!saved,locale:I.locale,langCursor:languages.findIndex(item=>item.locale===I.locale)});
+      // Narrow screens fold the section buttons into the logo. Crossing that width, or a tap anywhere else, folds
+      // them back in.
+      try{this._hudMq=g.matchMedia('(max-width:860px)');}catch{this._hudMq=null;}
+      this._hudFold=()=>this.setState({hudNarrow:!!this._hudMq?.matches,navOpen:null});
+      this._hudMq?.addEventListener?.('change',this._hudFold);
+      this._navAway=e=>{if(this.navMenuOpen()&&!e.target?.closest?.('.nav,.brand'))this.setState({navOpen:null});};
+      document.addEventListener('pointerdown',this._navAway,true);
+      this.setState({languageOpen:!saved,locale:I.locale,langCursor:languages.findIndex(item=>item.locale===I.locale),hudNarrow:!!this._hudMq?.matches});
     });
+    // The menu belongs to the page it was opened on, so any way of leaving the page also closes it.
+    p.navMenuOpen=function(){const s=this.st();return !!s.hudNarrow&&!!s.navOpen&&s.navOpen===this.curPage();};
     p.activeDialog=function(){
       const visible=[...(this._rootEl?.querySelectorAll('[role="dialog"][aria-modal="true"]')||[])].filter(el=>el.getClientRects().length);
       // The recruiter view opens over the opening television and covers it until closed.
@@ -59,6 +68,7 @@
     });
     wrap('componentWillUnmount',function(base){
       document.removeEventListener('keydown',this._modalKey,true);
+      document.removeEventListener('pointerdown',this._navAway,true);this._hudMq?.removeEventListener?.('change',this._hudFold);
       for(const key of ['_blT','_doorTipT','_wkHintT','_dT','_pcT','_coinT','_hdkT'])clearTimeout(this[key]);
       base();
     });
@@ -100,6 +110,8 @@
     // The menu has its own cursor blips; the generic hover tick stays out of it.
     wrap('hoverSfx',function(base,e){if(e?.target?.closest?.('.language-screen'))return;return base(e);});
     wrap('rootKey',function(base,e){
+      // Esc folds the open menu back into the logo before it pauses anything.
+      if(e.key==='Escape'&&this.navMenuOpen()){e.preventDefault?.();this.setState({navOpen:null});this._rootEl?.querySelector('.brand')?.focus();return;}
       if(this.st().languageOpen&&!this.st().recOpen){this.languageKey(e);return;}
       if(this.st().bootLog)return;
       if(this.st().galleryLarge)return;
@@ -123,6 +135,14 @@
     wrap('openProj',function(base,...args){this.setState({galleryIndex:0,galleryLarge:false});return base(...args);});
     wrap('renderVals',function(base){
       const r=base(),s=this.st(),open=!!s.languageOpen;
+      // On narrow screens the logo holds the section buttons: it opens and closes them instead of going home, and
+      // shows the current section next to it. Picking a section folds them back as he heads for it.
+      const folded=!!s.hudNarrow&&!!r.navOn,menu=folded&&this.navMenuOpen(),home=r.brandHome;
+      r.brandHome=folded?()=>{this.sfx('blip');this.setState({navOpen:this.navMenuOpen()?null:this.curPage()});}:home;
+      r.brandAria=folded?(menu?'Seções: fechar o menu':'Seções: abrir o menu'):'okaru: ir pro Início';r.brandTitle=folded?'Seções':'Início';
+      r.brandExpanded=folded?String(menu):undefined;r.brandControls=folded?'hud-nav':undefined;r.brandCls=folded?'is-menu'+(menu?' is-open':''):'';r.navCls=menu?'is-open':'';
+      r.navCur=r.nav.find(n=>n.cls==='is-on')?.label||'';
+      r.nav=r.nav.map((n,i)=>({...n,style:'--i:'+i,go:()=>{if(this.st().navOpen)this.setState({navOpen:null});n.go();}}));
       r.languageOpen=open;r.isBoot=r.isBoot&&!open;r.notBoot=r.notBoot&&!open;
       r.languageLabel={pt:'PT',en:'EN',ja:'日本語'}[I.locale];
       // The big question speaks the language under the cursor (pointer, focus or arrows); the other two stay small

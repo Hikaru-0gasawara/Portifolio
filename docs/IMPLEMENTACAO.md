@@ -168,6 +168,35 @@
 - [x] **A** limpa a poeira depois de uma queda (rótulo “limpar”); a dica passa a dizer “Aperte A ou toque em Hikaru”.
 - [x] Fechado por padrão nas páginas comuns e aberto no quarto, com escolhas guardadas separadamente; o botão para abrir fica num espaço da barra de baixo; o × virou um desenho centralizado.
 
+## Chuva de pop-ups na falha do boot — 02/10/2026
+
+- [x] A falha fictícia empilha até 48 pop-ups de erro (um a cada duas linhas, numa grade 4×4 que cobre a tela inteira e é mais densa no meio), de dez tipos com visual próprio (navegador, antivírus fictício, alerta de sistema, erro clássico em cascata, adware, terminal, RPG, suporte falso, tela azul, não está respondendo), com marcas e números inventados e a etiqueta “simulação”.
+- [x] Na recuperação, tocar ou clicar em qualquer lugar do console reinicia, sem esperar o botão; o texto diz “Toque na tela” no celular.
+- [x] Traduções PT/EN/JA e teste dos tipos, da pilha e do toque; conferido no navegador em tamanho de celular.
+
+## Os botões da home são as passagens — 03/10/2026
+
+- [x] “Ver projetos” vira o alçapão: o botão racha ao meio e as duas metades (cópias dele, com o texto partido) caem em perspectiva para dentro do buraco que fica no seu lugar; Hikaru cai recortado pelas bordas do botão, encolhendo e escurecendo.
+- [x] “Ver sobre” vira a laje: o botão desliza para o lado e revela os degraus embaixo; Hikaru desce em direção à ponta escura, recortado pelo botão; na volta pela porta de Sobre, sobe por ela e a laje se fecha.
+- [x] A volta do pedestal de Projetos sai do alçapão do botão (ele abre, Hikaru salta e pousa com ele fechado), em vez do giro.
+- [x] Clique, Enter e controle levam Hikaru até o botão antes de abrir; num toque, com ele escondido, ele aparece em cima do botão. Movimento reduzido continua trocando de página direto.
+- [x] As cópias têm a posição e o visual exatos do botão naquele momento (inclusive hover e frações de pixel), ficam fora da navegação e da leitura de tela e somem ao fim da passagem ou se ela for interrompida.
+- [x] Testes do caminho até o botão, das cópias, das classes e da limpeza; conferido quadro a quadro no navegador no desktop e no celular.
+
+## Seções dentro da logo no celular — 03/10/2026
+
+- [x] Até 860 px, as quatro seções saem da barra e ficam dentro da logo; ao lado dela aparece a seção atual com uma setinha (antes, Sobre e Contato ficavam escondidos numa rolagem lateral).
+- [x] Tocar na logo abre um painel que cresce a partir do centro do chip, com as seções em sequência; escolher uma, tocar fora ou `Esc` recolhe tudo de volta para dentro da logo (a última sai primeiro).
+- [x] O menu pertence à página em que foi aberto: qualquer troca de página ou de largura o fecha. No desktop, no quarto e no laboratório a logo continua indo para o Início ou para o quarto.
+- [x] Rótulo e estado acessíveis (“Seções: abrir/fechar o menu”, `aria-expanded`, `aria-controls`) em PT/EN/JA; fechado, o painel some do Tab e do leitor de tela.
+
+## Capturas do painel na galeria do AquaSense — 03/10/2026
+
+- [x] Nove capturas do dashboard abrem a galeria do AquaSense, antes dos dois esquemas: visão geral, histórico, alertas, dosagem, tendências e log, skill da Alexa, hardware e equipe, e os temas verde e claro.
+- [x] Recortadas (sem a borda da janela e a barra de rolagem), reduzidas a 1600 px e salvas em JPEG: cerca de 90–130 KB cada, em vez de 1,3 MB.
+- [x] O endereço do broker público e o namespace MQTT foram pixelados nas três telas que os mostravam, para não expor os tópicos de comando do dispositivo; os originais ficam fora do repositório.
+- [x] A captura da planilha CSV no Excel ficou de fora; legendas traduzidas em PT/EN/JA.
+
 ## Verificação
 
 - [x] Telas, estados e console conferidos no navegador, no desktop e no celular, quadro a quadro.

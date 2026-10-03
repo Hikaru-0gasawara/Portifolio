@@ -179,9 +179,17 @@ test('project detail keeps Hikaru available when opened from room',()=>{
   const {c}=controller();c.state={page:'projetos',backRoom:true,openProj:0};assert.equal(c.worldOn(),true);
 });
 test('galleries have at least two valid local illustrations and wrap',()=>{
-  const {c}=controller();c.state={openProj:0,galleryIndex:0};c.galleryMove(-1);
-  assert.equal(c.state.galleryIndex,1);c.galleryMove(1);assert.equal(c.state.galleryIndex,0);
+  const {c,context}=controller();c.state={openProj:0,galleryIndex:0};c.galleryMove(-1);
+  const last=c.data().projects[0].gallery.length-1;assert.equal(c.state.galleryIndex,last,'back from the first goes to the last');c.galleryMove(1);assert.equal(c.state.galleryIndex,0);
   for(const p of c.data().projects)for(const img of p.gallery)assert.ok(fs.existsSync(new URL('../public/'+img.src.slice(2),import.meta.url)));
+  // AquaSense opens on screenshots of the real dashboard, light enough to page through, captioned in every language.
+  const shots=c.data().projects[0].gallery.filter(img=>img.src.endsWith('.jpg'));
+  assert.equal(shots.length,9);assert.match(shots[0].src,/aquasense-overview\.jpg$/);assert.equal(c.data().projects[0].gallery.indexOf(shots[0]),0);
+  for(const img of shots){
+    assert.ok(fs.statSync(new URL('../public/'+img.src.slice(2),import.meta.url)).size<200*1024,img.src);
+    for(const lang of ['en','ja']){context.PortfolioI18n.set(lang);assert.notEqual(context.PortfolioI18n.t(img.caption),img.caption,lang+': '+img.caption);}
+  }
+  context.PortfolioI18n.set('pt');
 });
 test('plush collection has six distinct characters including a separate Lugia',()=>{
   const {c,context}=controller(),d=c.data();
@@ -674,7 +682,7 @@ test('Enter recovery is an accessible final log line, with no skip button or flo
   const html=read('src/template.html'),css=read('src/enhancements.css');
   const log=html.split('<div class="blog-in">')[1]?.split('<div class="boot-errors"')[0];
   assert.ok(log);assert.match(log,/<sc-if value="\{\{bootRecovery\}\}"><div class="bll bll-recovery" role="status">/);
-  assert.match(log,/<span class="bll-t">Pressione Enter para reiniciar<\/span>/);
+  assert.match(log,/<span class="bll-t">\{\{bootRecoverText\}\}<\/span>/);
   const prompt=log.split('<div class="bll bll-recovery"')[1].split('</sc-if>')[0];assert.doesNotMatch(prompt,/<button/);
   assert.ok(log.indexOf('boot-recover-action')>log.indexOf('bll-recovery'));
   assert.match(log,/<div class="boot-recover-action"><button[^]*?\{\{bootRecover\}\}/);
@@ -698,7 +706,7 @@ test('Enter during the eight-second reading window cancels the delayed reboot bu
 test('recovery clears all panic logs and popups before showing the localized recovery summary',()=>{
   const {c,context}=controller();c.data().bootLog=context.PortfolioBootFlow.failureLines();
   c.state={page:'boot',bootLog:true,bootFault:true,bootN:96,bootRecovery:false};
-  assert.equal(c.renderVals().bootLines.length,96);assert.equal(c.renderVals().bootFailures.length,5);
+  assert.equal(c.renderVals().bootLines.length,96);assert.equal(c.renderVals().bootFailures.length,context.PortfolioBootFlow.popupMax);
   c.state.bootRecovery=true;
   for(const lang of ['pt','en','ja']){
     context.PortfolioI18n.set(lang);const r=c.renderVals();
@@ -1415,4 +1423,72 @@ test('on phones and tablets the name fits, and the side doors and Hikaru clear t
     assert.ok(name*4.02<=column,width+'px: the name fits its column');
     assert.ok(name>=hf*.98,width+'px: and is at least as big as before ('+name.toFixed(0)+' vs '+hf.toFixed(0)+')');
   }
+});
+
+test('the failure buries the log under ten kinds of made-up error pop-ups, and a tap anywhere reboots after it',()=>{
+  const {c,context}=controller(),api=context.PortfolioBootFlow,h=context.React.createElement;
+  assert.equal(api.popupKinds.length,10);
+  assert.equal(api.failurePopups(1,5,h).length,0,'none on the first line');
+  const all=api.failurePopups(96,123,h);assert.equal(all.length,api.popupMax,'up to the cap');
+  assert.equal(new Set(all.map(p=>p.kind)).size,10,'every kind shows up');
+  assert.notEqual(all[0].kind,all[1].kind,'neighbours differ');
+  for(const p of all){
+    const [,cx,cy]=p.style.match(/--cx:(-?[\d.]+)%;--cy:(-?[\d.]+)%/).map(Number);
+    assert.ok(cx>0&&cx<100&&cy>0&&cy<100,'centred inside the screen: '+p.style);
+    assert.equal(Math.min(3,Math.floor(cx/25))+4*Math.min(3,Math.floor(cy/25)),p.cell,'inside its own cell');
+    assert.equal(p.cls,'be-'+p.kind);
+    // every pop-up says it is a simulation, and nothing names a real brand, site or phone number
+    const text=JSON.stringify(p.body);assert.match(text,/simulação/);
+    assert.doesNotMatch(text,/McAfee|Norton|Microsoft|Apple|Windows|\.com\b|\+1-8/);
+  }
+  // The whole screen fills up, the middle most: every cell of the 4×4 grid gets pop-ups, the four middle ones twice as many.
+  for(const seed of [1,123,4567]){
+    const per=new Map();for(const p of api.failurePopups(96,seed,h))per.set(p.cell,(per.get(p.cell)||0)+1);
+    assert.equal(per.size,16,'every part of the screen');
+    const middle=[5,6,9,10].reduce((s,c)=>s+per.get(c),0)/4,edge=[0,3,12,15].reduce((s,c)=>s+per.get(c),0)/4;assert.ok(middle>edge,'the middle fills up most');
+  }
+  assert.deepEqual(api.failurePopups(40,123,h).map(p=>p.style),all.slice(0,20).map(p=>p.style),'a pile grows, it never reshuffles');
+  assert.notDeepEqual(api.failurePopups(96,124,h).map(p=>p.style),all.map(p=>p.style),'each boot piles them differently');
+  const classic=api.failurePopups(96,123,h).find(p=>p.kind==='classic');assert.equal(classic.body.length,5,'the old error leaves a trail');
+  // Recovery: Enter, a click or a tap anywhere on the console reboots; the button keeps its own click.
+  c.data().bootLog=api.failureLines();c.state={page:'boot',bootLog:true,bootFault:true,bootN:96,bootRecovery:true};c._languageReady=true;
+  let rebooted=0;c.bootRecover=()=>rebooted++;
+  const r=c.renderVals();assert.match(r.bootRecoverText,/clique na tela/);
+  r.bootTap({target:{closest:()=>({})}});assert.equal(rebooted,0,'the reboot button handles itself');
+  r.bootTap({target:{closest:()=>null}});assert.equal(rebooted,1);
+  c.padTouch=()=>true;assert.equal(c.renderVals().bootRecoverText,'Toque na tela para reiniciar');
+  c.state.bootRecovery=false;c.renderVals().bootTap({target:{closest:()=>null}});assert.equal(rebooted,1,'nothing to reboot while the log runs');
+  const html=read('src/template.html');
+  assert.match(html,/<div class="blog \{\{bootLogCls\}\}" aria-label="Iniciando o sistema" sc-camel-on-click="\{\{bootTap\}\}">/);
+  assert.match(html,/<div class="boot-errors" aria-hidden="true"><sc-for list="\{\{bootFailures\}\}" as="bf"><div class="boot-error \{\{bf.cls\}\}" style="\{\{bf.style\}\}">\{\{bf.body\}\}<\/div>/);
+  const css=read('src/enhancements.css');for(const kind of api.popupKinds)assert.ok(css.includes('.be-'+kind+'{'),kind+' has its own look');
+  for(const text of ['simulação','AVISO: SEU SISTEMA PODE TER ENCONTRADO VÍRUS','Um BUG selvagem apareceu!','Número de mentira. Não ligue.','Toque na tela para reiniciar','Pressione Enter ou clique na tela para reiniciar'])for(const lang of ['en','ja']){context.PortfolioI18n.set(lang);assert.notEqual(context.PortfolioI18n.t(text),text,lang+': '+text);}
+  context.PortfolioI18n.set('pt');
+});
+
+test('on narrow screens the section buttons fold into the logo, which opens and closes them',()=>{
+  const {c,context}=controller();c.sfx=()=>{};let went=[];c.navGo=to=>went.push(to);
+  // Wide: the logo goes home and the sections stay in the bar.
+  c.state={page:'projetos',hudNarrow:false};let r=c.renderVals();
+  assert.equal(r.brandAria,'okaru: ir pro Início');assert.equal(r.brandExpanded,undefined);assert.equal(r.brandCls,'');
+  r.brandHome();assert.deepEqual(went,['inicio']);went=[];
+  // Narrow: the logo holds them and shows where you are.
+  c.state={page:'projetos',hudNarrow:true};r=c.renderVals();
+  assert.equal(r.brandExpanded,'false');assert.equal(r.brandControls,'hud-nav');assert.equal(r.brandCls,'is-menu');assert.equal(r.navCur,'Projetos');
+  r.brandHome();assert.deepEqual(went,[],'it no longer goes home');assert.equal(c.navMenuOpen(),true);
+  r=c.renderVals();assert.equal(r.brandExpanded,'true');assert.equal(r.navCls,'is-open');assert.equal(r.brandCls,'is-menu is-open');assert.equal(r.brandAria,'Seções: fechar o menu');
+  assert.deepEqual([...r.nav].map(n=>n.style),['--i:0','--i:1','--i:2','--i:3'],'they come out one after another');
+  // Picking a section folds them back as he heads for it; so does Esc, before the pause menu.
+  r.nav[3].go();assert.deepEqual(went,['contato']);assert.equal(c.navMenuOpen(),false);
+  c.renderVals().brandHome();let prevented=false;c.rootKey({key:'Escape',preventDefault:()=>{prevented=true;}});
+  assert.equal(c.navMenuOpen(),false);assert.equal(prevented,true);assert.notEqual(c.state.paused,true);
+  // The menu belongs to the page it was opened on, and the bedroom keeps its own logo.
+  c.renderVals().brandHome();c.state.page='sobre';assert.equal(c.navMenuOpen(),false);
+  c.state={page:'quarto',hudNarrow:true};r=c.renderVals();assert.equal(r.brandCls,'');assert.equal(r.brandExpanded,undefined);
+  for(const text of ['Seções: abrir o menu','Seções: fechar o menu'])for(const lang of ['en','ja']){context.PortfolioI18n.set(lang);assert.notEqual(context.PortfolioI18n.t(text),text,lang+': '+text);}
+  context.PortfolioI18n.set('pt');
+  const html=read('src/template.html'),css=read('src/enhancements.css');
+  assert.match(html,/<button class="brand \{\{brandCls\}\}" sc-camel-on-click="\{\{brandHome\}\}" aria-label="\{\{brandAria\}\}" title="\{\{brandTitle\}\}" aria-expanded="\{\{brandExpanded\}\}" aria-controls="\{\{brandControls\}\}">/);
+  assert.match(html,/<nav class="nav \{\{navCls\}\}" id="hud-nav" aria-label="Seções">/);
+  assert.match(css,/@media\(max-width:860px\)\{[^]*\.hud>\.nav:not\(\.nav-game\)\{position:absolute;[^}]*transform-origin:20px -38px;transform:scale\(\.1\);opacity:0;visibility:hidden/,'closed, it is folded into the chip');
 });

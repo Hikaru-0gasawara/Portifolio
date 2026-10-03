@@ -251,15 +251,18 @@ test('reduced motion completes an automatic portal trip without leaving an activ
   assert.equal(c.curPage(),'contato');assert.equal(calls,1);assert.equal(c.worldSpawn('contato',geo).anim,null);
 });
 
-test('Ver projetos opens a trapdoor under Hikaru and drops him spinning onto the Projetos pedestal',()=>{
+test('Ver projetos splits open as a trapdoor and drops Hikaru spinning onto the Projetos pedestal',()=>{
   const {c,geo,finishNavigation,context}=fixture('inicio');const sounds=[];c.sfx=name=>sounds.push(name);
   c.teleport('projetos',null,null,undefined,'fall');const out=c._wk.anim;
-  assert.ok(read('src/scene.js').includes("r.goProjetos=()=>this.teleport('projetos',null,null,undefined,'fall');r.goSobre=()=>this.teleport('sobre',null,null,undefined,'stairs')"));
+  assert.ok(read('src/scene.js').includes("r.goProjetos=()=>this.homePassage('projects-button');r.goSobre=()=>this.homePassage('about-button')"));
   assert.equal(out.kind,'teleport-out');assert.equal(out.style,'fall');assert.equal(out.to,'projetos');
   const api=context.PortfolioScene,{out:leave,in:land}=api.passages.fall;
   c.worldAnim(c._wk,400,geo);assert.equal(api.passageOpen('fall',true,400),1,'the floor has split open');
   assert.equal(api.passagePose('fall',true,400).mark,true,'a beat in the air before the drop');
   assert.ok(api.passagePose('fall',true,700).clip,'he is clipped into the hole');
+  // The button is the pit: he is clipped by its edges and shrinks, darkening, towards its depth.
+  const hole=[-50,-24,100,29],deep=api.passagePose('fall',true,700,60,hole);
+  assert.deepEqual(deep.clip,hole);assert.ok(deep.dark>0&&deep.sx<.6);assert.ok(deep.dy<0,'towards the middle of the pit, not onto its rim');
   assert.equal(c.curPage(),'inicio');c.worldAnim(c._wk,leave-400,geo);finishNavigation();assert.equal(c.curPage(),'projetos');
   assert.deepEqual(sounds.slice(0,4),['crack','door','whoosh','doorShut']);
   const wk=c.worldSpawn('projetos',geo),spot=c.teleportSpot(geo);
@@ -271,13 +274,14 @@ test('Ver projetos opens a trapdoor under Hikaru and drops him spinning onto the
   assert.equal(wk.x,spot.x);assert.equal(c._teleportStyle,null);
 });
 
-test('Ver sobre opens a secret staircase, Hikaru walks down it and comes out of the door on Sobre',()=>{
+test('Ver sobre slides aside off a secret staircase, Hikaru walks down it and comes out of the door on Sobre',()=>{
   const {c,geo,el,finishNavigation,context}=fixture('inicio');const sounds=[];c.sfx=name=>sounds.push(name);
   const api=context.PortfolioScene,{out:leave,in:arrive}=api.passages.stairs;
   c.teleport('sobre',null,null,undefined,'stairs');assert.equal(c._wk.anim.style,'stairs');
-  assert.equal(api.passageOpen('stairs',true,0),0);assert.equal(api.passageOpen('stairs',true,600),1,'slabs slide apart');
+  assert.equal(api.passageOpen('stairs',true,0),0);assert.equal(api.passageOpen('stairs',true,600),1,'the slab has slid aside');
   assert.equal(api.passagePose('stairs',true,600).dir,'u','he turns to the stairs');
-  assert.ok(api.passagePose('stairs',true,900).dy>0,'and sinks below the lip');
+  const down=api.passagePose('stairs',true,900,60,[-40,-24,80,29]);
+  assert.ok(down.dy<0&&down.walk,'and walks down the steps');assert.ok(down.dark>0&&down.sx<1,'into the dark');assert.deepEqual(down.clip,[-40,-24,80,29],'whose far end takes him');
   assert.equal(api.passagePose('stairs',true,1200).alpha,0,'until he is gone');
   assert.equal(api.passageOpen('stairs',true,leave),0,'the floor closes again');
   c.worldAnim(c._wk,leave,geo);finishNavigation();assert.equal(c.curPage(),'sobre');
@@ -292,6 +296,52 @@ test('Ver sobre opens a secret staircase, Hikaru walks down it and comes out of 
   assert.equal(c.endStyle({classList:{contains:()=>false},getAttribute:k=>k==='data-portal-to'?'sobre':null}),'stairs');
   assert.equal(api.passagePose('stairs',false,0).alpha,0,'he starts inside the stairs');
   assert.ok(api.passagePose('stairs',false,900).alpha>0);assert.equal(api.passagePose('stairs',false,arrive-1).dy,0,'and ends on the floor');
+});
+
+test('the home buttons are the passages: he walks onto one, copies of it open away and the button is the hole',()=>{
+  // Clicking (or pressing Enter on) a button walks him onto it first; a tap, with him hidden, puts him there.
+  const {c,geo,context}=fixture('inicio'),api=context.PortfolioScene,button=geo.sc.querySelector('[data-portal-to="projetos"]');
+  button.matches=q=>q==='.btn[data-portal-to]';
+  let poked=null;c.worldPoke=(el,fire,pt,style)=>{poked={el,fire,style};};
+  c.homePassage('projects-button');assert.equal(poked.el,button);assert.equal(poked.fire,true);assert.equal(c._wk.anim,null);
+  const [x,y]=c.portalPoint(button,geo);Object.assign(c._wk,{x,y:y+3*geo.u});
+  c.homePassage('projects-button');assert.equal(c._wk.anim.hatch,button);assert.equal(c._wk.anim.style,'fall');assert.equal(c._teleportArrival,'projetos');
+  const tap=fixture('inicio'),stairs=tap.geo.sc.querySelector('[data-portal-to="sobre"]');stairs.matches=button.matches;tap.c._wk.hidden=true;
+  tap.c.homePassage('about-button');const spot=tap.c.portalPoint(stairs,tap.geo);
+  assert.equal(tap.c._wk.anim.style,'stairs');assert.equal(tap.c._wk.x,spot[0]);assert.equal(tap.c._wk.y,spot[1]+3*tap.geo.u);
+  // Coming back from the Projetos pedestal he pops out of the trapdoor, which is shut again before he lands.
+  assert.equal(c.endStyle({getAttribute:k=>k==='data-portal-to'?'projetos':null}),'hatch');
+  assert.equal(api.passageOpen('hatch',false,150),1);assert.equal(api.passageOpen('hatch',false,560),0);assert.equal(api.passagePose('hatch',false,560).lift,0);
+  // The copies: the trapdoor's two halves, or the slab, laid exactly over the button with the look it has now.
+  context.getComputedStyle=()=>({color:'#0A0F0B',borderColor:'transparent',backgroundColor:'#F0CE6A',transform:'none'});
+  const box={children:[],clientLeft:0,clientTop:0,getBoundingClientRect:()=>({left:100,top:280}),appendChild(n){this.children.push(n);}};
+  const fake=(classes,attrs)=>{
+    const cls=new Set(classes),vars={},n={attrs:{...attrs},parentNode:box,offsetWidth:172,
+      style:{setProperty:(k,v)=>{vars[k]=v;},getPropertyValue:k=>vars[k]},
+      classList:{add:(...k)=>k.forEach(x=>cls.add(x)),remove:(...k)=>k.forEach(x=>cls.delete(x)),contains:k=>cls.has(k)},
+      matches:q=>q==='.btn[data-portal-to]'&&cls.has('btn')&&'data-portal-to' in n.attrs,getAttribute:k=>n.attrs[k]??null,
+      setAttribute:(k,v)=>{n.attrs[k]=v;},removeAttribute:k=>{delete n.attrs[k];},querySelector:()=>null,
+      getBoundingClientRect:()=>({left:120,top:300,width:172.5,height:48}),cloneNode:()=>fake([...cls],n.attrs),remove:()=>box.children.splice(box.children.indexOf(n),1),cls};
+    return n;
+  };
+  const trap=fake(['btn','btn-p'],{'data-portal-to':'projetos'}),slab=fake(['btn','btn-g'],{'data-portal-to':'sobre'});
+  assert.equal(c.passageButton(trap),trap);assert.equal(c.passageButton({matches:()=>false}),null,'other ends are HTML of their own');
+  c.buttonFx(trap,'fall',true,0);
+  const [l,r]=box.children;assert.equal(box.children.length,2);assert.ok(l.cls.has('pass-l')&&r.cls.has('pass-r'));
+  assert.ok(trap.cls.has('pass-hole')&&trap.cls.has('pass-pit'),'the button itself is the pit');
+  for(const half of [l,r]){
+    assert.equal(half.attrs['data-portal-to'],undefined,'no second way in');assert.equal(half.attrs['aria-hidden'],'true');assert.equal(half.inert,true);
+    assert.deepEqual([half.style.left,half.style.top,half.style.width,half.style.height],['20px','20px','172.5px','48px']);assert.equal(half.style.backgroundColor,'#F0CE6A');
+  }
+  assert.equal(l.style.getPropertyValue('--open'),'0.000');assert.equal(l.style.getPropertyValue('--seam'),'0.00','closed, before the seam cracks');
+  c.buttonFx(trap,'fall',true,400);assert.equal(r.style.getPropertyValue('--open'),'1.000');assert.equal(r.style.getPropertyValue('--seam'),'1.00');
+  c.portalHatch(trap,false);assert.equal(box.children.length,0);assert.deepEqual([...trap.cls],['btn','btn-p'],'and it is a button again');
+  c.buttonFx(slab,'stairs',true,200);assert.equal(box.children.length,1);assert.ok(box.children[0].cls.has('pass-slab'));assert.ok(slab.cls.has('pass-steps'));
+  assert.equal(box.children[0].style.backgroundColor,undefined,'the slab takes the floor colour');assert.notEqual(box.children[0].style.getPropertyValue('--shake'),'0.00px','it grinds as it slides');
+  c.buttonFx(trap,'fall',true,0);assert.equal(slab.cls.has('pass-steps'),false,'one button open at a time');assert.equal(box.children.length,2);
+  c.buttonFxEnd();assert.equal(box.children.length,0);
+  const css=read('src/enhancements.css');
+  for(const rule of ['.btn.pass-pit{','.btn.pass-steps{','.pass-l{','.pass-r{','.okr .pass-slab{'])assert.ok(css.includes(rule),rule);
 });
 
 test('Sobre’s door is walked into, and Início and Contato call each other from two payphones',()=>{

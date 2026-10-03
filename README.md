@@ -35,7 +35,7 @@ Fora da faculdade, sou vice-presidente da Ycare, uma organização voluntária q
 | **Cofre eletrônico** | Embarcados · C++ | O mesmo cofre portado para Arduino UNO, Raspberry Pi Pico e ESP32 (pessoal) | [repositório](https://github.com/Hikaru-0gasawara/IoT-SafeSistem) |
 | **Ativos da CPTM** | Back-end · Java | API REST com 14 endpoints para trens, estações e linhas (fev–jul 2024) | [repositório](https://github.com/0tavio-Pires/Projeto_Back-End) |
 
-No portfólio, cada projeto tem descrição, galeria com diagramas e os detalhes técnicos.
+No portfólio, cada projeto tem descrição, galeria com diagramas (no AquaSense, também capturas do painel) e os detalhes técnicos.
 
 ## Tecnologias
 

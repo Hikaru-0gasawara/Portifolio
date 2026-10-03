@@ -120,14 +120,14 @@
 <p class="press-s">Portfólio de Hikaru Ogasawara · engenharia da computação</p>
 </sc-if>
 <sc-if value="{{bootLogOn}}" hint-placeholder-val="{{false}}">
-<div class="blog {{bootLogCls}}" aria-label="Iniciando o sistema">
+<div class="blog {{bootLogCls}}" aria-label="Iniciando o sistema" sc-camel-on-click="{{bootTap}}">
 <div class="blog-in">
 <sc-for list="{{bootLines}}" as="bo" hint-placeholder-count="6"><div class="bll {{bo.cls}}" aria-hidden="{{bo.ariaHidden}}"><span class="bll-ts">{{bo.ts}}</span><span class="bll-t">{{bo.t}}</span><sc-if value="{{bo.dots}}" hint-placeholder-val="{{true}}"><span class="bll-d" aria-hidden="true"></span></sc-if><span class="bll-g {{bo.tagCls}}">{{bo.tag}}</span><span class="bll-n">{{bo.note}}</span></div></sc-for>
 <sc-if value="{{bootRunning}}"><div class="bll bll-cur" aria-hidden="true"><span class="bll-ts">{{bootCurTs}}</span><span class="bll-c">▮</span></div></sc-if>
-<sc-if value="{{bootRecovery}}"><div class="bll bll-recovery" role="status"><span class="bll-ts" aria-hidden="true">{{bootCurTs}}</span><span class="bll-t">Pressione Enter para reiniciar</span><span class="bll-c" aria-hidden="true">▮</span></div></sc-if>
+<sc-if value="{{bootRecovery}}"><div class="bll bll-recovery" role="status"><span class="bll-ts" aria-hidden="true">{{bootCurTs}}</span><span class="bll-t">{{bootRecoverText}}</span><span class="bll-c" aria-hidden="true">▮</span></div></sc-if>
 <sc-if value="{{bootRebootPrompt}}"><div class="boot-recover-action"><button class="btn" sc-camel-on-click="{{bootRecover}}">Clique aqui para reiniciar</button></div></sc-if>
 </div>
-<div class="boot-errors" aria-live="off"><sc-for list="{{bootFailures}}" as="bf"><div class="boot-error" style="{{bf.style}}"><strong>× {{bf.label}}</strong><p>Simulação do portfólio · nenhum arquivo foi afetado.</p></div></sc-for></div>
+<div class="boot-errors" aria-hidden="true"><sc-for list="{{bootFailures}}" as="bf"><div class="boot-error {{bf.cls}}" style="{{bf.style}}">{{bf.body}}</div></sc-for></div>
 </div>
 </sc-if>
 <div class="crt" aria-hidden="true"></div>
@@ -137,16 +137,17 @@
 <sc-if value="{{notBoot}}" hint-placeholder-val="{{false}}">
 <div class="scene">
 <header class="hud">
-<button class="brand" sc-camel-on-click="{{brandHome}}" aria-label="okaru: ir pro Início" title="Início">
+<button class="brand {{brandCls}}" sc-camel-on-click="{{brandHome}}" aria-label="{{brandAria}}" title="{{brandTitle}}" aria-expanded="{{brandExpanded}}" aria-controls="{{brandControls}}">
 <span class="chip" aria-hidden="true"><svg sc-camel-view-box="0 0 40 40"><rect x="8" y="8" width="24" height="24" rx="2"></rect><path d="M13 8V4M18 8V4M22 8V4M27 8V4M13 32v4M18 32v4M22 32v4M27 32v4M8 13H4M8 18H4M8 22H4M8 27H4M32 13h4M32 18h4M32 22h4M32 27h4"></path><circle class="dotf" cx="11.5" cy="11.5" r="1.1"></circle></svg><span class="chip-k pix">光</span></span>
 <span class="brand-t"><span class="brand-n">okaru</span><span class="brand-p">/dev/okaru<b>{{pathTail}}</b></span></span>
+<span class="brand-cur" aria-hidden="true">{{navCur}}</span>
 </button>
 <sc-if value="{{navGame}}" hint-placeholder-val="{{false}}"><div class="nav nav-game"><sc-if value="{{isLab}}" hint-placeholder-val="{{false}}"><button class="nav-back" sc-camel-on-click="{{labBack}}" aria-label="{{labBackAria}}"><span aria-hidden="true">←</span> <span class="nb-l">{{labBackPre}}</span> {{labBackName}}</button></sc-if><sc-if value="{{navRoom}}" hint-placeholder-val="{{false}}"><button class="nav-back" sc-camel-on-click="{{backToRoom}}" aria-label="Voltar pro quarto"><span aria-hidden="true">←</span> <span class="nb-l">Voltar pro</span> quarto</button></sc-if></div></sc-if>
 <sc-if value="{{navOn}}" hint-placeholder-val="{{true}}">
-<nav class="nav" aria-label="Seções">
+<nav class="nav {{navCls}}" id="hud-nav" aria-label="Seções">
 
 <sc-for list="{{nav}}" as="n" hint-placeholder-count="4">
-<button class="nav-b {{n.cls}}" sc-camel-on-click="{{n.go}}" sc-camel-on-mouse-enter="{{n.enter}}" aria-current="{{n.cur}}"><span class="nav-l">{{n.label}}</span></button>
+<button class="nav-b {{n.cls}}" style="{{n.style}}" sc-camel-on-click="{{n.go}}" sc-camel-on-mouse-enter="{{n.enter}}" aria-current="{{n.cur}}"><span class="nav-l">{{n.label}}</span></button>
 </sc-for>
 </nav>
 </sc-if>

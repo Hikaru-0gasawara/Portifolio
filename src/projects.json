@@ -34,6 +34,51 @@
     "repositoryUrl": "https://github.com/Hikaru-0gasawara/IoT-PoolHardWareTest",
     "gallery": [
       {
+        "src": "./assets/projects/aquasense-overview.jpg",
+        "alt": "Painel — visão geral: aquecimento solar e qualidade da água",
+        "caption": "Painel — visão geral: aquecimento solar e qualidade da água"
+      },
+      {
+        "src": "./assets/projects/aquasense-history.jpg",
+        "alt": "Painel — histórico de 24 h com exportação CSV",
+        "caption": "Painel — histórico de 24 h com exportação CSV"
+      },
+      {
+        "src": "./assets/projects/aquasense-alerts.jpg",
+        "alt": "Painel — alertas pelas faixas do firmware",
+        "caption": "Painel — alertas pelas faixas do firmware"
+      },
+      {
+        "src": "./assets/projects/aquasense-dosing.jpg",
+        "alt": "Painel — dosagem química e bomba do coletor",
+        "caption": "Painel — dosagem química e bomba do coletor"
+      },
+      {
+        "src": "./assets/projects/aquasense-manual.jpg",
+        "alt": "Painel — tendências, dose manual e log MQTT",
+        "caption": "Painel — tendências, dose manual e log MQTT"
+      },
+      {
+        "src": "./assets/projects/aquasense-alexa.jpg",
+        "alt": "Painel — integração com a skill da Alexa",
+        "caption": "Painel — integração com a skill da Alexa"
+      },
+      {
+        "src": "./assets/projects/aquasense-about.jpg",
+        "alt": "Painel — hardware, conexão MQTT e equipe",
+        "caption": "Painel — hardware, conexão MQTT e equipe"
+      },
+      {
+        "src": "./assets/projects/aquasense-theme-dark.jpg",
+        "alt": "Painel — tema escuro verde",
+        "caption": "Painel — tema escuro verde"
+      },
+      {
+        "src": "./assets/projects/aquasense-theme-light.jpg",
+        "alt": "Painel — tema claro",
+        "caption": "Painel — tema claro"
+      },
+      {
         "src": "./assets/projects/aquasense-flow.svg",
         "localized": {
           "en": "./assets/projects/aquasense-flow.en.svg",

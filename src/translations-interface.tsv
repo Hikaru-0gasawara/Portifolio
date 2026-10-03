@@ -157,3 +157,14 @@ Periféricos do cofre — esquema ilustrativo	Safe peripherals — illustrative 
 Portes entre plataformas — esquema ilustrativo	Platform ports — illustrative diagram	プラットフォーム間の移植・説明用構成図
 Estrutura da API — esquema ilustrativo	API structure — illustrative diagram	API構成・説明用構成図
 Operações e validação — esquema ilustrativo	Operations and validation — illustrative diagram	操作と検証・説明用構成図
+Seções: abrir o menu	Sections: open the menu	セクション：メニューを開く
+Seções: fechar o menu	Sections: close the menu	セクション：メニューを閉じる
+Painel — visão geral: aquecimento solar e qualidade da água	Dashboard — overview: solar heating and water quality	ダッシュボード・概要：太陽熱加温と水質
+Painel — histórico de 24 h com exportação CSV	Dashboard — 24-hour history with CSV export	ダッシュボード・CSV出力付きの24時間履歴
+Painel — alertas pelas faixas do firmware	Dashboard — alerts from the firmware's safe ranges	ダッシュボード・ファームウェアの安全範囲に基づくアラート
+Painel — dosagem química e bomba do coletor	Dashboard — chemical dosing and the collector pump	ダッシュボード・薬剤投入とコレクターポンプ
+Painel — tendências, dose manual e log MQTT	Dashboard — trends, manual dosing and the MQTT log	ダッシュボード・傾向、手動投入、MQTTログ
+Painel — integração com a skill da Alexa	Dashboard — Alexa skill integration	ダッシュボード・Alexaスキル連携
+Painel — hardware, conexão MQTT e equipe	Dashboard — hardware, MQTT connection and team	ダッシュボード・ハードウェア、MQTT接続、チーム
+Painel — tema escuro verde	Dashboard — dark green theme	ダッシュボード・ダークグリーンテーマ
+Painel — tema claro	Dashboard — light theme	ダッシュボード・ライトテーマ
