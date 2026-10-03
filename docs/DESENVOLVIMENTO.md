@@ -151,7 +151,7 @@ O preparador espera os três nomes originais descritos em `scripts/prepare-resum
 | Área | Controles e comportamento |
 | --- | --- |
 | Navegação | `WASD`/setas movem Hikaru; `E` ou espaço interagem; um clique indica o destino e executa a ação após a animação |
-| Celular e tablet | Um controle de toque aparece nas páginas e no quarto: o joystick anda (8 direções), **A** usa o que está sob Hikaru e **B** corre enquanto segurado (no quarto, fecha os diálogos); o **×** esconde o controle e um botão de controle o traz de volta |
+| Celular e tablet | Um controle de toque ocupa uma faixa própria acima da barra de baixo (a página encolhe, nada fica por baixo dele): o joystick anda (8 direções), **A** usa o que está sob Hikaru (depois de uma queda, limpa a poeira primeiro) e **B** corre enquanto segurado (no quarto, fecha os diálogos). No quarto ele já começa aberto; nas páginas comuns começa fechado, e o botão de controle na barra de baixo o abre. O **×** esconde; cada lugar guarda a própria escolha |
 | Quarto | Máquinas e estante exigem aproximação frontal; clique cuida do caminho e da direção |
 | TV do quarto | Um único botão de imagem alterna **TV antiga → tubo CRT → alta definição**; a caixa permanece aberta para comparar os estilos |
 | Portais | Clique para caminhar e atravessar, ou fique sobre a ponta (pedestal, porta ou orelhão) e aperte `E`; apenas caminhar sobre ela não dispara a viagem |

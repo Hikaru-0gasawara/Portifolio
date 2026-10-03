@@ -1,9 +1,11 @@
 /* A game pad for touch screens: a stick and the A and B buttons drive Hikaru on the pages and in the bedroom,
    through the same keys the keyboard uses (W A S D, E and Esc), so every place that already listens to keys
-   (walking, doors, portals, the bedroom and its dialogs) works the same. A uses what he stands on, B closes the
-   bedroom's dialogs and otherwise runs while held. It can be tucked away; the choice stays in this browser. */
+   (walking, doors, portals, the bedroom and its dialogs) works the same. A uses what he stands on (or wipes the
+   dust off after a fall), B closes the bedroom's dialogs and otherwise runs while held. The pad is its own row
+   above the bottom bar, so it never covers the page. The bedroom is the game, so it starts with the pad out; the
+   regular pages start without it (a small button brings it). Each choice stays in this browser. */
 (function(g){
-  const storageKey='okaru-pad',dead=.32,reach=.42;
+  const storageKey='okaru-pad',dead=.32,reach=.42,defaults={room:true,pages:false};
   // The stick's eight directions as held keys (screen y grows downwards); inside the dead zone, none.
   const octants={0:['d'],1:['d','s'],2:['s'],3:['s','a'],4:['a'],'-4':['a'],'-3':['a','w'],'-2':['w'],'-1':['w','d']};
   function stickKeys(x,y){
@@ -19,9 +21,12 @@
         this._padMqOn=()=>this.setState({padTouch:!!this._padMq?.matches});this._padMq?.addEventListener?.('change',this._padMqOn);}
       return !!this._padMq?.matches;
     };
-    p.padPref=function(){
-      if(this._padPref===undefined){try{this._padPref=g.localStorage.getItem(storageKey)!=='off';}catch{this._padPref=true;}}
-      return this._padPref;
+    // One choice for the bedroom and one for the regular pages, stored as okaru-pad-room / okaru-pad-pages.
+    p.padArea=function(){return this.curPage()==='quarto'?'room':'pages';};
+    p.padPref=function(area=this.padArea()){
+      this._padPrefs=this._padPrefs||{};
+      if(this._padPrefs[area]===undefined){let v=null;try{v=g.localStorage.getItem(storageKey+'-'+area);}catch{v=null;}this._padPrefs[area]=v==='on'?true:v==='off'?false:defaults[area];}
+      return this._padPrefs[area];
     };
     p.padPlace=function(){return this.curPage()==='quarto'||!!this.worldOn?.();};
     p.padBlocked=function(){
@@ -63,7 +68,13 @@
       if(this._padStickId!==e.pointerId)return;
       this._padStickId=null;this.padStick(0,0);if(this._padKnob)this._padKnob.style.transform='';
     };
-    p.padADown=function(e){e?.preventDefault?.();if(this._padA)return;this._padA=true;buzz();this.padKey('down','e');};
+    // After a fall the dust comes first: A wipes his face, then goes back to using things.
+    p.padDusty=function(){return !!this._characterDust&&!this._characterClean&&!!this.characterCareActor?.();};
+    p.padADown=function(e){
+      e?.preventDefault?.();if(this._padA)return;buzz();
+      if(this.padDusty()){this.characterClean('wipe');return;}
+      this._padA=true;this.padKey('down','e');
+    };
     p.padAUp=function(){if(!this._padA)return;this._padA=false;this.padKey('up','e');};
     // B is "back" where there is something to close (the bedroom's dialogs) and "run" everywhere else.
     p.padBDown=function(e){
@@ -73,9 +84,10 @@
     };
     p.padBUp=function(){if(this._padRun){this._padRun=false;this.setState({padRun:false});}};
     p.padToggle=function(){
-      this.padRelease();this._padPref=!this.padPref();
-      try{g.localStorage.setItem(storageKey,this._padPref?'on':'off');}catch{/* Still applies to this visit. */}
-      this.sfx('select');this.setState({padPref:this._padPref});
+      const area=this.padArea(),on=!this.padPref(area);
+      this.padRelease();this._padPrefs[area]=on;
+      try{g.localStorage.setItem(storageKey+'-'+area,on?'on':'off');}catch{/* Still applies to this visit. */}
+      this.sfx('select');this.setState({padPref:area+':'+on});
     };
     wrap('worldFloSpeed',function(fn,wk){return fn(wk)*(this._padRun?1.8:1);});
     wrap('rmUpdate',function(fn,rm,dt,busy){return fn(rm,this._padRun&&rm.moving&&!rm.enter&&!rm.exit?dt*1.75:dt,busy);});
@@ -85,8 +97,10 @@
     wrap('renderVals',function(fn){
       const r=fn(),s=this.st(),shown=this.padShown(),on=this.padPref();
       r.padOn=shown&&on;r.padMini=shown&&!on;
-      r.padBLabel=s.rmDlg?'fechar':'correr';r.padBCls=this._padRun?'is-down':'';
-      if(r.padOn){r.rootCls+=' has-pad';r.rmHelp='Joystick pra andar · A pra interagir · B pra correr · ou toque';}
+      const dusty=this.padDusty();
+      r.padBLabel=s.rmDlg?'fechar':'correr';r.padBCls=this._padRun?'is-down':'';r.padALabel=dusty?'limpar':'usar';r.padACls=dusty?'is-clean':'';
+      if(r.padMini)r.rootCls+=' has-padmini';
+      if(r.padOn){r.rootCls+=' has-pad';r.rmHelp='Joystick pra andar · A pra interagir · B pra correr · ou toque';r.characterCareText='Um pouco de poeira. Aperte A ou toque em Hikaru.';}
       r.padStickDown=e=>this.padStickDown(e);r.padStickMove=e=>this.padStickMove(e);r.padStickUp=e=>this.padStickUp(e);
       r.padADown=e=>this.padADown(e);r.padAUp=()=>this.padAUp();r.padBDown=e=>this.padBDown(e);r.padBUp=()=>this.padBUp();
       r.padToggle=()=>this.padToggle();

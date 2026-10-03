@@ -182,28 +182,32 @@ html[lang=ja] .attrs{grid-template-columns:minmax(72px,22%) minmax(0,1fr)}
 .lcd.is-hitbox .lcd-t{font-size:clamp(13px,1.1vw,18px);line-height:1.65;white-space:normal;overflow-wrap:anywhere}
 .lcd.is-hitbox .lcd-s{font-size:11px;line-height:1.7}
 .lcd.is-hitbox.is-invalid :is(.lcd-t,.lcd-s){color:#e8957f}
-/* The touch pad: a stick on the left, B and A on the right (Game Boy style), over the page and above the bottom
-   bar. Pages keep room below their last line so nothing stays under it; the bedroom shrinks to fit above it. */
-.pad{position:absolute;left:0;right:0;bottom:66px;z-index:56;display:flex;justify-content:space-between;align-items:flex-end;padding:0 14px;pointer-events:none}
-.pad>*{pointer-events:auto}
-.pad-stick,.pad-k{touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
-.pad-stick{position:relative;width:112px;height:112px;border-radius:50%;background:radial-gradient(circle,#132019 0 56%,#0b130e 58%);border:2px solid #2f4136;box-shadow:inset 0 0 0 6px #0a0f0bcc,0 6px 0 #050806,0 10px 24px #0009;opacity:.94}
-.pad-stick::before,.pad-stick::after{content:'';position:absolute;background:#2f4136;pointer-events:none}
-.pad-stick::before{left:16px;right:16px;top:calc(50% - 1px);height:2px}
-.pad-stick::after{top:16px;bottom:16px;left:calc(50% - 1px);width:2px}
-.pad-knob{position:absolute;z-index:1;left:calc(50% - 25px);top:calc(50% - 25px);width:50px;height:50px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f0ce6a,#d8b24a 45%,#8e7330);box-shadow:0 4px 0 #5e4b20,0 6px 12px #000a;pointer-events:none;transition:transform .08s ease-out}
-.pad-ab{position:relative;width:142px;height:118px}
-.pad-k{position:absolute;display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#e0604f,#b3261e 55%,#6e1510);box-shadow:0 5px 0 #4a0e0a,0 8px 16px #000a;color:#f4d6cf;cursor:pointer;transition:transform .06s ease-out,box-shadow .06s ease-out}
-.pad-k b{font-size:22px;line-height:1}
-.pad-k small{position:absolute;top:calc(100% + 7px);left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);white-space:nowrap}
-.pad-k-a{right:0;top:0}
-.pad-k-b{left:4px;top:34px}
-.pad-k:active,.pad-k.is-down{transform:translateY(3px);box-shadow:0 2px 0 #4a0e0a,0 4px 10px #000a}
-.pad-hide{position:absolute;left:50%;bottom:4px;transform:translateX(-50%);width:32px;height:32px;border:1px solid var(--ln2);border-radius:50%;background:#0b130ee6;color:var(--mut);font-size:16px;line-height:1}
-.pad-show{position:absolute;left:14px;bottom:70px;z-index:56;display:grid;place-items:center;width:44px;height:44px;border:1px solid var(--ln2);background:#0b130ee6;color:var(--gold)}
-.pad-ic{width:24px;height:15px;shape-rendering:crispEdges}
-.okr.has-pad .screen{padding-bottom:170px}
-.okr.has-pad .screen.scr-room{padding-bottom:150px}
-.okr.has-pad .trip-b{bottom:200px}
-.okr.has-pad .toast{bottom:206px}
-@media(max-width:360px){.pad{padding:0 8px}.pad-stick{width:100px;height:100px}.pad-ab{width:128px}}
+/* The touch pad: its own row of the scene, between the page and the bottom bar, like the lower half of a
+   handheld (the stick on the left, B and A on the right). The page shrinks above it, so nothing hides under it. */
+.okr{--tpad:136px}
+.tpad{position:relative;z-index:6;flex:none;height:var(--tpad);display:flex;justify-content:space-between;align-items:center;padding:0 18px;border-top:1px solid var(--ln);background:linear-gradient(#0d150f,#090e0b)}
+.tpad-stick,.tpad-k{touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
+.tpad-stick{position:relative;flex:none;width:108px;height:108px;border-radius:50%;background:radial-gradient(circle,#132019 0 56%,#0b130e 58%);border:2px solid #2f4136;box-shadow:inset 0 0 0 6px #0a0f0bcc,0 5px 0 #050806}
+.tpad-stick::before,.tpad-stick::after{content:'';position:absolute;background:#2f4136;pointer-events:none}
+.tpad-stick::before{left:16px;right:16px;top:calc(50% - 1px);height:2px}
+.tpad-stick::after{top:16px;bottom:16px;left:calc(50% - 1px);width:2px}
+.tpad-knob{position:absolute;z-index:1;left:calc(50% - 24px);top:calc(50% - 24px);width:48px;height:48px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f0ce6a,#d8b24a 45%,#8e7330);box-shadow:0 4px 0 #5e4b20,0 6px 12px #000a;pointer-events:none;transition:transform .08s ease-out}
+.tpad-ab{position:relative;flex:none;width:142px;height:112px}
+.tpad-k{position:absolute;display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#e0604f,#b3261e 55%,#6e1510);box-shadow:0 5px 0 #4a0e0a,0 8px 14px #0009;color:#f4d6cf;cursor:pointer;transition:transform .06s ease-out,box-shadow .06s ease-out}
+.tpad-k b{font-size:22px;line-height:1}
+.tpad-k small{position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);white-space:nowrap}
+.tpad-k-a{right:0;top:0}
+.tpad-k-b{left:4px;top:34px}
+.tpad-k:active,.tpad-k.is-down{transform:translateY(3px);box-shadow:0 2px 0 #4a0e0a,0 4px 10px #0009}
+.tpad-k-a.is-clean small{color:var(--gold2)}
+.tpad-hide{position:absolute;left:50%;top:10px;transform:translateX(-50%);display:grid;place-items:center;width:32px;height:32px;padding:0;border:1px solid var(--ln2);border-radius:50%;background:#0b130e;color:var(--mut);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.tpad-hide:active{color:var(--gold2);border-color:var(--gold)}
+.tpad-x{display:block;width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:square}
+.tpad-show{position:absolute;left:10px;top:50%;z-index:2;transform:translateY(-50%);display:grid;place-items:center;width:40px;height:40px;padding:0;border:1px solid var(--ln2);background:#0b130e;color:var(--gold);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.okr.has-padmini .ground-b{padding-left:60px}
+.tpad-ic{width:24px;height:15px;shape-rendering:crispEdges}
+.okr.has-pad .character-care-hint{bottom:calc(66px + var(--tpad))}
+.okr.has-pad .toast{bottom:calc(66px + var(--tpad))}
+.okr.has-pad .trip-b{bottom:calc(70px + var(--tpad))}
+@media(max-height:680px){.okr{--tpad:116px}.tpad-stick{width:96px;height:96px}.tpad-ab{height:100px}.tpad-k-b{top:28px}}
+@media(max-width:360px){.tpad{padding:0 10px}.tpad-ab{width:128px}}

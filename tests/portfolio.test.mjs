@@ -1366,7 +1366,10 @@ test('the touch pad turns the stick into W A S D, A into E and B into back or ru
   const desk=controller().c;desk.state={page:'projetos'};assert.equal(desk.renderVals().padOn,false,'no pad without a touch screen');
   const writes=new Map(),{c}=controller({matchMedia:()=>({matches:true,addEventListener(){},removeEventListener(){}}),localStorage:{getItem:k=>writes.get(k)??null,setItem:(k,v)=>writes.set(k,v)}});
   c.state={page:'projetos'};c.sfx=()=>{};
-  let r=c.renderVals();assert.equal(r.padOn,true);assert.match(r.rootCls,/has-pad/);assert.equal(r.padBLabel,'correr');
+  // The regular pages start without it (a small button brings it); the bedroom, the game, starts with it.
+  let r=c.renderVals();assert.equal(r.padOn,false,'the regular pages start without the pad');assert.equal(r.padMini,true);assert.doesNotMatch(r.rootCls,/ has-pad( |$)/);assert.match(r.rootCls,/has-padmini/,'its button gets a slot in the bottom bar');
+  c.padToggle();assert.equal(writes.get(api.storageKey+'-pages'),'on');
+  r=c.renderVals();assert.equal(r.padOn,true);assert.match(r.rootCls,/ has-pad( |$)/);assert.equal(r.padBLabel,'correr');
   const log=[];c.rootKey=e=>log.push('+'+e.key);c.rootKeyUp=e=>log.push('-'+e.key);
   c.padStick(1,0);c.padStick(1,.05);c.padStick(0,1);c.padStick(0,0);
   assert.deepEqual(log,['+d','-d','+s','-s'],'only changes are pressed, so a held stick does not repeat');
@@ -1375,14 +1378,25 @@ test('the touch pad turns the stick into W A S D, A into E and B into back or ru
   c.state.rmDlg=true;assert.equal(c.renderVals().padBLabel,'fechar');c.padBDown();assert.deepEqual(log,['+Escape'],'B closes a bedroom dialog');c.state.rmDlg=false;
   log.length=0;c.padStick(-1,0);c.state.paused=true;assert.equal(c.renderVals().padOn,false,'a menu takes the pad away');c.componentDidUpdate({},{});assert.deepEqual(log,['+a','-a'],'and releases what was held');
   c.state.paused=false;c.state.page='quarto';assert.equal(c.renderVals().padOn,true,'the bedroom has it too');assert.match(c.renderVals().rmHelp,/Joystick/);
+  const room=controller({matchMedia:()=>({matches:true,addEventListener(){}})}).c;room.state={page:'quarto'};assert.equal(room.renderVals().padOn,true,'the bedroom starts with it');
+  room.sfx=()=>{};room.padToggle();assert.equal(room.renderVals().padOn,false);room.state.page='inicio';assert.equal(room.renderVals().padMini,true,'each place keeps its own choice');
   c.state.page='boot';assert.equal(c.renderVals().padOn,false);c.state.page='sobre';
-  c.padToggle();r=c.renderVals();assert.equal(r.padOn,false);assert.equal(r.padMini,true);assert.equal(writes.get(api.storageKey),'off');
+  c.padToggle();r=c.renderVals();assert.equal(r.padOn,false);assert.equal(r.padMini,true);assert.equal(writes.get(api.storageKey+'-pages'),'off');
   c.padToggle();assert.equal(c.renderVals().padOn,true);
   const html=read('src/template.html');
   for(const h of ['padStickDown','padStickMove','padStickUp','padADown','padAUp','padBDown','padBUp','padToggle','setPadKnob'])assert.ok(html.includes('{{'+h+'}}'),h);
+  assert.match(html,/<button class="tpad-hide"[^>]*><svg class="tpad-x"/,'the close mark is drawn, not a text glyph');
   assert.ok(html.indexOf('assets/gamepad.js')<html.indexOf('assets/enhancements.js'));assert.ok(read('scripts/build.mjs').includes("'gamepad.js'"));
   assert.equal(context.Portfolio.modules.at(-1),'PortfolioGamepad');
-  const css=read('src/enhancements.css');assert.ok(css.includes('.okr.has-pad .screen{padding-bottom:170px}'));assert.match(css,/\.pad-stick,\.pad-k\{touch-action:none/);
+  // The pad is its own row of the scene, above the bottom bar, so the page and the dust hint sit above it.
+  const css=read('src/enhancements.css');assert.match(css,/\.tpad\{position:relative;[^}]*flex:none;height:var\(--tpad\)/);assert.match(css,/\.tpad-stick,\.tpad-k\{touch-action:none/);
+  assert.ok(css.includes('.okr.has-pad .character-care-hint{bottom:calc(66px + var(--tpad))}'));
+  assert.doesNotMatch(css,/(^|\})\.pad\{/m,'the Game Boy pad keeps its own .pad class');
+  assert.ok(html.indexOf('<div class="tpad"')>html.indexOf('</main>')&&html.indexOf('<div class="tpad"')<html.indexOf('<footer class="ground">'),'between the page and the bottom bar');
+  // After a fall, A wipes the dust first and says so.
+  c.state.page='inicio';c.characterCareActor=()=>({kind:'world'});c._characterDust=true;let cleaned='';c.characterClean=k=>{cleaned=k;};
+  r=c.renderVals();assert.equal(r.padALabel,'limpar');assert.equal(r.padACls,'is-clean');assert.match(r.characterCareText,/Aperte A/);
+  log.length=0;c.padADown();assert.equal(cleaned,'wipe');assert.deepEqual(log,[],'no E while wiping');c._characterDust=false;assert.equal(c.renderVals().padALabel,'usar');
   for(const text of ['usar','correr','Esconder o controle de toque','Mostrar o controle de toque','Joystick pra andar · A pra interagir · B pra correr · ou toque']){context.PortfolioI18n.set('en');assert.notEqual(context.PortfolioI18n.t(text),text,text);}
 });
 

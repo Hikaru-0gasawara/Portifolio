@@ -162,6 +162,12 @@
 - [x] Testes do controle, das passagens e de um contrato de tamanhos de 320 a 860 px; quadros conferidos no navegador.
 - [x] Em celulares e tablets, “Hikaru Ogasawara” ocupa toda a largura da coluna (até ~190 px a 860 px), sem fazer as portas e o Hikaru crescerem junto.
 
+## Controle de toque em faixa própria — 02/10/2026
+
+- [x] O controle virou uma faixa própria entre a página e a barra de baixo; a dica de poeira, avisos e o chip da caminhada ficam acima dela. Classes renomeadas para `tpad-*`, sem conflito com o `.pad` do controle do Game Boy.
+- [x] **A** limpa a poeira depois de uma queda (rótulo “limpar”); a dica passa a dizer “Aperte A ou toque em Hikaru”.
+- [x] Fechado por padrão nas páginas comuns e aberto no quarto, com escolhas guardadas separadamente; o botão para abrir fica num espaço da barra de baixo; o × virou um desenho centralizado.
+
 ## Verificação
 
 - [x] Telas, estados e console conferidos no navegador, no desktop e no celular, quadro a quadro.
