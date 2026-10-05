@@ -1,0 +1,130 @@
+Abrir o lançador (Alt+P)	Open the launcher (Alt+P)	ランチャーを開く（Alt+P）
+Áreas de trabalho	Workspaces	ワークスペース
+Abrir o player	Open the player	プレイヤーを開く
+Janelas desta área	Windows in this workspace	このワークスペースのウィンドウ
+Área vazia. Alt+Enter abre um terminal; Alt+P, o lançador.	Empty workspace. Alt+Enter opens a terminal; Alt+P, the launcher.	空のワークスペースです。Alt+Enterでターミナル、Alt+Pでランチャーが開きます。
+Restaurar esta área	Restore this workspace	このワークスペースを復元
+Abrir o lançador	Open the launcher	ランチャーを開く
+Arraste para trocar de lugar. Setas trocam com o vizinho; Enter alterna a tela cheia.	Drag to swap places. Arrow keys swap with the neighbour; Enter toggles full screen.	ドラッグで場所を入れ替えます。矢印キーで隣と入れ替え、Enterで全画面を切り替えます。
+Digite help para ver os comandos.	Type help to see the commands.	help と入力するとコマンド一覧を表示します。
+Locais	Places	場所
+Voltar	Back	戻る
+Arquivos	Files	ファイル
+Período	Period	期間
+Status	Status	状況
+Abrir pasta	Open folder	フォルダーを開く
+Abrir repositório	Open repository	リポジトリを開く
+Currículo em PDF, um por idioma.	Résumé as a PDF, one per language.	PDFの履歴書です（言語ごとに1つ）。
+Abrir no visualizador	Open in the viewer	ビューアーで開く
+Abrir em nova aba	Open in a new tab	新しいタブで開く
+Quadros	Frames	フレーム
+Memória	Memory	メモリ
+Sessão	Session	セッション
+Processos	Processes	プロセス
+Área	Workspace	ワークスペース
+Estado	State	状態
+Este navegador não informa a memória do JavaScript.	This browser does not report JavaScript memory.	このブラウザーはJavaScriptのメモリ使用量を公開していません。
+Faixa anterior	Previous track	前の曲
+Próxima faixa	Next track	次の曲
+Faixas	Tracks	曲
+Sua nota	Your note	あなたのメモ
+Escreva algo. Fica só no seu navegador.	Write something. It stays in your browser only.	何か書いてください。このブラウザーにだけ保存されます。
+Hikaru em pixel art	Hikaru in pixel art	ピクセルアートのヒカル
+Idioma do currículo	Résumé language	履歴書の言語
+Som	Sound	サウンド
+Alternar movimento	Toggle motion	動きを切り替える
+Suspenso · clique para continuar	Suspended · click to continue	一時停止中・クリックで再開
+Redimensionar blocos	Resize tiles	タイルのサイズを変更
+Arraste ou use as setas para redimensionar	Drag or use the arrow keys to resize	ドラッグか矢印キーでサイズを変更
+Lançador	Launcher	ランチャー
+Buscar aplicativo	Search apps	アプリを検索
+Abrir aplicativo…	Open an app…	アプリを開く…
+Senha	Password	パスワード
+Entrar	Log in	ログイン
+Clique ou pressione Enter para entrar	Click or press Enter to log in	クリックかEnterでログイン
+Monitor	Monitor	モニター
+Música	Music	音楽
+Notas	Notes	メモ
+Ajustes	Settings	設定
+neofetch, projetos, contato e mais	neofetch, projects, contact and more	neofetch、プロジェクト、連絡先など
+Projetos, diagramas e currículos	Projects, diagrams and résumés	プロジェクト、構成図、履歴書
+Quadros, memória e processos desta página	Frames, memory and processes of this page	このページのフレーム、メモリ、プロセス
+As trilhas 8-bit do portfólio	The portfolio's 8-bit soundtracks	ポートフォリオの8ビットBGM
+Quem é o Hikaru	Who Hikaru is	ヒカルについて
+Notas adesivas	Sticky notes	付箋
+Bancada, inventário e hexdump	Workbench, inventory and hexdump	作業台、インベントリ、hexdump
+SEM CONEXÃO, o jogo offline	NO CONNECTION, the offline game	オフラインゲーム「接続なし」
+Currículo em PDF	Résumé PDF	履歴書PDF
+Sua hora, São Paulo e Tóquio	Your time, São Paulo and Tokyo	あなたの時刻、サンパウロ、東京
+Idioma, som e movimento	Language, sound and motion	言語、サウンド、動き
+WM: okwm (mosaico)	WM: okwm (tiling)	WM：okwm（タイル型）
+Shell: okaru-sh	Shell: okaru-sh	シェル：okaru-sh
+Fonte: JetBrains Mono	Font: JetBrains Mono	フォント：JetBrains Mono
+Procurando estágio em infraestrutura, segurança ou embarcados.	Looking for an internship in infrastructure, security or embedded systems.	インフラ、セキュリティ、組み込み分野のインターンシップを探しています。
+Ycare · todo segundo sábado do mês: cestas com alimentos e itens de higiene.	Ycare · every second Saturday of the month: baskets of food and hygiene items.	Ycare・毎月第2土曜日：食品と衛生用品のセットを届けています。
+Formatura prevista: 2027 · Engenharia da Computação no Ibmec.	Expected graduation: 2027 · Computer Engineering at Ibmec.	卒業予定：2027年・Ibmecでコンピュータ工学を専攻。
+Dica: digite neofetch no terminal.	Tip: type neofetch in the terminal.	ヒント：ターミナルで neofetch と入力してみてください。
+esta lista	this list	この一覧
+o sistema e quem mora nele	the system and who lives in it	システムと、その住人
+quem é o Hikaru	who Hikaru is	ヒカルについて
+lista os arquivos (ls projects)	lists the files (ls projects)	ファイル一覧（ls projects）
+mostra um arquivo (cat README.md)	shows a file (cat README.md)	ファイルを表示（cat README.md）
+os quatro projetos	the four projects	4つのプロジェクト
+e-mail, LinkedIn e GitHub	email, LinkedIn and GitHub	メール、LinkedIn、GitHub
+abre um app (open arquivos)	opens an app (open files)	アプリを開く（open files）
+monitor de processos	process monitor	プロセスモニター
+data e hora	date and time	日付と時刻
+troca o idioma (lang en)	changes the language (lang en)	言語を切り替え（lang en）
+limpa a tela	clears the screen	画面をクリア
+fecha o terminal	closes the terminal	ターミナルを閉じる
+Resolução	Resolution	解像度
+Tempo ligado	Uptime	稼働時間
+Núcleos	Cores	コア
+Pasta não encontrada:	Folder not found:	フォルダーが見つかりません：
+Arquivo não encontrado:	File not found:	ファイルが見つかりません：
+Abrindo	Opening	起動：
+Aplicativo não encontrado:	App not found:	アプリが見つかりません：
+Idioma: Português	Language: Português	言語：Português
+Idioma: English	Language: English	言語：English
+Idioma: 日本語	Language: 日本語	言語：日本語
+Use: lang pt, lang en ou lang ja	Usage: lang pt, lang en or lang ja	使い方：lang pt、lang en、lang ja
+okaru não está no arquivo sudoers. Este incidente será reportado.	okaru is not in the sudoers file. This incident will be reported.	okaru は sudoers ファイルに含まれていません。この件は報告されます。
+Bloquear a tela	Lock the screen	画面をロック
+A senha se digita sozinha	The password types itself	パスワードは自動で入力されます
+ativo	active	稼働中
+minimizado	minimized	最小化
+focado	focused	フォーカス中
+suspenso	suspended	一時停止
+visível	visible	表示中
+tocando	playing	再生中
+Tempo nesta página	Time on this page	このページの滞在時間
+Janela do navegador	Browser window	ブラウザーのウィンドウ
+Densidade de pixels	Pixel density	ピクセル密度
+Núcleos lógicos	Logical cores	論理コア
+Rede	Network	ネットワーク
+Conectado	Connected	接続中
+Sem conexão	Offline	オフライン
+Nada tocando	Nothing playing	再生していません
+Escolha uma faixa	Pick a track	曲を選んでください
+Tocar	Play	再生
+Ligar o som e tocar	Turn sound on and play	サウンドをオンにして再生
+Bancada	Workbench	作業台
+Samba	Samba	サンバ
+Rock	Rock	ロック
+Matsuri	Matsuri	祭り
+Tela de idioma	Language screen	言語選択画面
+Currículos	Résumés	履歴書
+Sair da tela cheia	Exit full screen	全画面を終了
+Tela cheia	Full screen	全画面
+terminal	terminal	ターミナル
+lançador	launcher	ランチャー
+áreas	workspaces	ワークスペース
+foco	focus	フォーカス
+tela cheia	full screen	全画面
+Aqui	Here	ここ
+São Paulo	São Paulo	サンパウロ
+Tóquio	Tokyo	東京
+Ligado	On	オン
+Desligado	Off	オフ
+Atalhos	Shortcuts	ショートカット
+Limite do navegador:	Browser limit:	ブラウザーの上限：

@@ -203,6 +203,15 @@
 - [x] A tabela de formação, idiomas, pontos fortes e objetivo virou lista, sem a linha vazia que o cabeçalho em branco criava.
 - [x] Mesmo conteúdo nos três, com os termos já usados pelo site em cada idioma; atualizados os botões da home como passagens, os pop-ups da falha do boot e o menu dentro da logo no celular.
 
+## okwm, o OS do computador do quarto — 05/10/2026
+
+- [x] Desktop flutuante trocado por um gerenciador em mosaico (escolha do usuário entre três estruturas), com a paleta predominante do portfólio e o skyline noturno de São Paulo em pixel art desenhado em canvas.
+- [x] Tela de bloqueio com relógio, sprite do Hikaru e senha que se digita sozinha; a área 1 se monta bloco a bloco ao entrar.
+- [x] Árvore de blocos: divisão pelo lado mais comprido, calhas arrastáveis e por teclado, troca por arraste da barra de título, tela cheia, minimizar e abas abaixo de 640 px.
+- [x] Quatro áreas de trabalho com conjuntos próprios, lançador com busca no idioma ativo e atalhos com Alt no estilo i3.
+- [x] Apps novos: Arquivos (projetos e currículos), Monitor no estilo btop só com medições reais, Música com as trilhas existentes e Notas; terminal com histórico, ↑/↓, Tab e mais comandos.
+- [x] Traduções PT/EN/JA em `translations-os.tsv`; 192 testes passam.
+
 ## Verificação
 
 - [x] Telas, estados e console conferidos no navegador, no desktop e no celular, quadro a quadro.

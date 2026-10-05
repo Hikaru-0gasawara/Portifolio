@@ -91,6 +91,7 @@ Na primeira visita, a escolha de idioma vem antes: o portão só aparece depois 
 | `okaru-display` | Estilo de imagem da TV do quarto |
 | `okaru-motion` | Ajuste Movimento do menu (completo ou reduzido) |
 | `okaru-first-roll` | Primeira rolagem do D20 |
+| `okaru-os-note` | Nota livre do visitante no app Notas do computador |
 
 Todo acesso fica em `try/catch`. Sem armazenamento, os valores valem só durante a visita. Novo jogo apaga o progresso, mas mantém idioma, estilo de imagem e Movimento.
 

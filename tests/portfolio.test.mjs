@@ -346,14 +346,30 @@ test('three-lane race clamps movement and prevents repeated collision damage',()
   s.obstacles=[{lane:0,y:140}];a.raceStep(s,10);assert.equal(s.lives,2);a.raceStep(s,10);assert.equal(s.lives,2);
   a.raceInput(s,'S');const before=s.time;a.raceStep(s,1000);assert.equal(s.time,before);
 });
-test('desktop has eight apps, embedded locale resume and an allowlisted terminal',()=>{
-  const {c,context}=controller(),got=[];c.state={page:'quarto'};c.unlock=x=>got.push(x);c.sfx=()=>{};c.startLoop=()=>{};
-  c.openPc();c.desktopReady();assert.equal(c.state.deOpen,true);assert.equal(c.renderVals().deApps.length,8);
+test('desktop has twelve apps, embedded locale resume and an allowlisted terminal',()=>{
+  const {c,context}=controller({setTimeout:()=>1,clearTimeout(){}}),got=[];c.state={page:'quarto'};c.unlock=x=>got.push(x);c.sfx=()=>{};c.startLoop=()=>{};
+  c.openPc();c.desktopReady();assert.equal(c.state.deOpen,true);assert.equal(c.renderVals().deApps.length,12);
   for(const lang of ['pt','en','ja']){context.PortfolioI18n.set(lang);c.desktopApp('resume');assert.equal(c.renderVals().dePdf,'./resume/hikaru-'+lang+'.pdf');}
-  for(const cmd of ['neofetch','whoami','htop','date']){c.state.deInput=cmd;c.desktopCommand();assert.ok(c.state.deOutput);}
+  context.PortfolioI18n.set('pt');c.setState({deResumeLocale:'ja'});assert.equal(c.renderVals().dePdf,'./resume/hikaru-ja.pdf','Files can pick another résumé language');
+  for(const cmd of ['neofetch','whoami','htop','date','ls','ls projects','projetos','contact','history','sudo rm -rf /']){c.state.deInput=cmd;c.desktopCommand();assert.ok(c.state.deOutput,cmd);}
   assert.ok(got.includes('fetch-yourself'));assert.ok(got.includes('desktop-resume'));
+  assert.equal(c.state.deLog.length,10,'The terminal keeps its scrollback');assert.match(c.state.deOutput,/sudoers/);
   c.state.deInput='window.evil=true';c.desktopCommand();assert.equal(context.evil,undefined);assert.match(c.state.deOutput,/Comando não encontrado/);
+  c.state.deInput='open arquivos';c.desktopCommand();assert.equal(c.state.deView,'files','open launches an app by its localized name');
   c.desktopApp('game');assert.equal(c.state.deOpen,true);assert.equal(c.state.pcOpen,true);assert.equal(c.renderVals().pcOpen,false);c.closePc();assert.equal(c.state.deOpen,true);assert.equal(c.state.pcOpen,false);
+});
+
+test('tiling helpers split the longer side, never overlap and keep the gap',()=>{
+  const {context}=controller(),{insert,remove,swap,layout,leaves,neighbor,setRatio}=context.PortfolioDesktop.tile,area={x:8,y:8,w:984,h:634};
+  let tree=null;for(const id of ['terminal','files','monitor','music']){const {rects}=layout(tree,area),target=leaves(tree).at(-1);tree=insert(tree,target,id,rects[target]||area);}
+  assert.equal(JSON.stringify(tree),JSON.stringify({split:'h',ratio:.5,a:{app:'terminal'},b:{split:'v',ratio:.5,a:{app:'files'},b:{split:'h',ratio:.5,a:{app:'monitor'},b:{app:'music'}}}}),'terminal left, files over monitor and player');
+  const {rects,gutters}=layout(tree,area),ids=Object.keys(rects);assert.equal(gutters.length,3);
+  for(const a of ids){const r=rects[a];assert.ok(r.x>=8&&r.y>=8&&r.x+r.w<=992&&r.y+r.h<=642,a);
+    for(const b of ids)if(a<b){const o=rects[b],gapX=Math.max(o.x-(r.x+r.w),r.x-(o.x+o.w)),gapY=Math.max(o.y-(r.y+r.h),r.y-(o.y+o.h));assert.ok(gapX>=8||gapY>=8,a+'/'+b);}}
+  assert.equal(neighbor(rects,'music','l'),'monitor');assert.equal(neighbor(rects,'monitor','u'),'files');assert.equal(neighbor(rects,'files','l'),'terminal');assert.equal(neighbor(rects,'terminal','l'),null);
+  assert.deepEqual(Array.from(leaves(swap(tree,'terminal','music'))),['music','files','monitor','terminal']);
+  assert.deepEqual(Array.from(leaves(remove(tree,'files'))),['terminal','monitor','music']);assert.equal(remove({app:'x'},'x'),null);
+  assert.equal(setRatio(tree,'',2).ratio,.85);assert.equal(setRatio(tree,'b',0).b.ratio,.15);
 });
 
 test('desktop zoom centers the actual monitor on wide and portrait viewports',()=>{
@@ -420,11 +436,11 @@ test('sitting immediately mounts the landing surface and starting zoom preserves
 
 test('taskbar toggles its own window and closing the top game reveals the profile underneath',()=>{
   const {c}=controller({setTimeout:()=>1,clearTimeout(){}});c.state={page:'quarto'};c.sfx=()=>{};c.unlock=()=>{};c.startLoop=()=>{};c.persistSoon=()=>{};
-  c.openPc();c.desktopReady();c.desktopApp('profile');const frame=c.state.deFrames.profile;c.desktopApp('game');
-  assert.equal(c.renderVals().deWindows.filter(w=>!w.hidden).length,2);c.desktopWindowClose('game');
-  assert.equal(c.state.deView,'profile');assert.equal(c.state.deFrames.profile,frame);assert.equal(c._pc,null);
+  c.openPc();c.desktopReady();c.desktopApp('profile');const whole=c.renderVals().deWindows.find(w=>w.id==='profile').style;c.desktopApp('game');
+  assert.equal(c.renderVals().deWindows.filter(w=>!w.hidden).length,2);assert.notEqual(c.renderVals().deWindows.find(w=>w.id==='profile').style,whole,'the game split the profile tile');c.desktopWindowClose('game');
+  assert.equal(c.state.deView,'profile');assert.equal(c.renderVals().deWindows.find(w=>w.id==='profile').style,whole,'closing gives the space back');assert.equal(c._pc,null);
   c.desktopApp('profile');assert.equal(c.state.deView,'home');assert.equal(c.renderVals().deWindows.find(w=>w.id==='profile').hidden,true);
-  c.desktopApp('profile');assert.equal(c.state.deView,'profile');assert.equal(c.state.deFrames.profile,frame);
+  c.desktopApp('profile');assert.equal(c.state.deView,'profile');assert.equal(c.renderVals().deWindows.find(w=>w.id==='profile').style,whole);
   for(const id of ['terminal','clock','settings'])c.desktopApp(id);
   assert.equal(c.renderVals().deWindows.filter(w=>!w.hidden).length,4);
   c.desktopWindowClose('clock');assert.equal(c.state.deView,'settings');
@@ -433,32 +449,95 @@ test('taskbar toggles its own window and closing the top game reveals the profil
   assert.equal(c.renderVals().deWindows.map(w=>w.id).join(),slots,'Stable loop slots prevent remounting another app');
 });
 
-test('floating windows drag, resize and release pointer capture within desktop bounds',()=>{
-  const {c}=controller({setTimeout:()=>1,clearTimeout(){}});c.state={page:'quarto'};c.sfx=()=>{};c.unlock=()=>{};c.startLoop=()=>{};
-  c.openPc();c.desktopReady();let held=false,dragging=false;const node={style:{}},el={closest:()=>node,setPointerCapture(){held=true;},hasPointerCapture:()=>held,releasePointerCapture(){held=false;}};
-  c._deWorkspace={getBoundingClientRect:()=>({width:1000,height:650}),setAttribute(){dragging=true;},removeAttribute(){dragging=false;}};
-  c.desktopApp('terminal');c.state.deFrames.terminal={x:40,y:50,w:400,h:300};
-  const e={button:0,pointerId:1,currentTarget:el,target:{closest:()=>null},clientX:100,clientY:100,preventDefault(){}};
-  c.desktopDragStart('terminal',e);c.desktopDragMove({...e,clientX:170,clientY:150});assert.equal(node.style.left,'110px');assert.equal(node.style.top,'100px');assert.equal(held,true);
-  c.setState({now:Date.now()});assert.match(c.renderVals().deWindows.find(w=>w.id==='terminal').style,/left:110px;top:100px/,'Clock ticks must not undo a live drag');
-  c.desktopEndDrag({...e,pointerId:2});assert.ok(c._deDrag);c.desktopEndDrag(e);assert.equal(c._deDrag,null);assert.equal(dragging,false);assert.equal(held,false);assert.equal(c.state.deFrames.terminal.x,110);
-  c.desktopDragStart('terminal',e,true);c.desktopDragMove({...e,clientX:2000,clientY:2000});c.desktopEndDrag(e);
-  assert.equal(c.state.deFrames.terminal.w,890);assert.equal(c.state.deFrames.terminal.h,550);assert.equal(c.state.deFrames.terminal.x,110);
-  c.desktopDragStart('terminal',{...e,target:{closest:()=>({})}});assert.equal(c._deDrag,null,'Title buttons never initiate dragging');
-  c.desktopDragStart('terminal',e);c.desktopWindowClose('terminal');assert.equal(held,false);assert.equal(c._deDrag,null);
+test('gutters resize within bounds, title drags swap tiles and both release pointer capture',()=>{
+  const {c,context}=controller({setTimeout:()=>1,clearTimeout(){}});c.state={page:'quarto'};c.sfx=()=>{};c.unlock=()=>{};c.startLoop=()=>{};
+  c.openPc();c.desktopReady();for(const id of ['terminal','files','monitor','music'])c.desktopApp(id);
+  let held=false,dragging=null;const painted={},node=id=>painted[id]||(painted[id]={style:{},attrs:{},setAttribute(k,v){this.attrs[k]=v;},removeAttribute(k){delete this.attrs[k];}});
+  c._deWorkspace={getBoundingClientRect:()=>({left:0,top:0,width:1000,height:650}),setAttribute(k,v){dragging=v;},removeAttribute(){dragging=null;},querySelector:sel=>node(sel)};
+  const el={setPointerCapture(){held=true;},hasPointerCapture:()=>held,releasePointerCapture(){held=false;},closest:()=>node('terminal-tile')};
+  const e={button:0,pointerId:1,currentTarget:el,target:{closest:()=>null},clientX:500,clientY:300,preventDefault(){}};
+  c.desktopGutterStart('',e);assert.equal(held,true);assert.equal(dragging,'true');
+  c.desktopGutterMove({...e,clientX:700});assert.ok(Object.values(painted).some(n=>n.style.width),'gutter drags paint the DOM directly');
+  c.setState({now:Date.now()});assert.equal(c.state.deTrees[1].ratio,.5,'nothing commits before release');
+  c.desktopGutterMove({...e,clientX:5000});c.desktopEndDrag(e);assert.equal(held,false);assert.equal(dragging,null);assert.equal(c.state.deTrees[1].ratio,.85,'clamped');
+  context.document.elementFromPoint=()=>({closest:()=>({getAttribute:()=>'music',setAttribute(){},removeAttribute(){}})});
+  c.desktopTitleStart('terminal',e);c.desktopTitleMove({...e,clientX:900,clientY:600});assert.equal(dragging,'swap');c.desktopEndDrag(e);
+  assert.deepEqual(Array.from(context.PortfolioDesktop.tile.leaves(c.state.deTrees[1])),['music','files','monitor','terminal']);
+  c.desktopTitleStart('terminal',{...e,target:{closest:()=>({})}});assert.equal(c._deDrag,null,'Title buttons never initiate dragging');
+  c.desktopGutterStart('',e);c.desktopWindowClose('terminal');assert.equal(held,false);assert.equal(c._deDrag,null);
+  assert.equal(c.renderVals().setDeWorkspace,c.renderVals().setDeWorkspace,'Stable refs avoid resize observer render loops');
 });
 
-test('window keyboard controls and viewport resize keep every window accessible',()=>{
+test('Alt bindings move focus, swap tiles, switch areas and go full screen; narrow screens tab the tiles',()=>{
+  const {c}=controller({setTimeout:fn=>{fn();return 1;},clearTimeout(){}});c.state={page:'quarto'};c.sfx=()=>{};c.unlock=()=>{};c.startLoop=()=>{};c.tone=()=>{};c.persistSoon=()=>{};
+  c.openPc();assert.equal(c.state.deLocked,false);assert.deepEqual(Array.from(c.state.deWindows),['terminal','files','monitor','music']);assert.equal(c.state.deView,'terminal');
+  const key=(code,shiftKey=false)=>{const e={altKey:true,shiftKey,code,key:'',preventDefault(){},stopPropagation(){}};c.rootKey(e);};
+  key('KeyL');assert.notEqual(c.state.deView,'terminal');c.desktopRaise('music',true);
+  key('KeyH');assert.equal(c.state.deView,'monitor');key('KeyK');assert.equal(c.state.deView,'files');key('KeyH');assert.equal(c.state.deView,'terminal');
+  key('KeyL',true);assert.notEqual(c.desktopLayout().rects.terminal.x,8,'Alt+Shift moves the tile');
+  const ratio=c.state.deTrees[1].ratio;c.desktopGutterKey('',{key:'ArrowRight',preventDefault(){},stopPropagation(){}});assert.ok(Math.abs(c.state.deTrees[1].ratio-ratio-.05)<1e-9);
+  key('KeyM');assert.equal(c.state.deFull,'terminal');assert.equal(c.renderVals().deWindows.filter(w=>!w.hidden).length,1);key('KeyM');assert.equal(c.state.deFull,null);
+  key('Digit2');assert.equal(c.state.deWs,2);assert.deepEqual(Array.from(c.state.deWindows).slice(4),['skills','profile','notes'],'a new area opens its own set');
+  assert.equal(c.renderVals().deWindows.filter(w=>!w.hidden).length,3);
+  key('Digit1');c.desktopApp('skills');assert.equal(c.state.deWs,2,'opening an app on another area goes there');
+  key('KeyP');assert.equal(c.state.deLauncher,true);c.rootKey({key:'Escape',preventDefault(){},stopPropagation(){}});assert.equal(c.state.deLauncher,false);
+  key('KeyQ',true);assert.equal(c.state.deWindows.includes('skills'),false);
+  c._deWorkspace={getBoundingClientRect:()=>({width:420,height:600})};const r=c.renderVals();
+  assert.equal(r.deNarrow,true);assert.equal(r.deTabs.length,2);assert.equal(r.deWindows.filter(w=>!w.hidden).length,1,'one tab at a time');
+});
+
+test('lock screen types the password, restores the dev area once and Escape leaves from it',()=>{
+  const queue=[];const flush=()=>{for(let i=0;queue.length&&i<200;i++)queue.shift()();};
+  const {c,context}=controller({setTimeout:fn=>{queue.push(fn);return queue.length;},clearTimeout(){}});c.state={page:'quarto'};const got=[];c.sfx=()=>{};c.unlock=x=>got.push(x);c.startLoop=()=>{};c.tone=()=>{};c.persistSoon=()=>{};
+  c.openPc();assert.equal(c.renderVals().deLocked,true,'the glass shows the lock screen during the zoom');
+  queue.shift()();assert.equal(c.state.dePhase,'ready');assert.equal(c.state.deLocked,true);assert.equal(c.state.deWindows.length,0);
+  flush();assert.equal(c.state.deLocked,false);assert.equal(c.state.deLockDots,8);assert.deepEqual(Array.from(c.state.deWindows),['terminal','files','monitor','music']);
+  assert.equal(c.state.deLog[0].cmd,'neofetch');assert.equal(got.includes('fetch-yourself'),false,'only a typed neofetch earns the achievement');
+  c.desktopLock();assert.equal(c.state.deLocked,true);c.rootKey({key:'a',preventDefault(){},stopPropagation(){},target:{closest:()=>null}});assert.equal(c.state.deLocked,false);
+  assert.equal(c.state.deWindows.length,4,'unlocking again keeps the session');queue.length=0;
+  c.desktopLock();c.rootKey({key:'Escape',preventDefault(){},stopPropagation(){}});assert.equal(c.state.deOpen,false);
+  context.PortfolioI18n.set('pt');
+});
+
+test('launcher filters apps and actions in the visitor language and opens on Enter',()=>{
   const {c,context}=controller({setTimeout:()=>1,clearTimeout(){}});c.state={page:'quarto'};c.sfx=()=>{};c.unlock=()=>{};c.startLoop=()=>{};
-  c.openPc();c.desktopReady();c.desktopApp('profile');c.state.deFrames.profile={x:40,y:50,w:400,h:300};
-  const e={key:'ArrowRight',preventDefault(){},stopPropagation(){}};c.desktopWindowKey('profile',e);assert.equal(c.state.deFrames.profile.x,60);
-  c.desktopWindowKey('profile',{...e,shiftKey:true});assert.equal(c.state.deFrames.profile.w,420);
-  for(const size of [{width:320,height:380},{width:1920,height:900},{width:220,height:140}]){
-    const f=context.PortfolioDesktop.boundedFrame({x:3000,y:-5,w:1400,h:900},size);
-    assert.ok(f.x>=0&&f.y>=0&&f.x+f.w<=size.width&&f.y+f.h<=size.height);
-  }
-  c._deWorkspace={getBoundingClientRect:()=>({width:320,height:380})};c.desktopFit();assert.ok(c.state.deFrames.profile.x+c.state.deFrames.profile.w<=320);
-  assert.equal(c.renderVals().setDeWorkspace,c.renderVals().setDeWorkspace,'Stable refs avoid resize observer render loops');
+  c.openPc();c.desktopReady();c.desktopLauncher(true);assert.equal(c.state.deLocked,false);assert.equal(c.renderVals().deLaunchItems.length,14);
+  c.setState({deLaunchQ:'monit'});const keys={preventDefault(){},stopPropagation(){}};c.renderVals().deLaunchKey({...keys,key:'Enter'});
+  assert.equal(c.state.deView,'monitor');assert.equal(c.state.deLauncher,false);
+  context.PortfolioI18n.set('en');c.desktopLauncher(true);c.setState({deLaunchQ:'files'});assert.equal(c.desktopLaunchItems()[0].id,'files');
+  c.setState({deLaunchQ:'lock'});assert.equal(c.desktopLaunchItems()[0].id,'lock','a name that starts with the query beats Clock');
+  c.renderVals().deLaunchKey({...keys,key:'Enter'});assert.equal(c.state.deLocked,true);
+  context.PortfolioI18n.set('pt');
+});
+
+test('files browse the project folders, preview their files and hand résumés to the viewer',()=>{
+  const {c,context}=controller({setTimeout:()=>1,clearTimeout(){}});c.state={page:'quarto'};c.sfx=()=>{};c.unlock=()=>{};c.startLoop=()=>{};
+  c.openPc();c.desktopReady();c.desktopApp('files');let r=c.renderVals();
+  assert.equal(r.deFileItems.length,4);assert.ok(r.deFileItems.every(i=>i.folder));assert.equal(r.dePreviewFolder,true);
+  r.deFileItems[1].pick();r=c.renderVals();assert.equal(r.deFolderOpen,false,'the first click selects');r.deFileItems[1].pick();r=c.renderVals();
+  assert.equal(r.deFolderOpen,true);assert.equal(r.dePreviewReadme,true);assert.equal(r.deFileItems.some(i=>i.name==='repository.url'),false,'the lab has no public repository');
+  r.deFilesBack();c.renderVals().deFileItems[0].pick();c.renderVals().deFileItems[0].pick();r=c.renderVals();const names=r.deFileItems.map(i=>i.name);
+  for(const name of ['README.md','stack.txt','repository.url','aquasense-overview.jpg'])assert.ok(names.includes(name),name);
+  context.PortfolioI18n.set('en');c.renderVals().deFilesBack();c.renderVals().deFileItems[2].pick();c.renderVals().deFileItems[2].pick();r=c.renderVals();
+  r.deFileItems.find(i=>i.image).pick();r=c.renderVals();assert.equal(r.dePreviewImage,true);assert.match(r.dePreview.src,/\.en\.svg$/);
+  r.dePlaces[1].go();r=c.renderVals();assert.equal(r.deFileItems.length,3);r.deFileItems[2].pick();c.renderVals().dePreview.view();
+  assert.equal(c.state.deView,'resume');assert.equal(c.renderVals().dePdf,'./resume/hikaru-ja.pdf');
+  context.PortfolioI18n.set('pt');
+});
+
+test('player plays the title and language themes as copies the screens never stop, and the monitor reports measurements',()=>{
+  const {c,context}=controller({setTimeout:()=>1,clearTimeout(){}});c.state={page:'quarto'};c.sfx=()=>{};c.unlock=()=>{};c.startLoop=()=>{};c.persistSoon=()=>{};
+  const param={value:1,setValueAtTime(){},exponentialRampToValueAtTime(){},cancelScheduledValues(){}};
+  const ac={state:'running',currentTime:0,createGain:()=>({gain:{...param},connect(){},disconnect(){}})};c.audio=()=>ac;c._ac=ac;c._mix={};c._snd=true;
+  c.openPc();c.desktopReady();c.desktopApp('music');c.desktopPlay(4);
+  assert.equal(c.desktopPlaying(),true);assert.equal(c._mTrack.language,undefined);c.titleMusicSync();c.languageMusicSync();assert.equal(c.desktopPlaying(),true);
+  assert.equal(c.renderVals().deHasNowPlaying,true);assert.equal(c.renderVals().dePlaylist[4].cls,'is-cur is-playing');
+  c.desktopPause();assert.equal(c.desktopPlaying(),false);c.desktopPlay(1);assert.equal(c.state.track,1,'room tracks go through the jukebox');c.desktopSkip(-1);assert.equal(c.state.deTrack,0);
+  c._fps=57;c._ft=[1000/60,1000/57,50];const r=c.renderVals();assert.equal(r.deFps,'57');assert.equal(r.deNoHeap,true,'no invented memory figures');
+  assert.equal(r.deFpsBars.filter(b=>b.cls).length,3);assert.equal(r.deFpsBars.at(-1).cls,'is-low');
+  assert.equal(r.deProcs[0].name,'okwm');assert.ok(r.deProcs.some(p=>p.state==='tocando'),'the playing track is a process');
+  for(const lang of ['en','ja']){context.PortfolioI18n.set(lang);for(const text of ['Este navegador não informa a memória do JavaScript.','Tempo nesta página','Quadros, memória e processos desta página','Escreva algo. Fica só no seu navegador.'])assert.notEqual(context.PortfolioI18n.t(text),text);}
+  context.PortfolioI18n.set('pt');
 });
 
 test('desktop UI removes demo qualifiers and localizes floating window controls',()=>{
@@ -509,7 +588,8 @@ test('desktop has a local power button, bottom icon taskbar, internal windows an
   assert.match(desktop,/on-click="\{\{win.close\}\}"[^]*?aria-label="Fechar janela"/);
   assert.ok(desktop.indexOf('desktop-dock')>desktop.indexOf('desktop-window-body'));
   assert.match(desktop,/path sc-camel-d="\{\{app.icon\}\}"/);assert.doesNotMatch(desktop,/<small>/);
-  assert.match(css,/\.desktop-window\[hidden\]\{display:none\}/);assert.match(css,/\.desktop-dock>button\{[^}]*flex:0 0 94px/);
+  assert.match(css,/\.desktop-window\[hidden\]\{display:none\}/);assert.match(css,/\.desktop-dock \.de-apps>button\{[^}]*white-space:nowrap/);
+  assert.match(desktop,/class="desktop-lock"/);assert.match(desktop,/list="\{\{deGutters\}\}"/);assert.match(desktop,/class="desktop-launcher"/);
   assert.match(css,/\.desktop-window-body\{[^}]*overflow:auto/);assert.doesNotMatch(html,/bootSkip|blog-skip/);
 });
 
