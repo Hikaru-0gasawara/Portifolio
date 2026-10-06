@@ -47,7 +47,8 @@ button.de-mod:hover{color:var(--os-tx);background:var(--os-tile2)}
 
 /* ---- the mosaic ---- */
 .desktop-workspace{position:relative;min-height:0;overflow:hidden}
-.de-tiles{position:absolute;inset:0}
+.de-tiles{position:absolute;inset:0;pointer-events:none}
+.de-tiles>*{pointer-events:auto}
 .desktop-window{position:absolute;left:0;top:0;min-height:0;min-width:0;contain:layout paint;display:grid;grid-template-rows:28px minmax(0,1fr);background:var(--os-tile);border:1px solid var(--os-ln2);overflow:hidden;box-shadow:0 10px 26px rgba(0,0,0,.42);transition:left .3s var(--os-ease),top .3s var(--os-ease),width .3s var(--os-ease),height .3s var(--os-ease),border-color .2s}
 .desktop-window[hidden]{display:none}
 .desktop-window[data-active=true]{border-color:var(--os-gold);box-shadow:0 14px 34px rgba(0,0,0,.55)}
@@ -97,6 +98,9 @@ button.de-mod:hover{color:var(--os-tx);background:var(--os-tile2)}
 .desktop-empty{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:10px;padding:24px;text-align:center;color:var(--os-mut)}
 .de-empty-n{margin:0;font:800 clamp(80px,14vw,180px)/.85 var(--os-display);font-stretch:140%;color:rgba(232,228,212,.1)}
 .desktop-empty h2{margin:0;font:22px/1.2 var(--os-pix);color:var(--os-tx)}.desktop-empty p{margin:0;max-width:44ch}
+.de-empty-set{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:4px 0 0;padding:0;list-style:none}
+.de-empty-set li{display:flex;align-items:center;gap:6px;padding:4px 9px;border:1px solid var(--os-ln2);background:rgba(13,19,15,.85);color:var(--os-tx);font-size:12px}
+.de-empty-set svg{width:14px;height:14px;color:var(--os-gold2)}
 .de-empty-go{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:8px}
 .de-empty-go button,.de-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--os-gold);background:var(--os-gold);color:var(--os-bg);font:600 12px/1.3 var(--os-mono);text-decoration:none;cursor:pointer}
 .de-empty-go button+button,.de-btn.is-quiet{background:transparent;color:var(--os-tx);border-color:var(--os-ln2)}

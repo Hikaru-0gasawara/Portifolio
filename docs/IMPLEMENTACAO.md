@@ -210,7 +210,8 @@
 - [x] Árvore de blocos: divisão pelo lado mais comprido, calhas arrastáveis e por teclado, troca por arraste da barra de título, tela cheia, minimizar e abas abaixo de 640 px.
 - [x] Quatro áreas de trabalho com conjuntos próprios, lançador com busca no idioma ativo e atalhos com Alt no estilo i3.
 - [x] Apps novos: Arquivos (projetos e currículos), Monitor no estilo btop só com medições reais, Música com as trilhas existentes e Notas; terminal com histórico, ↑/↓, Tab e mais comandos.
-- [x] Traduções PT/EN/JA em `translations-os.tsv`; 192 testes passam.
+- [x] Traduções PT/EN/JA em `translations-os.tsv`; 193 testes passam.
+- [x] Área vazia: a camada dos blocos deixou de cobrir os botões; **Restaurar esta área** traz o conjunto da área (fechados, minimizados ou em outra área) e **Abrir o lançador** abre a busca, assim como o clique direito no fundo.
 
 ## Verificação
 

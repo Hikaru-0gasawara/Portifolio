@@ -1106,7 +1106,7 @@
 </header>
 <div class="desktop-workspace" ref="{{setDeWorkspace}}" inert="{{deWorkInert}}" sc-camel-on-context-menu="{{deContext}}">
 <sc-if value="{{deNarrow}}"><div class="de-tabs" role="tablist" aria-label="Janelas desta área"><sc-for list="{{deTabs}}" as="tab"><button role="tab" class="{{tab.cls}}" aria-selected="{{tab.current}}" sc-camel-on-click="{{tab.go}}"><svg sc-camel-view-box="0 0 24 24" aria-hidden="true"><path sc-camel-d="{{tab.icon}}"></path></svg><span>{{tab.label}}</span></button></sc-for></div></sc-if>
-<sc-if value="{{deHome}}"><div class="desktop-empty"><p class="de-empty-n">{{deEmptyNum}}</p><h2>{{deEmptyName}}</h2><p>Área vazia. Alt+Enter abre um terminal; Alt+P, o lançador.</p><div class="de-empty-go"><button sc-camel-on-click="{{deRestore}}">Restaurar esta área</button><button sc-camel-on-click="{{deLaunchGo}}">Abrir o lançador</button></div></div></sc-if>
+<sc-if value="{{deHome}}"><div class="desktop-empty"><p class="de-empty-n">{{deEmptyNum}}</p><h2>{{deEmptyName}}</h2><p>Área vazia. Alt+Enter abre um terminal; Alt+P, o lançador.</p><ul class="de-empty-set" aria-label="Aplicativos desta área"><sc-for list="{{deEmptySet}}" as="ea"><li><svg sc-camel-view-box="0 0 24 24" aria-hidden="true"><path sc-camel-d="{{ea.icon}}"></path></svg><span>{{ea.label}}</span></li></sc-for></ul><div class="de-empty-go"><button sc-camel-on-click="{{deRestore}}">Restaurar esta área</button><button sc-camel-on-click="{{deLaunchGo}}">Abrir o lançador</button></div></div></sc-if>
 <div class="de-tiles" ref="{{setDeTiles}}">
 <sc-for list="{{deWindows}}" as="win">
 <sc-if value="{{win.opened}}">

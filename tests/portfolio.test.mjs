@@ -486,6 +486,21 @@ test('Alt bindings move focus, swap tiles, switch areas and go full screen; narr
   assert.equal(r.deNarrow,true);assert.equal(r.deTabs.length,2);assert.equal(r.deWindows.filter(w=>!w.hidden).length,1,'one tab at a time');
 });
 
+test('an emptied area restores its own set (closed, minimized or moved away) and opens the launcher',()=>{
+  const {c,context}=controller({setTimeout:fn=>{fn();return 1;},clearTimeout(){}});c.state={page:'quarto'};c.sfx=()=>{};c.unlock=()=>{};c.startLoop=()=>{};c.tone=()=>{};c.persistSoon=()=>{};
+  const {leaves}=context.PortfolioDesktop.tile,here=n=>Array.from(leaves(c.state.deTrees[n]));
+  c.openPc();c.desktopWorkspace(3);assert.deepEqual(here(3),['lab','game']);
+  c.desktopMinimize('lab');c.desktopWindowClose('game');assert.deepEqual(here(3),[]);assert.equal(c.state.deView,'home');
+  const r=c.renderVals();assert.deepEqual(Array.from(r.deEmptySet,a=>a.id),['lab','game'],'the empty area names what it will bring back');
+  r.deRestore();assert.deepEqual(here(3).sort(),['game','lab']);assert.equal(c.state.deMinimized.includes('lab'),false);assert.equal(c.state.deView,'lab');
+  c.desktopWorkspace(4);c.desktopWindowClose('clock');c.desktopWorkspace(1);c.desktopApp('clock');assert.ok(here(1).includes('clock'));
+  c.desktopWorkspace(4);c.renderVals().deRestore();assert.ok(here(4).includes('clock'),'apps of the set move back from another area');assert.equal(here(1).includes('clock'),false);
+  for(const id of here(4))c.desktopWindowClose(id);c.renderVals().deLaunchGo();assert.equal(c.state.deLauncher,true);
+  const css=read('src/desktop.css'),html=read('src/template.html');
+  assert.match(css,/\.de-tiles\{[^}]*pointer-events:none\}/,'the tile layer never covers the empty area');assert.match(css,/\.de-tiles>\*\{pointer-events:auto\}/);
+  assert.match(html,/class="desktop-empty"[^]*?on-click="\{\{deRestore\}\}"[^]*?on-click="\{\{deLaunchGo\}\}"/);
+});
+
 test('lock screen types the password, restores the dev area once and Escape leaves from it',()=>{
   const queue=[];const flush=()=>{for(let i=0;queue.length&&i<200;i++)queue.shift()();};
   const {c,context}=controller({setTimeout:fn=>{queue.push(fn);return queue.length;},clearTimeout(){}});c.state={page:'quarto'};const got=[];c.sfx=()=>{};c.unlock=x=>got.push(x);c.startLoop=()=>{};c.tone=()=>{};c.persistSoon=()=>{};

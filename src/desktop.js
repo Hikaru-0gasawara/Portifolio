@@ -296,15 +296,28 @@
       this.setState({deLocked:false,deLockDots:8});this._deFocus='dock';
       if(restore&&!(this.st().deWindows||[]).length)this.desktopPopulate(1,true);
     };
-    p.desktopPopulate=function(ws,stagger=false){
+    // A first visit opens the area's set, leaving apps the visitor already placed elsewhere where they are.
+    // Restoring (all=true) brings the whole set here: closed apps open, minimized ones come back and apps sitting
+    // on another area move over, like i3's "move to workspace".
+    p.desktopPopulate=function(ws,stagger=false,all=false){
       const seen=[...new Set([...(this.st().deSeen||[]),ws])];this.setState({deSeen:seen});this._dePopAt=Date.now();
-      const list=(workspaces[ws]||[]).filter(id=>!(this.st().deWindows||[]).includes(id));
+      if(all){
+        const s=this.st(),trees={...s.deTrees};
+        for(const id of workspaces[ws]||[]){const from=s.deWsOf?.[id];if(from&&from!==ws)trees[from]=remove(trees[from],id);}
+        this.setState({deTrees:trees,deFull:null});
+      }
+      const here=leaves(this.desktopTree(ws)),list=(workspaces[ws]||[]).filter(id=>all?!here.includes(id):!(this.st().deWindows||[]).includes(id));
       if(ws===1&&list.includes('terminal')&&!(this.st().deLog||[]).length)this.setState({deLog:[{id:1,cmd:'neofetch',lines:this.desktopRun('neofetch',[],false).lines}],deOutput:help});
       const calm=this.desktopReduced()||!stagger,live=()=>this._desktopSession&&!this.st().deLocked&&this.st().deWs===ws;
       // The first app of the set (the terminal on dev) takes the focus once every tile is in place.
       const steps=[...list.map(id=>()=>{if(live())this.desktopOpen(id,ws,false);}),()=>{if(live()&&list.length)this.desktopRaise(list[0],true);}];
       this._deRestoreT=this._deRestoreT||[];
       steps.forEach((step,i)=>{if(calm)step();else this._deRestoreT.push(setTimeout(step,120+i*170));});
+    };
+    p.desktopRestore=function(ws=this.st().deWs||1){
+      const s=this.st();if(!this._desktopSession||s.dePhase!=='ready'||!workspaces[ws])return;
+      if(s.deLocked)this.desktopUnlock(false);
+      this.sfx('select');this.setState({deLauncher:false});this.desktopPopulate(ws,true,true);
     };
 
     // ---- window management ----
@@ -799,7 +812,7 @@
           style:'left:'+gu.x+'px;top:'+gu.y+'px;width:'+gu.w+'px;height:'+gu.h+'px',
           down:e=>this.desktopGutterStart(gu.path,e),move:e=>this.desktopGutterMove(e),end:e=>this.desktopEndDrag(e),key:e=>this.desktopGutterKey(gu.path,e)})),
         deTabs:narrow?here.map(id=>({id,label:label(id),icon:icons[id],cls:id===focus?'is-on':'',current:id===focus?'true':'false',go:()=>this.desktopRaise(id,true)})):[],deNarrow:narrow&&here.length>0,
-        deEmptyName:i18n.nativeText((wsNames[i18n.locale]||wsNames.pt)[ws-1],{pt:'pt-BR',en:'en',ja:'ja'}[i18n.locale]),deEmptyNum:String(ws),deRestore:()=>this.desktopPopulate(ws,true),deLaunchGo:()=>this.desktopLauncher(true),
+        deEmptyName:i18n.nativeText((wsNames[i18n.locale]||wsNames.pt)[ws-1],{pt:'pt-BR',en:'en',ja:'ja'}[i18n.locale]),deEmptyNum:String(ws),deRestore:()=>this.desktopRestore(ws),deEmptySet:(workspaces[ws]||[]).map(id=>({id,label:label(id),icon:icons[id]})),deLaunchGo:()=>this.desktopLauncher(true),
         deDragging:dragging?'true':undefined,
 
         // terminal
