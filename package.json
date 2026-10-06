@@ -5,9 +5,11 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
+    "icons": "node scripts/make-icons.mjs",
     "dev": "node scripts/serve.mjs",
     "pretest": "node scripts/build.mjs",
-    "test": "node --test tests/*.test.mjs"
+    "test": "node --test tests/*.test.mjs",
+    "deploy": "npm test && npx wrangler deploy"
   },
   "engines": {
     "node": ">=22"

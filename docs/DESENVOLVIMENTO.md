@@ -63,6 +63,26 @@ Os scripts descartáveis da migração foram removidos. A cópia original e os r
 - **Movimento:** animações grandes seguem `calm()`, ou seja, o item Movimento do menu de pausa, salvo em `okaru-motion`.
 - **Armazenamento:** todo acesso a `localStorage` fica em `try/catch`; o site precisa funcionar sem ele.
 
+## Ícones
+
+O ícone da aba é o 光 em pixel art, dourado sobre o fundo do site, o mesmo desenho do neofetch do okwm. `npm run icons` (`scripts/make-icons.mjs`) gera tudo a partir desse bitmap, sem ferramentas externas: `public/favicon.ico` (16, 32 e 48 px), `public/assets/icons/favicon.svg`, `apple-touch-icon.png` (180), `icon-192.png`, `icon-512.png` e `public/site.webmanifest`. Os PNG levam no metadado o script que os gerou. Rode de novo só se mudar o desenho ou as cores.
+
+## Publicar no Cloudflare (gratuito)
+
+O site é estático, então o Cloudflare serve `dist/` direto da rede dele, sem servidor: as requisições a arquivos estáticos são gratuitas e ilimitadas, com HTTPS. A configuração está em `wrangler.jsonc` (nome do projeto e pasta `./dist`), `public/_headers` (cabeçalhos de segurança e cache das fontes) e `.node-version` (Node 24 no build).
+
+**Pelo Git (deploy automático a cada push):**
+
+1. Crie uma conta gratuita em [dash.cloudflare.com](https://dash.cloudflare.com/sign-up).
+2. Abra **Workers & Pages → Create → Import a repository**, conecte o GitHub e libere só o repositório **Portifolio**.
+3. Nome do projeto: **hikaru-portfolio** (o mesmo de `wrangler.jsonc`). Branch de produção: `main`.
+4. **Build command:** `npm test` (gera o site e roda os testes; um teste falhando impede o deploy). **Deploy command:** `npx wrangler deploy`. Diretório raiz: `/`.
+5. Salve. O endereço fica `https://hikaru-portfolio.<seu-subdomínio>.workers.dev`; um domínio próprio pode ser ligado em **Settings → Domains & Routes**.
+
+**Pelo terminal (sem Git):** `npx wrangler login` uma vez e, depois, `npm run deploy` (testa e publica).
+
+O workflow do GitHub Pages pode continuar ou ser removido; os dois publicam o mesmo `dist/`. Como os caminhos são relativos (`./assets/...`), o site funciona tanto na raiz de um domínio quanto em `/Portifolio/`.
+
 ## Publicar no GitHub Pages
 
 O workflow `.github/workflows/pages.yml` gera o site, executa os testes e publica `dist/`.
@@ -283,7 +303,7 @@ A tela de habilidades traz a árvore interativa, quatro áreas e 16 habilidades 
 
 ## Verificação
 
-**Estado atual: 193 testes passam** (`npm test`). Eles cobrem o contrato do template e do build, controller, idioma e catálogo, escolha de idioma antes da TV e sua trilha, controle de toque, ajuste de tamanho em celulares e tablets, porta do Sobre e orelhões, vidro do recrutador no primeiro canal da TV, boot e pânico, botão de energia de volta à TV (saída pelo vidro, ao contrário da entrada), trilha da TV, árvore, caminhos e portais, a rede de passagens secretas (ida e volta de cada par, portas nas linhas, passagens do quarto e a regra de chance), passagens da home, som da tela de título, quarto, desktop, TV 3D (estado, câmera, seleção dos controles e entrada), hitbox e boneco de treino, minijogos, privacidade dos currículos e links de contato.
+**Estado atual: 194 testes passam** (`npm test`). Eles cobrem o contrato do template e do build, controller, idioma e catálogo, escolha de idioma antes da TV e sua trilha, controle de toque, ajuste de tamanho em celulares e tablets, porta do Sobre e orelhões, vidro do recrutador no primeiro canal da TV, boot e pânico, botão de energia de volta à TV (saída pelo vidro, ao contrário da entrada), trilha da TV, árvore, caminhos e portais, a rede de passagens secretas (ida e volta de cada par, portas nas linhas, passagens do quarto e a regra de chance), passagens da home, som da tela de título, quarto, desktop, TV 3D (estado, câmera, seleção dos controles e entrada), hitbox e boneco de treino, minijogos, privacidade dos currículos e links de contato.
 
 Além dos testes, a TV 3D, os canais, as passagens, o boneco de treino e o zoom do desktop foram conferidos quadro a quadro no navegador, no desktop e no celular, sem erros no console. O ritmo das animações e o som ainda merecem uma conferência em tempo real numa aba visível. A auditoria completa está em [AUDITORIA.md](AUDITORIA.md).
 

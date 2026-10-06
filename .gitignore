@@ -11,6 +11,9 @@ __pycache__/
 /assets/
 /vendor/
 /resume/
+/favicon.ico
+/site.webmanifest
+/_headers
 # Local AI agent tooling (skills, agents, hooks, dev server config, design detector); not part of the site
 .agents/
 .claude/
