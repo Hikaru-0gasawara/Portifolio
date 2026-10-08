@@ -1,6 +1,10 @@
 # Portfolio — Hikaru Ogasawara
 
-**Visit · Acesse · サイト:** [hikaru-0gasawara.github.io/Portifolio](https://hikaru-0gasawara.github.io/Portifolio/)
+**Visit · Acesse · サイト:** [hikaru-portfolio.okaru01.workers.dev](https://hikaru-portfolio.okaru01.workers.dev/)
+
+[![Making-of: click to watch · clique para assistir · クリックで再生](docs/media/making-of.jpg)](docs/media/making-of.mp4)
+
+**▶ Making-of (2:54):** how it was built · como foi feito · 制作の裏側. On-screen text in Portuguese.
 
 <details open>
 <summary><b>English</b></summary>
