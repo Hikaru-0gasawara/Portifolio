@@ -507,16 +507,16 @@ test('an emptied area restores its own set (closed, minimized or moved away) and
   assert.match(html,/class="desktop-empty"[^]*?on-click="\{\{deRestore\}\}"[^]*?on-click="\{\{deLaunchGo\}\}"/);
 });
 
-test('tab icon, touch icon and manifest ship with the page, and the Cloudflare config serves dist',()=>{
+test('tab icon, touch icon and manifest ship with the page, and the Vercel config serves dist',()=>{
   const html=read('src/template.html'),dist=read('dist/index.html');
   for(const ref of ['./favicon.ico','./assets/icons/favicon.svg','./assets/icons/apple-touch-icon.png','./site.webmanifest']){
-    assert.ok(html.includes('href="'+ref+'"'),ref);assert.ok(fs.existsSync(new URL('../dist/'+ref.slice(2),import.meta.url)),ref);
+    assert.ok(html.includes('href="'+ref+'"')||html.includes('href="'+ref+'?v='),ref);assert.ok(fs.existsSync(new URL('../dist/'+ref.slice(2),import.meta.url)),ref);
   }
   const ico=fs.readFileSync(new URL('../dist/favicon.ico',import.meta.url));assert.equal(ico.readUInt16LE(2),1);assert.equal(ico.readUInt16LE(4),3,'16, 32 and 48 px');
   const manifest=JSON.parse(read('dist/site.webmanifest'));assert.equal(manifest.theme_color,'#0A0F0B');
   for(const icon of manifest.icons)assert.ok(fs.existsSync(new URL('../dist/'+icon.src,import.meta.url)),icon.src);
-  const wrangler=JSON.parse(read('wrangler.jsonc').replace(/^\s*\/\/.*$/gm,''));assert.equal(wrangler.assets.directory,'./dist');assert.equal(wrangler.main,undefined,'assets only, no Worker script');
-  assert.match(read('dist/_headers'),/X-Content-Type-Options: nosniff/);assert.ok(dist.includes('rel="manifest"'));
+  const vercel=JSON.parse(read('vercel.json'));assert.equal(vercel.outputDirectory,'dist');assert.equal(vercel.buildCommand,'npm test');
+  assert.ok(JSON.stringify(vercel.headers).includes('nosniff'));assert.ok(dist.includes('rel="manifest"'));
 });
 
 test('lock screen types the password, restores the dev area once and Escape leaves from it',()=>{

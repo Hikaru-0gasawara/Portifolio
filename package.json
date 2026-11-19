@@ -9,7 +9,7 @@
     "dev": "node scripts/serve.mjs",
     "pretest": "node scripts/build.mjs",
     "test": "node --test tests/*.test.mjs",
-    "deploy": "npm test && npx wrangler deploy"
+    "deploy": "npm test && npx vercel deploy --prod"
   },
   "engines": {
     "node": ">=22"

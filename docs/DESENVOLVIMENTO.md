@@ -65,21 +65,20 @@ Os scripts descartáveis da migração foram removidos. A cópia original e os r
 
 ## Ícones
 
-O ícone da aba é o 光 em pixel art, dourado sobre o fundo do site, o mesmo desenho do neofetch do okwm. `npm run icons` (`scripts/make-icons.mjs`) gera tudo a partir desse bitmap, sem ferramentas externas: `public/favicon.ico` (16, 32 e 48 px), `public/assets/icons/favicon.svg`, `apple-touch-icon.png` (180), `icon-192.png`, `icon-512.png` e `public/site.webmanifest`. Os PNG levam no metadado o script que os gerou. Rode de novo só se mudar o desenho ou as cores.
+O ícone da aba é o Mon, o brasão dos Ogasawara (三階菱, três losangos empilhados) num anel duplo, dourado sobre o fundo do site e recortado em círculo (fora do anel é transparente). `npm run icons` (`scripts/make-icons.mjs`) desenha tudo a partir da geometria, sem ferramentas externas: `public/favicon.ico` (16, 32 e 48 px), `public/assets/icons/favicon.svg`, `apple-touch-icon.png` (180), `icon-192.png`, `icon-512.png` e `public/site.webmanifest`. Os PNG levam no metadado o script que os gerou. Rode de novo só se mudar o desenho ou as cores. Ao trocar o ícone, mude também o `?v=` dos `<link rel="icon">` em `src/template.html`, senão o navegador continua mostrando o ícone antigo do cache.
 
-## Publicar no Cloudflare (gratuito)
+## Publicar na Vercel (gratuito)
 
-O site é estático, então o Cloudflare serve `dist/` direto da rede dele, sem servidor: as requisições a arquivos estáticos são gratuitas e ilimitadas, com HTTPS. A configuração está em `wrangler.jsonc` (nome do projeto e pasta `./dist`), `public/_headers` (cabeçalhos de segurança e cache das fontes) e `.node-version` (Node 24 no build).
+O site é estático, então a Vercel serve `dist/` pela CDN dela, sem servidor, com HTTPS. A configuração está em `vercel.json`: comando de build `npm test` (gera o site e roda os testes; um teste falhando impede o deploy), pasta de saída `dist`, cabeçalhos de segurança e cache longo das fontes.
 
 **Pelo Git (deploy automático a cada push):**
 
-1. Crie uma conta gratuita em [dash.cloudflare.com](https://dash.cloudflare.com/sign-up).
-2. Abra **Workers & Pages → Create → Import a repository**, conecte o GitHub e libere só o repositório **Portifolio**.
-3. Nome do projeto: **hikaru-portfolio** (o mesmo de `wrangler.jsonc`). Branch de produção: `main`.
-4. **Build command:** `npm test` (gera o site e roda os testes; um teste falhando impede o deploy). **Deploy command:** `npx wrangler deploy`. Diretório raiz: `/`.
-5. Salve. O endereço fica `https://hikaru-portfolio.<seu-subdomínio>.workers.dev`; um domínio próprio pode ser ligado em **Settings → Domains & Routes**.
+1. Crie uma conta gratuita em [vercel.com/signup](https://vercel.com/signup) entrando com o GitHub.
+2. Clique em **Add New → Project**, importe o repositório **Portifolio** e libere só ele.
+3. **Framework Preset:** Other. Build, saída e cabeçalhos já vêm do `vercel.json`; não precisa mudar nada. Branch de produção: `main`.
+4. Clique em **Deploy**. O endereço fica `https://<projeto>.vercel.app`; um domínio próprio pode ser ligado em **Settings → Domains**.
 
-**Pelo terminal (sem Git):** `npx wrangler login` uma vez e, depois, `npm run deploy` (testa e publica).
+**Pelo terminal (sem Git):** `npx vercel login` uma vez, `npx vercel link` para ligar a pasta ao projeto e, depois, `npm run deploy` (testa e publica em produção).
 
 O workflow do GitHub Pages pode continuar ou ser removido; os dois publicam o mesmo `dist/`. Como os caminhos são relativos (`./assets/...`), o site funciona tanto na raiz de um domínio quanto em `/Portifolio/`.
 
