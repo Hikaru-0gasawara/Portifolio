@@ -310,7 +310,34 @@ html[lang=ja] .attrs{grid-template-columns:minmax(72px,22%) minmax(0,1fr)}
 .hud>.hud-r{margin-left:auto}
 .hud>.nav:not(.nav-game){position:absolute;top:calc(100% + 6px);left:14px;z-index:7;flex-direction:column;align-items:stretch;gap:2px;min-width:200px;padding:6px;overflow:visible;border:1px solid var(--ln2);background:var(--pn);box-shadow:0 14px 30px #000b;transform-origin:20px -38px;transform:scale(.1);opacity:0;visibility:hidden;transition:transform .24s cubic-bezier(.6,0,.9,.5) .1s,opacity .14s .2s,visibility 0s .34s}
 .hud>.nav.is-open{transform:none;opacity:1;visibility:visible;transition:transform .32s cubic-bezier(.22,1,.36,1),opacity .12s,visibility 0s}
-.hud>.nav:not(.nav-game) .nav-b{padding:12px 14px;opacity:0;transform:translateY(-8px);transition:opacity .12s calc((3 - var(--i,0))*35ms),transform .12s calc((3 - var(--i,0))*35ms),color .2s}
+.hud>.nav:not(.nav-game) .nav-b{padding:12px 14px;opacity:0;transform:translateY(-8px);transition:opacity .12s,transform .12s,color .2s}
 .hud>.nav.is-open .nav-b{opacity:1;transform:none;transition:opacity .2s calc(var(--i,0)*50ms + 90ms),transform .26s cubic-bezier(.22,1,.36,1) calc(var(--i,0)*50ms + 90ms),color .2s}
 .hud>.nav .nav-b::after{right:auto;width:24px}
 }
+/* Polish pass (design review): press feedback on the main buttons, a full-size hit area on the controller arrows,
+   and a quicker hover fill on the quest list. */
+.btn,.gm-b,.ctl-a{transition:background .2s,color .2s,border-color .2s,transform .16s cubic-bezier(.23,1,.32,1)}
+.btn:active,.gm-b:active,.ctl-a:active{transform:scale(.97)}
+.ctl-a{position:relative}.ctl-a::after{content:'';position:absolute;inset:-9px}
+.q-b::before{transition:transform .28s cubic-bezier(.23,1,.32,1)}
+/* Mobile platform layer. viewport-fit=cover was dropped: no element padded with env(safe-area-inset-*), so landscape
+   iPhones put the HUD under the notch; letterboxing paints the same #0A0F0B ground there instead. */
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%;overscroll-behavior:none}
+button,a,[role=button]{touch-action:manipulation}
+button{-webkit-user-select:none;user-select:none}
+/* iOS zooms into any focused field under 16px and never zooms back out (terminal, palette, desktop inputs). */
+@media (pointer:coarse){input,textarea,select{font-size:16px!important}}
+/* A tap leaves :hover applied, so lifted cards and nudged arrows stayed stuck after touching them. */
+@media (hover:none){
+.card:hover,.sel-sec:hover,.bb:hover,.slot:hover:not(.is-on),.ground-b:hover .g-wrap,.btn:hover .arr,.lnk:hover .arr,.q-b:hover:not(.is-hv) .arr{transform:none}
+}
+/* Choreography: page entrances moved as one uniform 18px/.9s rise per element. Now the headline leads (18px),
+   support content follows with less travel (10px), and decoration (kicker, meta, ticker) only fades. Same delays. */
+@keyframes rise{from{opacity:0;transform:translateY(var(--rise,10px))}to{opacity:1;transform:none}}
+.rise{animation-duration:.6s}
+.stmt.rise,.ct-t.rise{--rise:18px}
+.kick.rise,.meta.rise,.ticker.rise{--rise:0px}
+/* Performance: two looping animations moved off layout. The portrait scanline animated `top` (a re-layout every
+   frame, forever), the language-screen equalizer (display.css) animated `height`; both now use transform. */
+.portrait::after{top:0}
+@keyframes sweep{from{transform:translateY(-100%)}to{transform:translateY(333.333%)}}

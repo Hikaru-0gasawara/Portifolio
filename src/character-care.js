@@ -68,6 +68,9 @@
       this._characterClean=null;this._characterDust=false;this._characterShake=null;this.setState({characterDirty:false,characterCleaning:false});this.sfx('blip');return false;
     };
     p.characterCarePose=function(){const a=this._characterClean;return a&&a.page===this.curPage()?cleanPose(a):null;};
+    p.characterCareVisible=function(){return !!this._characterDust&&!this.characterCareBlocked()&&!!(this.characterCareActor()||this._characterClean);};
+    // Dust lands mid-fall, while he can't be cleaned yet: re-render once he can, or the hint stays hidden until the next page.
+    p.characterCareSync=function(){if(this.characterCareVisible()!==!!this._characterCareShown)this.setState({characterCareOn:!this._characterCareShown});};
     p.drawCharacterCare=function(ctx,unit,dir){draw(ctx,unit,dir,this._characterDust,this._characterClean);};
     p.characterCareKey=function(e){
       if(e.repeat)return false;
@@ -85,7 +88,7 @@
     wrap('worldPose',function(fn,wk){return this.characterCarePose()||fn(wk);});
     wrap('rmUpdate',function(fn,rm,dt,busy){
       if(this._characterClean?.actor==='room'){if(!busy)this.characterCareStep(dt);return;}
-      const f=rm.fall,result=fn(rm,dt,busy);if(f)this.characterGetDust(f);return result;
+      const f=rm.fall,result=fn(rm,dt,busy);if(f)this.characterGetDust(f);this.characterCareSync();return result;
     });
     wrap('rmPointer',function(fn,e){
       if(this._characterDust&&this.characterCareActor()?.kind==='room'){
@@ -96,7 +99,7 @@
     });
     // Track the sprite every rendered frame without React updates on each footstep.
     wrap('worldDraw',function(fn,cv,geo,wk){
-      fn(cv,geo,wk);const el=this._characterCleanTarget;if(!el)return;
+      fn(cv,geo,wk);this.characterCareSync();const el=this._characterCleanTarget;if(!el)return;
       const visible=this._characterDust&&!this._characterClean&&this.characterCareActor()?.kind==='world'&&wk&&wk.y-geo.top>0&&wk.y-geo.top-24*geo.u<geo.H;
       el.hidden=!visible;
       if(visible){const u=geo.u;el.style.transform='translate('+(wk.x-11*u)+'px,'+(wk.y-geo.top-26*u)+'px)';el.style.width=22*u+'px';el.style.height=28*u+'px';}
@@ -104,6 +107,6 @@
     wrap('go',function(fn,to,...args){if(to!==this.curPage()){this._characterClean=null;this._characterShake=null;this.setState({characterCleaning:false});}return fn(to,...args);});
     wrap('wipeProgress',function(fn,...args){this._characterDust=false;this._characterClean=null;this._characterShake=null;this.setState({characterDirty:false,characterCleaning:false});return fn(...args);});
     wrap('componentWillUnmount',function(fn){this._characterCleanTarget=null;this._characterClean=null;this._characterShake=null;return fn();});
-    wrap('renderVals',function(fn){const r=fn(),visible=!!this._characterDust&&!this.characterCareBlocked()&&!!(this.characterCareActor()||this._characterClean);return {...r,characterCareText:'Um pouco de poeira. Clique em Hikaru ou alterne A/D seis vezes.',characterCareVisible:visible,characterCleaning:!!this._characterClean,characterClean:()=>this.characterClean(),characterCleanFace:()=>this.characterClean('wipe'),characterCleanBrush:()=>this.characterClean('brush'),setCharacterCleanTarget:el=>{this._characterCleanTarget=el;if(el)el.hidden=true;}};});
+    wrap('renderVals',function(fn){const r=fn(),visible=this.characterCareVisible();this._characterCareShown=visible;return {...r,characterCareText:'Um pouco de poeira. Clique em Hikaru ou alterne A/D seis vezes.',characterCareVisible:visible,characterCleaning:!!this._characterClean,characterClean:()=>this.characterClean(),characterCleanFace:()=>this.characterClean('wipe'),characterCleanBrush:()=>this.characterClean('brush'),setCharacterCleanTarget:el=>{this._characterCleanTarget=el;if(el)el.hidden=true;}};});
   }};
 })(window);

@@ -123,9 +123,9 @@
 .language-snd-eq{display:flex;align-items:flex-end;gap:2px;height:14px}
 .language-snd-eq i{width:3px;height:4px;background:currentColor}
 .language-snd-eq i:nth-child(2){height:8px}.language-snd-eq i:nth-child(3){height:6px}.language-snd-eq i:nth-child(4){height:10px}
-.language-screen.is-playing .language-snd-eq i{animation:lang-snd .5s steps(3,end) infinite alternate}
+.language-screen.is-playing .language-snd-eq i{height:14px;transform-origin:bottom;transform:scaleY(.2857);animation:lang-snd .5s steps(3,end) infinite alternate}
 .language-screen.is-playing .language-snd-eq i:nth-child(2){animation-delay:-.2s}.language-screen.is-playing .language-snd-eq i:nth-child(3){animation-delay:-.35s}.language-screen.is-playing .language-snd-eq i:nth-child(4){animation-delay:-.1s}
-@keyframes lang-snd{from{height:3px}to{height:14px}}
+@keyframes lang-snd{from{transform:scaleY(.2143)}to{transform:scaleY(1)}}
 .language-card h1{font-family:'JetBrains Mono',monospace;font-size:clamp(22px,3.5vw,32px);font-weight:500;letter-spacing:-.045em;line-height:1.35;margin:24px 0 12px;text-wrap:balance}
 /* The three questions stack in one cell, as tall as the longest; the one under the cursor types itself in. */
 .language-ask{display:grid}

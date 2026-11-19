@@ -113,6 +113,10 @@ test('dust appears at the fall impact and remains after getting up',()=>{
   c.worldFloStep(wk,800);assert.equal(!!c._characterDust,false);
   c.worldFloStep(wk,200);assert.equal(c._characterDust,true);assert.equal(c.state.characterDirty,true);
   c.worldFloStep(wk,700);assert.equal(wk.flo,null);assert.equal(c._characterDust,true);
+  // the render at impact hid the hint (he was still falling); once he is up, the next frame shows it again
+  c.worldOn=()=>true;c.renderVals();c._characterCareShown=false;let renders=0;const set=c.setState.bind(c);c.setState=v=>{renders++;set(v);};
+  c.characterCareSync();assert.equal(renders,1);assert.equal(c.renderVals().characterCareVisible,true);
+  c.characterCareSync();assert.equal(renders,1,'no render while nothing changes');
 });
 test('face wipe, clothes brush and shake finish on the same walking page',()=>{
   const {c,context}=controller();c.sfx=()=>{};
@@ -1600,4 +1604,12 @@ test('on narrow screens the section buttons fold into the logo, which opens and 
   assert.match(html,/<button class="brand \{\{brandCls\}\}" sc-camel-on-click="\{\{brandHome\}\}" aria-label="\{\{brandAria\}\}" title="\{\{brandTitle\}\}" aria-expanded="\{\{brandExpanded\}\}" aria-controls="\{\{brandControls\}\}">/);
   assert.match(html,/<nav class="nav \{\{navCls\}\}" id="hud-nav" aria-label="Seções">/);
   assert.match(css,/@media\(max-width:860px\)\{[^]*\.hud>\.nav:not\(\.nav-game\)\{position:absolute;[^}]*transform-origin:20px -38px;transform:scale\(\.1\);opacity:0;visibility:hidden/,'closed, it is folded into the chip');
+});
+test('every route into Sobre opens on the Hitbox, portals included',()=>{
+  const timers=[];const {c}=controller({setTimeout:fn=>{timers.push(fn);return timers.length;},clearTimeout(){}});c.sfx=()=>{};
+  for(const go of [()=>c.teleportGo('sobre'),()=>c.go('sobre')]){
+    c.state={page:'contato'};c.ctlSet('n64');assert.equal(c.renderVals().isHitbox,false);
+    go();for(let n=0;n<20&&timers.length;n++)timers.shift()();
+    assert.equal(c.state.page,'sobre');assert.equal(c.renderVals().isHitbox,true);
+  }
 });

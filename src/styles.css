@@ -778,7 +778,7 @@ a{color:#D8B24A}a:hover{color:#F0CE6A}
 .arc:focus-visible{border-color:var(--gold)}
 .arc-mq{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 12px;border:1px solid rgba(216,178,74,.55);background:linear-gradient(#2A2210,#15110A)}
 .arc-t{font-size:22px;letter-spacing:.08em;color:var(--gold2);text-shadow:0 0 12px rgba(216,178,74,.55)}
-.arc-cv{display:block;width:min(640px,calc(100vw - 376px),calc((100vh - 220px) * 1.3333));aspect-ratio:4 / 3;border:6px solid #050706;background:#050806;box-shadow:inset 0 0 0 1px rgba(143,211,166,.25),0 0 30px rgba(98,179,127,.15)}
+.arc-cv{display:block;width:min(640px,calc(100vw - 376px),calc((100dvh - 220px) * 1.3333));aspect-ratio:4 / 3;border:6px solid #050706;background:#050806;box-shadow:inset 0 0 0 1px rgba(143,211,166,.25),0 0 30px rgba(98,179,127,.15)}
 .arc-b{display:grid;grid-template-columns:auto 300px;grid-template-rows:auto 1fr;grid-template-areas:"sc how" "ctl how";gap:10px 16px;align-items:start}
 .arc-sc{grid-area:sc;position:relative}
 .arc-go{position:absolute;left:0;right:0;bottom:9%;display:flex;flex-direction:column;align-items:center;gap:7px;pointer-events:none}
@@ -886,7 +886,7 @@ a{color:#D8B24A}a:hover{color:#F0CE6A}
 @media (max-width:760px),(max-aspect-ratio:1/1){
 .arc-b{grid-template-columns:auto;grid-template-rows:auto;grid-template-areas:"sc" "ctl" "how"}
 .arc-how{align-self:auto}
-.arc-cv{width:min(640px,88vw,calc((100vh - 220px) * 1.3333))}
+.arc-cv{width:min(640px,88vw,calc((100dvh - 220px) * 1.3333))}
 }
 @media (max-width:560px){
 .arc-l{padding:8px}
@@ -1078,7 +1078,7 @@ a{color:#D8B24A}a:hover{color:#F0CE6A}
 .bll-pb.is-live~.bll-g,.bll-pb.is-live~.bll-n{visibility:hidden}
 .blog.is-simulated-failure .bll-pb{display:none}
 @keyframes barPct{from{--bar-p:0}to{--bar-p:100}}
-@keyframes barFill{from{width:0}to{width:16ch}}
+@keyframes barFill{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0)}}
 .bll-g{flex:none;font-weight:500;letter-spacing:.08em}
 .bll-g:empty{display:none}
 .bll-g.is-ok{color:var(--jade2)}
