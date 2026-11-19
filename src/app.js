@@ -7485,7 +7485,7 @@ class Component extends DCLogic {
       saveTxt: gotCount + '/' + d.trophies.length + ' troféus' + (agoTxt ? ' · ' + agoTxt : ''),
       isBoot: page === 'boot',
       bootLogOn: page === 'boot' && !!s.bootLog,
-      bootLines: (s.bootLog ? d.bootLog.slice(0, s.bootN || 0) : []).map((l) => ({ ts: l.ts || '', t: l.t, dots: !!l.tag, tag: { ok: '[  OK  ]', warn: '[ WARN ]', fail: '[ FAIL ]' }[l.tag] || '', tagCls: l.tag ? 'is-' + l.tag : '', note: l.note || l.took || '', cls: (l.fatal ? 'is-fatal' : (l.tag ? 'is-' + l.tag : '')) })),
+      bootLines: (s.bootLog ? d.bootLog.slice(0, s.bootN || 0) : []).map((l, i, shown) => ({ ts: l.ts || '', t: l.t, dots: !!l.tag, hasBar: !!l.bar, barCls: l.bar && i === shown.length - 1 && shown.length < d.bootLog.length && !s.bootDone ? 'is-live' : '', barStyle: l.bar ? '--bar-ms:' + l.bar + 'ms' : '', tag: { ok: '[  OK  ]', warn: '[ WARN ]', fail: '[ FAIL ]' }[l.tag] || '', tagCls: l.tag ? 'is-' + l.tag : '', note: l.note || l.took || '', cls: (l.fatal ? 'is-fatal' : (l.tag ? 'is-' + l.tag : '')) })),
       bootLogCls: s.bootDone ? 'is-done' : '',
       bootCurTs: (s.bootN || 0) < d.bootLog.length ? '' : '1.744001',
       notBoot: notBoot,

@@ -126,7 +126,7 @@
 <sc-if value="{{bootLogOn}}" hint-placeholder-val="{{false}}">
 <div class="blog {{bootLogCls}}" aria-label="Iniciando o sistema" sc-camel-on-click="{{bootTap}}">
 <div class="blog-in">
-<sc-for list="{{bootLines}}" as="bo" hint-placeholder-count="6"><div class="bll {{bo.cls}}" aria-hidden="{{bo.ariaHidden}}"><span class="bll-ts">{{bo.ts}}</span><span class="bll-t">{{bo.t}}</span><sc-if value="{{bo.dots}}" hint-placeholder-val="{{true}}"><span class="bll-d" aria-hidden="true"></span></sc-if><span class="bll-g {{bo.tagCls}}">{{bo.tag}}</span><span class="bll-n">{{bo.note}}</span></div></sc-for>
+<sc-for list="{{bootLines}}" as="bo" hint-placeholder-count="6"><div class="bll {{bo.cls}}" aria-hidden="{{bo.ariaHidden}}"><span class="bll-ts">{{bo.ts}}</span><span class="bll-t">{{bo.t}}</span><sc-if value="{{bo.dots}}" hint-placeholder-val="{{true}}"><span class="bll-d" aria-hidden="true"></span></sc-if><sc-if value="{{bo.hasBar}}" hint-placeholder-val="{{false}}"><span class="bll-pb {{bo.barCls}}" style="{{bo.barStyle}}" aria-hidden="true"><i></i></span></sc-if><span class="bll-g {{bo.tagCls}}">{{bo.tag}}</span><span class="bll-n">{{bo.note}}</span></div></sc-for>
 <sc-if value="{{bootRunning}}"><div class="bll bll-cur" aria-hidden="true"><span class="bll-ts">{{bootCurTs}}</span><span class="bll-c">▮</span></div></sc-if>
 <sc-if value="{{bootRecovery}}"><div class="bll bll-recovery" role="status"><span class="bll-ts" aria-hidden="true">{{bootCurTs}}</span><span class="bll-t">{{bootRecoverText}}</span><span class="bll-c" aria-hidden="true">▮</span></div></sc-if>
 <sc-if value="{{bootRebootPrompt}}"><div class="boot-recover-action"><button class="btn" sc-camel-on-click="{{bootRecover}}">Clique aqui para reiniciar</button></div></sc-if>

@@ -15,5 +15,7 @@
     ['Collecting service status', 'Synchronizing game clock', 'Checking sound mixer', 'Sealing read-only assets', 'Returning control to Okaru', 'Welcome to the portfolio', 'Boot sequence complete', 'PRESS START']
   ];
   const lines = groups.flat().map((t, i) => ({ t, tag: i % 8 === 0 ? '' : 'ok', ts: (i * .093).toFixed(6), ms: i % 24 === 0 ? 1450 : i % 8 === 0 ? 500 : i % 7 === 0 ? 240 : i % 3 === 0 ? 9 : 94 }));
+  // A progress bar fills on a line while the log waits for the next one, so only lines followed by a long pause get one.
+  lines.forEach((line, i) => { const next = lines[i + 1]; if (line.tag && next && next.ms >= 240) line.bar = next.ms; });
   g.PortfolioBoot = { lines, duration: lines.reduce((n, line) => n + line.ms, 0) };
 })(window);

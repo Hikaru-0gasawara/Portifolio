@@ -30,6 +30,8 @@ test('boot has variable timing and stays between sixteen and twenty-two seconds'
   assert.ok(boot.lines.length>=60);
   assert.ok(boot.duration>16000&&boot.duration<22000);
   assert.ok(new Set(boot.lines.map(l=>l.ms)).size>=4);
+  const bars=boot.lines.filter(l=>l.bar);assert.ok(bars.length>=8&&bars.length<boot.lines.length/2,'some lines, not all, show a loading bar');
+  boot.lines.forEach((l,i)=>{if(l.bar)assert.equal(l.bar,boot.lines[i+1].ms,'a bar fills exactly over the pause before the next line');});
 });
 test('skill tree preserves all skills with uneven depths',()=>{
   const {c}=controller(),layout=c.skLayout();

@@ -1066,6 +1066,19 @@ a{color:#D8B24A}a:hover{color:#F0CE6A}
 .bll-t{flex:none;color:var(--tx)}
 .bll-d{flex:1 1 auto;min-width:8px;overflow:hidden;color:#2E3A31;white-space:nowrap}
 .bll-d::before{content:'..........................................................................................................................................................'}
+/* Per-line loading bar: 16 cells and a percent, filled by CSS over the pause before the next line. */
+@property --bar-p{syntax:'<integer>';inherits:false;initial-value:100}
+.bll-pb{flex:none;position:relative;white-space:pre;color:#2E3A31;--bar-p:100;counter-reset:bar var(--bar-p)}
+.bll-pb::before{content:'[░░░░░░░░░░░░░░░░]'}
+.bll-pb::after{content:counter(bar) '%';display:inline-block;width:5ch;text-align:right;color:var(--jade2)}
+.bll-pb i{position:absolute;left:1ch;top:0;width:16ch;overflow:hidden;color:var(--jade2)}
+.bll-pb i::before{content:'████████████████'}
+.bll-pb.is-live{animation:barPct var(--bar-ms) linear forwards}
+.bll-pb.is-live i{animation:barFill var(--bar-ms) steps(16,end) forwards}
+.bll-pb.is-live~.bll-g,.bll-pb.is-live~.bll-n{visibility:hidden}
+.blog.is-simulated-failure .bll-pb{display:none}
+@keyframes barPct{from{--bar-p:0}to{--bar-p:100}}
+@keyframes barFill{from{width:0}to{width:16ch}}
 .bll-g{flex:none;font-weight:500;letter-spacing:.08em}
 .bll-g:empty{display:none}
 .bll-g.is-ok{color:var(--jade2)}
@@ -1081,7 +1094,7 @@ a{color:#D8B24A}a:hover{color:#F0CE6A}
 .bll-cur .bll-ts{color:#2E3A31}
 .bll-c{color:var(--jade2);animation:blink 1s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
-@media (max-width:760px){.blog{padding:20px 16px}.blog-in{font-size:11px}.bll-ts{width:78px}.bll-n{display:none}}
+@media (max-width:760px){.blog{padding:20px 16px}.blog-in{font-size:11px}.bll-ts{width:78px}.bll-n{display:none}.bll-pb::before,.bll-pb i{display:none}}
 .press{align-self:flex-start;margin-top:26px;font-size:64px;line-height:1;color:var(--gold);padding:8px 2px;opacity:0;animation:pressBlink 1.2s linear 2.4s infinite}
 @keyframes pressBlink{0%,58%{opacity:1}59%,100%{opacity:.18}}
 .okr .press:hover{color:var(--gold2)}
