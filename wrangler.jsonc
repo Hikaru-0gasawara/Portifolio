@@ -1,0 +1,9 @@
+// Cloudflare Workers, static assets only: `npm run build` writes dist/ and Cloudflare serves it from its edge.
+// Requests to static assets are free and unlimited. Deploy: Workers Builds (Git) or `npm run deploy` after `npx wrangler login`.
+{
+  "name": "hikaru-portfolio",
+  "compatibility_date": "2026-10-05",
+  "assets": {
+    "directory": "./dist"
+  }
+}

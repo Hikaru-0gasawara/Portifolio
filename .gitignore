@@ -5,6 +5,9 @@ coverage/
 *.log
 __pycache__/
 *.py[cod]
+# Cloudflare Wrangler: local state and secrets for `wrangler dev`
+.wrangler/
+.dev.vars*
 # Vercel CLI: linked project and local env
 .vercel/
 .env*.local
@@ -19,6 +22,7 @@ brag-output-*/
 /resume/
 /favicon.ico
 /site.webmanifest
+/_headers
 # Local AI agent tooling (skills, agents, hooks, dev server config, design detector); not part of the site
 .agents/
 .claude/
