@@ -341,3 +341,9 @@ button{-webkit-user-select:none;user-select:none}
    frame, forever), the language-screen equalizer (display.css) animated `height`; both now use transform. */
 .portrait::after{top:0}
 @keyframes sweep{from{transform:translateY(-100%)}to{transform:translateY(333.333%)}}
+/* Brand mark: the Mon (三階菱, the Ogasawara crest) replaces the 光 chip in the HUD and on the language screen.
+   The ground-coloured outline on each tier cuts the gaps between them. */
+.chip svg.mon .mon-r{fill:none;stroke:currentColor}
+.chip svg.mon .mon-t,.language-emblem .mon-t{fill:currentColor;stroke:#0A0F0B;stroke-width:2.4;stroke-linejoin:round}
+.language-emblem{border:0}.language-emblem .mon{width:100%;height:100%}.language-emblem .mon-r{fill:none;stroke:currentColor}
+.chip svg.mon .mon-r{stroke-width:3}.chip svg.mon .mon-r+.mon-r{stroke-width:1.8}
