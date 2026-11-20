@@ -36,7 +36,7 @@ O build reconstrói `dist/` e gera uma cópia na raiz para uso local (ignorada p
 | `src/desktop.js` | okwm, o desktop do computador do quarto: zoom no monitor, tela de bloqueio, mosaico de janelas, áreas de trabalho, lançador e aplicativos |
 | `src/tv-game.js` | Quebra-blocos jogado no puff |
 | `src/dice.js`, `src/shooter.js`, `src/pocket-games.js` | D20, Operação Circuito e cartuchos dos controles clássicos |
-| `src/hitbox.js` | Hitbox, lista de lutadores e golpes, e o boneco de treino |
+| `src/combo-pad.js` | Hitbox, lista de lutadores e golpes, e o boneco de treino |
 | `src/achievements.js` | Conquistas adicionadas aos módulos |
 | `src/*.css` | `styles.css` (base), `enhancements.css`, `desktop.css`, `display.css`, `tv-game.css` e `fonts.css` (fontes locais) |
 | `src/projects.json` | Projetos, repositórios e galerias |

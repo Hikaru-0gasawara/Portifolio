@@ -3310,10 +3310,16 @@ class Component extends DCLogic {
   // advances the accident; true while a trip holds him in place
   worldFloStep(wk, dt) {
     const f = wk.flo;
+    // the dust puff after a trip plays its frames and clears; left alone it froze on his face until the next page
+    if (!f && wk.poof >= 0) {
+      wk.poofT = (wk.poofT || 0) + dt;
+      wk.poof = Math.floor(wk.poofT / 70);
+      if (wk.poof > 4) wk.poof = -1;
+    }
     if (!f) return false;
     f.t += dt;
     if (f.t >= f.dur) {
-      if (f.kind === 'trip') wk.poof = 0;
+      if (f.kind === 'trip') { wk.poof = 0; wk.poofT = 0; }
       wk.flo = null;
       return false;
     }

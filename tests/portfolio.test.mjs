@@ -9,7 +9,7 @@ function controller(overrides={}){
   context.React={createElement:(type,props,...children)=>({type,props,children})};
   context.DCLogic=class{constructor(){this.state={};this.props={};}setState(value){this.state={...this.state,...value};}};
   vm.createContext(context);
-  for(const f of ['assets/content.js','src/i18n.js','src/boot.js','src/boot-flow.js','src/skill-tree.js','src/character.js','src/character-care.js','src/room-props.js','src/dice.js','src/shooter.js','src/scene.js','src/desktop.js','src/pocket-games.js','src/hitbox.js','src/achievements.js','src/tv3d.js','src/display.js','src/tv-game.js','src/title-sound.js','src/gamepad.js','src/enhancements.js'])vm.runInContext(read(f),context);
+  for(const f of ['assets/content.js','src/i18n.js','src/boot.js','src/boot-flow.js','src/skill-tree.js','src/character.js','src/character-care.js','src/room-props.js','src/dice.js','src/shooter.js','src/scene.js','src/desktop.js','src/pocket-games.js','src/combo-pad.js','src/achievements.js','src/tv3d.js','src/display.js','src/tv-game.js','src/title-sound.js','src/gamepad.js','src/enhancements.js'])vm.runInContext(read(f),context);
   vm.runInContext(read('src/app.js')+';Portfolio.install(Component);window.Controller=Component;',context);
   return {c:new context.Controller(),context};
 }
@@ -113,6 +113,8 @@ test('dust appears at the fall impact and remains after getting up',()=>{
   c.worldFloStep(wk,800);assert.equal(!!c._characterDust,false);
   c.worldFloStep(wk,200);assert.equal(c._characterDust,true);assert.equal(c.state.characterDirty,true);
   c.worldFloStep(wk,700);assert.equal(wk.flo,null);assert.equal(c._characterDust,true);
+  // the puff from the fall plays out and clears; the dust stays until he cleans it
+  assert.equal(wk.poof,0);for(let i=0;i<8;i++)c.worldFloStep(wk,60);assert.equal(wk.poof,-1);assert.equal(c._characterDust,true);
   // the render at impact hid the hint (he was still falling); once he is up, the next frame shows it again
   c.worldOn=()=>true;c.renderVals();c._characterCareShown=false;let renders=0;const set=c.setState.bind(c);c.setState=v=>{renders++;set(v);};
   c.characterCareSync();assert.equal(renders,1);assert.equal(c.renderVals().characterCareVisible,true);
@@ -509,6 +511,8 @@ test('an emptied area restores its own set (closed, minimized or moved away) and
 
 test('tab icon, touch icon and manifest ship with the page, and the Cloudflare config serves dist',()=>{
   const html=read('src/template.html'),dist=read('dist/index.html');
+  // EasyPrivacy (uBlock, AdBlock, Brave) blocks any "/hitbox.js" as an old tracker, which took the Hitbox away.
+  assert.doesNotMatch(dist,/\/hitbox\.js/);
   for(const ref of ['./favicon.ico','./assets/icons/favicon.svg','./assets/icons/apple-touch-icon.png','./site.webmanifest']){
     assert.ok(html.includes('href="'+ref+'"')||html.includes('href="'+ref+'?v='),ref);assert.ok(fs.existsSync(new URL('../dist/'+ref.slice(2),import.meta.url)),ref);
   }

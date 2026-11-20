@@ -8,7 +8,7 @@ function fixture(){
   const context={window:null,document:{documentElement:{}},navigator:{language:'pt-BR'},localStorage:{getItem(){return null;},setItem(){}},React:{createElement:(type,props,...children)=>({type,props,children})}};
   context.window=context;context.DCLogic=class{constructor(){this.state={};this.props={};}};
   vm.createContext(context);
-  for(const file of ['assets/content.js','src/i18n.js','src/boot.js','src/room-props.js','src/dice.js','src/achievements.js','src/desktop.js','src/hitbox.js'])vm.runInContext(read(file),context);
+  for(const file of ['assets/content.js','src/i18n.js','src/boot.js','src/room-props.js','src/dice.js','src/achievements.js','src/desktop.js','src/combo-pad.js'])vm.runInContext(read(file),context);
   vm.runInContext(read('src/app.js')+';window.TestComponent=Component;',context);
   for(const name of ['PortfolioRoom','PortfolioDice','PortfolioDesktop','PortfolioAchievements'])context[name].install(context.TestComponent);
   return {context,data:new context.TestComponent().data(),I:context.PortfolioI18n};
