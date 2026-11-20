@@ -984,6 +984,9 @@ class Component extends DCLogic {
       this.setState({ page: to, openProj: -1, rmDlg: false, rmHov: -1, doorTip: false });
       // Every route into Sobre (nav, doors, portals) opens on the Hitbox. Set where the page lands, so no route skips it.
       if (to === 'sobre' && (this.st().ctl || 'hitbox') !== 'hitbox') this.ctlSet('hitbox');
+      // Clicks still queued on the old page die with it: pokeFind would map their DOM path onto whatever
+      // sits there on the new page (on Sobre, the controller arrows), pressing a button nobody clicked.
+      if (this._wPoke) this.worldPokeCancel();
       // back in the room, or at the site's front page: the "opened from the room" mode ends
       if ((to === 'quarto' || to === 'inicio') && this.st().backRoom) this.setState({ backRoom: false });
       if (to === 'quarto') {

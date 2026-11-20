@@ -528,7 +528,7 @@ a{color:#D8B24A}a:hover{color:#F0CE6A}
 .ctl-hb{height:26px;padding:0 8px;margin-left:6px;border:1px solid var(--gold);color:var(--gold);font-size:9px;letter-spacing:.08em;line-height:1}
 .ctl-hb:hover{background:var(--gold);color:var(--bg)}
 .ctl-n{min-width:0}
-.ctl-sub{margin:-4px 14px 0;text-align:right}
+.ctl-sub{margin:10px 14px 0;text-align:right}
 .lcd-ms{text-transform:none;letter-spacing:.02em;font-size:11px;color:var(--mut)}
 .pad{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 26px 8px}
 .jpad{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 30px 12px}
