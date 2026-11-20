@@ -637,7 +637,7 @@
 <p class="now-z">Em jogo de luta eu sou <b>zoner</b>: controlo o espaço, leio o oponente e puno o erro. No fundo, é defesa em profundidade.</p>
 </div>
 <div class="pnl rise" style="animation-delay: 380ms">
-<div class="pnl-h"><span class="lab-t">Controle</span><span class="ctl-sw"><button class="ctl-a" sc-camel-on-click="{{ctlPrev}}" aria-label="Controle anterior">‹</button><span class="lab-t gold ctl-n">{{ctlName}}</span><button class="ctl-a" sc-camel-on-click="{{ctlNext}}" aria-label="Próximo controle">›</button></span></div>
+<div class="pnl-h"><span class="lab-t">Controle</span><span class="ctl-sw"><button class="ctl-a" sc-camel-on-click="{{ctlPrev}}" aria-label="Controle anterior">‹</button><span class="lab-t gold ctl-n">{{ctlName}}</span><button class="ctl-a" sc-camel-on-click="{{ctlNext}}" aria-label="Próximo controle">›</button><sc-if value="{{ctlAway}}" hint-placeholder-val="{{false}}"><button class="ctl-hb pix" sc-camel-on-click="{{ctlHit}}" aria-label="Voltar para a Hitbox">HITBOX</button></sc-if></span></div>
 <p class="ctl-sub lab-t">{{ctlSub}}</p>
 <div class="lcd {{lcdCls}}">
 <canvas class="lcd-cv" ref="{{setLcdCv}}" width="320" height="192" aria-hidden="true"></canvas>

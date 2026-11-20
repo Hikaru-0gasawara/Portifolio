@@ -982,6 +982,8 @@ class Component extends DCLogic {
       add[to] = true;
       this._visited = Object.assign({}, this._visited || {}, add);
       this.setState({ page: to, openProj: -1, rmDlg: false, rmHov: -1, doorTip: false });
+      // Every route into Sobre (nav, doors, portals) opens on the Hitbox. Set where the page lands, so no route skips it.
+      if (to === 'sobre' && (this.st().ctl || 'hitbox') !== 'hitbox') this.ctlSet('hitbox');
       // back in the room, or at the site's front page: the "opened from the room" mode ends
       if ((to === 'quarto' || to === 'inicio') && this.st().backRoom) this.setState({ backRoom: false });
       if (to === 'quarto') {

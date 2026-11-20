@@ -296,8 +296,6 @@
       }
       if(to==='sobre'&&this.curPage()!=='sobre'&&!this.st().transitioning){
         this._diffDone=false;this._diffStarted=false;this._diffElSeen=null;this.setState({diffStep:0});
-        // Every route into Sobre (nav, doors, portals) opens on the Hitbox, the first controller in the wheel.
-        if((this.st().ctl||'hitbox')!=='hitbox')this.ctlSet('hitbox');
       }
       return fn(to,...args);
     });

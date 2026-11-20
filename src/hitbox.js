@@ -239,6 +239,25 @@
       if(move.fx)this.moveFx(move.fx);this.sfx('special');this.persistSoon();
       if(Object.keys(this._moves).filter(k=>k.startsWith('fight:')&&!k.startsWith('fight:okaru:')).length>=10)this.unlock('hitbox-classics');
       if(this._wk&&!this.calm())this.hitStrike(move);
+      if(!this.calm())this.hitDive(move);
+    };
+    // A landed combo pulls the view into the LCD: the screen opens out from the LCD to fill the viewport, shows the
+    // move, and closes back into it. Pure decoration over everything, so it never takes clicks.
+    p.hitDive=function(move){
+      if(typeof document==='undefined'||typeof document.querySelector!=='function')return;
+      const W=innerWidth,H=innerHeight,seen=e=>{const q=e?.getBoundingClientRect?.();return q&&q.bottom>0&&q.top<H&&q.width>0;};
+      // from the LCD when it is on screen, otherwise from the Hitbox the player is pressing
+      const src=[document.querySelector('.lcd.is-hitbox'),document.querySelector('.hitbox')].find(seen),host=document.querySelector('.okr')||document.body;
+      if(!src||!host||typeof src.animate!=='function')return;
+      this._dive?.remove();
+      const r=src.getBoundingClientRect();
+      const from=`inset(${r.top}px ${W-r.right}px ${H-r.bottom}px ${r.left}px round 4px)`,to='inset(0px 0px 0px 0px round 0px)';
+      const el=document.createElement('div'),b=document.createElement('b'),sub=document.createElement('span');
+      el.className='hit-dive';el.setAttribute('aria-hidden','true');b.className='pix';b.textContent=move.name;
+      sub.textContent=(fighters.find(f=>f[0]===move.fighter)||[])[1]||'';el.append(b,sub);host.append(el);this._dive=el;
+      const ease='cubic-bezier(.23,1,.32,1)';
+      el.animate([{clipPath:from},{clipPath:to,offset:.24},{clipPath:to,offset:.8},{clipPath:from}],{duration:1150,easing:'linear',fill:'both'}).finished.then(()=>{el.remove();if(this._dive===el)this._dive=null;},()=>{});
+      b.animate([{transform:'scale(.55)',opacity:0},{transform:'scale(1)',opacity:1,offset:.3},{transform:'scale(1.04)',opacity:1,offset:.78},{transform:'scale(.7)',opacity:0}],{duration:1150,easing:ease,fill:'both'});
     };
     // Hikaru performs the move where he stands; the dummy drops in on the side with room for it.
     p.hitStrike=function(move){
@@ -284,7 +303,7 @@
       if(d.spec.hits.length>1&&landed>1&&te<d.spec.hits.at(-1)+900)label(ctx,landed+' HITS',X+side*(d.spec.reach+s.dx)*u,Y-(36+s.lift)*u,u,'#f0ce6a');
       if(d.spec.kind==='spear'&&te>=140&&te<900)label(ctx,'GET OVER HERE!',X,Y-34*u,u,'#f29a4a');
     });
-    wrap('renderVals',function(fn){const r=fn(),s=this.st(),hit=(s.ctl||'hitbox')==='hitbox';r.isHitbox=hit;r.hitKey=e=>this.hitKey(e);r.hitReset=()=>{this.padReset();this.setState({hitResult:''});};r.hitFighter=s.hitFighter||'ryu';r.hitFighters=fighters.map(([id,label])=>({id,label}));r.hitChoose=e=>{if(fighters.some(f=>f[0]===e.target.value)){this.padReset();this.setState({hitFighter:e.target.value,hitResult:''});}};
+    wrap('renderVals',function(fn){const r=fn(),s=this.st(),hit=(s.ctl||'hitbox')==='hitbox';r.isHitbox=hit;r.ctlAway=!hit;r.ctlHit=()=>this.ctlSet('hitbox');r.hitKey=e=>this.hitKey(e);r.hitReset=()=>{this.padReset();this.setState({hitResult:''});};r.hitFighter=s.hitFighter||'ryu';r.hitFighters=fighters.map(([id,label])=>({id,label}));r.hitChoose=e=>{if(fighters.some(f=>f[0]===e.target.value)){this.padReset();this.setState({hitFighter:e.target.value,hitResult:''});}};
       r.hitDirections=[['L','←','Esquerda'],['D','↓','Baixo'],['R','→','Direita'],['U','↑','Cima']].map(([key,label,name])=>({key,label,name,run:()=>this.hitInput(key)}));
       r.hitAttacks=[['P','LP','Soco leve'],['M','MP','Soco médio'],['H','HP','Soco forte'],['A','A1','Assistência 1'],['K','LK','Chute leve'],['N','MK','Chute médio'],['J','HK','Chute forte'],['B','A2','Assistência 2']].map(([key,label,name])=>({key,label,name,run:()=>this.hitInput(key)}));
       r.hitMoveList=this.hitMoves().map(move=>({name:move.name,seq:inputText(move.seq)}));
