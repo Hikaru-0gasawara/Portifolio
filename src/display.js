@@ -32,7 +32,7 @@
     };
     p.tvHost=function(){
       return {ac:()=>this._ac,mix:()=>this._mix,soundOn:()=>this._sndPref!==false&&this._snd!==false,unlock:()=>{if(this._sndPref!==false&&this._snd!==false)this.audio();},
-        initialVolume:this.st().displayVolume??4,broken:!!this.st().broke,touch:!!this.coarse?.(),exit:this._displayPhase==='exit',onExited:()=>this.displayExited(),
+        initialVolume:this.st().displayVolume??4,broken:!!this.st().broke,touch:!!this.coarse?.(),dpr:()=>this.canvasDpr?.(),exit:this._displayPhase==='exit',onExited:()=>this.displayExited(),
         onChange:tv=>this.setState({displayPower:tv.power,displayChannel:tv.channel,displayVolume:tv.volume}),
         onKnock:(result,x,y)=>this.displayKnocked(result,x,y),onEnterRequest:()=>this.enterDisplay(),onEntered:()=>this.displayEntered()};
     };

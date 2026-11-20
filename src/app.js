@@ -12,7 +12,7 @@ class Component extends DCLogic {
     this._decs = [];
     this._decSeen = typeof WeakSet !== 'undefined' ? new WeakSet() : null;
     this._qual = 'auto';
-    this._autoLvl = 'alta';
+    this._autoLvl = this.autoBase();
     this._arcHi = this.data().arcDefault.map((r) => r.slice());
     this._fichas = this.fichaStart();
     this._fichaGot = {};
@@ -3894,7 +3894,7 @@ class Component extends DCLogic {
   worldDraw(cv, g, wk) {
     const ctx = cv.getContext ? cv.getContext('2d') : null;
     if (!ctx) return;
-    const dpr = Math.min(2, (typeof window !== 'undefined' && window.devicePixelRatio) || 1);
+    const dpr = this.canvasDpr();
     const Wd = Math.round(g.W * dpr);
     const Hd = Math.round(g.H * dpr);
     if (cv.width !== Wd) cv.width = Wd;
@@ -5998,7 +5998,18 @@ class Component extends DCLogic {
 
   effQual() {
     const q = this._qual || 'auto';
-    return q === 'auto' ? (this._autoLvl || 'alta') : q;
+    return q === 'auto' ? (this._autoLvl || this.autoBase()) : q;
+  }
+
+  // Phones start auto one step down: no full-screen grain blend, and the canvases at 1.5x instead of 2x.
+  autoBase() {
+    return this.coarse() ? 'media' : 'alta';
+  }
+
+  // Device pixels per CSS pixel for the canvases: a 3x phone filling a full-screen canvas at 3x pays 9x the pixels.
+  canvasDpr() {
+    const dpr = (typeof window !== 'undefined' && window.devicePixelRatio) || 1;
+    return Math.min({ alta: 2, media: 1.5, eco: 1 }[this.effQual()] || 2, dpr);
   }
 
   arcHi() {
@@ -6008,7 +6019,7 @@ class Component extends DCLogic {
 
   setQual(q) {
     this._qual = q;
-    this._autoLvl = 'alta';
+    this._autoLvl = this.autoBase();
     this._lowT = 0;
     this.setState({ qual: q });
     this.persistSoon();
@@ -7388,7 +7399,7 @@ class Component extends DCLogic {
         this._pcCv = el;
         if (!el || !el.getBoundingClientRect) return;
         const r = el.getBoundingClientRect();
-        const dpr = (typeof window !== 'undefined' && window.devicePixelRatio) || 1;
+        const dpr = this.canvasDpr();
         const w = Math.max(300, Math.round((r.width || 720) * dpr));
         if (el.width !== w) {
           el.width = w;
@@ -7438,7 +7449,7 @@ class Component extends DCLogic {
         this._arcCv = el;
         if (!el || !el.getBoundingClientRect) return;
         const r = el.getBoundingClientRect();
-        const dpr = (typeof window !== 'undefined' && window.devicePixelRatio) || 1;
+        const dpr = this.canvasDpr();
         const w = Math.max(320, Math.round((r.width || 640) * dpr));
         if (el.width !== w) {
           el.width = w;
@@ -7875,7 +7886,7 @@ class Component extends DCLogic {
         this._lcdCv = el;
         if (!el || !el.getBoundingClientRect) return;
         const r = el.getBoundingClientRect();
-        const dpr = (typeof window !== 'undefined' && window.devicePixelRatio) || 1;
+        const dpr = this.canvasDpr();
         const w = Math.max(160, Math.round((r.width || 320) * dpr));
         if (el.width !== w) {
           el.width = w;

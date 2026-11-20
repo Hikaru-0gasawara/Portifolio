@@ -536,7 +536,7 @@
       const ctx=cv.getContext?.('2d');if(!ctx)return;
       let hole=null;
       if(button&&style!=='hatch'){const r=button.getBoundingClientRect(),sr=geo.sc.getBoundingClientRect();hole=[(r.left-sr.left-wk.x)/geo.u,(r.top-sr.top-wk.y+geo.top)/geo.u,r.width/geo.u,r.height/geo.u];}
-      const dpr=Math.min(2,g.devicePixelRatio||1),u=geo.u*dpr;
+      const dpr=this.canvasDpr(),u=geo.u*dpr;
       ctx.save();ctx.translate(Math.round(wk.x*dpr),Math.round((wk.y-geo.top)*dpr));ctx.scale(u,u);ctx.imageSmoothingEnabled=false;
       drawPassage(ctx,style,out,a.t,this.worldImg(),a.drop,this._wClock||a.t,hole);
       ctx.restore();

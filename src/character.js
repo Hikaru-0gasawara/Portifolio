@@ -94,7 +94,7 @@
     wrap('worldPose',function(fn,wk){return wk.flo?.kind==='trip'?pose(wk.flo):fn(wk);});
     wrap('worldDraw',function(fn,cv,geo,wk){
       fn(cv,geo,wk);
-      const ctx=cv.getContext('2d'),dpr=Math.min(2,g.devicePixelRatio||1),s=this._walkStone;
+      const ctx=cv.getContext('2d'),dpr=this.canvasDpr(),s=this._walkStone;
       if(s?.page===this.curPage()&&(!s.used||(this._walkTotal||0)-s.fadeAt<1800))rock(ctx,s.x*dpr,(s.y-geo.top)*dpr,geo.u*dpr,s.variant,this._wClock);
       if(wk?.flo?.kind==='trip')alert(ctx,wk.x*dpr,(wk.y-geo.top)*dpr,geo.u*dpr,wk.flo.t/wk.flo.dur);
     });

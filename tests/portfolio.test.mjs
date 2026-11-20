@@ -1349,6 +1349,14 @@ test('Hikaru strikes from where he stands and the dummy uses the side with room'
   c.worldAnim(c._wk,1000,{u:3});assert.equal(c._wk.x,300,'and he ends where he started');
   assert.equal(c.worldPose(c._wk).dir!==undefined,true);
 });
+test('with the LCD in view the fight happens inside it and Hikaru pops back home',()=>{
+  const {c,api}=hitboxController();c.state={page:'sobre',hitFighter:'ryu'};c.sfx=()=>{};
+  c.worldGeo=()=>({u:3,W:1000,H:700,top:0});c.hitArena=()=>({x:600,y:520});
+  c._wk={x:120,y:300,dir:'l'};const hadouken=api.moves.find(m=>m.name==='Hadouken');c.hitStrike(hadouken);
+  assert.deepEqual([c._wk.x,c._wk.y,c._dummy.x0,c._dummy.y0],[600,520,600,520],'he and the dummy land in the LCD');
+  c.worldAnim(c._wk,500,{u:3});c.hitStrike(hadouken);assert.equal(JSON.stringify(c._wk.anim.back),'{"x":120,"y":300,"dir":"l"}','a second combo keeps the way home');
+  c.worldAnim(c._wk,2000,{u:3});assert.deepEqual([c._wk.x,c._wk.y,c._wk.dir,c._wk.poof],[120,300,'l',0],'home again, in a puff');
+});
 
 test('entering the monitor keeps the desktop glued to the glass while the camera pushes in',()=>{
   const {context}=controller(),api=context.PortfolioDesktop;
@@ -1618,4 +1626,12 @@ test('every route into Sobre opens on the Hitbox, portals included',()=>{
     go();for(let n=0;n<20&&timers.length;n++)timers.shift()();
     assert.equal(c.state.page,'sobre');assert.equal(c.renderVals().isHitbox,true);
   }
+});
+test('phones start auto quality at média and the canvases draw at fewer device pixels per quality step',()=>{
+  const phone=controller({devicePixelRatio:3,matchMedia:()=>({matches:true})}).c;phone.state={page:'inicio'};
+  assert.equal(phone.effQual(),'media');assert.equal(phone.canvasDpr(),1.5);
+  phone.setQual('auto');assert.equal(phone.effQual(),'media','choosing auto again keeps the phone start');
+  phone.setQual('alta');assert.equal(phone.canvasDpr(),2);phone.setQual('eco');assert.equal(phone.canvasDpr(),1);
+  const desk=controller({devicePixelRatio:1.25,matchMedia:()=>({matches:false})}).c;
+  assert.equal(desk.effQual(),'alta');assert.equal(desk.canvasDpr(),1.25,'never above the screen itself');
 });

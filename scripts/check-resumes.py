@@ -14,7 +14,8 @@ for language in ['pt', 'en', 'ja']:
         assert not has_phone(text), f'Phone still present: {language}'
         assert 'hogasawara2311@outlook.com' in text, f'Missing email: {language}'
         assert len(text) > 1500, f'Missing document content: {language}'
-        assert len(pdf.pages) == 1, f'Unexpected page count: {language}'
+        # the Japanese one is a rirekisho plus a work history: three pages
+        assert len(pdf.pages) == {'pt': 1, 'en': 1, 'ja': 3}[language], f'Unexpected page count: {language}'
         assert not has_phone(str(pdf.metadata)), f'Phone in metadata: {language}'
         for page in pdf.pages:
             for ref in page.get('/Annots', []):

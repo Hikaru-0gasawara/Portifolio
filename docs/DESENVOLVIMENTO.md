@@ -164,7 +164,7 @@ O primeiro toque ou clique na página libera o áudio do navegador; antes disso 
 
 **Vidro do modo recrutador:** é o **primeiro canal da TV** de entrada, onde ela liga: uma caixa de emergência entre faixas de alerta, com luzes piscando e um martelo pendurado, e os textos **“Está com pressa?”**, **“Quebre aqui”** e “Quebre a tela para abrir o modo recrutador” no idioma escolhido. Cada clique ou toque no vidro é uma batida: a imagem treme, o vidro racha do ponto atingido e o texto vira **“De novo!”** e **“Mais uma!”**; a terceira quebra a tela, os estilhaços voam pela página e o modo recrutador abre por cima da TV. As batidas têm som próprio (pancada, rachadura e estilhaço), que não depende do volume da TV. Fechar (`Esc`, X ou clique fora) volta à TV com o vidro quebrado, e um clique nele reabre o modo recrutador; as rachaduras ficam no vidro em todos os canais e esmaecem quando a câmera mergulha na tela. Seguir por um dos links do modo recrutador sai da TV direto para a página, sem boot. No painel abaixo da TV, o botão vermelho **Quebrar a tela** (só nesse canal) faz o mesmo pelo teclado e no celular; a TV em CSS de reserva também aceita batidas no vidro. O Press Start não tem vidro; o do menu de pausa continua, e os dois compartilham o estado de quebrado.
 
-Os currículos abrem em nova aba, sem download automático. Os três PDFs têm uma página e foram conferidos quanto à remoção do telefone e dos links `tel:`. O build falha se algum deles estiver ausente.
+Os currículos abrem em nova aba, sem download automático. O PT e o EN têm uma página; o JP é um 履歴書 de três páginas. Os três foram conferidos quanto à remoção do telefone e dos links `tel:`. O build falha se algum deles estiver ausente.
 
 Os decks do quarto usam a [pasta do Archidekt](https://archidekt.com/folders/1717569) e a [lista pública do Moxfield](https://moxfield.com/lists/Jb445-paper-decks). Os endereços ficam em `src/scene.js`; a animação de pegar as cartas termina antes da navegação.
 
@@ -179,7 +179,7 @@ python scripts/check-resumes.py
 npm run build
 ```
 
-O preparador espera os três nomes originais descritos em `scripts/prepare-resumes.py`, produz cópias em `.cache/resumes/` e remove números de telefone e links telefônicos. O exportador usa Word em segundo plano. O verificador confere uma página, conteúdo, e-mail e ausência de telefone no texto, metadados e hyperlinks; também renderiza PNGs para inspeção. Seu caminho de Poppler corresponde ao runtime local usado nesta revisão: ajuste-o se usar outra instalação. Confira os renders após qualquer edição. Não publique `.cache/` nem os DOCX de origem.
+Os PDFs atuais vêm de fontes HTML impressas pelo Edge (`msedge --headless --no-pdf-header-footer --print-to-pdf`): nesse caso, apague o telefone e o separador ao lado no HTML, imprima e rode só o verificador. O preparador abaixo é para fontes DOCX. Ele espera os três nomes originais descritos em `scripts/prepare-resumes.py`, produz cópias em `.cache/resumes/` e remove números de telefone e links telefônicos. O exportador usa Word em segundo plano. O verificador confere uma página, conteúdo, e-mail e ausência de telefone no texto, metadados e hyperlinks; também renderiza PNGs para inspeção. Seu caminho de Poppler corresponde ao runtime local usado nesta revisão: ajuste-o se usar outra instalação. Confira os renders após qualquer edição. Não publique `.cache/` nem os DOCX de origem.
 
 ## Explorar o portfólio
 

@@ -308,7 +308,7 @@
     for(const [k,v] of [[gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE],[gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE],[gl.TEXTURE_MIN_FILTER,linear?gl.LINEAR:gl.NEAREST],[gl.TEXTURE_MAG_FILTER,linear?gl.LINEAR:gl.NEAREST]])gl.texParameteri(gl.TEXTURE_2D,k,v);
     gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,source);return t;
   }
-  function createRenderer(canvas,screenCanvas,textures){
+  function createRenderer(canvas,screenCanvas,textures,maxDpr){
     let gl=null;
     try{gl=canvas.getContext('webgl',{antialias:true,alpha:true,premultipliedAlpha:false})||canvas.getContext('experimental-webgl');}catch{gl=null;}
     if(!gl)return null;
@@ -338,7 +338,7 @@
       gl.drawArrays(gl.TRIANGLES,0,mesh.count);
     }
     function render(s,hover,refresh){
-      const dpr=Math.min(2,g.devicePixelRatio||1),w=Math.max(1,Math.round(canvas.clientWidth*dpr)),h=Math.max(1,Math.round(canvas.clientHeight*dpr));
+      const dpr=Math.min(maxDpr?.()||2,g.devicePixelRatio||1),w=Math.max(1,Math.round(canvas.clientWidth*dpr)),h=Math.max(1,Math.round(canvas.clientHeight*dpr));
       if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}
       gl.viewport(0,0,w,h);gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.enable(gl.DEPTH_TEST);gl.disable(gl.CULL_FACE);
       // A knock on the glass jolts the view a little.
@@ -708,7 +708,7 @@
     container.appendChild(glCanvas);
     const textures=paintTextures({}),state=createState({aspect:(container.clientWidth||16)/(container.clientHeight||10),volume:host.initialVolume??4,channel:0,broken:host.broken,touch:host.touch});
     state.cam.dist=state.fit;
-    let renderer=createRenderer(glCanvas,screen,textures),refresh=false,hover=null,raf=0,last=0,prevT=0,drag=null,entered=false,dead=false;
+    let renderer=createRenderer(glCanvas,screen,textures,host.dpr),refresh=false,hover=null,raf=0,last=0,prevT=0,drag=null,entered=false,dead=false;
     if(!renderer)glCanvas.remove();
     if(host.exit)beginExit(state,{flat:!renderer});
     doc.fonts?.load?.("16px 'DotGothic16'").then(()=>{if(!dead){paintTextures(textures);refresh=true;}},()=>{});

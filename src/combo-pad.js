@@ -239,32 +239,26 @@
       if(move.fx)this.moveFx(move.fx);this.sfx('special');this.persistSoon();
       if(Object.keys(this._moves).filter(k=>k.startsWith('fight:')&&!k.startsWith('fight:okaru:')).length>=10)this.unlock('hitbox-classics');
       if(this._wk&&!this.calm())this.hitStrike(move);
-      if(!this.calm())this.hitDive(move);
     };
-    // A landed combo pulls the view into the LCD: the screen opens out from the LCD to fill the viewport, shows the
-    // move, and closes back into it. Pure decoration over everything, so it never takes clicks.
-    p.hitDive=function(move){
-      if(typeof document==='undefined'||typeof document.querySelector!=='function')return;
-      const W=innerWidth,H=innerHeight,seen=e=>{const q=e?.getBoundingClientRect?.();return q&&q.bottom>0&&q.top<H&&q.width>0;};
-      // from the LCD when it is on screen, otherwise from the Hitbox the player is pressing
-      const src=[document.querySelector('.lcd.is-hitbox'),document.querySelector('.hitbox')].find(seen),host=document.querySelector('.okr')||document.body;
-      if(!src||!host||typeof src.animate!=='function')return;
-      this._dive?.remove();
-      const r=src.getBoundingClientRect();
-      const from=`inset(${r.top}px ${W-r.right}px ${H-r.bottom}px ${r.left}px round 4px)`,to='inset(0px 0px 0px 0px round 0px)';
-      const el=document.createElement('div'),b=document.createElement('b'),sub=document.createElement('span');
-      el.className='hit-dive';el.setAttribute('aria-hidden','true');b.className='pix';b.textContent=move.name;
-      sub.textContent=(fighters.find(f=>f[0]===move.fighter)||[])[1]||'';el.append(b,sub);host.append(el);this._dive=el;
-      const ease='cubic-bezier(.23,1,.32,1)';
-      el.animate([{clipPath:from},{clipPath:to,offset:.24},{clipPath:to,offset:.8},{clipPath:from}],{duration:1150,easing:'linear',fill:'both'}).finished.then(()=>{el.remove();if(this._dive===el)this._dive=null;},()=>{});
-      b.animate([{transform:'scale(.55)',opacity:0},{transform:'scale(1)',opacity:1,offset:.3},{transform:'scale(1.04)',opacity:1,offset:.78},{transform:'scale(.7)',opacity:0}],{duration:1150,easing:ease,fill:'both'});
+    // The fight happens inside the LCD: Hikaru pops onto the screen's floor, the dummy drops in beside him, and
+    // he pops back to where he was when the move ends. With the LCD out of view he fights where he stands.
+    p.hitArena=function(spec,geo){
+      if(!geo?.sc?.getBoundingClientRect||typeof document==='undefined'||typeof document.querySelector!=='function')return null;
+      const lcd=document.querySelector('.lcd.is-hitbox');if(!lcd)return null;
+      const r=lcd.getBoundingClientRect(),sr=geo.sc.getBoundingClientRect(),floor=r.bottom-28;
+      if(!r.width||floor-60<sr.top||floor>sr.top+geo.H)return null;
+      const pair=(spec.reach+(spec.travel==='teleport'?24:0))*geo.u;
+      return {x:r.left-sr.left+(r.width-pair)/2,y:floor-sr.top+geo.top};
     };
-    // Hikaru performs the move where he stands; the dummy drops in on the side with room for it.
     p.hitStrike=function(move){
-      const wk=this._wk,spec=specFor(move),prior=wk.anim?.kind==='combat'?wk.anim:null,x0=Number.isFinite(prior?.x0)?prior.x0:wk.x,y0=Number.isFinite(prior?.y0)?prior.y0:wk.y;
-      const geo=this.worldGeo?.();let side=1;
-      if(geo&&Number.isFinite(x0)){const need=(spec.reach+(spec.travel==='teleport'?24:10))*geo.u;if(geo.W-x0<need&&x0>geo.W-x0)side=-1;}
-      wk.anim={kind:'combat',t:0,move,spec,side,x0,y0};wk.flo=null;this._wKeys={};
+      const wk=this._wk,spec=specFor(move),prior=wk.anim?.kind==='combat'?wk.anim:null,geo=this.worldGeo?.();
+      // a combo during a fight in the LCD stays in the LCD and still goes home to the same spot
+      const arena=prior?.back?{x:prior.x0,y:prior.y0}:this.hitArena(spec,geo),back=prior?.back||(arena?{x:wk.x,y:wk.y,dir:wk.dir}:null);
+      const x0=arena?arena.x:Number.isFinite(prior?.x0)?prior.x0:wk.x,y0=arena?arena.y:Number.isFinite(prior?.y0)?prior.y0:wk.y;let side=1;
+      if(!arena&&geo&&Number.isFinite(x0)){const need=(spec.reach+(spec.travel==='teleport'?24:10))*geo.u;if(geo.W-x0<need&&x0>geo.W-x0)side=-1;}
+      if(arena){if(!prior?.back)this.sfx('poof');wk.x=x0;wk.y=y0;wk.dir='r';this.worldPokeCancel();}
+      wk.anim={kind:'combat',t:0,move,spec,side,x0,y0,back};wk.flo=null;this._wKeys={};
+      if(arena&&!prior?.back)this.setState({hitArena:true});
       this._dummy=Number.isFinite(x0)&&Number.isFinite(y0)?{page:this.curPage(),t:0,spec,side,x0,y0}:null;
     };
     wrap('pad',function(fn,key){if((this.st().ctl||'hitbox')==='hitbox')return this.hitInput(key);return fn(key);});
@@ -274,6 +268,9 @@
       const a=wk.anim;if(a.kind!=='combat')return fn(wk,dt,geo);
       a.t+=dt;wk.moving=false;const done=a.t>=COMBAT;
       if(Number.isFinite(a.x0)&&geo?.u)wk.x=a.x0+(done?0:(a.side||1)*travel(a.spec||specFor(a.move),a.t)*geo.u);
+      // in the LCD: a puff as he lands, and at the end he pops back home in another
+      wk.poof=a.back&&a.t<250?Math.floor(a.t/50):-1;
+      if(done&&a.back){Object.assign(wk,{x:a.back.x,y:a.back.y,dir:a.back.dir,poof:0,poofT:0});this.sfx('poof');this.setState({hitArena:false});}
       return !done;
     });
     wrap('worldPose',function(fn,wk){const a=wk.anim;return a?.kind==='combat'?pose(a.spec||specFor(a.move),a.t,a.side||1):fn(wk);});
@@ -292,7 +289,7 @@
       if(!wk||wk.hidden||d.page!==this.curPage()){this._dummy=null;return;}
       const te=effective(d.t,d.spec.hits);if(te>lifetime(d.spec)){this._dummy=null;return;}
       const ctx=cv.getContext?.('2d');if(!ctx)return;
-      const dpr=Math.min(2,g.devicePixelRatio||1),u=geo.u*dpr,X=d.x0*dpr,Y=(d.y0-geo.top)*dpr,side=d.side;
+      const dpr=this.canvasDpr(),u=geo.u*dpr,X=d.x0*dpr,Y=(d.y0-geo.top)*dpr,side=d.side;
       const s=dummyState(d.spec,te);if(frozen(d.t,d.spec.hits))s.jx=(Math.floor(d.t/25)%2?1:-1)*.8;
       const a=wk.anim?.kind==='combat'&&wk.anim.spec===d.spec?wk.anim:null,hx=a?travel(d.spec,a.t):0;
       if(d.spec.sup&&te<260)superFlash(ctx,cv,X+side*hx*u,Y-12*u,u,te);
@@ -308,7 +305,7 @@
       r.hitAttacks=[['P','LP','Soco leve'],['M','MP','Soco médio'],['H','HP','Soco forte'],['A','A1','Assistência 1'],['K','LK','Chute leve'],['N','MK','Chute médio'],['J','HK','Chute forte'],['B','A2','Assistência 2']].map(([key,label,name])=>({key,label,name,run:()=>this.hitInput(key)}));
       r.hitMoveList=this.hitMoves().map(move=>({name:move.name,seq:inputText(move.seq)}));
       const invalid=!!this._hitInvalid&&!!this._pad?.length;r.hitInvalid=invalid;
-      if(hit){r.lcdIdle=true;r.lcdMenuOn=false;r.lcdCardOn=false;r.lcdList=false;r.miniIdle=false;r.lcdCls='is-hitbox'+(invalid?' is-invalid':'');r.padDisplay=s.hitResult||inputText(this._pad?.join('')||'')||'— — —';r.padSub=s.hitResult?'Golpe executado':invalid?'Sequência inválida · SELECT limpa':'Escolha um lutador e experimente a lista';r.lcdHint='Sequência exata · SELECT limpa · A2 A1 = B A';r.ctlSub='Seis ataques · duas assistências · quatro direções';}
+      if(hit){r.lcdIdle=true;r.lcdMenuOn=false;r.lcdCardOn=false;r.lcdList=false;r.miniIdle=false;r.lcdCls='is-hitbox'+(invalid?' is-invalid':'')+(this._wk?.anim?.kind==='combat'&&this._wk.anim.back?' is-arena':'');r.padDisplay=s.hitResult||inputText(this._pad?.join('')||'')||'— — —';r.padSub=s.hitResult?'Golpe executado':invalid?'Sequência inválida · SELECT limpa':'Escolha um lutador e experimente a lista';r.lcdHint='Sequência exata · SELECT limpa · A2 A1 = B A';r.ctlSub='Seis ataques · duas assistências · quatro direções';}
       return r;
     });
   }};

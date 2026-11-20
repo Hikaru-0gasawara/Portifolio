@@ -101,8 +101,10 @@
     wrap('worldDraw',function(fn,cv,geo,wk){
       fn(cv,geo,wk);this.characterCareSync();const el=this._characterCleanTarget;if(!el)return;
       const visible=this._characterDust&&!this._characterClean&&this.characterCareActor()?.kind==='world'&&wk&&wk.y-geo.top>0&&wk.y-geo.top-24*geo.u<geo.H;
-      el.hidden=!visible;
-      if(visible){const u=geo.u;el.style.transform='translate('+(wk.x-11*u)+'px,'+(wk.y-geo.top-26*u)+'px)';el.style.width=22*u+'px';el.style.height=28*u+'px';}
+      // this runs every frame: touch the DOM only when something changed
+      if(el.hidden===visible)el.hidden=!visible;
+      // (compared with what was last written: the browser reserializes style.transform, so reading it back never matches)
+      if(visible){const u=geo.u,t='translate('+(wk.x-11*u)+'px,'+(wk.y-geo.top-26*u)+'px)';if(el._careAt!==t+u){el._careAt=t+u;el.style.transform=t;el.style.width=22*u+'px';el.style.height=28*u+'px';}}
     });
     wrap('go',function(fn,to,...args){if(to!==this.curPage()){this._characterClean=null;this._characterShake=null;this.setState({characterCleaning:false});}return fn(to,...args);});
     wrap('wipeProgress',function(fn,...args){this._characterDust=false;this._characterClean=null;this._characterShake=null;this.setState({characterDirty:false,characterCleaning:false});return fn(...args);});
